@@ -1,0 +1,1 @@
+﻿<core.db.detail table="student" />

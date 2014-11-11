@@ -1,0 +1,1 @@
+<th data-options="field:'{prop field}',width:{prop width},sortable:'{prop sortable}'">{children all}</th>

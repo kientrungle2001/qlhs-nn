@@ -1,0 +1,73 @@
+.clear {
+	clear: both;
+}
+.separator {
+	self {
+		background: #eceeed;
+		padding: 10px;
+	}
+	.inner {
+		.currentTime {
+			float: left;
+			width: auto;
+		}
+		.categories {
+			float: right;
+			width: auto;
+		}
+	}
+}
+.order_header {
+	.order_company {
+		float: left;
+		width: 145px;
+	}
+	.order_date {
+		self {
+			float: left;
+			width: 145px;
+		}
+		.order_line_label_header {
+			text-align: center;
+			font-size: 18px;
+			display: block;
+		}
+	}
+	.order_no {
+		float: left;
+		width: 145px;
+	}
+	.order_template {
+		float: left;
+		width: 145px;
+	}
+}
+.order_wrapper {
+	width: 595px;
+	font-size: 12px;
+}
+.order_signature_wrapper {
+	.order_date {
+		text-align: right;
+	}
+	.order_signature {
+		.order_signature_item {
+			float: left;
+			width: 33%;
+			text-align: center;
+		}
+	}
+}
+.order_line_value input {
+	width: 100px;
+	border: none;
+	border-bottom: 1px dotted #333;
+}
+.order_no input {
+	width: 100px;
+	border: none;
+	border-bottom: 1px dotted #333;
+}
+.order_no input[disabled] {
+	display: none;
+}

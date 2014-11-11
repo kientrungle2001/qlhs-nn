@@ -1,0 +1,1 @@
+<ide.apps id="right" />

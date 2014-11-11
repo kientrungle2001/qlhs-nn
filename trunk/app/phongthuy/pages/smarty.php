@@ -1,0 +1,1 @@
+<core.smarty layout="smarty" method="smarty"/>

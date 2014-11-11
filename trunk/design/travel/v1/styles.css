@@ -1,0 +1,136 @@
+	* {
+		font-family: Tahoma;
+	}
+	body {
+		font-size: 12px;
+	}
+	a {
+		color: #000066;
+	}
+	.header {
+		position: relative;
+		height: 145px;
+	}
+	.header .header-image {
+		position: absolute;
+	}
+	.language {
+		display: table;
+		width: 324px;
+		height: 33px;
+		position: absolute;
+		right: 15px;
+		top: 5px;
+		border-radius: 10px;
+		background-color: #fff;
+	}
+	.language-middle {
+		display: table-cell; vertical-align: middle;
+		padding-left: 10px;
+	}
+	
+	/* -------------------------------------
+	 CSS for Radio Button Type-2
+	---------------------------------------- */
+	 
+	input[type=radio].bachelor {
+	display:none;
+	}
+	/*--------------------------------------------------------------------------------
+	Creating radio button and label as a Single unit(for Cross browser compatibility)
+	----------------------------------------------------------------------------------*/
+	input[type=radio].bachelor + label.degree{
+	padding-left:31px;
+	display:inline-block;
+	line-height:24px;
+	background-repeat:no-repeat;
+	cursor:pointer;
+	}
+	 
+	input[type=radio].bachelor:checked + label.degree {
+	background-position: 0 -24px;
+	}
+	 
+	label.degree{
+	background-image:url('images/radio1.png');
+	}
+	.menu {
+		height: 42px;
+		background: url('images/menu-background.png') repeat-x;
+		margin-bottom: 10px;
+	}
+	.menu ul li a{
+		color: #fff;
+		font-size: 14px;
+		font-weight: bold;
+	}
+	.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+		background: #000066;
+	}
+	
+	.nav > li > a:hover, .nav > li > a:focus {
+		background: #1442a3;
+	}
+	
+	.tour-image{ width: 30%; float: left;}
+	.tour-description {width: 70%;float: right; padding-left: 10px;}
+	.clear {clear: both;}
+	.tour-item {
+		margin-bottom: 10px;
+	}
+	h2 {
+		font-size: 15px;
+		margin: 0;
+		margin-bottom: 10px;
+		font-weight: bold;
+	}
+	
+	.footer-links {
+		text-align: center;
+		
+	}
+	.footer-links a {
+		display: inline-block;
+		padding: 20px;
+		font-size: 14px;
+		text-transform: uppercase;
+		text-decoration: underline;
+		font-weight: bold;
+	}
+	.my-box {
+		border-radius: 2px;
+		border: 1px solid #bdbdbd;
+		box-shadow: 5px 5px 5px #d8d8d8;
+		margin-bottom: 10px;
+		padding: 5px;
+	}
+	.main-content {
+		margin: 0;padding: 0;
+	}
+	#slider {
+		margin-bottom: 10px;
+	}
+	.tour-box {
+		margin-bottom: 10px;
+		border-radius: 2px;
+		border: 1px solid #bdbdbd;
+		box-shadow: 5px 5px 5px #d8d8d8;
+		padding: 10px;
+	}
+	.my-box h2 {
+		font-size: 13px;
+		text-transform: uppercase;
+		border-radius: 2px;
+		border: 1px solid #bdbdbd;
+		padding: 10px;
+		background: url('images/title-bar.png') repeat-x;
+	}
+	.my-box h2 a {
+		color: #990000;
+	}
+	.tour-services  h2, .tour-guide h2{
+		background: none;
+		border: none;
+		margin: 0;
+		padding: 5px 0;
+	}
