@@ -1,0 +1,1 @@
+﻿<a href="javascript:{prop action}" class="easyui-linkbutton" iconCls="icon-{prop icon}" plain="true"></a>

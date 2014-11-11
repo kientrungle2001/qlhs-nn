@@ -1,0 +1,1 @@
+<core.db.detail table="news_building" id="detail" showImages="true" />

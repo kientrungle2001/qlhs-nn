@@ -1,0 +1,1 @@
+<div data-options="region:'{prop region}',title:'{prop title}',split:{prop split}" style="height:220px;"></div>
