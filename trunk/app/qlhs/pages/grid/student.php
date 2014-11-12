@@ -15,11 +15,11 @@
 			onRowContextMenu="studentMenu"
 			table="student" width="600px" height="450px">
 		<dg.dataGridItem field="id" width="40">Id</dg.dataGridItem>
-		<dg.dataGridItem field="name" width="120">Tên học sinh</dg.dataGridItem>
+		<dg.dataGridItem field="name" width="140">Tên học sinh</dg.dataGridItem>
 		<dg.dataGridItem field="phone" width="80">Số điện thoại</dg.dataGridItem>
 		<!--dg.dataGridItem field="school" width="120">Trường</dg.dataGridItem-->
 		<dg.dataGridItem field="currentClassNames" width="100">Lớp</dg.dataGridItem>
-		<dg.dataGridItem field="classNames" width="100">Lớp Đã Học</dg.dataGridItem>
+		<!--dg.dataGridItem field="classNames" width="100">Lớp Đã Học</dg.dataGridItem-->
 		<dg.dataGridItem field="periodIds" width="100">Kỳ thanh toán</dg.dataGridItem>
 		<dg.dataGridItem field="startStudyDate" width="100">Ngày vào học</dg.dataGridItem>
 		<layout.toolbar id="dg_toolbar">
