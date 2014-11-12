@@ -90,16 +90,7 @@ class PzkDtableController extends PzkTableController {
 	
 	public $filters = array(
 		'student' => array(
-			//'name' => array('like' => 'student`.`name'),
-			//'classNames' => array('like' => array('having'=> true, 'name' => 'currentClassNames')),
-			'periodId' => array('like' => array('having'=> true, 'name' => 'periodIds')),
-			/*
-			'notlikeperiodId' => array(
-				//'not like' => array('having'=> true, 'name' => 'periodIds'),
-				//'is null' => array('having'=> true, 'name' => 'periodIds'),
-				'not like' => array('having'=> true, 'name' => 'periodIds'),
-			),*/
-			//'phone' => array('like' => 'student`.`phone')
+			'none' => 0
 		),
 		'student_order' => array(
 			'classId' => array('=' => 'o`.`classId')
