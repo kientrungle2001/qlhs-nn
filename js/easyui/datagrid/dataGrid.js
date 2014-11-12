@@ -218,6 +218,9 @@
 		var data = builder.call(this, null, options);
 		$('#' + this.id).datagrid('load', {filters: data});
 	},
+	filters: function(data) {
+		$('#' + this.id).datagrid('load', {filters: data});
+	},
 	detail: function(options) {
 		var row = $('#' + this.id).datagrid('getSelected');
 		var data = {};

@@ -29,10 +29,15 @@ class PzkDtableController extends PzkTableController {
 					left join `class_student` on student.id = class_student.studentId
 					left join `classes` on class_student.classId = classes.id
 					left join `student_order` on student.id = student_order.studentId
-						and classes.id = student_order.classId and student_order.status=\'\' or student_order.status is null',
-			'fields' => 'student.*, group_concat(distinct(classes.name)) as classNames,
-				group_concat(distinct(case when class_student.endClassDate >= CURDATE() or class_student.endClassDate=\'0000-00-00\'  then classes.name end)) as currentClassNames,
-				group_concat(\'[\',student_order.payment_periodId, \']\') as periodIds',
+						and classes.id = student_order.classId and student_order.status=\'\' or student_order.status is null
+					left join payment_period on student_order.payment_periodId = payment_period.id',
+			'fields' => 'student.*, group_concat(distinct(classes.name), \' \') as classNames,
+				group_concat(distinct(case when class_student.endClassDate >= CURDATE() or class_student.endClassDate=\'0000-00-00\'  then classes.name end), \' \') as currentClassNames,
+				group_concat(\'[\', classes.name, \' \', case when student_order.payment_periodId = 0 then \'Toàn khóa\' else payment_period.name end, \']<br />\' order by classes.name) as periodNames,
+				group_concat(\'[\', payment_period.id, \']\') as periodIds,
+				count(payment_period.id) as num_of_payment,
+				count(classes.id) as num_of_class
+				',
 			'groupBy' => 'student.id'
 		),
 		'teaching' => array(
