@@ -90,15 +90,16 @@ class PzkDtableController extends PzkTableController {
 	
 	public $filters = array(
 		'student' => array(
-			'name' => array('like' => 'student`.`name'),
-			'classNames' => array('like' => array('having'=> true, 'name' => 'currentClassNames')),
+			//'name' => array('like' => 'student`.`name'),
+			//'classNames' => array('like' => array('having'=> true, 'name' => 'currentClassNames')),
 			'periodId' => array('like' => array('having'=> true, 'name' => 'periodIds')),
+			/*
 			'notlikeperiodId' => array(
 				//'not like' => array('having'=> true, 'name' => 'periodIds'),
 				//'is null' => array('having'=> true, 'name' => 'periodIds'),
 				'not like' => array('having'=> true, 'name' => 'periodIds'),
-			),
-			'phone' => array('like' => 'student`.`phone')
+			),*/
+			//'phone' => array('like' => 'student`.`phone')
 		),
 		'student_order' => array(
 			'classId' => array('=' => 'o`.`classId')
@@ -106,6 +107,20 @@ class PzkDtableController extends PzkTableController {
 		'class_student' => array(
 			'studentName' => array(
 				'like' => 's`.`name'
+			)
+		),
+		'student_filter' => array(
+			'where' => array(
+				'name' => array('like', array('column', 'student', 'name'), '%?%'),
+				'phone' => array('like', array('column', 'student', 'phone'), '%?%')
+			),
+			'having' => array(
+				'classNames' => array('like', array('column', 'currentClassNames'), '%?%'),
+				'periodId' => array('like', array('column', 'periodIds'), '%?%'),
+				'notlikeperiodId' => array('or',
+					array('notlike', array('column', 'periodIds'), '%?%'),
+					array('isnull', array('column', 'periodIds'))
+				)
 			)
 		)
 	);

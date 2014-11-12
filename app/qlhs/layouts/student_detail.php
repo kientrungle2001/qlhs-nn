@@ -32,7 +32,7 @@ foreach ($student['classes'] as $class) {
 	}
 ?>
 
-<div title="Lớp {class[name]}">
+<div title="Lớp {class[name]} {? echo $class['startClassDate'] == '0000-00-00' ?'': ' - Start: '.date('d/m', strtotime($class['startClassDate'])) ?}{? echo $class['endClassDate'] == '0000-00-00' ?'': ' - End: ' . date('d/m', strtotime($class['endClassDate'])) ?}">
 	<?php 
 	if(strpos($class['name'], 'M') !== false) { 
 		$order = _db()->useCB()->select('orderId')->from('student_order')->where(array('and', array('studentId', $student['id']), array('classId', $class['id']), array('payment_periodId', 0)))->result_one();
@@ -55,6 +55,8 @@ foreach ($student['classes'] as $class) {
 	foreach($class['periods'] as $period) { ?>
 	<?php if($class['startDate'] !== '0000-00-00' && $class['startDate'] >= $period['endDate']) { $displayPeriod = false; }?>
 	<?php if($class['endDate'] !== '0000-00-00' && $class['endDate'] < $period['startDate']) { $displayPeriod = false; }?>
+	<?php if($class['startClassDate'] !== '0000-00-00' && $class['startClassDate'] >= $period['endDate']) { $displayPeriod = false; }?>
+	<?php if($class['endClassDate'] !== '0000-00-00' && $class['endClassDate'] < $period['startDate']) { $displayPeriod = false; }?>
 <?php
 		if(!isset($class_periods[$period['id']])){
 			$class_periods[$period['id']] = array();
