@@ -2,7 +2,7 @@
 class PzkCoreDatabaseArrayCondition extends PzkObject {
 	public static $operations = array('column', 'string', 'equal', 'and', 'or', 
 		'like', 'notlike', 'in', 'notin',
-		'isnull', 'isnotnull', 'gte', 'lte', 'gt', 'lt');
+		'isnull', 'isnotnull', 'gte', 'lte', 'gt', 'lt', 'sql');
 	public function build($cond) {
 		if(is_array($cond)) {
 			$op = $cond[0];
@@ -23,6 +23,10 @@ class PzkCoreDatabaseArrayCondition extends PzkObject {
 		} else {
 			return $cond;
 		}
+	}
+	
+	public function mf_sql($sql) {
+		return $sql;
 	}
 
 	function mf_column($col, $col2 = null) {

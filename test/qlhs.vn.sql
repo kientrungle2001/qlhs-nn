@@ -63,3 +63,25 @@ insert into `student_order`(orderId,classId,studentId,payment_periodId,amount,di
 update config set mkey='noNum',mvalue='20' where 1 AND id=2 # ASCII
 update config set mkey='bookNum',mvalue='2' where 1 AND id=3 # ASCII
 insert into `class_student`(classId,studentId,startClassDate,endClassDate) values ('37','807','2014-10-01','') # ASCII
+insert into `general_order`(orderType,type,amount,created,createdTime,bookNum,noNum,debit,name,phone,address,reason,additional,invoiceNum) values ('invoice','student','1200000','2014-11-12','1415767603','2','20','','Đặng Huy Giang','0904305115','','Nộp tiền lớp 5V8K3 môn Tiếng Việt, Tháng 11-12','','') # UTF-8
+insert into `student_order`(orderId,classId,studentId,payment_periodId,amount,discount,discount_reason,muster,price,total_before_discount,created,createdTime,bookNum,noNum,debit,name,address,reason,additional,invoiceNum) values ('416','60','807','6','1200000','0',' ','8','150000','1200000','2014-11-12','1415767604','2','20','','Đặng Huy Giang','','Nộp tiền lớp 5V8K3 môn Tiếng Việt, Tháng 11-12','','') # UTF-8
+update config set mkey='noNum',mvalue='21' where 1 AND id=2 # ASCII
+update config set mkey='bookNum',mvalue='2' where 1 AND id=3 # ASCII
+insert into `general_order`(orderType,type,amount,created,createdTime,bookNum,noNum,debit,name,phone,address,reason,additional,invoiceNum) values ('invoice','student','1800000','2014-11-12','1415767736','2','21','','Nguyễn Quốc Khánh','0912216743','','Nộp tiền lớp 5T2K3 môn Toán, Tháng 11-12','','') # UTF-8
+insert into `student_order`(orderId,classId,studentId,payment_periodId,amount,discount,discount_reason,muster,price,total_before_discount,created,createdTime,bookNum,noNum,debit,name,address,reason,additional,invoiceNum) values ('417','34','969','6','1800000','0',' ','9','200000','1800000','2014-11-12','1415767736','2','21','','Nguyễn Quốc Khánh','','Nộp tiền lớp 5T2K3 môn Toán, Tháng 11-12','','') # UTF-8
+update config set mkey='noNum',mvalue='22' where 1 AND id=2 # ASCII
+update config set mkey='bookNum',mvalue='2' where 1 AND id=3 # ASCII
+insert into `general_order`(orderType,type,amount,created,createdTime,bookNum,noNum,debit,name,phone,address,reason,additional,invoiceNum) values ('invoice','student','2400000','2014-11-12','1415767968','2','22','','Nguyễn Quốc Khánh','0912216743','','Nộp tiền lớp M10.1K3 môn Văn miêu tả, ','','') # UTF-8
+insert into `student_order`(orderId,classId,studentId,payment_periodId,amount,discount,discount_reason,muster,price,total_before_discount,created,createdTime,bookNum,noNum,debit,name,address,reason,additional,invoiceNum) values ('418','73','969','0','2400000','0','','1','2400000','2400000','2014-11-12','1415767969','2','22','','Nguyễn Quốc Khánh','','Nộp tiền lớp M10.1K3 môn Văn miêu tả, ','','') # UTF-8
+update config set mkey='noNum',mvalue='23' where 1 AND id=2 # ASCII
+update config set mkey='bookNum',mvalue='2' where 1 AND id=3 # ASCII
+insert into `class_student`(classId,studentId,startClassDate,endClassDate) values ('54','969','2014-09-01','') # ASCII
+insert into `class_student`(classId,studentId,startClassDate,endClassDate) values ('51','969','2014-11-02','') # ASCII
+insert into `general_order`(orderType,type,amount,created,createdTime,bookNum,noNum,debit,name,phone,address,reason,additional,invoiceNum) values ('invoice','student','1200000','2014-11-12','1415777224','2','23','','Nguyễn Lê Trà My','0983003889','','Nộp tiền lớp 5T3K3 môn Toán, Tháng 9-10','','') # UTF-8
+insert into `student_order`(orderId,classId,studentId,payment_periodId,amount,discount,discount_reason,muster,price,total_before_discount,created,createdTime,bookNum,noNum,debit,name,address,reason,additional,invoiceNum) values ('419','35','791','5','1200000','0',' ','8','150000','1200000','2014-11-12','1415777224','2','23','','Nguyễn Lê Trà My','','Nộp tiền lớp 5T3K3 môn Toán, Tháng 9-10','','') # UTF-8
+update config set mkey='noNum',mvalue='24' where 1 AND id=2 # ASCII
+update config set mkey='bookNum',mvalue='2' where 1 AND id=3 # ASCII
+insert into `general_order`(orderType,type,amount,created,createdTime,bookNum,noNum,debit,name,phone,address,reason,additional,invoiceNum) values ('invoice','student','1350000','2014-11-12','1415777271','2','24','','Nguyễn Lê Trà My','0983003889','','Nộp tiền lớp 5V8K3 môn Tiếng Việt, Tháng 9-10','','') # UTF-8
+insert into `student_order`(orderId,classId,studentId,payment_periodId,amount,discount,discount_reason,muster,price,total_before_discount,created,createdTime,bookNum,noNum,debit,name,address,reason,additional,invoiceNum) values ('420','60','791','5','1350000','0',' ','9','150000','1350000','2014-11-12','1415777271','2','24','','Nguyễn Lê Trà My','','Nộp tiền lớp 5V8K3 môn Tiếng Việt, Tháng 9-10','','') # UTF-8
+update config set mkey='noNum',mvalue='25' where 1 AND id=2 # ASCII
+update config set mkey='bookNum',mvalue='2' where 1 AND id=3 # ASCII

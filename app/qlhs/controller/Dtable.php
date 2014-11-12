@@ -33,11 +33,8 @@ class PzkDtableController extends PzkTableController {
 					left join payment_period on student_order.payment_periodId = payment_period.id',
 			'fields' => 'student.*, group_concat(distinct(classes.name), \' \') as classNames,
 				group_concat(distinct(case when class_student.endClassDate >= CURDATE() or class_student.endClassDate=\'0000-00-00\'  then classes.name end), \' \') as currentClassNames,
-				group_concat(\'[\', classes.name, \' \', case when student_order.payment_periodId = 0 then \'Toàn khóa\' else payment_period.name end, \']<br />\' order by classes.name) as periodNames,
-				group_concat(\'[\', payment_period.id, \']\') as periodIds,
-				count(payment_period.id) as num_of_payment,
-				count(classes.id) as num_of_class
-				',
+				group_concat(\'[\', classes.name, \' \', case when student_order.payment_periodId = 0 then \'Cả khóa\' else payment_period.name end, \']<br />\' order by classes.name) as periodNames,
+				group_concat(\'[\', payment_period.id, \']\') as periodIds',
 			'groupBy' => 'student.id'
 		),
 		'teaching' => array(
@@ -112,10 +109,21 @@ class PzkDtableController extends PzkTableController {
 			),
 			'having' => array(
 				'classNames' => array('like', array('column', 'currentClassNames'), '%?%'),
-				'periodId' => array('like', array('column', 'periodIds'), '%?%'),
+				//'periodId' => array('like', array('column', 'periodIds'), '%?%'),
+				'periodId' => array('sql', 'count(if(payment_period.id=?, 1, null)) = count(distinct(if(
+				(class_student.startClassDate = \'0000-00-00\' or class_student.startClassDate < (select endDate from payment_period where id=?))
+				and
+				(class_student.endClassDate = \'0000-00-00\' or class_student.endClassDate > (select startDate from payment_period where id=?))
+				and 
+				classes.name not like \'%M%\', classes.id, null)))'),
 				'notlikeperiodId' => array('or',
-					array('notlike', array('column', 'periodIds'), '%?%'),
-					array('isnull', array('column', 'periodIds'))
+					array('isnull', array('column', 'periodIds')),
+					array('sql', 'count(if(payment_period.id=?, 1, null)) != count(distinct(if(
+				(class_student.startClassDate = \'0000-00-00\' or class_student.startClassDate < (select endDate from payment_period where id=?))
+				and
+				(class_student.endClassDate = \'0000-00-00\' or class_student.endClassDate > (select startDate from payment_period where id=?))
+				and 
+				classes.name not like \'%M%\', classes.id, null)))')
 				)
 			)
 		)
