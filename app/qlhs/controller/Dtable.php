@@ -118,7 +118,7 @@ class PzkDtableController extends PzkTableController {
 				classes.name not like \'%M%\', classes.id, null)))'),
 				'notlikeperiodId' => array('or',
 					array('isnull', array('column', 'periodIds')),
-					array('sql', 'count(if(payment_period.id=?, 1, null)) != count(distinct(if(
+					array('sql', 'count(if(payment_period.id=?, 1, null)) < count(distinct(if(
 				(class_student.startClassDate = \'0000-00-00\' or class_student.startClassDate < (select endDate from payment_period where id=?))
 				and
 				(class_student.endClassDate = \'0000-00-00\' or class_student.endClassDate > (select startDate from payment_period where id=?))
