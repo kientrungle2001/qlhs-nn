@@ -14,6 +14,7 @@ class PzkTableController extends PzkController {
 		$oldTable = $table;
         $fields = @$this->tables[$table] ? @$this->tables[$table] : '*';
         $filters = @$this->filters[$table];
+		$cbFilters = @$this->filters[$table . '_filter'];
         $groupBy = false;
 		$arrFields = array();
 		$defaultConds = '1';
@@ -23,10 +24,11 @@ class PzkTableController extends PzkController {
             $groupBy = isset($fields['groupBy']) ? $fields['groupBy'] : false;
 			$defaultConds = isset($fields['conds']) ? $fields['conds'] : '1';
 			$fields = @$fields['fields']?@$fields['fields']: '*';
-			
         }
         $conds = array();
 		$havingConds = array();
+		$cbWhereConds = false;
+		$cbHavingConds = false;
         if (isset($_REQUEST['filters'])) {
             if (!$filters) {
                 $conds = array_merge($conds, $_REQUEST['filters']);
@@ -46,6 +48,37 @@ class PzkTableController extends PzkController {
                     }
                 }
             }
+			
+			if ($cbFilters) {
+				if(isset($cbFilters['where'])) {
+					foreach ($cbFilters['where'] as $key => $options) {
+						if(!isset($_REQUEST['filters'][$key]) || isset($_REQUEST['filters'][$key]) && $_REQUEST['filters'][$key] == '') continue;
+						if(!$cbWhereConds) {
+							$cbWhereConds = array('and', 
+								array('equal', array('string', '1'), array('string', '1')), 
+								array('equal', array('string', '1'), array('string', '1')));
+						}
+						$options = json_encode($options);
+						$options = str_replace('?', $_REQUEST['filters'][$key], $options);
+						$options = json_decode($options, true);
+						$cbWhereConds[] = $options;
+					}
+				}
+				if(isset($cbFilters['having'])) {
+					foreach ($cbFilters['having'] as $key => $options) {
+						if(!isset($_REQUEST['filters'][$key]) || isset($_REQUEST['filters'][$key]) && $_REQUEST['filters'][$key] == '') continue;
+						if(!$cbHavingConds) {
+							$cbHavingConds = array('and', 
+								array('equal', array('string', '1'), array('string', '1')), 
+								array('equal', array('string', '1'), array('string', '1')));
+						}
+						$options = json_encode($options);
+						$options = str_replace('?', $_REQUEST['filters'][$key], $options);
+						$options = json_decode($options, true);
+						$cbHavingConds[] = $options;
+					}
+				}
+			}
         }
         $rows = @$_REQUEST['rows'] ? @$_REQUEST['rows'] : 10;
         $page = @$_REQUEST['page'] ? @$_REQUEST['page'] : 1;
@@ -58,6 +91,16 @@ class PzkTableController extends PzkController {
 		}
 		if(count($havingConds)) {
 			$total->having($havingConds);
+		}
+		
+		if($cbWhereConds || $cbHavingConds) {
+			$total->useCB();
+			if($cbWhereConds) {
+				$total->where($cbWhereConds);
+			}
+			if($cbHavingConds) {
+				$total->having($cbHavingConds);
+			}
 		}
 		$totalQuery = $total->getQuery();
 		if($groupBy) {
@@ -88,6 +131,15 @@ class PzkTableController extends PzkController {
 		}
 		if(count($havingConds)) {
 			$items->having($havingConds);
+		}
+		if($cbWhereConds || $cbHavingConds) {
+			$items->useCB();
+			if($cbWhereConds) {
+				$items->where($cbWhereConds);
+			}
+			if($cbHavingConds) {
+				$items->having($cbHavingConds);
+			}
 		}
 		$query = $items->getQuery();
 		$items = $items->result();

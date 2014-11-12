@@ -69,7 +69,7 @@
 					name as label from `classes` where status=1 order by name ASC"
 				layout="category-select-list"></form.combobox><span>Ngày vào học: </span>
 		<input name="startStudyDate4" type="date" id="startStudyDate4" value="<?php echo date('Y-m-d', time())?>" />
-		<layout.toolbarItem action="$dg.addToTable({url: '{url /dtable/add}?table=class_student', 'gridField': 'studentId', 'tableField': 'classId', 'tableFieldSource': '#cmbClass', 'tableField2': 'startStudyDate', 'tableFieldSource2': '#startStudyDate4'})" icon="add" />
+		<layout.toolbarItem action="$dg.addToTable({url: '{url /dtable/add}?table=class_student', 'gridField': 'studentId', 'tableField': 'classId', 'tableFieldSource': '#cmbClass', 'tableField2': 'startClassDate', 'tableFieldSource2': '#startStudyDate4'})" icon="add" />
 		<br />
 		<span>Chuyển từ lớp: </span>
 		<form.combobox id="cmbClass3" name="classId"
