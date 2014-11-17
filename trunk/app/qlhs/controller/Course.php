@@ -13,4 +13,15 @@ class PzkCourseController extends PzkBaseController {
 	public function layoutAction() {
 		$this->viewGrid('layout');
 	}
+	
+	public function xeplichAction() {
+		echo 'Schedule<br />';
+		$query = _db()->useCB()->select('*')->from('student')->where(array('id', 3))->result();
+		$query = _db()->useCB()->select('student.id, student.name, student_schedule.studyDate, student_schedule.status')
+				->from('student')->join('student_schedule', 
+						array('equal', array('column', 'student', 'id'), 
+						array('column', 'student_schedule','studentId')) )
+				->where(array('equal', array('column','student', 'id'), array('string', 3)))->result();
+		var_dump($query);
+	}
 }
