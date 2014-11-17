@@ -15,6 +15,7 @@ class PzkCourseController extends PzkBaseController {
 	}
 	
 	public function xeplichAction() {
+		// Tham khao database query trong /objects/core/database/ArrayCondition.php
 		echo 'Schedule<br />';
 		$query = _db()->useCB()->select('*')->from('student')->where(array('id', 3))->result();
 		$query = _db()->useCB()->select('student.id, student.name, student_schedule.studyDate, student_schedule.status')
