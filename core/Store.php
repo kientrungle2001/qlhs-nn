@@ -60,7 +60,7 @@ class PzkStore {
 	 * @param $key: khoa can lay du lieu
 	 * @return gia tri theo khoa
 	 */
-	public function get($key) {
+	public function get($key, $timeout = null) {
 		return @$this->storage->get($key);
 	}
 
@@ -105,7 +105,7 @@ class PzkPhpStore extends PzkStore {
 	public function PzkPhpStore() {
 		$this->storage = array();
 	}
-	public function get($key) {
+	public function get($key, $timeout = null) {
 		return @$this->storage[$key];
 	}
 
@@ -145,7 +145,7 @@ class PzkMemcacheStore extends PzkStore {
 class PzkFilecacheStore extends PzkStore {
 	public $dir = 'cache';
 	public $nocache = false;
-	public function get($key) {
+	public function get($key, $timeout = null) {
 		if (!@$key) return false;
 		$fileName = $this->dir . '/' . md5($key) . '.txt';
 
@@ -153,7 +153,10 @@ class PzkFilecacheStore extends PzkStore {
 			return NULL;
 		}
 		if(!$this->nocache) {
-			$remainingTime = -(time() - filemtime($fileName) - $this->timeout);
+			if(!$timeout) {
+				$timeout = $this->timeout;
+			}
+			$remainingTime = -(time() - filemtime($fileName) - $timeout);
 
 			if ($remainingTime < 0) {
 				unlink($fileName);
@@ -188,7 +191,7 @@ class PzkSessionStore extends PzkStore {
 		//session_start();
 	}
 
-	public function get($key) {
+	public function get($key, $timeout = null) {
 		return @$_SESSION[$key];
 	}
 
@@ -199,8 +202,8 @@ class PzkSessionStore extends PzkStore {
 
 class PzkFileVarStore extends PzkFilecacheStore {
 	public $nocache = true;
-	public function get($key) {
-		$value = parent::get($key);
+	public function get($key, $timeout = null) {
+		$value = parent::get($key, $timeout);
 		if ($value !== NULL)
 		return unserialize($value);
 		return NULL;
@@ -220,7 +223,7 @@ class PzkDatabaseStore extends PzkStore {
 		$this->storage = pzk_db();
 	}
 
-	public function get($key) {
+	public function get($key, $timeout = null) {
 		return @$this->storage->select('id, key, value')->from('store');
 	}
 
@@ -245,7 +248,7 @@ class PzkMongoStore extends PzkStore {
 @example: 	_pzk('session.abc123') se tra ve gia tri tuong ung voi key = abc123 luu trong session
 _pzk('session.abc123', 'cai gi do') se gan gia tri 'cai gi do' cho key = abc123 luu trong session
 */
-function pzk_store($key, $value = NULL) {
+function pzk_store($key, $value = NULL, $timeout = NULL) {
 
 	// chon store
 	$store = NULL;
@@ -264,7 +267,7 @@ function pzk_store($key, $value = NULL) {
 	// get hoac set cac gia tri
 	if (!$store) return NULL;
 	if ($value === NULL) {
-		return $store->get($realKey);
+		return $store->get($realKey, $timeout);
 	}
 	return $store->set($realKey, $value);
 }
