@@ -1,14 +1,15 @@
 <div>
-	<br />
-	<hform id="add-dg" method="post" title="Thêm học sinh mới">
-		<strong>Tên học sinh: </strong><form.textField name="name" />
-		<strong> SĐT: </strong><form.textField name="phone" /><br /><br />
-		<strong> Ngày nhập học: </strong><form.textField type="date" name="startStudyDate" value="{? echo date('Y-m-d'); ?}" />
-		<strong> </strong>
-		<form.textField type="submit" value="Thêm học sinh" onclick="pzk.elements.dg.addMode().save('#add-dg'); return false;" />
-		<strong> </strong>
-		<form.textField type="reset" value="Nhập lại" />
-	</hform>
+	<easyui.layout.panel collapsible="true" title="Thêm học sinh" collapsed="true"> <br />
+		<hform id="add-dg" method="post" title="Thêm học sinh mới">
+			<strong>Tên học sinh: </strong><form.textField name="name" />
+			<strong> SĐT: </strong><form.textField name="phone" /><br /><br />
+			<strong> Ngày nhập học: </strong><form.textField type="date" name="startStudyDate" value="{? echo date('Y-m-d'); ?}" />
+			<strong> </strong>
+			<form.textField type="submit" value="Thêm học sinh" onclick="pzk.elements.dg.addMode().save('#add-dg'); return false;" />
+			<strong> </strong>
+			<form.textField type="reset" value="Nhập lại" />
+		</hform>
+	</easyui.layout.panel>
 	<div style="float:left; width: 600px;">
 	
 	<dg.dataGrid id="dg" title="Quản lý học sinh" scriptable="true" layout="easyui/datagrid/datagrid" 
@@ -65,6 +66,7 @@
 	</dg.dataGrid>
 	</div>
 	<div style="float:left; margin-left: 20px; margin-top: 20px; width: auto;">
+		<easyui.layout.panel collapsible="true" title="Xếp lớp" width="100%">
 		<span>Xếp lớp: </span>
 		<form.combobox id="cmbClass" name="classId"
 			sql="select id as value, 
@@ -93,6 +95,7 @@
 				layout="category-select-list"></form.combobox><span>Ngày: </span>
 				<input name="startStudyDate3" type="date" id="startStudyDate3" value="<?php echo date('Y-m-d', time())?>" />
 		<layout.toolbarItem action="$dg.addToTable({url: '{url /dtable/update}?table=class_student', 'gridField': 'studentId', 'tableField': 'classId', 'tableFieldSource': '#cmbClass4', 'tableField2': 'endClassDate', 'tableFieldSource2': '#startStudyDate3'}); $dg.reload();" icon="add" />
+		</easyui.layout.panel>
 		<div id="student-detail"></div>
 	</div>
 	<div style="clear:both;"></div>

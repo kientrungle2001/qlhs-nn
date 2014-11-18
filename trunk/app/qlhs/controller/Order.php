@@ -43,7 +43,7 @@ class PzkOrderController extends PzkBaseController {
 	}
 	
 	public function postAction() {
-		if($_REQUEST['bookNum'] && $_REQUEST['noNum']) {
+		if(@$_REQUEST['bookNum'] && @$_REQUEST['noNum']) {
 			// do nothing
 			$bookNum = $_REQUEST['bookNum'];
 			$noNum = $_REQUEST['noNum'];
@@ -102,7 +102,7 @@ class PzkOrderController extends PzkBaseController {
 		_db()->insert('student_order')->fields(implode(',',array_keys($student_order)))
 			->values(array($student_order))->result();
 		}
-		if($_REQUEST['bookNum'] && $_REQUEST['noNum']) { 
+		if(@$_REQUEST['bookNum'] && @$_REQUEST['noNum']) { 
 			// do nothing
 		} else {
 			if($noNum >= 50) {
