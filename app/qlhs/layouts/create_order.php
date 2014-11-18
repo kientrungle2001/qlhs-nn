@@ -62,8 +62,8 @@ if(!$data->multiple) {
 			</div>
 		</div>
 		<div class="order_no">
-		Quyển số:<input style="width: 110px;" class="easyui-numberbox" type="text" name="bookNum" /><br />
-		Số:<input class="easyui-numberbox" type="text" name="noNum"/><br />
+		Quyển số:<input style="width: 110px;" disabled="disabled" class="easyui-numberbox" type="text" name="bookNum" /><br />
+		Số:<input class="easyui-numberbox" disabled="disabled" type="text" name="noNum"/><br />
 		Nợ:<input class="easyui-numberbox" type="text" name="debit" /><br />
 		Có:<input class="easyui-numberbox" type="text" name="balance" />
 		</div>
