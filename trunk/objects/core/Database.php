@@ -87,8 +87,9 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 		$this->options['useConditionBuilder'] = true;
 		return $this;
 	}
-	public function useCache() {
+	public function useCache($timeout = null) {
 		$this->options['useCache'] = true;
+		$this->options['cacheTimeout'] = $timeout;
 		return $this;
 	}
 	public function buildCondition($conds) {
@@ -179,7 +180,7 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 
     public function result($entity = false) {
         $this->connect();
-        mysql_query('set names utf-8', $this->connId);
+        //mysql_query('set names utf-8', $this->connId);
         $rslt = array();
         if (@$this->options['action'] == 'select') {
             $query = 'select ' . $this->options['fields']
@@ -198,7 +199,7 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
                             ' limit ' . $this->options['start'] . ', '
                             . $this->options['pagination'] : '');
 			if(@$this->options['useCache']) {
-				$data = pzk_filevar($query . $entity);
+				$data = pzk_filevar(md5($query . $entity) , null, isset($this->options['cacheTimeout'])? $this->options['cacheTimeout']: null);
 				if($data) {
 					return $data;
 				}
@@ -225,7 +226,7 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 				}
             }
 			if(@$this->options['useCache']) {
-				pzk_filevar($query . $entity, $rslt);
+				pzk_filevar(md5($query . $entity), $rslt);
 			}
             return $rslt;
         } else if (@$this->options['action'] == 'insert') {
@@ -362,6 +363,7 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 
     public function clear() {
         $this->options = array();
+		//$this->useCache(15*60);
         return $this;
     }
 
