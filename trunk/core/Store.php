@@ -304,12 +304,12 @@ function pzk_element($key, $value = NULL) {
  * @return gia tri tuong ung voi khoa
  */
 
-function pzk_store_session($key, $value = NULL) {
-	return pzk_store('session.'. $key, $value);
+function pzk_store_session($key, $value = NULL, $timeout = NULL) {
+	return pzk_store('session.'. $key, $value, $timeout);
 }
 
-function pzk_session($key, $value = NULL) {
-	return pzk_store_session($key, $value);
+function pzk_session($key, $value = NULL, $timeout = NULL) {
+	return pzk_store_session($key, $value, $timeout);
 }
 
 /**
@@ -320,12 +320,12 @@ function pzk_session($key, $value = NULL) {
  * @return gia tri tuong ung voi khoa
  */
 
-function pzk_store_memcache($key, $value = NULL) {
-	return pzk_store('memcache.'. $key, $value);
+function pzk_store_memcache($key, $value = NULL, $timeout = NULL) {
+	return pzk_store('memcache.'. $key, $value, $timeout);
 }
 
-function pzk_memcache($key, $value = NULL) {
-	return pzk_store_memcache($key, $value);
+function pzk_memcache($key, $value = NULL, $timeout = NULL) {
+	return pzk_store_memcache($key, $value, $timeout);
 }
 
 /**
@@ -336,20 +336,20 @@ function pzk_memcache($key, $value = NULL) {
  * @return gia tri tuong ung voi khoa
  */
 
-function pzk_store_filecache($key, $value = NULL) {
-	return pzk_store('filecache.'. $key, $value);
+function pzk_store_filecache($key, $value = NULL, $timeout = NULL) {
+	return pzk_store('filecache.'. $key, $value, $timeout);
 }
 
-function pzk_filecache($key, $value = NULL) {
-	return pzk_store_filecache($key, $value);
+function pzk_filecache($key, $value = NULL, $timeout = NULL) {
+	return pzk_store_filecache($key, $value, $timeout);
 }
 
-function pzk_store_filevar($key, $value = NULL) {
-	return pzk_store('fileVar.'. $key, $value);
+function pzk_store_filevar($key, $value = NULL, $timeout = NULL) {
+	return pzk_store('fileVar.'. $key, $value, $timeout);
 }
 
-function pzk_filevar($key, $value = NULL) {
-	return pzk_store_filevar($key, $value);
+function pzk_filevar($key, $value = NULL, $timeout = NULL) {
+	return pzk_store_filevar($key, $value, $timeout);
 }
 
 /////////////////////////// Cache Shortcuts /////////////////////////
