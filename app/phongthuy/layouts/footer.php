@@ -1,4 +1,4 @@
-<?php $items = _db()->useCB()->select('*')->from('catalog_category')->where(array('and', array('parentId', 0), array('status', 1)))->orderBy('ordering asc')->result();?>
+<?php $items = _db()->useCache(900)->useCB()->select('*')->from('catalog_category')->where(array('and', array('parentId', 0), array('status', 1)))->orderBy('ordering asc')->result();?>
 <div class="row">
 <div class="col-md-2">
 </div>
@@ -16,7 +16,7 @@
 		'Xem Phong Thủy Cho Các Công Trình' => 'Địa Điểm Xem PT',
 		'Trung Tâm Nghiên Cứu Tiềm Năng Con Người' => 'Trung Tâm NCTNCN',
 		'Xem Phong Thủy Lấy Mệnh Theo Năm' => 'Mệnh Theo Năm',
-		'Xem Kim Lâu - Hoang Ốc' => 'Kim Lâu-Hoang Ốc',
+		'Xem Kim Lâu Xem Hoang Ốc' => 'Xem KimLâu-HoangỐc',
 		'Xem Tháng Cưới' => 'Xem Tháng Cưới'
 	);
 	foreach($replacements as $search => $replace) {
