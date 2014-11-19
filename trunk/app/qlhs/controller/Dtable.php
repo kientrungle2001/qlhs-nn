@@ -65,6 +65,11 @@ class PzkDtableController extends PzkTableController {
 						left join `classes` as c on o.classId = c.id',
 			'fields' => 'o.id,o.*, c.name as className, s.name as studentName, p.name as periodName'
 		),
+		'level' => array(
+			'table' => 'classes',
+			'fields' => 'distinct(level) as id, level as name',
+			'orderBy' => 'level asc'
+		),
 		'general_order' => array(
 			
 		)

@@ -1,14 +1,14 @@
 <div>
 <div style="float:left; width: 220px;">
-	<dg.dataGrid id="dgsubject" title="Quản lý môn học" table="subject" width="200px" height="200px" pagination="false" rownumbers="false">
+	<dg.dataGrid id="dgsubject" title="" table="subject" width="200px" height="115px" pagination="false" rownumbers="false">
 		<dg.dataGridItem field="id" width="20">Id</dg.dataGridItem>
 		<dg.dataGridItem field="name" width="140">Môn học</dg.dataGridItem>
 		
-		<layout.toolbar id="dgsubject_toolbar">
+		<layout.toolbar id="dgsubject_toolbar" style="display: none;">
 			<layout.toolbarItem action="$dgsubject.detail(function(row) { jQuery('#searchSubject').val(row.id); 
-				$dg.search({'fields': {'teacherId' : '#searchTeacher', 'subjectId': '#searchSubject' }});  });" icon="sum" />
+				searchClasses();  });" icon="sum" />
 			<layout.toolbarItem action="$dgsubject.detail(function(row) { jQuery('#searchSubject').val(''); 
-				$dg.search({'fields': {'teacherId' : '#searchTeacher', 'subjectId': '#searchSubject' }});  });" icon="reload" />	
+				searchClasses();  });" icon="reload" />	
 			<layout.toolbarItem action="$dgsubject.add()" icon="add" />
 			<layout.toolbarItem action="$dgsubject.edit()" icon="edit" />
 			<layout.toolbarItem action="$dgsubject.del()" icon="remove" />
@@ -21,7 +21,17 @@
 		</wdw.dialog>
 	</dg.dataGrid>
 	
-	<dg.dataGrid id="dgteacher" title="Quản lý giáo viên" table="teacher" width="200px" height="450px" pagination="true" rownumbers="false" pageSize="50">
+	<dg.dataGrid id="dglevel" title="" table="level" width="200px" height="145px" pagination="false" rownumbers="false">
+		<dg.dataGridItem field="id" width="20">Id</dg.dataGridItem>
+		<dg.dataGridItem field="name" width="140">Trình độ</dg.dataGridItem>
+		
+		<layout.toolbar id="dglevel_toolbar" style="display: none;">
+			<layout.toolbarItem action="$dglevel.detail(function(row) { jQuery('#searchLevel').val(row.id); searchClasses();  });" icon="sum" />
+			<layout.toolbarItem action="$dglevel.detail(function(row) { jQuery('#searchLevel').val(''); searchClasses();  });" icon="reload" />
+		</layout.toolbar>
+	</dg.dataGrid>
+	
+	<dg.dataGrid id="dgteacher" title="" table="teacher" width="200px" height="250px" pagination="false" rownumbers="false" pageSize="50">
 		<dg.dataGridItem field="id" width="20">Id</dg.dataGridItem>
 		<dg.dataGridItem field="name" width="140">Tên giáo viên</dg.dataGridItem>
 		<!--dg.dataGridItem field="phone" width="100">Số điện thoại</dg.dataGridItem>
@@ -29,11 +39,11 @@
 		<dg.dataGridItem field="address" width="80">Địa chỉ</dg.dataGridItem>
 		<dg.dataGridItem field="salary" width="80">Lương</dg.dataGridItem-->
 		
-		<layout.toolbar id="dgteacher_toolbar">
+		<layout.toolbar id="dgteacher_toolbar" style="display: none;">
 			<layout.toolbarItem action="$dgteacher.detail(function(row) { jQuery('#searchTeacher').val(row.id); 
-				$dg.search({'fields': {'teacherId' : '#searchTeacher', 'subjectId': '#searchSubject' }});  });" icon="sum" />
+				searchClasses();  });" icon="sum" />
 			<layout.toolbarItem action="$dgteacher.detail(function(row) { jQuery('#searchTeacher').val(''); 
-				$dg.search({'fields': {'teacherId' : '#searchTeacher', 'subjectId': '#searchSubject' }});  });" icon="reload" />	
+				searchClasses();  });" icon="reload" />	
 			<layout.toolbarItem action="$dgteacher.add()" icon="add" />
 			<layout.toolbarItem action="$dgteacher.edit()" icon="edit" />
 			<layout.toolbarItem action="$dgteacher.del()" icon="remove" />
@@ -76,7 +86,12 @@
 					sql="select id as value, 
 							name as label from `subject` order by name ASC"
 					layout="category-select-list"></form.combobox>
-			<layout.toolbarItem action="$dg.search({'fields': {'teacherId' : '#searchTeacher', 'subjectId': '#searchSubject' }})" icon="search" />
+			<form.combobox 
+					id="searchLevel" name="level"
+					sql="select distinct(level) as value, level as label from classes where 1 AND 1 AND 1 order by label asc"
+					layout="category-select-list"></form.combobox>
+			
+			<layout.toolbarItem action="searchClasses()" icon="search" />
 			<layout.toolbarItem action="$dg.add()" icon="add" />
 			<layout.toolbarItem action="$dg.edit()" icon="edit" />
 			<layout.toolbarItem action="$dg.del()" icon="remove" />
@@ -162,4 +177,15 @@
 	</div>
 </div>
 <div class="clear" />
+<script type="text/javascript">
+	function searchClasses() {
+		pzk.elements.dg.search({
+			'fields': {
+				'teacherId' : '#searchTeacher', 
+				'subjectId': '#searchSubject', 
+				'level': '#searchLevel' 
+			}
+		});
+	}
+</script>
 </div>
