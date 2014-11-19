@@ -1,1 +1,0 @@
-<ide.wizard source="region"></ide.wizard>
