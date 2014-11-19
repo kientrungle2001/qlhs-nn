@@ -5,9 +5,11 @@
 		<dg.dataGridItem field="name" width="140">Môn học</dg.dataGridItem>
 		
 		<layout.toolbar id="dgsubject_toolbar" style="display: none;">
-			<layout.toolbarItem action="$dgsubject.detail(function(row) { jQuery('#searchSubject').val(row.id); 
+			<layout.toolbarItem action="$dgsubject.detail(function(row) { 
+				jQuery('#searchSubject').val(row.id); 
 				searchClasses();  });" icon="sum" />
-			<layout.toolbarItem action="$dgsubject.detail(function(row) { jQuery('#searchSubject').val(''); 
+			<layout.toolbarItem action="$dgsubject.detail(function(row) { 
+				jQuery('#searchSubject').val(''); 
 				searchClasses();  });" icon="reload" />	
 			<layout.toolbarItem action="$dgsubject.add()" icon="add" />
 			<layout.toolbarItem action="$dgsubject.edit()" icon="edit" />
@@ -40,9 +42,11 @@
 		<dg.dataGridItem field="salary" width="80">Lương</dg.dataGridItem-->
 		
 		<layout.toolbar id="dgteacher_toolbar" style="display: none;">
-			<layout.toolbarItem action="$dgteacher.detail(function(row) { jQuery('#searchTeacher').val(row.id); 
+			<layout.toolbarItem action="$dgteacher.detail(function(row) { 
+				jQuery('#searchTeacher').val(row.id); 
 				searchClasses();  });" icon="sum" />
-			<layout.toolbarItem action="$dgteacher.detail(function(row) { jQuery('#searchTeacher').val(''); 
+			<layout.toolbarItem action="$dgteacher.detail(function(row) { 
+				jQuery('#searchTeacher').val(''); 
 				searchClasses();  });" icon="reload" />	
 			<layout.toolbarItem action="$dgteacher.add()" icon="add" />
 			<layout.toolbarItem action="$dgteacher.edit()" icon="edit" />
@@ -88,14 +92,20 @@
 					layout="category-select-list"></form.combobox>
 			<form.combobox 
 					id="searchLevel" name="level"
-					sql="select distinct(level) as value, level as label from classes where 1 AND 1 AND 1 order by label asc"
+					sql="select distinct(level) as value, level as label from classes order by label asc"
 					layout="category-select-list"></form.combobox>
-			
+			<form.combobox 
+					id="searchStatus" name="status"
+					sql="select distinct(status) as value, status as label from classes order by label asc"
+					layout="category-select-list"></form.combobox>
 			<layout.toolbarItem action="searchClasses()" icon="search" />
 			<layout.toolbarItem action="$dg.add()" icon="add" />
 			<layout.toolbarItem action="$dg.edit()" icon="edit" />
 			<layout.toolbarItem action="$dg.del()" icon="remove" />
-			<layout.toolbarItem action="$dg.detail(function(row) { jQuery('#searchClass2').val(row.id); $dg2.search({'fields': {'classId' : '#searchClass2' }});  });" icon="sum" />
+			<layout.toolbarItem action="$dg.detail(function(row) { 
+				jQuery('#searchClass2').val(row.id); 
+				$dg2.search({'fields': {'classId' : '#searchClass2' }});  
+			});" icon="sum" />
 		</hform>
 	</layout.toolbar>
 	<wdw.dialog gridId="dg" width="700px" height="auto" title="Lớp học">
@@ -183,7 +193,8 @@
 			'fields': {
 				'teacherId' : '#searchTeacher', 
 				'subjectId': '#searchSubject', 
-				'level': '#searchLevel' 
+				'level': '#searchLevel',
+				'status': '#searchStatus'
 			}
 		});
 	}
