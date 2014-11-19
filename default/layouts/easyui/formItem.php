@@ -1,4 +1,4 @@
-﻿<tr>
+<tr>
 	<td>{prop label}{prop text}</td>
 	<td>
 	<?php if (@$data->type == 'user-defined') { ?>
