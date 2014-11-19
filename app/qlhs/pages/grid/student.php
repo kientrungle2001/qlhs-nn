@@ -26,7 +26,7 @@
 		<!--dg.dataGridItem field="num_of_class" width="40">NOC</dg.dataGridItem-->
 		<!--dg.dataGridItem field="startStudyDate" width="100">Ngày vào học</dg.dataGridItem-->
 		<layout.toolbar id="dg_toolbar">
-			<hform id="dg_search" onsubmit="pzk.elements.dg.search({'fields': {'name' : '#searchName', 'classNames' : '#searchClass', 'phone': '#searchPhone', 'periodId' : '#searchPeriod', 'notlikeperiodId': '#searchnotlikePeriod' }}); return false;">
+			<hform id="dg_search" onsubmit="searchStudent(); return false;">
 				<strong>Tên học sinh: </strong><form.textField width="120px" name="name" id="searchName" />
 				<strong> SĐT: </strong><form.textField width="80px" name="phone" id="searchPhone" />
 				<strong> Lớp: </strong><form.combobox id="searchClass" name="classId"
@@ -42,7 +42,7 @@
 					name as label from `payment_period` where status=1 order by startDate DESC"
 				layout="category-select-list"></form.combobox>
 				<input type="submit" style="display: none;" value="Tìm" />
-				<layout.toolbarItem id="searchButton" action="$dg.search({'fields': {'name' : '#searchName', 'classNames' : '#searchClass', 'phone': '#searchPhone', 'periodId' : '#searchPeriod', 'notlikeperiodId': '#searchnotlikePeriod' }})" icon="search" />
+				<layout.toolbarItem id="searchButton" action="searchStudent();" icon="search" />
 				<br />
 				<layout.toolbarItem action="$dg.add()" icon="add" />
 				<layout.toolbarItem action="$dg.edit()" icon="edit" />
@@ -99,4 +99,15 @@
 		<div id="student-detail"></div>
 	</div>
 	<div style="clear:both;"></div>
+	<script type="text/javascript">
+		function searchStudent() {
+			pzk.elements.dg.search({
+				'fields': {
+					'name' : '#searchName', 'classNames' : '#searchClass', 
+					'phone': '#searchPhone', 'periodId' : '#searchPeriod', 
+					'notlikeperiodId': '#searchnotlikePeriod' 
+				}
+			});
+		}
+	</script>
 </div>
