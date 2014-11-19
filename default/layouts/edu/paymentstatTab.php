@@ -1,4 +1,4 @@
-﻿<div class="easyui-accordion" style="width:1340px;height:auto;padding: 5px;">
+<div class="easyui-accordion" style="width:1100px;height:auto;padding: 5px;">
 <?php
 	$class = $data->getClass();
 	$students = $data->getStudents();
@@ -17,7 +17,7 @@
 	$teacherSummary = $data->getTotalTeacherScheduleSummary(@$class['teacherId'], @$class['teacher2Id']);
 	?>
 	<?php if(strpos($class['name'], 'M') !== false) { ?>
-		<a href="{url /demo/paymentstatPrint}?classId={class[id]}&periodId=0" target="_blank"><h2>Xem bản in</h2></a><br />
+		<a href="{url /demo/paymentstatPrint}?classId={class[id]}&periodId=0" target="_blank">Xem bản in</a>
 	<table border="1" cellpadding="4px" cellspacing="0" style="border-collapse:collapse;margin: 15px;width: 1000px;">
 		<tr>
 			<th colspan="9">{class[name]}</th>
@@ -130,7 +130,7 @@
 		<?php if($class['startDate'] !== '0000-00-00' && $class['startDate'] >= $period['endDate']) { continue; }?>
 		<?php if($class['endDate'] !== '0000-00-00' && $class['endDate'] < $period['startDate']) { continue; }?>
 	<div title="{period[name]}">
-	<a href="{url /demo/paymentstatPrint}?classId={class[id]}&periodId={period[id]}" target="_blank"><h2>Xem bản in</h2></a><br />
+	<a href="{url /demo/paymentstatPrint}?classId={class[id]}&periodId={period[id]}" target="_blank">Xem bản in</a>
 	<table border="1" cellpadding="4px" cellspacing="0" style="border-collapse:collapse;margin: 15px;width: 1000px;">
 		<tr>
 			<th colspan="9">{period[name]} (<?php echo pzk_or(@$summary[$class['id']][$period['id']], '<span>0</span>'); ?> buổi)</th>

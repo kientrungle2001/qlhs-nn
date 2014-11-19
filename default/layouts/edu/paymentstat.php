@@ -1,4 +1,4 @@
-﻿<script type="text/javascript" src="/lib/js/date.js"></script>
+<script type="text/javascript" src="/lib/js/date.js"></script>
 	{?
 		$classes = $data->getClasses();
 		$orders = $data->getStructureOrders();
