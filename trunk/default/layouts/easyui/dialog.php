@@ -1,4 +1,4 @@
-﻿<div id="dlg-{prop gridId}" class="easyui-dialog" style="width:{prop width};height:{prop height};padding:10px 20px; overflow: scroll-X;"
+<div id="dlg-{prop gridId}" class="easyui-dialog" style="width:{prop width};height:{prop height};padding:10px 20px; overflow: scroll-X;"
         closed="{prop closed}" buttons="#dlg-buttons-{prop gridId}">
     <span class="title">{prop title}</span><br />
 	{children [className=PzkEasyuiFormForm]}
