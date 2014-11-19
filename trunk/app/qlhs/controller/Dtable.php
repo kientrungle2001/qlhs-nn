@@ -99,12 +99,23 @@ class PzkDtableController extends PzkTableController {
 		'student' => array(
 			'none' => 0
 		),
+		'classes' => array(
+			'none' => 0
+		),
 		'student_order' => array(
 			'classId' => array('=' => 'o`.`classId')
 		),
 		'class_student' => array(
 			'studentName' => array(
 				'like' => 's`.`name'
+			)
+		),
+		'classes_filter' => array(
+			'where' => array(
+				'status' => array('equal', array('column', 'c', 'status'), '?'),
+				'subjectId' => array('equal', array('column', 'c', 'subjectId'), '?'),
+				'teacherId' => array('equal', array('column', 'c', 'teacherId'), '?'),
+				'level' => array('equal', array('column', 'c', 'level'), '?'),
 			)
 		),
 		'student_filter' => array(
