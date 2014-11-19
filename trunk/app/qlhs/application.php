@@ -1,7 +1,8 @@
 <core.application id="app" name="qlhs" dispatcher="ControllerBased" 
 	gsv="DJBoN802jfeoHdZJX1oM0vqdSuVjiqQ_0t4dHq0zEf4">
 	<core.database.arrayCondition id="conditionBuilder" />
-	<core.database id="db" host="localhost" user="root" password="" dbName="phattrienngonngu_com_website5" />
+	<core.database id="db" host="localhost" 
+		user="root" password="" dbName="phattrienngonngu_com_website5" />
 	<core.shorty name="dg" value="easyui.datagrid" />
 	<core.shorty name="frm" value="easyui.form" />
 	<core.shorty name="layout" value="easyui.layout" />

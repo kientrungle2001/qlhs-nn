@@ -16,12 +16,14 @@ class PzkTableController extends PzkController {
         $filters = @$this->filters[$table];
 		$cbFilters = @$this->filters[$table . '_filter'];
         $groupBy = false;
+		$defaultOrderBy = false;
 		$arrFields = array();
 		$defaultConds = '1';
 		if (is_array($fields)) {
 			$arrFields = $fields;
             $table = @$fields['table']?$fields['table']: $oldTable;
             $groupBy = isset($fields['groupBy']) ? $fields['groupBy'] : false;
+			$defaultOrderBy = isset($fields['groupBy']) ? $fields['groupBy'] : false;
 			$defaultConds = isset($fields['conds']) ? $fields['conds'] : '1';
 			$fields = @$fields['fields']?@$fields['fields']: '*';
         }
@@ -80,7 +82,7 @@ class PzkTableController extends PzkController {
 				}
 			}
         }
-        $rows = @$_REQUEST['rows'] ? @$_REQUEST['rows'] : 10;
+        $rows = @$_REQUEST['rows'] ? @$_REQUEST['rows'] : 50;
         $page = @$_REQUEST['page'] ? @$_REQUEST['page'] : 1;
         $total = _db()->select($fields . ', count(*) as val')->from($table);
 		$total->where($defaultConds)
@@ -117,7 +119,7 @@ class PzkTableController extends PzkController {
         }
         $orderBy = implode(',', $orderBy);
         if (!trim($orderBy)) {
-            $orderBy = 'id desc';
+            $orderBy = $defaultOrderBy ? $defaultOrderBy: 'id desc';
         }
         $items = _db()
                         ->select($fields)

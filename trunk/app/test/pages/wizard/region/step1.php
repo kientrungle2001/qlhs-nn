@@ -1,1 +1,0 @@
-<div layout="wizard/region/step1"></div>
