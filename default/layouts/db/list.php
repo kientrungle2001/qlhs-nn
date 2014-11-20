@@ -2,6 +2,7 @@
 $layoutType = $data->getProp('layoutType', 'div');
 $displayFields = explode(',',$data->displayFields);
 ?>
+<!-- hien thi theo kieu ul -->
 {ifvar layoutType=ul}
 <ul>
 {each $items as $item}
@@ -9,6 +10,8 @@ $displayFields = explode(',',$data->displayFields);
 {/each}
 </ul>
 {/if}
+
+<!-- hien thi theo kieu div -->
 {ifvar layoutType=div}
 <div class="core_db_list">
 {each $items as $item}
