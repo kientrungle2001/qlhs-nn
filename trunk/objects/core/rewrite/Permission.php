@@ -7,9 +7,9 @@ class PzkCoreRewritePermission extends PzkObjectLightWeight {
 		if(!$loginId) {
 			$loginId = 3;
 		}
-		$this->user = _db()->getEntity('profile.profile')->load($loginId);
+		$this->user = _db()->getEntity('profile.profile')->load($loginId, 900);
 		$action = $request->get('action');
-		if($request->host == 'phongthuy.vn' || $request->host == 'www.phongthuy.vn') {
+		if($request->host == 'phongthuyhoangtra.vn' || $request->host == 'www.phongthuyhoangtra.vn') {
 			return ;
 		}
 		if($action == 'logout' || $action == 'login' || $action == 'loginPost') {

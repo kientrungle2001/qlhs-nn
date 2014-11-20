@@ -200,7 +200,7 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
                             . $this->options['pagination'] : '');
 			if(@$this->options['useCache']) {
 				$data = pzk_filevar(md5($query . $entity) , null, isset($this->options['cacheTimeout'])? $this->options['cacheTimeout']: null);
-				if($data) {
+				if($data !== NULL) {
 					return $data;
 				}
 			}
