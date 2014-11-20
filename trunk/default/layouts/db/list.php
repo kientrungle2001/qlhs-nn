@@ -16,10 +16,10 @@ $displayFields = explode(',',$data->displayFields);
 	{each $displayFields as $field}
 	{? 	$field = trim($field); 
 		$fieldTag = $field . 'Tag'; 
-		$fieldTag=@$data->$fieldTag; 
+		$fieldTag=@$data->$fieldTag?@$data->$fieldTag: 'div';
 		$value = @$item[$field]; 
 	?}
-	<{fieldTag} class="{data.classPrefix}{field}">{value}</{fieldTag}>
+	<{fieldTag} class="{data.classPrefix}{field}" rel="{item[id]}">{value}</{fieldTag}>
 	{/each}
 	</div>
 {/each}
