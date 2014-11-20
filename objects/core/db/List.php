@@ -2,6 +2,10 @@
 class PzkCoreDbList extends PzkObject {
 	public $layout = 'db/list';
 	public $layoutType = 'div';
+	
+	/**
+	Cac dieu kien de lay du lieu
+	*/
 	public $table = 'news';
 	public $fields = '*';
 	public $conditions = '1';
@@ -11,9 +15,16 @@ class PzkCoreDbList extends PzkObject {
 	public $orderBy = 'id asc';
 	public $groupBy = false;
 	public $having = false;
+	/**
+	Dieu kien theo parent
+	*/
 	public $parentId = false;
 	public $parentMode = false;
 	public $parentField = 'parentId';
+	
+	/**
+	Cac truong can hien thi
+	*/
 	public $displayFields = 'title,content';
 	public $titleTag = 'h3';
 	public $contentTag = 'div';
