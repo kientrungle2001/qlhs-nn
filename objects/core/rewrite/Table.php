@@ -8,7 +8,8 @@ class PzkCoreRewriteTable extends PzkObjectLightweight{
 		$request = pzk_element('request');
 		$route = preg_replace('/^[\/]/', '', $request->route);
 		if($route) {
-			$item = _db()->useCB()->select('*')->from($this->table)->where(array($this->field, $route))->result_one();
+			$item = _db()->useCache(900)->useCB()->select('*')->from($this->table)->where(array($this->field, $route))->result_one();
+			
 			if($item) {
 				if($this->table == 'catalog_category') {
 					if($item['parentId'] == 3) {
