@@ -10,9 +10,12 @@
 			defaultQueryParams='{"app":"travel", "controller": "Home", "action": "index"}' />
 	<core.rewrite.request matcher="host" matchMethod="equal" pattern="phongthuy.vn" 
 			defaultQueryParams='{"app":"phongthuy", "controller": "Home", "action": "index"}' />
+	<core.rewrite.request matcher="host" matchMethod="equal" pattern="phongthuyhoangtra.vn" 
+			defaultQueryParams='{"app":"phongthuy", "controller": "Home", "action": "index"}' />
 	<core.loader id="loader" />
 	<core.storage name="filecache" timeout="9000" />
 	<core.storage name="fileVar" timeout="9000" />
 	<core.storage name="session" timeout="9000" />
+	<!--core.storage name="memcache" timeout="900" /-->
 	<core.language id="language" />
 </core.system>
