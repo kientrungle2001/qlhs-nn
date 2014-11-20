@@ -2,8 +2,8 @@
 /**
  * View object
  *
- */class PzkObject {	public $children;	public $layout = 'empty';	public $boundable = false;	public $scriptable = false;
-	public $scriptTo = 'head';	public $syncable = false;	public $cacheable = false;
+ */class PzkObject {	public $children;	public $layout = 'empty';	public $scriptable = false;
+	public $scriptTo = 'head';	public $cacheable = false;
 	public $userable = false;	public $role = false;	public $cacher = 'filecache';
 
 	/**
@@ -20,11 +20,7 @@
 	 * Id cua parent element
 	 */
 	public $pzkParentId = false;
-	/**
-	 * cac table lien quan den cac model,
-	 * dung de recache neu table co thay doi
-	 */
-	public $tables = '';
+
 	/**
 	 * Id lon nhat cua element
 	 */	public static $maxId = 0;
@@ -38,39 +34,14 @@
 	 * Css nay khong can cache lai
 	 */
 	public $cssExternalLink = false;
-
-	/**
-	 * Dung de cau hinh cac thuoc tinh cho element
-	 */
-	public $pclass = false;
 	
 	public static $selectors = array();
-	
-	public $modelservicelist = ''; // example: {students: {model: edu/student, method: getAll, params: []}}
-	public $_modeldata = false; // return array(students => studentsData);
-	
-	public function loadAllData() {
-		if($this->modelservicelist) {
-			$this->_modeldata = array();
-			$msl = json_decode($this->modelservicelist, true);
-			foreach($msl as $name => $ms) {
-				if(pzk_loader()) {
-					$model = pzk_loader()->getModel($ms['model']);
-					$method = $ms['method'];
-					$params = isset($ms['params'])?$ms['params']: array();
-					call_user_func_array(array($model, $method), $params);
-				}
-			}
-		}
-	}
-	public function getModelData($name) {
-	} /**/
 
 	/**
 	 * Ham khoi tao mot object voi cac attribute cua no truyen
 	 * dang mang
 	 * @param $attrs la cac thuoc tinh cua doi tuong
-	 */	public function PzkObject($attrs) {		$this->applyPclass(@$attrs['pclass']);
+	 */	public function __construct($attrs) {
 		foreach($attrs as $key => $value) $this->$key = $value;		$this->children = array();		if (!@$this->id) {			$this->id = 'uniqueId' . self::$maxId;			self::$maxId++;		}
 
 		$this->css();
@@ -109,21 +80,6 @@
 				$page =pzk_page();
 				if ($page) {
 					$page->addObjJs($this->tagName);
-				}
-			}
-		}
-	}
-
-	/**
-	 * App dung mot pclass
-	 * @param pclass can ap dung
-	 */
-	public function applyPclass($pclass) {
-		if ($pclass) {
-			$attrs = _pclass($pclass);
-			if ($attrs) {
-				foreach($attrs as $key => $value) {
-					$this->$key = $value;
 				}
 			}
 		}
