@@ -10,9 +10,13 @@ class PzkEntityModel {
 	public function getData() {
 		return $this->data;
 	}
-	public function load($id = false) {
+	public function load($id = false, $cacheTimeout = NULL) {
 		if($id) {
-			$this->data = _db()->select('*')->from($this->table)->where('id=' . $id)->result_one();
+			$query = _db();
+			if($cacheTimeout) {
+				$query->useCache($cacheTimeout);
+			}
+			$this->data = $query->select('*')->from($this->table)->where('id=' . $id)->result_one();
 		}
 		return $this;
 	}
