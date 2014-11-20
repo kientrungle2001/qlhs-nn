@@ -14,7 +14,11 @@ $displayFields = explode(',',$data->displayFields);
 {each $items as $item}
 	<div class="core_db_list_item">
 	{each $displayFields as $field}
-	{? $field = trim($field); $fieldTag = $field . 'Tag'; $fieldTag=@$data->$fieldTag; $value = @$item[$field]; ?}
+	{? 	$field = trim($field); 
+		$fieldTag = $field . 'Tag'; 
+		$fieldTag=@$data->$fieldTag; 
+		$value = @$item[$field]; 
+	?}
 	<{fieldTag} class="{data.classPrefix}{field}">{value}</{fieldTag}>
 	{/each}
 	</div>

@@ -1,7 +1,5 @@
 <?php
 $item = $data->getItem();
-$next = $data->getNextItem(array('categories', $item['categories']));
-$prev = $data->getPrevItem(array('categories', $item['categories']));
 $displayFields = explode(',',$data->displayFields);
 ?>
 {ifprop showImages=true}
@@ -33,11 +31,18 @@ function showImage(url) {
 </div>
 {/if}
 {each $displayFields as $field}
-{? $field = trim($field); $fieldTag = $field . 'Tag'; $fieldTag=@$data->$fieldTag?@$data->$fieldTag: 'div'; $value = @$item[$field]; ?}
+{? 	$field = trim($field); 
+	$fieldTag = $field . 'Tag'; 
+	$fieldTag=@$data->$fieldTag?@$data->$fieldTag: 'div'; 
+	$value = @$item[$field]; ?}
 <{fieldTag} class="{data.classPrefix}{field}">{value}</{fieldTag}>
 {/each}
 {children all}
 {ifprop showNav=true}
+{?
+	$next = $data->getNextItem(array('categories', $item['categories']));
+	$prev = $data->getPrevItem(array('categories', $item['categories']));
+?}
 	<div class="row">
 		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-left">
 		<?php if($prev) { ?>
@@ -54,6 +59,6 @@ function showImage(url) {
 
 {ifprop facebookComment=true}
 <div style="background: #ddd;">
-<fb:comments width="100%" xid="16626" href="http://{_SERVER[HTTP_HOST]}{_SERVER[REQUEST_URI]}"></fb:comments>
+	<fb:comments width="100%" xid="16626" href="http://{_SERVER[HTTP_HOST]}{_SERVER[REQUEST_URI]}"></fb:comments>
 </div>
 {/if}
