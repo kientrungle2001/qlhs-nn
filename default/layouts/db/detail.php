@@ -2,34 +2,36 @@
 $item = $data->getItem();
 $displayFields = explode(',',$data->displayFields);
 ?>
+<!-- hien thi hinh anh - gallery -->
 {ifprop showImages=true}
-<?php preg_match_all('/img src="([^"]+)"/', $item['images'], $matches);
-$imgs = @$matches[1];
-?>
-<div>
-{each $imgs as $img}
-<?php if($img) { ?>
-	<div style="display: block; float: left; width: 162px; height: 110px;margin: 5px; border: 1px solid #ddd;">
-	<a href="javascript:void(0);" rel="{img}" onclick="showImage('{img}');">{thumb 160x108 $img}</a>
-	</div>
-<?php } ?>
-{/each}
-<div style="clear:both;"></div>
-<script>
-function showImage(url) {
-	var $img = $('<img src="'+url+'">');
-	$img.click(function(){
-		$img.remove();
-	});
-	var attrs = {'position': 'fixed', 'top': 50, 'left': 300, 'width': $(window).width() - 600, 'height': 'auto', 'right': 300, 'border': '1px solid #ddd', 'padding': '5px'};
-	for(var name in attrs) {
-		$img.css(name, attrs[name]);
+	<?php preg_match_all('/img src="([^"]+)"/', $item['images'], $matches);
+	$imgs = @$matches[1];
+	?>
+	<div>
+	{each $imgs as $img}
+	<?php if($img) { ?>
+		<div style="display: block; float: left; width: 162px; height: 110px;margin: 5px; border: 1px solid #ddd;">
+		<a href="javascript:void(0);" rel="{img}" onclick="showImage('{img}');">{thumb 160x108 $img}</a>
+		</div>
+	<?php } ?>
+	{/each}
+	<div style="clear:both;"></div>
+	<script>
+	function showImage(url) {
+		var $img = $('<img src="'+url+'">');
+		$img.click(function(){
+			$img.remove();
+		});
+		var attrs = {'position': 'fixed', 'top': 50, 'left': 300, 'width': $(window).width() - 600, 'height': 'auto', 'right': 300, 'border': '1px solid #ddd', 'padding': '5px'};
+		for(var name in attrs) {
+			$img.css(name, attrs[name]);
+		}
+		$('body').append($img);
 	}
-	$('body').append($img);
-}
-</script>
-</div>
+	</script>
+	</div>
 {/if}
+<!-- hien thi noi dung -->
 {each $displayFields as $field}
 {? 	$field = trim($field); 
 	$fieldTag = $field . 'Tag'; 
@@ -37,7 +39,11 @@ function showImage(url) {
 	$value = @$item[$field]; ?}
 <{fieldTag} class="{data.classPrefix}{field}">{value}</{fieldTag}>
 {/each}
+
+<!-- hien thi cac object con -->
 {children all}
+
+<!-- hien thi cac navigation next, prev -->
 {ifprop showNav=true}
 {?
 	$next = $data->getNextItem(array('categories', $item['categories']));
@@ -57,6 +63,7 @@ function showImage(url) {
 	</div>
 {/if}
 
+<!-- hien thi facebook comment-->
 {ifprop facebookComment=true}
 <div style="background: #ddd;">
 	<fb:comments width="100%" xid="16626" href="http://{_SERVER[HTTP_HOST]}{_SERVER[REQUEST_URI]}"></fb:comments>
