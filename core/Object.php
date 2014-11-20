@@ -7,10 +7,6 @@
 	public $userable = false;	public $role = false;	public $cacher = 'filecache';
 
 	/**
-	 * Ten model de lay du lieu ra
-	 */	public $model = false;
-
-	/**
 	 * cac tham so dung de cache, viet cach nhau boi dau phay
 	 */
 	public $cacheParams = 'id';
@@ -139,16 +135,8 @@
 	/**
 	 * Ham nay dung de hien thi doi tuong
 	 */	public function display() {
-		$this->script();		$this->bound();	}
-	/**
-	 * Ham nay dung de tao mot layout bao ngoai doi tuong
-	 * Neu la 1 loi goi ajax thi no chi hien thi noi dung ben trong
-	 */	public function bound() {		if ((true === $this->boundable || 'true' === $this->boundable)
-		&& !@$_REQUEST['isAjax']) {
-			if (@$this->boundLayout) {
-				PzkParser::parseLayout($this->boundLayout, $this, false);
-			} else {				echo '<div id="'.pzk_or(@$this->boundId, @$this->id).'">';				$this->html();				echo '</div>';
-			}		} else {			$this->html();		}	}
+		$this->script();		$this->html();
+			}
 	/**
 	 * Ham nay tao 1 instance javascript cho doi tuong hien thi
 	 */	public function script() {		if ($this->scriptable === true || $this->scriptable === 'true') {
@@ -171,81 +159,17 @@
 	 */
 	public function cache() {
 		$key = $this->cacher.'.' . $this->hash();
-		if ($this->cacheRefreshRequired()) {
-			// neu can phai refresh cache
-			if(!$this->cacheRefreshed($key)) {
-				$content = $this->getContent();
-				pzk_store($key, $content);
-				$this->setCacheRefreshed($key);
-			}
-		}
-
 		if (($content = pzk_store($key)) === NULL) {
 			$content = $this->getContent();
 			pzk_store($key, $content);
 		}
 		echo $content;
 	}
-	
-	/**
-	 * Ham nay se xet xem co refresh lai cache hay khong
-	 */
-	public function cacheRefreshRequired() {
-		$tables = explode(',', $this->tables);
-		foreach($tables as $table) {
-			if ($table) {
-				if ($changed = _change($table, 'get')) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	
-	/**
-	 * Ham nay check cache da refresh hay chua theo 1 key dau vao
-	 */
-	public function cacheRefreshed($key) {
-		$tables = explode(',', $this->tables);
-		foreach($tables as $table) {
-			if (!_change($table, 'get', $key)) return false;
-		}
-		return true;
-	}
-	
-	/**
-	 * Danh dau la cache da refreshed
-	 */
-	public function setCacheRefreshed($key) {
-
-		$tables = explode(',', $this->tables);
-
-		foreach($tables as $table) {
-			_change($table, 'set', $key);
-		}
-
-	}
 	/**
 	 *	Tra ve html cua doi tuong can hien thi
 	 * 	truong hop nay la truong hop khi khong co cache
-	 */	public function getContent() {		$this->loadModel();		$this->loadData();
-		return PzkParser::parseLayout($this->layout, $this, true);	}
-	
-	/**
-	 * Lay model
-	 */
-	public function loadModel() {
-		if ($this->model !== false) {
-			if (is_string($this->model)) {
-				$this->model = pzk_model($this->model);
-			}
-			return $this->model;
-		}
-		return false;
-	}
-	/**
-	 *	Lay du lieu ve de hien thi
-	 */	public function loadData() {	}
+	 */	public function getContent() {
+		return PzkParser::parseLayout($this->layout, $this, true);	}
 	/**
 	 * 	Tao key cho doi tuong can hien thi (de cache)
 	 */	public function hash() {		$cacheParams = explode(',',$this->cacheParams);		$hash ='';		foreach($cacheParams as $param) {			$param = trim($param);			$hash .= @$this->$param;		}		return md5($hash);	}
@@ -471,51 +395,7 @@
 
 	/**
 	 * Ham nay chay khi tat ca cac child object cua no da duoc khoi tao
-	 */	public function finish() {	}
-	/**
-	 *	Ham nay tim kiem child object theo selector
-	 */	public function find($selector) {
-		foreach($this->children as $child) {
-			if (self::match($child, $selector)) {
-				return $child;
-			}
-			if ($found = $child->find($selector)) {
-				return $found;
-			}
-		}
-		return NULL;	}
-	/**
-	 *	Ham nay tim kiem parent object theo selector
-	 */	public function up($selector) {
-		if ($parent = $this->getParent()) {
-			if (self::match($parent, $selector)) return $parent;
-			return $parent->up($selector);
-		}
-		return NULL;	}
-
-	/**
-	 *	Ham nay check xem doi tuong co khop voi selector hay khong
-	 */
-	public static function match($obj, $selector) {
-		$needle = substr($selector, 1);
-		if (strpos($selector, '#') !== FALSE) {
-			if (@$obj->id == $needle) return true;
-		}
-		if (strpos($selector, '.') !== FALSE) {
-			if (@$obj->pclass == $needle) return true;
-		}
-		if (strpos($selector, '@') !== FALSE) {
-			if (@$obj->name == $needle) return true;
-		}
-		if (strpos($selector, '%') !== FALSE) {
-			if (@$obj->value == $needle) return true;
-		}
-		if (strpos($selector, '*') !== FALSE) {
-			if (@$obj->tagName == $needle) return true;
-		}
-		return false;
-
-	}
+	 */	public function finish() {	}
 	
 	/**
 	 * Ham nay tra ve array mo ta doi tuong dua theo arrayParams
@@ -535,21 +415,12 @@
 		return $result;
 	}
 	
-	public function loadLib($lib, $name = false) {
-		if (!$name) {
-			$name = $lib;
-		}
-		
-		require_once "libraries/$lib.php";
-		$className = str_replace('/', '', $lib);
-		if (!@$this->$name) {
-			$this->$name = new $className();
-		}
-		return $this->$name;
-	}
-	
 	public function translate($text) {
-		pzk_language()->translateText(implode('/', $this->fullNames), $text);
+		if(pzk_language()) {
+			return pzk_language()->translateText(implode('/', $this->fullNames), $text);
+		} else {
+			return $text;
+		}
 	}
 	
 	public function getProp($prop, $default = null) {
