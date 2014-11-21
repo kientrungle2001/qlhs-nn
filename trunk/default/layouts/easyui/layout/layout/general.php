@@ -1,1 +1,1 @@
-<div data-options="region:'{prop region}',title:'{prop title}',split:{prop split}" style="height:220px;"></div>
+<div data-options="region:'{prop region}'" {attrs id, style, title, width, height, region, split, border, iconCls, href, collapsible, minWidth, minHeight, maxWidth, maxHeight}>{children all}</div>

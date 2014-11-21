@@ -1,4 +1,4 @@
-﻿    <div style="padding:5px;border:1px solid #ddd">
+    <div style="padding:5px;border:1px solid #ddd">
 	<!--
         {ifpermission student/search}<a href="{url /student/search}" class="easyui-linkbutton" data-options="plain:true">Tìm kiếm</a>{/if}
 	-->

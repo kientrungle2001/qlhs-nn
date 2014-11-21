@@ -1,3 +1,6 @@
+<?php 
+$data->items = _db()->query($data->sql);
+?>
 <select {attr id} {attr name} {attr multiple} class="easyui-combobox2">
 <option value=""></option>
 <?php
