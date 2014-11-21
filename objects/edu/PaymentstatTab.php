@@ -1,10 +1,15 @@
 <?php
 class PzkEduPaymentstatTab extends PzkObject {
 	public $classId;
-	public $layout = 'edu/paymentstatTab';
+	public $layout = 'edu/paymentstateTab2';
 	public function getStudents() {
-		return _db()->select('s.*, cs.endClassDate, cs.startClassDate')->from('`class_student` as cs 
+		$students = _db()->select('s.*, cs.endClassDate, cs.startClassDate')->from('`class_student` as cs 
 				inner join `student` as s on cs.studentId=s.id')->where('classId='.$this->classId)->orderBy('s.name asc')->result();
+		$results = array();
+		foreach($students as $student) {
+			$results[$student['id']] = $student;
+		}
+		return $results;
 	}
 	public function getClass() {
 		$classes = _db()->select('*')->from('classes')->where('id='.$this->classId)->result();
