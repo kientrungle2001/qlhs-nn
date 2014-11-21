@@ -15,6 +15,29 @@ function explodetrim($delim, $str) {
 	return $arr;
 }
 
+function min_array($array, $field) {
+	$arr = array();
+	foreach($array as $row) {
+		$arr[] = $row[$field];
+	}
+	return min($arr);
+}
+function max_array($array, $field) {
+	$arr = array();
+	foreach($array as $row) {
+		$arr[] = $row[$field];
+	}
+	return max($arr);
+}
+function count_array($arr, $value) {
+	$total = 0;
+	foreach($arr as $v) {
+		if($v == $value) {
+			$total++;
+		}
+	}
+	return $total;
+}
 set_error_handler(function($errno, $errstr, $errfile, $errline, array $errcontext) {
     // error was suppressed with the @-operator
     if (0 === error_reporting()) {
