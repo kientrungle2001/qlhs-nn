@@ -21,7 +21,7 @@ class PzkDemoController extends PzkController {
 	
 	public function musterAction() {
 		$page = pzk_parse($this->getApp()->getPageUri('demo'));
-		pzk_store_element('left')->append(pzk_parse($this->getApp()->getPageUri('operation/muster')));
+		pzk_element('left')->append(pzk_parse($this->getApp()->getPageUri('operation/muster')));
 		$page->display();
 	}
 	
