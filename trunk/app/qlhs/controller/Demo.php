@@ -5,10 +5,17 @@ class PzkDemoController extends PzkController {
 	
 	public function entityAction() {
 		$class = _db()->select('*')->from('classes')->where('id=60')->result_one('edu.class');
+		// hoặc $class = _db()->getEntity('edu.class')->load(60);
 		$students = $class->getStudents();
+		echo 'Danh sách lớp: ' . $class->getName() . '<br />'; 
 		foreach($students as $student) {
 			$classes = $student->getClasses();
-			var_dump($classes);
+			echo $student->getName();
+			echo ' học lớp ';
+			foreach($classes as $c) {
+				echo $c->getName() . ' ';
+			}
+			echo '<br />';
 		}
 	}
 	
