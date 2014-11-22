@@ -7,7 +7,8 @@ class PzkDemoController extends PzkController {
 		$class = _db()->select('*')->from('classes')->where('id=60')->result_one('edu.class');
 		$students = $class->getStudents();
 		foreach($students as $student) {
-			
+			$classes = $student->getClasses();
+			var_dump($classes);
 		}
 	}
 	
