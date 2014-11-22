@@ -3,6 +3,14 @@ class PzkDemoController extends PzkController {
 	public function indexAction() {
 	}
 	
+	public function entityAction() {
+		$class = _db()->select('*')->from('classes')->where('id=60')->result_one('edu.class');
+		$students = $class->getStudents();
+		foreach($students as $student) {
+			
+		}
+	}
+	
 	public function musterAction() {
 		$page = pzk_parse($this->getApp()->getPageUri('demo'));
 		pzk_store_element('left')->append(pzk_parse($this->getApp()->getPageUri('operation/muster')));
