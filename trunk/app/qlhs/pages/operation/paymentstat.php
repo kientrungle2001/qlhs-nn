@@ -1,35 +1,15 @@
 <div>
 	<div style="float:left; width: 220px;">
-		<dg.dataGrid id="dgsubject" title="" table="subject" width="200px" height="115px" pagination="false" rownumbers="false">
-			<dg.dataGridItem field="id" width="20">Id</dg.dataGridItem>
-			<dg.dataGridItem field="name" width="140">Môn học</dg.dataGridItem>
+		<strong style="color: orange;">Môn học</strong><br />
+		<form.filter id="sjft" sql="select id as value, name as label from subject" onselect="jQuery('#searchSubject').val(this.value); searchClasses();" />
+		<strong style="color: orange;">Trình độ</strong><br />
+		<form.filter id="sjlevel" sql="select distinct(level) as value, concat('Lớp ', level) as label from classes" onselect="jQuery('#searchLevel').val(this.value); searchClasses();" />
+		<strong style="color: orange;">Lớp</strong><br />
+		<dg.dataGrid id="dg" title="" table="classes&filters[status]=1" width="200px" height="500px" pagination="false" pageSize="50" rownumbers="false">
+			<!--dg.dataGridItem field="id" width="40">Id</dg.dataGridItem-->
+			<dg.dataGridItem field="name" width="120"></dg.dataGridItem>
 			
-			<layout.toolbar id="dgsubject_toolbar" style="display: none;">
-				<layout.toolbarItem action="$dgsubject.detail(function(row) { jQuery('#searchSubject').val(row.id); 
-					searchClasses();  });" icon="sum" />
-				<layout.toolbarItem action="$dgsubject.detail(function(row) { jQuery('#searchSubject').val(''); 
-					searchClasses();  });" icon="reload" />	
-				<layout.toolbarItem action="$dgsubject.add()" icon="add" />
-				<layout.toolbarItem action="$dgsubject.edit()" icon="edit" />
-				<layout.toolbarItem action="$dgsubject.del()" icon="remove" />
-			</layout.toolbar>
-		</dg.dataGrid>
-		<dg.dataGrid id="dglevel" title="" table="level" width="200px" height="145px" pagination="false" rownumbers="false">
-			<dg.dataGridItem field="id" width="20">Id</dg.dataGridItem>
-			<dg.dataGridItem field="name" width="140">Trình độ</dg.dataGridItem>
-			
-			<layout.toolbar id="dglevel_toolbar" style="display: none;">
-				<layout.toolbarItem action="$dglevel.detail(function(row) { jQuery('#searchLevel').val(row.id); 
-					searchClasses();  });" icon="sum" />
-				<layout.toolbarItem action="$dglevel.detail(function(row) { jQuery('#searchLevel').val(''); 
-					searchClasses();  });" icon="reload" />
-			</layout.toolbar>
-		</dg.dataGrid>
-		<dg.dataGrid id="dg" title="" table="classes&filters[status]=1" width="200px" height="500px" pagination="false" pageSize="50">
-			<dg.dataGridItem field="id" width="40">Id</dg.dataGridItem>
-			<dg.dataGridItem field="name" width="120">Tên lớp</dg.dataGridItem>
-			
-			<layout.toolbar id="dg_toolbar">
+			<layout.toolbar id="dg_toolbar" style="display: none;">
 				<hform id="dg_search">
 					<form.combobox 
 							id="searchSubject" name="subjectId"
