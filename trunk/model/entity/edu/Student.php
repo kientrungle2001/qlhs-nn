@@ -6,6 +6,18 @@ class PzkEntityEduStudentModel extends PzkEntityModel {
 	public function getAttendance($classperiodAttendance, $state) {
 	}
 	
+	public function getClasses() {
+		$query = 'select classes.* from classes inner join class_student on classes.id = class_student.classId where class_student.studentId=' . $this->getId();
+		$classes = _db()->query($query);
+		$result = array();
+		foreach($classes as $class) {
+			$obj = _db()->getEntity('edu.class');
+			$obj->setData($class);
+			$result[] = $obj;
+		}
+		return $result;
+	}
+	
 	public function search($name, $phone, $classId, $periodId, $paymentState){
 		$cond = "1";
 		if($name) {
