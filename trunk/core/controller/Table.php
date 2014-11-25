@@ -350,10 +350,15 @@ class PzkTableController extends PzkController {
                 $data[$field] = $_REQUEST[$field];
             }
         }
-        if ($result = $this->checkConstraints($table, $data)) {
-            _db()->update($table)
-                    ->set($data)->where('id=' . $result['row']['id'])->result();
-        }
+		if(@$_REQUEST['id'] && @$_REQUEST['noConstraint']) {
+			_db()->update($table)
+						->set($data)->where('id=' . $_REQUEST['id'])->result();
+		} else {
+			if ($result = $this->checkConstraints($table, $data)) {
+				_db()->update($table)
+						->set($data)->where('id=' . $result['row']['id'])->result();
+			}
+		}
         echo json_encode(array(
             'errorMsg' => false,
             'success' => true

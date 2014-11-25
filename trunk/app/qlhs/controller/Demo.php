@@ -3,6 +3,11 @@ class PzkDemoController extends PzkController {
 	public function indexAction() {
 	}
 	
+	public function testAction() {
+		$abc = pzk_parse('app/qlhs/pages/abc');
+		$abc->display();
+	}
+	
 	public function entityAction() {
 		$class = _db()->select('*')->from('classes')->where('id=60')->result_one('edu.class');
 		// hoặc $class = _db()->getEntity('edu.class')->load(60);

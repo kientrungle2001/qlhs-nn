@@ -15,6 +15,10 @@
 					<frm.form id="loginForm" title="Đăng nhập" action="{url /demo/loginPost}">
 						<frm.formItem type="user-defined" name="label" label="">
 							<h2>Đăng nhập</h2>
+							<a href="{url /demo/login}">Dành cho quản trị</a> |
+							<a href="{url /student/login}">Dành cho phụ huynh</a> |
+							<a href="{url /teacher/login}">Dành cho giáo viên</a>
+							
 						</frm.formItem>
 						<frm.formItem name="username" required="true" validatebox="true" label="Tên đăng nhập" />
 						<frm.formItem name="password" type="password" required="true" validatebox="true" label="Mật khẩu" />

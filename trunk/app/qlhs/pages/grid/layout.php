@@ -17,7 +17,21 @@
 		IJK
 	</easyui.layout.layout.east>
 	<easyui.layout.layout.center style="width:200px; height: 200px;">
-		LMN
+		<cms.menu>
+			<li class="current">
+				<a href="/">menu item 1</a>
+				<ul>
+					<li><a href="/">menu item</a></li>
+					<li><a href="/">menu item</a></li>
+					<li><a href="/">menu item</a></li>
+					<li><a href="/">menu item</a></li>
+					<li><a href="/">menu item</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="/">menu item 2</a>
+			</li>
+		</cms.menu>
 	</easyui.layout.layout.center>
 	<easyui.layout.layout.south style="height:200px;">
 		<easyui.layout.tabs>
