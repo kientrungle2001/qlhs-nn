@@ -3,6 +3,28 @@ require_once dirname(__FILE__) . '/Base.php';
 class PzkStudentController extends PzkBaseController {
 	public $grid = 'student';
 	
+	public function loginAction() {
+		$page = pzk_parse($this->getApp()->getPageUri('login'));
+		pzk_element('loginForm')->action = BASE_REQUEST . '/student/loginPost';
+		$page->display();
+	}
+	
+	public function loginPostAction() {
+		$username = $_REQUEST['username'];
+		$password = $_REQUEST['password'];
+		$permission = pzk_element('permission');
+		
+		if($permission->studentLogin($username, $password)) {
+			header('Location: '. BASE_REQUEST . '/student/info');
+		} else {
+			header('Location: '. BASE_REQUEST . '/student/login');
+		}
+	}
+	
+	public function infoAction() {
+		$this->viewOperation('info');
+	}
+	
 	public function orderAction() {
 		$this->viewGrid('student_order');
 	}

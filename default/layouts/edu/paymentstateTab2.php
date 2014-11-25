@@ -36,10 +36,10 @@ $class = $data->getClass();
 			// xet xem da thanh toan hay chua
 			$status = '';
 			if(@$payments[$student['id']]) { 
-				$status = 'Đã thanh toán'; 
+				$status = '<span style="color: green;">Đã thanh toán</span>'; 
 				$numberPaid++;
 			} else { 
-				$status = 'Chưa thanh toán'; 
+				$status = '<span style="color: red;">Chưa thanh toán</span>'; 
 				$numberNonPaid++;
 			} ?>
 		<tr>
@@ -240,9 +240,12 @@ $class = $data->getClass();
 			$stdIndex++;
 			if(isset($stdStat['orderId'])) {
 				$numberPaid++;
+				$status = '<span style="color: green;">Đã thanh toán</span>';
 			} else {
 				$numberNonPaid++;
+				$status = '<span style="color: red;">Chưa thanh toán</span>';
 			}
+			
 		?>
 		<tr>
 			<th>{stdIndex}. {student[name]}</th>
@@ -258,7 +261,7 @@ $class = $data->getClass();
 			<th>{? echo product_price($class['amount']); ?}</th>
 			<th>{stdStat[sobuoihoc]}</th>
 			<th>{? echo product_price($stdStat['hocphi'])?}</th>
-			<th>{? echo isset($stdStat['orderId']) ? 'Đã thanh toán': 'Chưa thanh toán' ?}</th>
+			<th>{status}</th>
 		</tr>
 <?php
 		} ?>

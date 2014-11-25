@@ -34,6 +34,31 @@ class PzkCoreRewritePermission extends PzkObjectLightWeight {
 		return false;
 	}
 	
+	public function studentLogin($username, $password) {
+		$student = _db()->useCB()->select('*')->from('student')
+			->where(array('and', array('like', 'name', "%$username%"), array('phone', $password)));
+		$student = $student->result_one();
+		if($student) {
+			
+			pzk_session('studentId', $student['id']);
+			$this->login('parent', '123456');
+			return true;
+		}
+		return false;
+	}
+	
+	public function teacherLogin($username, $password) {
+		$teacher = _db()->useCB()->select('*')->from('teacher')
+			->where(array('and', array('name', $username), array('phone', $password)))
+			->result_one();
+		if($teacher) {
+			pzk_session('teacherId', $teacher['id']);
+			$this->login('teacher', '123456');
+			return true;
+		}
+		return false;
+	}
+	
 	public function getAllUserTypes() {
 		$types = _db()->select('*')->from('profile_type')->result();
 		$rs = array();

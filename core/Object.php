@@ -226,6 +226,7 @@
 	 * Tim cac elements theo selectors
 	 */
 	public function findElements($selector = 'all') {
+		$attrs = $this->parseSelector($selector);
 		$result = array();
 		foreach($this->children as $child) {
 			if ($child->matchSelector($attrs)) {

@@ -23,9 +23,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
+define('BASE_DIR', dirname(dirname(dirname(dirname(__FILE__)))));
 if (!empty($_FILES)) {
 	$tempFile = $_FILES['Filedata']['tmp_name'];
-	$targetPath = BASE_DIR . '/' . $_REQUEST['folder'] . '/';
+	$targetPath = BASE_DIR . '/uploads/';
 	$targetFile =  str_replace('//','/',$targetPath) . $_FILES['Filedata']['name'];
 	
 	// $fileTypes  = str_replace('*.','',$_REQUEST['fileext']);
@@ -38,7 +39,7 @@ if (!empty($_FILES)) {
 		// mkdir(str_replace('//','/',$targetPath), 0755, true);
 		
 		move_uploaded_file($tempFile,$targetFile);
-		echo str_replace($_SERVER['DOCUMENT_ROOT'],'',$targetFile);
+		echo str_replace(BASE_DIR,'',$targetFile);
 	// } else {
 	// 	echo 'Invalid file type.';
 	// }

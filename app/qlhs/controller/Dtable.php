@@ -79,7 +79,7 @@ class PzkDtableController extends PzkTableController {
 		'student' => array('name', 'phone', 'school', 'birthDate', 'address', 'parentName', 
 		'startStudyDate', 'endStudyDate'),
 		'classes' => array('name', 'startDate', 'endDate', 'roomId', 'subjectId', 'teacherId', 'teacher2Id', 'level', 'status', 'amount'),
-		'class_student' => array('classId', 'studentId', 'startClassDate', 'endClassDate'),
+		'class_student' => array('classId', 'studentId', 'startClassDate', 'endClassDate', 'note'),
 		'room' => array('name', 'size'),
 		'subject' => array('name'),
 		'teacher' => array('name', 'phone', 'address', 'school', 'salary'),
@@ -92,7 +92,8 @@ class PzkDtableController extends PzkTableController {
 		'student_order' => array('classId', 'studentId', 'payment_periodId', 'amount'),
 		'profile_controller_permission' => array('type', 'controller', 'action', 'status'),
 		'profile_profile' => array('username', 'password', 'type', 'fullName'),
-		'profile_type' => array('name')
+		'profile_type' => array('name'),
+		'class_student_period_mark' => array('classId', 'studentId', 'periodId', 'marks', 'note')
 	);
 	
 	public $filters = array(
@@ -155,8 +156,9 @@ class PzkDtableController extends PzkTableController {
 		'teacher_schedule' => array('unique_key' => array('type' => 'key', 'key' 
 				=> array('classId',  'studyDate'), 'message' => 'Bản ghi đã tồn tại' )),
 		'profile_controller_permission' => array('unique_key' => array('type' => 'key', 'key' 
-				=> array('type',  'controller', 'action'), 'message' => 'Bản ghi đã tồn tại' ))
-				
+				=> array('type',  'controller', 'action'), 'message' => 'Bản ghi đã tồn tại' )),
+		'class_student_period_mark' => array('unique_key' => array('type' => 'key', 'key' 
+				=> array('classId',  'studentId', 'periodId'), 'message' => 'Bản ghi đã tồn tại' ))
 	);
 	
 	public $deletes = array(

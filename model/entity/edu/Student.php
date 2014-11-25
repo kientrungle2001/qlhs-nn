@@ -7,7 +7,7 @@ class PzkEntityEduStudentModel extends PzkEntityModel {
 	}
 	
 	public function getClasses() {
-		$query = 'select classes.* from classes inner join class_student on classes.id = class_student.classId where class_student.studentId=' . $this->getId();
+		$query = 'select classes.*, class_student.note, class_student.startClassDate, class_student.endClassDate from classes inner join class_student on classes.id = class_student.classId where class_student.studentId=' . $this->getId();
 		$classes = _db()->query($query);
 		$result = array();
 		foreach($classes as $class) {
@@ -45,5 +45,51 @@ class PzkEntityEduStudentModel extends PzkEntityModel {
 		
 		$students = _db()->select('*')->from($this->table)->where($cond)->result('edu.student');
 		return $students;
+	}
+	
+	public function getPeriods() {
+		$conds = array('and');
+		if($this->getStartClassDate() !== '0000-00-00') {
+			$conds[] = array('or', array('gte', 'startDate', $this->getStartClassDate()), array('gt', 'endDate', $this->getStartClassDate()));
+		}
+		if($this->getEndClassDate() !== '0000-00-00') {
+			$conds[] = array('or', array('lte', 'startDate', $this->getEndClassDate()), array('lt', 'endDate', $this->getEndClassDate()));
+		}
+		if($this->getStartDate() !== '0000-00-00') {
+			$conds[] = array('or', array('gte', 'startDate', $this->getStartDate()), array('gt', 'endDate', $this->getStartDate()));
+		}
+		if($this->getEndDate() !== '0000-00-00') {
+			$conds[] = array('or', array('lte', 'startDate', $this->getEndDate()), array('lt', 'endDate', $this->getEndDate()));
+		}
+		$conds[] = array('status', '1');
+		return _db()->useCB()->select('payment_period.*, class_student_period_mark.marks, class_student_period_mark.note')->from('payment_period
+			left join class_student_period_mark 
+				on class_student_period_mark.periodId = payment_period.id
+					and class_student_period_mark.studentId='.$this->getId() . '
+					and class_student_period_mark.classId='.$this->getClassId().'
+					')
+			->where($conds)->orderBy('startDate asc')->result('edu.period');
+	}
+	
+	public function getStudyDates() {
+		$periods =  _db()->useCB()->select('class_student_period_mark.periodId, class_student_period_mark.marks, class_student_period_mark.note')
+			->from('class_student_period_mark')
+			->where('class_student_period_mark.studentId='.$this->getId() . '
+					and class_student_period_mark.classId='.$this->getClassId())
+			->orderBy('periodId asc')->result('edu.period');
+		$result = array();
+		foreach($periods as $period) {
+			$result[$period->getPeriodId()] = $period;
+		}
+		
+		for($i = 1; $i < 17; $i++) {
+			if(!isset($result[$i])) {
+				$p = _db()->getEntity('edu.period');
+				$p->setPeriodId($i);
+				$result[$i] = $p;
+			}
+		}
+		
+		return $result;
 	}
 }
