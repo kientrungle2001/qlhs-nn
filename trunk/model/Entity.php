@@ -32,8 +32,8 @@ class PzkEntityModel {
 		} else {
 			_db()->update($this->table)->set($data)->where('id=' . $this->data['id'])->result();
 		}
-		$this->children('updateClosure');
-		$this->updateClosure();
+		//$this->children('updateClosure');
+		//$this->updateClosure();
 	}
 	public function updateClosure() {
 		if(isset($this->data['parentId'])) {
