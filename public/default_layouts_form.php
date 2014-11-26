@@ -1,0 +1,3 @@
+<form enctype="multipart/form-data" <?php $tmp = @$data->id; if (isset($data->id) && $data->id !== "" && $data->id !== false) {echo 'id="'.$tmp.'"'; } ?> <?php $tmp = @$data->name; if (isset($data->name) && $data->name !== "" && $data->name !== false) {echo 'name="'.$tmp.'"'; } ?> class="pzk_form" <?php $tmp = @$data->action; if (isset($data->action) && $data->action !== "" && $data->action !== false) {echo 'action="'.$tmp.'"'; } ?> <?php $tmp = @$data->method; if (isset($data->method) && $data->method !== "" && $data->method !== false) {echo 'method="'.$tmp.'"'; } ?> <?php $tmp = @$data->onsubmit; if (isset($data->onsubmit) && $data->onsubmit !== "" && $data->onsubmit !== false) {echo 'onsubmit="'.$tmp.'"'; } ?>>
+<?php $data->displayChildren('all');?>
+</form>

@@ -1,0 +1,1 @@
+<a href="javascript:<?php echo @$data->action;?>" class="easyui-linkbutton" iconCls="icon-<?php echo @$data->icon;?>" plain="true"></a>

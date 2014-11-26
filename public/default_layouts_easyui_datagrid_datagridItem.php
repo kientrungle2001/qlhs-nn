@@ -1,0 +1,1 @@
+<th data-options="field:'<?php echo @$data->field;?>',width:<?php echo @$data->width;?>,sortable:'<?php echo @$data->sortable;?>'"><?php $data->displayChildren('all');?></th>

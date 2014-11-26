@@ -1,0 +1,1 @@
+a:1:{i:0;a:7:{s:2:"id";s:1:"7";s:4:"type";s:7:"Teacher";s:8:"fullName";s:0:"";s:8:"username";s:7:"teacher";s:8:"password";s:6:"123456";s:8:"parentId";s:1:"0";s:7:"closure";s:0:"";}}
