@@ -4,8 +4,11 @@ class PzkDemoController extends PzkController {
 	}
 	
 	public function testAction() {
-		$abc = pzk_parse('app/qlhs/pages/abc');
-		$abc->display();
+		$list = pzk_parse('<test.list table="student" limit="10" layout="test/list" />');
+		$list->display();
+		
+		$list = pzk_parse('<test.list table="student" limit="10" layout="test/ullist" />');
+		$list->display();
 	}
 	
 	public function entityAction() {
