@@ -1,0 +1,3 @@
+<form id="<?php if(@$data->gridId) { ?>fm-<?php echo @$data->gridId;?><?php } else { ?><?php echo @$data->id;?><?php } ?>" method="post" <?php $tmp = @$data->onSubmit; if (isset($data->onSubmit) && $data->onSubmit !== "" && $data->onSubmit !== false) {echo 'onSubmit="'.$tmp.'"'; } ?> <?php $tmp = @$data->onsubmit; if (isset($data->onsubmit) && $data->onsubmit !== "" && $data->onsubmit !== false) {echo 'onsubmit="'.$tmp.'"'; } ?> <?php $tmp = @$data->action; if (isset($data->action) && $data->action !== "" && $data->action !== false) {echo 'action="'.$tmp.'"'; } ?>>
+	<table><?php $data->displayChildren('[className=PzkEasyuiFormFormItem]');?></table>
+</form>

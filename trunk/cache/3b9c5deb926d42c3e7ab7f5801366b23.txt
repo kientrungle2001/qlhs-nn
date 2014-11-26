@@ -1,0 +1,1 @@
+a:1:{i:0;a:7:{s:2:"id";s:1:"1";s:4:"type";s:13:"Administrator";s:8:"fullName";s:17:"Next Nobels Admin";s:8:"username";s:5:"admin";s:8:"password";s:12:"daytothoctot";s:8:"parentId";s:1:"0";s:7:"closure";s:0:"";}}
