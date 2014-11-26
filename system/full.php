@@ -6,6 +6,8 @@
 			defaultQueryParams='{"app":"qlhs", "controller": "Student", "action": "index"}' />
 	<core.rewrite.request matcher="host" matchMethod="equal" pattern="qlhs2.vn" 
 			defaultQueryParams='{"app":"qlhs", "controller": "Student", "action": "index"}' />
+	<core.rewrite.request matcher="host" matchMethod="equal" pattern="ptnn.vn" 
+			defaultQueryParams='{"app":"ptnn", "controller": "Home", "action": "index"}' />
 	<core.rewrite.request matcher="host" matchMethod="equal" pattern="vietthaibinh.com.vn" 
 			defaultQueryParams='{"app":"travel", "controller": "Home", "action": "index"}' />
 	<core.rewrite.request matcher="host" matchMethod="equal" pattern="phongthuy.vn" 
