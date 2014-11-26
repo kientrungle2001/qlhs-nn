@@ -12,6 +12,8 @@
 			defaultQueryParams='{"app":"phongthuy", "controller": "Home", "action": "index"}' />
 	<core.rewrite.request matcher="host" matchMethod="equal" pattern="phongthuyhoangtra.vn" 
 			defaultQueryParams='{"app":"phongthuy", "controller": "Home", "action": "index"}' />
+	<core.rewrite.request matcher="host" matchMethod="equal" pattern="cms.vn" 
+			defaultQueryParams='{"app":"cms", "controller": "Home", "action": "index"}' />
 	<core.loader id="loader" />
 	<core.storage name="filecache" timeout="9000" />
 	<core.storage name="fileVar" timeout="9000" />
