@@ -8,8 +8,6 @@ $classes = $student->getClasses();
 {each $classes as $class}
 <?php if($class->getSubjectId()==3) { ?>
 <div title="Lớp {? echo $class->getName(); ?}" class="padding10">
-<h2>Nhận xét của giáo viên</h2>
-<p>{? echo nl2br($class->getNote()); ?}</p>
 <?php
 $studentsInClass = $class->getStudents('student.name', $student->getId());
 if($studentsInClass) {
@@ -41,8 +39,6 @@ $studyDates = $studentInClass->getStudyDates();
 </div>
 <?php } else { ?>
 <div title="Lớp {? echo $class->getName(); ?}" class="padding10">
-<h2>Nhận xét của giáo viên</h2>
-<p>{? echo nl2br($class->getNote()); ?}</p>
 <?php
 $studentsInClass = $class->getStudents('student.name', $student->getId());
 if($studentsInClass) {
@@ -67,7 +63,8 @@ $periods = $studentInClass->getPeriods();
 
 </table>
 </div>
-
+<h2>Nhận xét của giáo viên</h2>
+<p>{? echo nl2br($class->getNote()); ?}</p>
 <?php } ?>
 {/each}
 </div>

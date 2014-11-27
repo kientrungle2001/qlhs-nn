@@ -2,6 +2,7 @@
 $teacher = _db()->getEntity('edu.teacher')->load(pzk_session('teacherId'));
 $classes = $teacher->getClasses();
 ?>
+<a href="<?php echo BASE_REQUEST . '/teacher/changePassword'; ?>">Đổi mật khẩu</a>
 <h2>Giáo viên - <?php echo $teacher->getName(); ?></h2>
 <hr />
 <div class="easyui-tabs">
@@ -90,7 +91,7 @@ $classes = $teacher->getClasses();
 function updateStudentNote(note, classStudentId) {
 	$.ajax({
 		type: 'post',
-		url: '/dtable/update?table=class_student&noConstraint=1',
+		url: '<?php echo BASE_REQUEST . '/dtable/update'; ?>?table=class_student&noConstraint=1',
 		data: {
 			id: classStudentId,
 			note: note
@@ -106,7 +107,7 @@ function updateStudentNote(note, classStudentId) {
 function updatePeriodMark(classId, studentId, periodId, marks) {
 	$.ajax({
 		type: 'post',
-		url: '/dtable/replace?table=class_student_period_mark',
+		url: '<?php echo BASE_REQUEST . '/dtable/replace'; ?>?table=class_student_period_mark',
 		data: {
 			classId: classId,
 			studentId: studentId,
@@ -124,7 +125,7 @@ function updatePeriodMark(classId, studentId, periodId, marks) {
 function updatePeriodNote(classId, studentId, periodId, note) {
 	$.ajax({
 		type: 'post',
-		url: '/dtable/replace?table=class_student_period_mark',
+		url: '<?php echo BASE_REQUEST . '/dtable/replace'; ?>?table=class_student_period_mark',
 		data: {
 			classId: classId,
 			studentId: studentId,
