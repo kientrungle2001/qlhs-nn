@@ -49,7 +49,7 @@ class PzkCoreRewritePermission extends PzkObjectLightWeight {
 	
 	public function teacherLogin($username, $password) {
 		$teacher = _db()->useCB()->select('*')->from('teacher')
-			->where(array('and', array('name', $username), array('phone', $password)))
+			->where(array('and', array('name', $username), array('password', $password)))
 			->result_one();
 		if($teacher) {
 			pzk_session('teacherId', $teacher['id']);
