@@ -2,6 +2,7 @@
 $teacher = _db()->getEntity('edu.teacher')->load(pzk_session('teacherId'));
 $classes = $teacher->getClasses();
 ?>
+<a href="{url /teacher/changePassword}">Đổi mật khẩu</a>
 <h2>Giáo viên - {? echo $teacher->getName(); ?}</h2>
 <hr />
 <div class="easyui-tabs">
