@@ -10,5 +10,5 @@
 			<img class="image" id="img3" src="/uploads/1404380673_Lighthouse.jpg" />
 			<img class="image" id="img4" src="/uploads/1404380718_Penguins.jpg" />
 		</nivo.slideshow>
-	</html.body>	
+	</html.body>
 </page>
