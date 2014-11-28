@@ -1,1 +1,0 @@
-<ecom.orderDetail layout="order_detail"></ecom.orderDetail>

@@ -1,2 +1,0 @@
-<edu.musterTab>
-</edu.musterTab>

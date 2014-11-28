@@ -1,2 +1,0 @@
-<!-- Nav -->
-<nav class="mobileUI-site-nav"> <a href="index.html" class="active">Homepage</a> <a href="twocolumn1.html">Two Column #1</a> <a href="twocolumn2.html">Two Column #2</a> <a href="onecolumn.html">One Column</a> </nav>

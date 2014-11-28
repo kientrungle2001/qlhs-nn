@@ -1,1 +1,0 @@
-<div layout="grant_permission"></div>

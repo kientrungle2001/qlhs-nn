@@ -1,2 +1,0 @@
-<edu.paymentstatPrint>
-</edu.paymentstatPrint>

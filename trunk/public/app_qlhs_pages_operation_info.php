@@ -1,1 +1,0 @@
-<edu.student.info id="studentInfo"></edu.student.info>
