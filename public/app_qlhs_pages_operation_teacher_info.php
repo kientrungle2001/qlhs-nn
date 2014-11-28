@@ -1,1 +1,0 @@
-<edu.teacher.info id="teacherInfo"></edu.teacher.info>

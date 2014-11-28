@@ -1,2 +1,0 @@
-<edu.musterPrint>
-</edu.musterPrint>

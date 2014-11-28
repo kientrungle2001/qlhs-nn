@@ -1,1 +1,0 @@
-<ul class="sf-menu" <?php $tmp = @$data->id; if (isset($data->id) && $data->id !== "" && $data->id !== false) {echo 'id="'.$tmp.'"'; } ?>><?php $data->displayChildren('all');?></ul>

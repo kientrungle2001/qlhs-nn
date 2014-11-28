@@ -1,3 +1,0 @@
-﻿<edu.muster>
-	
-</edu.muster>
