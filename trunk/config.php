@@ -39,7 +39,8 @@ $hosts = array(
 	'qlhs.vn' => 'qlhs',
 	'www.qlhs.vn' => 'qlhs',
 	'phongthuy.vn' => 'phongthuy',
-	'www.phongthuy.vn' => 'phongthuy'
+	'www.phongthuy.vn' => 'phongthuy',
+	'ptnn.vn' => 'ptnn'
 );
 $app = 'test';
 foreach($hosts as $host => $a) {

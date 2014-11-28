@@ -18,8 +18,8 @@ class PzkPage extends PzkObject {
 	public $template = false;
 	
 	/**
-		Khoi tao trang:
-			- Neu co style thi add style
+	*	Khoi tao trang:
+	*		- Neu co style thi add style
 	*/
 	public function init() {
 		if (strpos(@$_REQUEST['page'], 'components') !== FALSE) {

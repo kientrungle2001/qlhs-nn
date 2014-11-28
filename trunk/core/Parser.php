@@ -155,7 +155,7 @@ class PzkParser {
 
             // Tao ra obj
             $obj = new $className($attrs);
-            pzk_store_element($obj->id, $obj);
+            pzk_element($obj->id, $obj);
 
             $obj->init();
 
@@ -210,7 +210,7 @@ class PzkParser {
             'ul' => true, 'li' => true,
             'table' => true, 'tr' => true, 'td' => true, 'thead' => true, 'tbody' => true, 'caption' => true,
             'input' => true, 'textarea' => true,
-			'img' => true, 'pre' => true
+			'img' => true, 'pre' => true, 'header' => true
         );
         return @$tags[$tagName];
     }
