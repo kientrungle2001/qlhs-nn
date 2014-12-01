@@ -1,3 +1,5 @@
 <div id="{prop id}">
-	{children all}
+	<div id="contain-left">
+		{children all}
+	</div>
 </div>

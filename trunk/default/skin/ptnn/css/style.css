@@ -47,6 +47,21 @@ ul.drop li a:hover{
 	height: 800px;
 	border-right: 1px dotted #ccc;
 }
+#contain-left{
+	width: 90%;
+	margin: 5%;
+}
+label{
+	float: left;
+	width: 200px;
+}
+input{
+	width: 100%;
+}
+table{
+	margin-top: 10px;
+	width: 100%;
+}
 /*Right*/
 #right{
 	width: 35%;
