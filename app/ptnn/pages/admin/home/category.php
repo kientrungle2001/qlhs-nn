@@ -1,0 +1,1 @@
+<core.db.tree rootId="" table="categories" layout="admin/home/category" />

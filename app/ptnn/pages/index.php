@@ -1,5 +1,5 @@
-<page>
-	<home.head layout="home/head" charset="utf-8"/>
+<page id="page">
+	<home.head id="head" layout="home/head" charset="utf-8"/>
 	<home.menu layout="home/menu"/>
 		<home.left id="left" layout="home/left"/>
 		<home.right layout="home/right"/>
