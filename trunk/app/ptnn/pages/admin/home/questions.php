@@ -1,0 +1,1 @@
+<core.db.list table="questions" parentMode="true" parentField="categoryId" layout="admin/home/questions" />
