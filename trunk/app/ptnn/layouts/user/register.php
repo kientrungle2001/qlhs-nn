@@ -10,8 +10,8 @@ input {
 <form method="post" action="/User/registerPost" >
    
        
-      <label for="name">Ful Name:</label>
-      <input type="text" name="name" id="name" value="">
+      <label for="fullname">Ful Name:</label>
+      <input type="text" name="fullname" id="fullname" value="">
       <br>
       
        
