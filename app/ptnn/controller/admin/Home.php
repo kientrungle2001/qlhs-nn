@@ -5,6 +5,11 @@ class PzkAdminHomeController extends PzkController {
 		$page = pzk_parse($pageUri);
 		$page->display();
 	}
+	public function categoryJSON() {
+		$items = _db()->select('*')->from('categories')->result();
+		$str = json_encode($items, true);
+		echo $str;
+	}
 	public function categoryAction() {
 		$request = pzk_request();
 		
@@ -13,7 +18,8 @@ class PzkAdminHomeController extends PzkController {
 		
 		$categoryId = $request->getSegment(3);
 		$categoryUri = pzk_app()->getPageUri('admin/home/category');
-		$category = pzk_parse($categoryUri);
+		pzk_parse($categoryUri);
+		$category = pzk_element('category');
 		$category->setRootId($categoryId);
 		pzk_element('right')->append($category);
 		
