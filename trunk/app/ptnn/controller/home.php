@@ -23,13 +23,8 @@
 		}
 		public function questionAction()
 		{
-			$category = isset($_POST['category']) ? $_POST['category'] : "";
-			$subject = isset($_POST['subject']) ? $_POST['subject'] : "";
-			$number = isset($_POST['number']) ? $_POST['number'] : "";
-			$tmie = isset($_POST['tmie']) ? $_POST['tmie'] : "";
-			$lever = isset($_POST['lever']) ? $_POST['lever'] : "";
 			$this->layout();
-			$question = pzk_parse('<home.question table="questions" where="{$subject}" limit="{$number}" layout="home/question" />');
+			$question = pzk_parse('<home.question table="questions" layout="home/question" />');
 			$left = pzk_element('left');
 			$left->append($question);
 			$this->page->display();

@@ -1,32 +1,61 @@
 <?php
 class PzkUserController extends PzkController {
 	
-
-	public function registerAction(){
-		$pageUri = $this->getApp()->getPageUri('user/register');
+	public function layout()
+		{
+			$this->page = pzk_parse($this->getApp()->getPageUri('index'));
+		}
+	public function userAction()
+	{
+		$this->layout();
+		$pageUri = $this->getApp()->getPageUri('user/user');
+		$page = PzkParser::parse($pageUri);	
+		$this->page->display();
+		//$pageUri = $this->getApp()->getPageUri('user/register');
 		// doc trang
-		$page = PzkParser::parse($pageUri);
+		//$page = PzkParser::parse($pageUri);
 
 		// thao tac
 
 		// hien thi
-		$page->display();
+		//$page->display();
 		
 
 	}
-	public function registerPostAction(){
-		echo "register";
-		$request= pzk_element('request');
-		$name= $request->get('name');
+	public function registerAction()
+	{
+		$this->layout();
+		$pageUri = $this->getApp()->getPageUri('user/register');
+		$page = PzkParser::parse($pageUri);	
+			$left = pzk_element('left');
+			$left->append($page);
+			$this->page->display();
+		//$pageUri = $this->getApp()->getPageUri('user/register');
+		// doc trang
+		//$page = PzkParser::parse($pageUri);
+
+		// thao tac
+
+		// hien thi
+		//$page->display();
+		
+
+	}
+	public function registerPostAction()
+	{		
+		$request=pzk_element('request');
+		$name= $request->get('fullname');
 		$username=$request->get('username');
 		$email=$request->get('email');
 		$testUser= _db()->useCB()->select('user.*')->from('user')->where(array('equal','username',$request->get('username')))->result();
-		if($testUser){
+		if($testUser)
+		{
 			echo 'user đã tồn tại trên hệ thống';
 		}else{
 				$password=$request->get('password');
 				$row = array('name' =>$name,'username'=>$username,'password'=>md5($password),'email'=>$email );
 				$items= _db()->insert('user')->fields('name,username,password,email')->values(array($row))->result();
+				echo " Đăng ký thành công";
 			}
 
 	}
@@ -37,15 +66,12 @@ class PzkUserController extends PzkController {
 			echo "Đăng nhập thành công, Xin chào ^^: ";
 			//die();
 		}
+		$this->layout();
 		$pageUri = $this->getApp()->getPageUri('user/login');
-		// doc trang
-		$page = PzkParser::parse($pageUri);
-
-		// thao tac
-
-		// hien thi
-		$page->display();
-		
+		$page = PzkParser::parse($pageUri);	
+			$left = pzk_element('left');
+			$left->append($page);
+			$this->page->display();
 		
 		
 	}
@@ -63,16 +89,13 @@ class PzkUserController extends PzkController {
 			pzk_session('userId',$items['id']);
 			header('location:/user/Login');
 
-		}else{
-			
-			$pageUri = $this->getApp()->getPageUri('user/login');
-		// doc trang
-		     $page = PzkParser::parse($pageUri);
-		     $page->setError('dang nhap khong thanh cong');
-		// thao tac
+		}else
+		{
 
-		// hien thi
-		      $page->display();
+			$pageUri = $this->getApp()->getPageUri('/user/Login');
+		    $page = PzkParser::parse($pageUri);
+		    $page->setError('dang nhap khong thanh cong');
+		    $page->display();
 		}
 	}
 	public function logoutAction(){
