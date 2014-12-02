@@ -3,7 +3,7 @@ class PzkDemoController extends PzkController {
 	
 	public function sendMailAction() {
 		$mail = pzk_mailer();
-		$mail->AddAddress('trungkien.nextnobels.jsc.edu@gmail.com');
+		$mail->AddAddress('kientrungle2001@gmail.com');
 		$mail->Subject = 'Here is the subject';
 		$mail->Body    = 'This is the HTML message body <b>in bold!</b>';
 		$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
