@@ -5,4 +5,5 @@
 		user="root" password="" dbName="ptnn" />
 	<core.rewrite.request pattern="^\/([*controller*][\w_][\w\d_]*)[\/]?$" queryParams="controller" defaultQueryParams='{"action": "index"}' />
 	<core.rewrite.request pattern="^\/([*controller*][\w_][\w\d_]*)\/([*action*][\w_][\w\d_]*)" queryParams="controller, action" />
+	<core.mailer id="mailer" username="thunghiem.nextnobels.jsc.edu@gmail.com" password="tn123456" host="smtp.gmail.com" />
 </core.application>
