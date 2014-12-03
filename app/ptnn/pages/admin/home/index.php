@@ -5,6 +5,9 @@
 		<html.js src="<?php echo BASE_URL?>/3rdparty/easyui/jquery.easyui.min.js" />
 		<html.css src="<?php echo BASE_URL?>/3rdparty/easyui/themes/default/easyui.css" />
 		<html.css src="<?php echo BASE_URL?>/3rdparty/easyui/themes/icon.css" />
+		<html.js src="<?php echo BASE_URL?>/3rdparty/easyui/ribbon/jquery.ribbon.js" />
+		<html.css src="<?php echo BASE_URL?>/3rdparty/easyui/ribbon/ribbon.css" />
+		<html.css src="<?php echo BASE_URL?>/3rdparty/easyui/ribbon/ribbon-icon.css" />
 	</home.head>
 	<home.menu layout="admin/home/menu" />
 		<home.left id="left" layout="admin/home/left" />
