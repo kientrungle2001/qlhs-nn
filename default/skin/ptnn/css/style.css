@@ -11,6 +11,13 @@ body{
 	height: 150px;
 	background: #86F9EB;
 	text-align: center;
+
+}
+#user{
+	height: 50px;
+	padding-right: 25px;
+	
+		
 }
 #header h4,p{
 	padding-top: 35px;
@@ -56,7 +63,8 @@ label{
 	width: 200px;
 }
 input{
-	width: 100%;
+	width: 150px;
+	margin-bottom:10px;
 }
 table{
 	margin-top: 10px;
@@ -64,6 +72,7 @@ table{
 }
 /*Right*/
 #right{
+	clear: both;
 	width: 35%;
 	min-height: 800px;
 	float: left;
@@ -73,6 +82,7 @@ table{
 	clear: both;
 	height: 200px;
 	background: #F8FEEF;
+	clear: both;
 }
 #footer p{
 	text-align: center;
