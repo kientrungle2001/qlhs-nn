@@ -1,7 +1,7 @@
 <div id="menu">
 	<ul class="drop">
 		<li><a href="/admin_home/index">Bảng điều khiển</a></li>
-		<li><a href="/admin_home/category/1">Hệ thống ngôn ngữ</a></li>
+		<li><a href="/admin_category/index">Quản trị danh mục</a></li>
 		<li><a href="/admin_home/category/2">Hệ thống chủ điểm</a></li>
 		<li><a href="/admin_home/category/3">Quan sát</a></li>
 		<li><a href="/admin_home/category/4">Hệ thống tưởng tượng, sáng tạo</a></li>

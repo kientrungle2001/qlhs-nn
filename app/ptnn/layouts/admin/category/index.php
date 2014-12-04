@@ -24,4 +24,7 @@
 		<td><a href="{url /admin_category/del}/{item[id]}">Xóa</td>
 	</tr>
 	{/each}
+	<tr>
+		<td colspan="4"><a href="{url /admin_category/add}">Thêm danh mục</a></td>
+	</tr>
 </table>
