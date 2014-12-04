@@ -8,6 +8,9 @@
 		<html.js src="<?php echo BASE_URL?>/3rdparty/easyui/ribbon/jquery.ribbon.js" />
 		<html.css src="<?php echo BASE_URL?>/3rdparty/easyui/ribbon/ribbon.css" />
 		<html.css src="<?php echo BASE_URL?>/3rdparty/easyui/ribbon/ribbon-icon.css" />
+		<html.css src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+		<html.css src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css" />
+		<html.js src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js" />
 	</home.head>
 	<home.menu layout="admin/home/menu" />
 		<home.left id="left" layout="admin/home/left" />

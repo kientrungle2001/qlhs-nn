@@ -6,7 +6,22 @@
 	<easyui.layout.layout.west style="width:200px;">
 		<easyui.layout.accordion>
 			<easyui.layout.tabpanel title="Tab 1">
-			C
+				<easyui.grid.tree lines="true">
+					<li>
+						Menu item 1
+						<ul>
+							<li>1</li>
+							<li>2</li>
+						</ul>
+					</li>
+					<li>
+						Menu item 2
+						<ul>
+							<li>1</li>
+							<li>2</li>
+						</ul>
+					</li>
+				</easyui.grid.tree>
 			</easyui.layout.tabpanel>
 			<easyui.layout.tabpanel title="Tab 2">
 			D
