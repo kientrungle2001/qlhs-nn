@@ -1,7 +1,7 @@
 <?php
 class PzkUserController extends PzkController {
 	
-	
+	//Load trang index
 	public function layout()
 		{
 			$this->page = pzk_parse($this->getApp()->getPageUri('index'));
@@ -32,6 +32,7 @@ class PzkUserController extends PzkController {
     
     		return $link;
 		} 
+	// Gửi email kích hoạt tài khoản
 	public function sendMail($username="",$password="",$email="") {
 		$mailtemplate = pzk_parse(pzk_app()->getPageUri('user/mailtemplate/register'));
 		$mailtemplate->setUsername($username);
@@ -54,7 +55,7 @@ class PzkUserController extends PzkController {
 			echo 'Mailer Error: ' . $mail->ErrorInfo;
 		}
 	}
-	
+	// Hiển thị tài khoản trên header
 	public function userAction()
 	{
 		$this->layout();
@@ -72,6 +73,7 @@ class PzkUserController extends PzkController {
 		
 
 	}
+	// Đăng ký tài khoản mới
 	public function registerAction()
 	{
 		$this->layout();
@@ -121,9 +123,24 @@ class PzkUserController extends PzkController {
 				$row = array('name' =>$name,'username'=>$username,'password'=>md5($password),'email'=>$email,'birthday'=>$birthday,'address'=>$address,'phone'=>$phone,'idpassport'=>$idpassport,'iddate'=>$iddate,'idplace'=>$idplace);
 				$item= _db()->insert('user')->fields('name,username,password,email,birthday,address,phone,idpassport,iddate,idplace')->values(array($row))->result();
 				$this->sendMail($username,$password,$email);
-				echo " Bạn vui lòng đăng nhập vào email để kích hoạt tài khoản";
+				// Hiển thị layout showregister
+				$showregister = pzk_parse(pzk_app()->getPageUri('user/showregister'));
+				$this->layout();
+				$left = pzk_element('left');
+				$left->append($showregister);
+				$this->page->display();
 			}
 		}
+	}
+	// Hiển thị thông báo sau khi đăng ký tài khoản
+	public function showregisterAction()
+	{
+		$this->layout();
+		$pageUri = $this->getApp()->getPageUri('user/showregister');
+		$page = PzkParser::parse($pageUri);	
+		$left = pzk_element('left');
+		$left->append($page);
+		$this->page->display();
 	}
 	public function activeregisterAction()
 	{
@@ -147,6 +164,7 @@ class PzkUserController extends PzkController {
 		}
 
 	}
+	// Hiển thị thông báo đăng ký thành công sau khi đã kích hoạt tài khoản
 	public function registersuccesAction() 
 		{
 		
@@ -157,6 +175,7 @@ class PzkUserController extends PzkController {
 			$left->append($page);
 			$this->page->display();
 		}
+	// Hiển thị form đăng nhập
 	public function loginAction() 
 	{
 		
@@ -176,7 +195,7 @@ class PzkUserController extends PzkController {
 			$this->page->display();
 		}
 	}
-	
+	// Xử lý đăng nhập
 	public function loginPostAction()
 	{
 		
@@ -205,12 +224,14 @@ class PzkUserController extends PzkController {
 		   
 		}
 	}
+	// Đăng xuất 
 	public function logoutAction(){
 		pzk_session('login',false);
 		pzk_session('username',false);
 		pzk_session('userId',false);
 		header('location:/user/Login');
 	}
+	// Gửi email quên mật khẩu
 	public function sendMailForgotpassword($email="",$key="") {
 		
 		//tạo URL gửi email xác nhận đăng ký
@@ -235,7 +256,7 @@ class PzkUserController extends PzkController {
 			echo 'Mailer Error: ' . $mail->ErrorInfo;
 		}
 	}
-	
+	// Hiển thị form quên mật khẩu
 	public function forgotpasswordAction()
 	{
 		$this->layout();
@@ -245,7 +266,7 @@ class PzkUserController extends PzkController {
 			$left->append($page);
 			$this->page->display();
 	}
-
+	// Xử lý lấy lại mật khẩu
 	public function forgotpasswordPostAction()
 	{
 
@@ -259,6 +280,7 @@ class PzkUserController extends PzkController {
 			$this->sendMailForgotpassword($email,$key);
 		}
 	}
+	//Gửi lại mật khẩu
 		public function sendPasswordAction()
 	{
 		$request=pzk_element('request');
@@ -290,6 +312,7 @@ class PzkUserController extends PzkController {
 		}
 
 	}
+	// Hiển thị password mới
 	public function newpasswordAction() 
 	{
 		
@@ -300,5 +323,45 @@ class PzkUserController extends PzkController {
 			$left->append($page);
 			$this->page->display();
 		
+	}
+	// Sửa thông tin cá nhân
+	public function editinforAction() 
+	{
+		
+			$this->layout();
+			$pageUri = $this->getApp()->getPageUri('user/editinfor');
+			$page = PzkParser::parse($pageUri);	
+			$left = pzk_element('left');
+			$left->append($page);
+			$this->page->display();
+		
+	}
+	public function editinforPostAction()
+	{
+		
+		$request = pzk_element('request');
+		//echo $request->get('login');
+		$items = _db()->useCB()->select('user.*')->from('user')->where(array('and', array('equal', 'username', $request->get('login')), array('equal','password',$request->get('password')) ))->result_one();
+		if($items)
+		{
+		
+			pzk_session('login', true);
+			pzk_session('username', $request->get('login'));
+			pzk_session('userId',$items['id']);
+			header('location:/home');
+
+		}else
+		{
+
+			$this->layout();
+			$pageUri = $this->getApp()->getPageUri('/user/login');
+		    $pageLogin = PzkParser::parse($pageUri);
+		    $left=pzk_element('left');
+		    $left->append($pageLogin);
+		    $pageLogin->setError('dang nhap khong thanh cong');
+
+		    $this->page->display();
+		   
+		}
 	}
 }
