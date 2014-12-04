@@ -1,10 +1,60 @@
 <?php
 class PzkUserController extends PzkController {
 	
+	
 	public function layout()
 		{
 			$this->page = pzk_parse($this->getApp()->getPageUri('index'));
 		}
+	public function getLink($url,$params=array(),$use_existing_arguments=false)
+		{
+    		if($use_existing_arguments) $params = $params + $_GET;
+    		if(!$params) return $url;
+    		$link = $url;
+    		if(strpos($link,'?') === false) $link .= '?'; //If there is no '?' add one at the end
+    		elseif(!preg_match('/(\?|\&(amp;)?)$/',$link)) $link .= '&amp;'; //If there is no '&' at the END, add one.
+    
+   			 $params_arr = array();
+    		foreach($params as $key=>$value) 
+    		{
+	        	if(gettype($value) == 'array') { //Handle array data properly
+	            	foreach($value as $val)
+	            	{
+	                	$params_arr[] = $key . '[]=' . urlencode($val);
+	            	}
+	        	}
+	        	else 
+	        	{
+	            	$params_arr[] = $key . '=' . urlencode($value);
+	        	}
+    		}
+    		$link .= implode('&amp;',$params_arr);
+    
+    		return $link;
+		} 
+	public function sendMail($username="",$password="",$email="") {
+		$mailtemplate = pzk_parse(pzk_app()->getPageUri('user/mailtemplate/register'));
+		$mailtemplate->setUsername($username);
+		//tạo URL gửi email xác nhận đăng ký
+		$url= "http://".$_SERVER["SERVER_NAME"].'/User/activeRegister';
+		$strConfirm = $password+ $email+$username;
+		$confirm= md5($strConfirm);
+		_db()->useCB()->update('user')->set(array('key' => $confirm))->where(array('username',$username))->result();
+		$arr=array('active'=>$confirm);
+		$url= $this->getLink($url,$arr);
+		$mailtemplate->setUrl($url);
+		$mail = pzk_mailer();
+		$mail->AddAddress($email);
+		$mail->Subject = 'Confirm new Register';
+		$mail->Body    = $mailtemplate->getContent();
+		//$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+		if(!$mail->send()) {
+			echo 'Message could not be sent.';
+			echo 'Mailer Error: ' . $mail->ErrorInfo;
+		}
+	}
+	
 	public function userAction()
 	{
 		$this->layout();
@@ -44,58 +94,114 @@ class PzkUserController extends PzkController {
 	public function registerPostAction()
 	{		
 		$request=pzk_element('request');
-		$name= $request->get('fullname');
 		$username=$request->get('username');
 		$email=$request->get('email');
-		$testUser= _db()->useCB()->select('user.*')->from('user')->where(array('equal','username',$request->get('username')))->result();
+		$testUser= _db()->useCB()->select('username')->from('user')->where(array('equal','username',$request->get('username')))->result();
 		if($testUser)
 		{
 			echo 'user đã tồn tại trên hệ thống';
-		}else{
-				$password=$request->get('password');
-				$row = array('name' =>$name,'username'=>$username,'password'=>md5($password),'email'=>$email );
-				$items= _db()->insert('user')->fields('name,username,password,email')->values(array($row))->result();
-				echo " Đăng ký thành công";
+		}
+		else
+		{	
+			$testEmail= _db()->useCB()->select('email')->from('user')->where(array('equal','email',$request->get('email')))->result();
+			if(0)
+			{
+				echo "Email đã tồn tại trên hệ thống";
 			}
+			else
+			{
+				$name= $request->get('name');
+				$password=$request->get('password');
+				$birthday= $request->get('birthday');
+				$address= $request->get('address');
+				$phone= $request->get('phone');
+				$idpassport= $request->get('idpassport');
+				$iddate= $request->get('iddate');
+				$idplace= $request->get('idplace');
+				$row = array('name' =>$name,'username'=>$username,'password'=>md5($password),'email'=>$email,'birthday'=>$birthday,'address'=>$address,'phone'=>$phone,'idpassport'=>$idpassport,'iddate'=>$iddate,'idplace'=>$idplace);
+				$item= _db()->insert('user')->fields('name,username,password,email,birthday,address,phone,idpassport,iddate,idplace')->values(array($row))->result();
+				$this->sendMail($username,$password,$email);
+				echo " Bạn vui lòng đăng nhập vào email để kích hoạt tài khoản";
+			}
+		}
+	}
+	public function activeregisterAction()
+	{
+		$request=pzk_element('request');
+
+		
+		$confirm=$request->get('active');
+		$items = _db()->useCB()->select('user.*')->from('user')->where(array('key', $confirm))->result_one();
+		if($items)
+		{
+			pzk_session('login', true);
+			pzk_session('username',$items['username']);
+			$active = pzk_parse(pzk_app()->getPageUri('user/registersuccess'));
+			
+			$this->layout();
+			$left = pzk_element('left');
+			$left->append($active);
+			$this->page->display();
+
+		}
 
 	}
-	public function loginAction() {
+	public function registersuccesAction() 
+		{
 		
-		// duong dan
-		if(pzk_session('login')){
-			echo "Đăng nhập thành công, Xin chào ^^: ";
-			//die();
-		}
-		$this->layout();
-		$pageUri = $this->getApp()->getPageUri('user/login');
-		$page = PzkParser::parse($pageUri);	
+			$this->layout();
+			$pageUri = $this->getApp()->getPageUri('user/registersuccess');
+			$page = PzkParser::parse($pageUri);	
 			$left = pzk_element('left');
 			$left->append($page);
 			$this->page->display();
+		}
+	public function loginAction() 
+	{
 		
-		
+		// duong dan
+		if(pzk_session('login'))
+		{
+			//echo "Đăng nhập thành công, Xin chào ^^: ";
+			//die();
+		}
+		else
+		{
+			$this->layout();
+			$pageUri = $this->getApp()->getPageUri('user/login');
+			$page = PzkParser::parse($pageUri);	
+			$left = pzk_element('left');
+			$left->append($page);
+			$this->page->display();
+		}
 	}
 	
-	public function loginPostAction(){
-		echo "hello";
+	public function loginPostAction()
+	{
+		
 		$request = pzk_element('request');
 		//echo $request->get('login');
 		$items = _db()->useCB()->select('user.*')->from('user')->where(array('and', array('equal', 'username', $request->get('login')), array('equal','password',$request->get('password')) ))->result_one();
-		if($items){
-			//echo 'dang nhap thanh cong';
-			//echo $items['id'];
+		if($items)
+		{
+		
 			pzk_session('login', true);
 			pzk_session('username', $request->get('login'));
 			pzk_session('userId',$items['id']);
-			header('location:/user/Login');
+			header('location:/home');
 
 		}else
 		{
 
-			$pageUri = $this->getApp()->getPageUri('/user/Login');
-		    $page = PzkParser::parse($pageUri);
-		    $page->setError('dang nhap khong thanh cong');
-		    $page->display();
+			$this->layout();
+			$pageUri = $this->getApp()->getPageUri('/user/login');
+		    $pageLogin = PzkParser::parse($pageUri);
+		    $left=pzk_element('left');
+		    $left->append($pageLogin);
+		    $pageLogin->setError('dang nhap khong thanh cong');
+
+		    $this->page->display();
+		   
 		}
 	}
 	public function logoutAction(){
@@ -103,5 +209,95 @@ class PzkUserController extends PzkController {
 		pzk_session('username',false);
 		pzk_session('userId',false);
 		header('location:/user/Login');
+	}
+	public function sendMailForgotpassword($email="",$key="") {
+		
+		//tạo URL gửi email xác nhận đăng ký
+		$url= "http://".$_SERVER["SERVER_NAME"].'/User/sendPassword';
+		
+		$strConfirm = $email+$key;
+		$confirm= md5($strConfirm);
+		
+		//_db()->useCB()->update('user')->set(array('key' => $confirm))->where(array('username',$username))->result();
+		_db()->useCB()->update('user')->set(array('key' => $confirm))->where(array('and',array('email',$email),array('status',1)))->result();
+		$arr=array('forgotpassword'=>$confirm);
+		$url= $this->getLink($url,$arr);
+		$mailtemplate->setUrl($url);
+		$mail = pzk_mailer();
+		$mail->AddAddress($email);
+		$mail->Subject = 'Quên mật khẩu';
+		$mail->Body    = $mailtemplate->getContent();
+		//$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+		if(!$mail->send()) {
+			echo 'Message could not be sent.';
+			echo 'Mailer Error: ' . $mail->ErrorInfo;
+		}
+	}
+	
+	public function forgotpasswordAction()
+	{
+		$this->layout();
+		$pageUri = $this->getApp()->getPageUri('user/forgotpassword');
+		$page = PzkParser::parse($pageUri);	
+			$left = pzk_element('left');
+			$left->append($page);
+			$this->page->display();
+	}
+
+	public function forgotpasswordPostAction()
+	{
+
+		$request = pzk_element('request');
+		$email= $request->get('email');
+		$items = _db()->useCB()->select('user.*')->from('user')->where(array('equal','email',$request->get('email')))->result_one();
+		if($items)
+		{
+			$key=$items['key'];
+			// gửi email
+			$this->sendMailForgotpassword($email,$key);
+		}
+	}
+		public function sendPasswordAction()
+	{
+		$request=pzk_element('request');
+
+		echo "Tài khoản của bạn trên website "."http://".$_SERVER["SERVER_NAME"]."<br>";
+		$confirm=$request->get('forgotpassword');
+		$items = _db()->useCB()->select('user.*')->from('user')->where(array('key', $confirm))->result_one();
+		if($items)
+		{
+			$password=md5(rand(0,9999999999).$items['username']);
+			$password=substr($password,0,8);
+			$username=$items['username'];
+			_db()->useCB()->update('user')->set(array('password' => $password))->where(array('and',array('password',$password),array('status',1)))->result();
+			$newpassword = pzk_parse(pzk_app()->getPageUri('user/newpassword'));
+			$newpassword->setUsername($username);
+			$newpassword->setPassword($password);
+			$this->layout();
+			$left = pzk_element('left');
+			$left->append($newpassword);
+			$this->page->display();
+			
+			//header('location:/user/newpassword');
+
+					
+		}
+		else
+		{
+			echo "sai rồi";
+		}
+
+	}
+	public function newpasswordAction() 
+	{
+		
+			$this->layout();
+			$pageUri = $this->getApp()->getPageUri('user/newpassword');
+			$page = PzkParser::parse($pageUri);	
+			$left = pzk_element('left');
+			$left->append($page);
+			$this->page->display();
+		
 	}
 }

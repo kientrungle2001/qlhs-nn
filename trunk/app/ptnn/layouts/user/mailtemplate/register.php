@@ -1,3 +1,4 @@
 Chúc mừng bạn đã đăng ký tài khoản thành công!<br />
-Tài khoản của bạn là: <?php echo $data->getUsername();?><br />
-Mật khẩu là: <?php echo $data->getPassword();?><br />
+Xin vui lòng click vào link sau để xác nhận tài khoản:
+<?php echo $data->getUrl(); ?><br>
+
