@@ -1,15 +1,15 @@
 <?php
 class PzkDemoController extends PzkController {
 	
-	public function sendMailAction() {
+	public function sendMail() {
 		$mailtemplate = pzk_parse(pzk_app()->getPageUri('user/mailtemplate/register'));
 		$mailtemplate->setUsername('kientrungle2001');
 		$mailtemplate->setPassword('kienkien');
 		$mail = pzk_mailer();
-		$mail->AddAddress('kientrungle2001@gmail.com');
-		$mail->Subject = 'Here is the subject';
-		$mail->Body    = $mailtemplate->getContent();
-		$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+		//$mail->AddAddress('kieunghia.cntt@gmail.com');
+		//$mail->Subject = 'Here is the subject';
+		//$mail->Body    = $mailtemplate->getContent();
+		//$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
 		if(!$mail->send()) {
 			echo 'Message could not be sent.';
