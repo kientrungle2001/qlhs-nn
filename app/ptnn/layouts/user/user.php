@@ -2,14 +2,11 @@
   padding-right: 25px;">
 
 <?php    if(pzk_session('login')){ ?>
-      <a href="user/editinfor">
+      <a href="/user/editinfor">
 
   <?php  echo pzk_session('username');   ?></a>
 
-      <a href="user/Login">Đăng xuất
-      <?php
-        pzk_session('login',false);
-      ?></a>
+      <a href="/user/Logout">Đăng xuất</a>
 
    <?php } else
    {
