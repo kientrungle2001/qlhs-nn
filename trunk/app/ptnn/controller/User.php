@@ -38,7 +38,7 @@ class PzkUserController extends PzkController {
 		$mailtemplate->setUsername($username);
 		//tạo URL gửi email xác nhận đăng ký
 		$url= "http://".$_SERVER["SERVER_NAME"].'/User/activeRegister';
-		$strConfirm = $password+ $email+$username;
+		$strConfirm = $password.$email.$username;
 		$confirm= md5($strConfirm);
 		_db()->useCB()->update('user')->set(array('key' => $confirm))->where(array('username',$username))->result();
 		$arr=array('active'=>$confirm);
@@ -228,7 +228,7 @@ class PzkUserController extends PzkController {
 		//tạo URL gửi email xác nhận đăng ký
 		$url= "http://".$_SERVER["SERVER_NAME"].'/User/sendPassword';
 		
-		$strConfirm = $email+$key;
+		$strConfirm = $email.$key;
 		$confirm= md5($strConfirm);
 		
 		//_db()->useCB()->update('user')->set(array('key' => $confirm))->where(array('username',$username))->result();
