@@ -44,7 +44,7 @@ ul.drop li a:hover{
 #left{
 	width: 64.9%;
 	float: left;
-	height: 800px;
+	min-height: 800px;
 	border-right: 1px dotted #ccc;
 }
 #contain-left{
@@ -70,6 +70,7 @@ table{
 }
 /*Footer*/
 #footer{
+	clear: both;
 	height: 200px;
 	background: #F8FEEF;
 }
