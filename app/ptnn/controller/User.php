@@ -62,16 +62,7 @@ class PzkUserController extends PzkController {
 		$pageUri = $this->getApp()->getPageUri('user/user');
 		$page = PzkParser::parse($pageUri);	
 		$this->page->display();
-		//$pageUri = $this->getApp()->getPageUri('user/register');
-		// doc trang
-		//$page = PzkParser::parse($pageUri);
-
-		// thao tac
-
-		// hien thi
-		//$page->display();
-		
-
+	
 	}
 	// Đăng ký tài khoản mới
 	public function registerAction()
