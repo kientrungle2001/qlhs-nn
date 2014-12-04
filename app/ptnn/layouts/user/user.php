@@ -1,11 +1,10 @@
 <div style="height: 50px;
   padding-right: 25px;">
 
-<?php
-    if(pzk_session('login')){
+<?php    if(pzk_session('login')){ ?>
+      <a href="user/editinfor">
 
-      echo pzk_session('username');
-   ?>
+  <?php  echo pzk_session('username');   ?></a>
 
       <a href="user/Login">Đăng xuất
       <?php
