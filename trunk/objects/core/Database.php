@@ -271,7 +271,7 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
             $vals = array();
             foreach ($this->options['values'] as $key => $value) {
                 if (in_array($key, $columns)) {
-                    $vals[] = $key . '=\'' . @mysql_real_escape_string($value) . '\'';
+                    $vals[] = '`'.$key . '`=\'' . @mysql_real_escape_string($value) . '\'';
                 }
             }
             $values = implode(',', $vals);
