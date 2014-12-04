@@ -134,10 +134,11 @@ class PzkUserController extends PzkController {
 		$items = _db()->useCB()->select('user.*')->from('user')->where(array('key', $confirm))->result_one();
 		if($items)
 		{
+			_db()->useCB()->update('user')->set(array('status' => 1))->where(array('username',$items['username']))->result();
 			pzk_session('login', true);
 			pzk_session('username',$items['username']);
 			$active = pzk_parse(pzk_app()->getPageUri('user/registersuccess'));
-			
+
 			$this->layout();
 			$left = pzk_element('left');
 			$left->append($active);
