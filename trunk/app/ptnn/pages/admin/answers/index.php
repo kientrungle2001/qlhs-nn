@@ -1,0 +1,1 @@
+<core.db.list table="answers" layout="admin/answers/index" />
