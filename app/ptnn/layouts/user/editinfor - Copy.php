@@ -5,7 +5,7 @@
                   <p > <strong >THÔNG TIN CÁ NHÂN</strong></p>
                 </div>
                     
-                    <form id="formRegister" name="formRegister" method="post"action="/User/editinforPost" > 
+                    <form id="formRegister" name="formRegister" method="post"action="/User/registerPost" > 
                                                   
                                 <br>
                                 <label for="name">Họ và Tên</label> 
@@ -18,7 +18,7 @@
                                 <input id="address" name="address" type="text" value="<?php echo $data->getaddress();?>"autocomplete="OFF" src=""/> 
                                 <br>
                                 <label for="phone">Số điện thoại</label> 
-                                <input id="phone" name="phone" value=" <?php echo $data->getphone();?>" type="tel" autocomplete="OFF" src=""/> 
+                                <input id="phone" name="phone" value="<?php echo $data->getphone();?>" type="tel" autocomplete="OFF" src=""/> 
                                 <br>
 
                                 <label for="idpassport">Số CMT hoặc hộ chiếu</label> 
