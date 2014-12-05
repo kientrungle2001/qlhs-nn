@@ -67,10 +67,20 @@ class PzkAdminController extends PzkController {
 		$module->setItemId(pzk_request()->getSegment(3));
 		$this->initPage()
 			->append($module)
-			->append('admin/user/menu', 'right')
+			->append('admin/'.$this->module.'/menu', 'right')
 			->display();
 	}
-	
+	public function detailAction() {
+		$module = pzk_parse(pzk_app()->getPageUri('admin/'.$this->module.'/detail'));
+		$module->setItemId(pzk_request()->getSegment(3));
+		$this->initPage()
+			->append($module)
+			->append('admin/'.$this->module.'/menu', 'right');
+		if($childList = pzk_element($this->module.'Children')){
+			$childList->setParentId(pzk_request()->getSegment(3));
+		}
+		$this->display();
+	}
 	public function delAction() {
 		$module = pzk_parse(pzk_app()->getPageUri('admin/'.$this->module.'/del'));
 		$module->setItemId(pzk_request()->getSegment(3));
@@ -83,6 +93,7 @@ class PzkAdminController extends PzkController {
 	public function delPostAction() {
 		_db()->useCB()->delete()->from($this->table)
 			->where(array('id', pzk_request()->get('id')))->result();
-		$this->redirect($index);
+		pzk_notifier()->addMessage('Xóa thành công');
+		$this->redirect('index');
 	}
 }
