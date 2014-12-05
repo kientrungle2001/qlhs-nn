@@ -1,0 +1,1 @@
+<core.db.detail table="answers" itemId="0" layout="admin/answers/edit" />
