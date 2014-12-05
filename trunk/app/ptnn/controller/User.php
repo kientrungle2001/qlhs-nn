@@ -318,41 +318,206 @@ class PzkUserController extends PzkController {
 	// Sửa thông tin cá nhân
 	public function editinforAction() 
 	{
-		
-			$this->layout();
-			$pageUri = $this->getApp()->getPageUri('user/editinfor');
-			$page = PzkParser::parse($pageUri);	
+
+			$username= pzk_session('username');
+			$items = _db()->useCB()->select('user.*')->from('user')->where(array('username',$username))->result_one();
+			
+			$editinfor = pzk_parse(pzk_app()->getPageUri('user/editinfor'));
+			// lấy thông tin cá nhân
+			$name= $items['name'];
+			$birthday= $items['birthday'];
+			$address= $items['address'];
+			$phone= $items['phone'];
+			$idpassport= $items['idpassport'];
+			$iddate= $items['iddate'];
+			$idplace= $items['idplace'];
+			// Hiển thị thông tin tài khoản
+			$editinfor->setname($name);
+			$editinfor->setbirthday($birthday);
+			$editinfor->setAddress($address);
+			$editinfor->setphone($phone);
+  			$editinfor->setidpassport($idpassport);
+			$editinfor->setiddate($iddate);
+			$editinfor->setidplace($idplace);
+			$this->layout();			
 			$left = pzk_element('left');
-			$left->append($page);
+			$left->append($editinfor);
 			$this->page->display();
+			
+			
 		
 	}
 	public function editinforPostAction()
 	{
 		
 		$request = pzk_element('request');
-		//echo $request->get('login');
-		$items = _db()->useCB()->select('user.*')->from('user')->where(array('and', array('equal', 'username', $request->get('login')), array('equal','password',$request->get('password')) ))->result_one();
+		$name=$request->get('name');
+		$birthday=$request->get('birthday');
+		$address=$request->get('address');
+		$phone=$request->get('phone');
+		$idpassport=$request->get('idpassport');
+		$iddate=$request->get('iddate');
+		$idplace=$request->get('idplace');
+		$username= pzk_session('username');
+		
+		_db()->useCB()->update('user')->set(array('name' => $name,'birthday' => $birthday,'address' => $address,'phone' => $phone,'idpassport' => $idpassport,'iddate' => $iddate,'idplace' => $idplace,))->where(array('username',$username))->result();
+			$username= pzk_session('username');
+			$items = _db()->useCB()->select('user.*')->from('user')->where(array('username',$username))->result_one();
+			
+			$editinfor = pzk_parse(pzk_app()->getPageUri('user/editinfor'));
+			// lấy thông tin cá nhân
+			$name= $items['name'];
+			$birthday= $items['birthday'];
+			$address= $items['address'];
+			$phone= $items['phone'];
+			$idpassport= $items['idpassport'];
+			$iddate= $items['iddate'];
+			$idplace= $items['idplace'];
+			// Hiển thị thông tin tài khoản
+			$editinfor->setname($name);
+			$editinfor->setbirthday($birthday);
+			$editinfor->setAddress($address);
+			$editinfor->setphone($phone);
+  			$editinfor->setidpassport($idpassport);
+			$editinfor->setiddate($iddate);
+			$editinfor->setidplace($idplace);
+		
+		$this->layout();
+		$left=pzk_element('left');
+		$left->append($editinfor);
+		$this->page->display();
+		   
+		
+	}
+	public function editpasswordAction()
+	{
+			$this->layout();
+			$pageUri = $this->getApp()->getPageUri('user/editpassword');
+			$page = PzkParser::parse($pageUri);	
+			$left = pzk_element('left');
+			$left->append($page);
+			$this->page->display();
+	}
+	public function editpasswordPostAction()
+	{
+		$request = pzk_element('request');
+		$oldpassword=md5($request->get('oldpassword'));
+		$newpassword=$request->get('newpassword');
+		$username= pzk_session('username');
+		
+		//_db()->useCB()->update('user')->set(array('name' => $name,'birthday' => $birthday,'address' => $address,'phone' => $phone,'idpassport' => $idpassport,'iddate' => $iddate,'idplace' => $idplace,))->where(array('username',$username))->result();
+			
+		$items = _db()->useCB()->select('user.*')->from('user')->where(array('and',array('username',$username),array('password',$oldpassword)))->result_one();
 		if($items)
 		{
-		
-			pzk_session('login', true);
-			pzk_session('username', $request->get('login'));
-			pzk_session('userId',$items['id']);
-			header('location:/home');
+			
+			$confirmpassword= md5($oldpassword.$newpassword);
+			$email=$items['email'];
+			// Update Key
+			_db()->useCB()->update('user')->set(array('key' => $confirmpassword))->where(array('username',$username))->result();
+			$this->sendMailEditPassword($email,$confirmpassword,$newpassword);
+			$editinfor = pzk_parse(pzk_app()->getPageUri('user/showeditpassword'));
 
-		}else
+		}	
+		else
 		{
-
-			$this->layout();
-			$pageUri = $this->getApp()->getPageUri('/user/login');
-		    $pageLogin = PzkParser::parse($pageUri);
-		    $left=pzk_element('left');
-		    $left->append($pageLogin);
-		    $pageLogin->setError('dang nhap khong thanh cong');
-
-		    $this->page->display();
+			$editinfor = pzk_parse(pzk_app()->getPageUri('user/showeditpasswordfalse'));
+		}	
+		
+		$this->layout();
+		$left=pzk_element('left');
+		$left->append($editinfor);
+		$this->page->display();
 		   
+		
+	}
+
+	public function sendMailEditPassword($email="",$key="",$newpassword="")
+	{
+		//tạo URL gửi email xác nhận đăng ký
+		$mailtemplate = pzk_parse(pzk_app()->getPageUri('user/mailtemplate/editpassword'));
+		$url= "http://".$_SERVER["SERVER_NAME"].'/User/confirmeditpassword';
+		$newpassword=md5($newpassword);
+		$arr=array('editpassword'=>$key,'conf'=>$newpassword);
+		$url= $this->getLink($url,$arr);
+		$mailtemplate->setUrl($url);
+		$mail = pzk_mailer();
+		$mail->AddAddress($email);
+		$mail->Subject = 'Thay đổi mật khẩu';
+		$mail->Body    = $mailtemplate->getContent();
+		if(!$mail->send()) {
+			echo 'Message could not be sent.';
+			echo 'Mailer Error: ' . $mail->ErrorInfo;
 		}
+
+	}
+	public function showeditpasswordAcction()
+	{
+			$this->layout();
+			$pageUri = $this->getApp()->getPageUri('/user/showeditpassword');
+			$page = PzkParser::parse($pageUri);	
+			$left = pzk_element('left');
+			$left->append($page);
+			$this->page->display();
+	}
+
+	public function confirmeditpasswordAction()
+	{
+		$request=pzk_element('request');
+		
+		$confirm=$request->get('editpassword');
+		$newpassword=$request->get('conf');
+		$username=pzk_session('username');
+		$items = _db()->useCB()->select('user.*')->from('user')->where(array('key', $confirm),array('username',$username))->result_one();
+		if($items['key']=$confirm)
+		{			
+			//$username=$items['username'];
+			_db()->useCB()->update('user')->set(array('password' => $newpassword))->where(array('username',$username))->result();
+			$editpasswordsuccess = pzk_parse(pzk_app()->getPageUri('/user/editpasswordsuccess'));
+			$this->layout();
+			$left = pzk_element('left');
+			$left->append($editpasswordsuccess);
+			$this->page->display();
+		}
+		else echo "ko dduowcj";
+	}
+	
+	public function editpasswordsuccessAction()
+	{
+			$this->layout();
+			$pageUri = $this->getApp()->getPageUri('/user/editpasswordsuccess');
+			$page = PzkParser::parse($pageUri);	
+			$left = pzk_element('left');
+			$left->append($page);
+			$this->page->display();
+	}
+	public function editsignAction()
+	{
+			$username=pzk_session('username');
+			$items=_db()->useCB()->select('user.*')->from('user')->where(array('username',$username))->result_one();
+			$sign=$items['sign'];
+			$this->layout();
+			$editsign = pzk_parse(pzk_app()->getPageUri('/user/editsign'));
+
+			$editsign->setSign($sign);
+			$left = pzk_element('left');
+			$left->append($editsign);
+			$this->page->display();
+	}
+	public function editsignPostAction()
+	{
+			$username=pzk_session('username');
+			$request = pzk_element('request');				
+			$newsign=$request->get('newsign');
+			//echo $newsign;
+			_db()->useCB()->update('user')->set(array('sign'=>$newsign))->where(array('username',$username))->result();
+			$items=_db()->useCB()->select('user.*')->from('user')->where(array('username',$username))->result_one();
+			$sign=$items['sign'];
+			$this->layout();
+			$editsign = pzk_parse(pzk_app()->getPageUri('/user/editsign'));
+			$editsign->setSign($sign);
+			$left = pzk_element('left');
+			$left->append($editsign);
+			$this->page->display();
 	}
 }
