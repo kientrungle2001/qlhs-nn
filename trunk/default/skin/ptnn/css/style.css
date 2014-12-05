@@ -72,7 +72,7 @@ table{
 }
 /*Right*/
 #right{
-	clear: both;
+	/*clear: both;*/
 	width: 35%;
 	min-height: 800px;
 	float: left;
