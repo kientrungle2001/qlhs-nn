@@ -1,22 +1,7 @@
 <?php
-class PzkAdminUserController extends PzkController {
-	public function indexAction() {
-		$pageUri = pzk_app()->getPageUri('admin/home/index');
-		$page = pzk_parse($pageUri);
-		$user = pzk_parse(pzk_app()->getPageUri('admin/user/index'));
-		pzk_element('left')->append($user);
-		$this->appendMenu();
-		$page->display();
-	}
-	public function editAction() {
-		$pageUri = pzk_app()->getPageUri('admin/home/index');
-		$page = pzk_parse($pageUri);
-		$user = pzk_parse(pzk_app()->getPageUri('admin/user/edit'));
-		$user->setItemId(pzk_request()->getSegment(3));
-		pzk_element('left')->append($user);
-		$this->appendMenu();
-		$page->display();
-	}
+class PzkAdminUserController extends PzkAdminController {
+	public $masterStructure = 'admin/home/index';
+	public $masterPosition = 'left';
 	public function editPostAction() {
 		$name = pzk_request()->get('name');
 		$username = pzk_request()->get('username');
@@ -45,19 +30,12 @@ class PzkAdminUserController extends PzkController {
 		if($password && ($password == $confirmpassword)) {
 			$row['password'] = md5($password);
 		}
-		_db()->useCB()->update('user')
-			->set($row)
-			->where(array('id', pzk_request()->get('id')))->result();
-		header('Location: /admin_user/index');
-	}
-	public function addAction() {
-		$pageUri = pzk_app()->getPageUri('admin/home/index');
-		$page = pzk_parse($pageUri);
-		$user = pzk_parse(pzk_app()->getPageUri('admin/user/add'));
-		$user->setParentId(pzk_request()->getSegment(3));
-		pzk_element('left')->append($user);
-		$this->appendMenu();
-		$page->display();
+		$entity = _db()->getEntity('table');
+		$entity->setTable('user');
+		$entity->load(pzk_request()->get('id'));
+		$entity->update($row);
+		$this->redirect('edit/' . $entity->getId());
+		$this->redirect('index');
 	}
 	public function addPostAction() {
 		$name = pzk_request()->get('name');
@@ -82,27 +60,10 @@ class PzkAdminUserController extends PzkController {
 			'iddate' => $iddate,
 			'idplace' => $idplace
 		);
-		_db()->useCB()->insert('user')
-			->fields(implode(',', array_keys($row)))
-			->values(array($row))
-			->result();
-		header('Location: /admin_user/index');
-	}
-	public function delAction() {
-		$pageUri = pzk_app()->getPageUri('admin/home/index');
-		$page = pzk_parse($pageUri);
-		$user = pzk_parse(pzk_app()->getPageUri('admin/user/del'));
-		$user->setItemId(pzk_request()->getSegment(3));
-		pzk_element('left')->append($user);
-		$this->appendMenu();
-		$page->display();
-	}
-	public function delPostAction() {
-		_db()->useCB()->delete()->from('user')
-			->where(array('id', pzk_request()->get('id')))->result();
-		header('Location: /admin_user/index');
-	}
-	public function appendMenu() {
-		pzk_element('right')->append(pzk_parse(pzk_app()->getPageUri('admin/user/menu')));
+		$entity = _db()->getEntity('table');
+		$entity->setTable('user');
+		$entity->setData($row);
+		$entity->save();
+		$this->redirect('edit/' . $entity->getId());
 	}
 }
