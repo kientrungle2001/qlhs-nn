@@ -1,0 +1,1 @@
+<core.db.list table="user" layout="admin/user/index" />
