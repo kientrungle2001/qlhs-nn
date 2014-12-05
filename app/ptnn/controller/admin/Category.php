@@ -14,7 +14,7 @@ class PzkAdminCategoryController extends PzkAdminController {
 		$category = pzk_parse(pzk_app()->getPageUri('admin/category/add'));
 		$category->setParentId(pzk_request()->getSegment(3));
 		$this->append($category);
-		$this->appendMenu();
+		$this->append('admin/category/menu','right');
 		$this->display();
 	}
 	public function addPostAction() {
@@ -27,9 +27,6 @@ class PzkAdminCategoryController extends PzkAdminController {
 	public function delPostAction() {
 		_db()->useCB()->delete()->from('categories')
 			->where(array('id', pzk_request()->get('id')))->result();
-		header('Location: /admin_category/index');
-	}
-	public function appendMenu() {
-		pzk_element('right')->append(pzk_parse(pzk_app()->getPageUri('admin/category/menu')));
+		$this->redirect('index');
 	}
 }
