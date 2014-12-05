@@ -53,11 +53,16 @@ class PzkCoreRequest extends PzkObjectLightWeight {
 	}
 	
 	public function build($route, $query = false, $options = false) {
-		return $this->protocol . '://' . $this->host . $this->resovledPort . '/' . $route . ($query ? '?' . http_build_query($query) : '') . ($options ? '#' . http_build_query($options) : '');
+		return BASE_REQUEST . '/' . $route . ($query ? '?' . http_build_query($query) : '') . ($options ? '#' . http_build_query($options) : '');
 	}
 	
 	public function buildCurrent($query = false, $options = false) {
 		$route = preg_replace('/^\//', '', $this->route);
+		return $this->build($route, $query, $options);
+	}
+	
+	public function buildAction($action = false, $query = false, $options = false) {
+		$route = $this->get('controller') . '/' . $action;
 		return $this->build($route, $query, $options);
 	}
 	
@@ -77,6 +82,10 @@ class PzkCoreRequest extends PzkObjectLightWeight {
 	public function getSegment($index) {
 		$parts = explode('/', $this->route);
 		return @$parts[$index];
+	}
+	
+	public function redirect($url) {
+		header('Location: ' . $url);
 	}
 }
 function pzk_request($var = NULL, $value = NULL) {
