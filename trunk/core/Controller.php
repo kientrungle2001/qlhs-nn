@@ -32,7 +32,7 @@ class PzkController {
 	
 	public $masterStructure = 'masterStructure';
 	public $masterPosition = 'left';
-	public function viewStructure($structure, $useMasterStructure = true) {
+	public function viewStructure($structure, $useMasterStructure = true, $display = true) {
 		if($useMasterStructure) {
 			$page = $this->getStructure($this->masterStructure);
 			$request = pzk_element('request');
@@ -44,11 +44,20 @@ class PzkController {
 			}
 			$obj = $this->getStructure($structure);
 			pzk_element($this->masterPosition)->append($obj);
-			$page->display();
+			if($display)
+				$page->display();
+			else return $page;
 		} else {
 			$obj = $this->getStructure($structure);
-			$obj->display();
+			if($display)
+				$obj->display();
+			else
+				return $obj;
 		}
+	}
+	
+	public function buildPage($page /*object*/) {
+		return $this->viewStructure($page, true, false);
 	}
 	
 	public function viewGrid($grid, $useMasterStructure = true) {
@@ -65,6 +74,25 @@ class PzkController {
 	
 	public function getModel($model) {
 		return pzk_loader()->getModel($model);
+	}
+	
+	public function initPage() {
+		$page = $this->getStructure($this->masterStructure);
+		$this->page = $page;
+		return $this;
+	}
+	public function append($obj, $position = NULL) {
+		$obj = $this->getStructure($obj);
+		if($position){
+			pzk_element($position)->append($obj);
+		} else {
+			pzk_element($this->masterPosition)->append($obj);
+		}
+		return $this;
+	}
+	public function display() {
+		$this->page->display();
+		return $this;
 	}
 }
 
