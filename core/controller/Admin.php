@@ -40,7 +40,4 @@ class PzkAdminController extends PzkController {
 			->where(array('id', pzk_request()->get('id')))->result();
 		$this->redirect($index);
 	}
-	public function redirect($action) {
-		pzk_request()->redirect(pzk_request()->buildAction($action));
-	}
 }

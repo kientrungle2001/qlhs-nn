@@ -94,6 +94,9 @@ class PzkController {
 		$this->page->display();
 		return $this;
 	}
+	public function redirect($action) {
+		pzk_request()->redirect(pzk_request()->buildAction($action));
+	}
 }
 
 ?>
