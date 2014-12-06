@@ -28,8 +28,8 @@
                                 <label for="name">Họ và Tên</label> 
                                 <input id="name" name="name" type="text" autocomplete="OFF"/> 
                                 <br>
-                                <label for="brithday">Ngày sinh</label> 
-                                <input id="brithday" name="brithday" type="date" autocomplete="OFF" src=""/> 
+                                <label for="birthday">Ngày sinh</label> 
+                                <input id="birthday" name="birthday" type="date" autocomplete="OFF" src=""/> 
                                 <br>
                                 <label for="add ress">Địa chỉ</label> 
                                 <input id="address" name="address" type="text" autocomplete="OFF" src=""/> 
