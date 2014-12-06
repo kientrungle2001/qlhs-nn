@@ -59,7 +59,7 @@ class PzkUserController extends PzkController {
 	public function userAction()
 	{
 		$this->layout();
-		$pageUri = $this->getApp()->getPageUri('user/user');
+		$pageUri = $this->getApp()->getPageUri('/user/user');
 		$page = PzkParser::parse($pageUri);	
 		$this->page->display();
 	
@@ -68,21 +68,11 @@ class PzkUserController extends PzkController {
 	public function registerAction()
 	{
 		$this->layout();
-		$pageUri = $this->getApp()->getPageUri('user/register');
+		$pageUri = $this->getApp()->getPageUri('/user/register');
 		$page = PzkParser::parse($pageUri);	
 			$left = pzk_element('left');
 			$left->append($page);
 			$this->page->display();
-		//$pageUri = $this->getApp()->getPageUri('user/register');
-		// doc trang
-		//$page = PzkParser::parse($pageUri);
-
-		// thao tac
-
-		// hien thi
-		//$page->display();
-		
-
 	}
 	public function registerPostAction()
 	{		
@@ -97,7 +87,7 @@ class PzkUserController extends PzkController {
 		else
 		{	
 			$testEmail= _db()->useCB()->select('email')->from('user')->where(array('equal','email',$request->get('email')))->result();
-			if(0)
+			if($testEmail)
 			{
 				echo "Email đã tồn tại trên hệ thống";
 			}
@@ -179,10 +169,9 @@ class PzkUserController extends PzkController {
 		else
 		{
 			$this->layout();
-			$pageUri = $this->getApp()->getPageUri('user/login');
-			$page = PzkParser::parse($pageUri);	
+			$login = pzk_parse(pzk_app()->getPageUri('/user/login'));
 			$left = pzk_element('left');
-			$left->append($page);
+			$left->append($login);
 			$this->page->display();
 		}
 	}
@@ -191,8 +180,8 @@ class PzkUserController extends PzkController {
 	{
 		
 		$request = pzk_element('request');
-		//echo $request->get('login');
-		$items = _db()->useCB()->select('user.*')->from('user')->where(array('and', array('equal', 'username', $request->get('login')), array('equal','password',$request->get('password')) ))->result_one();
+		$password=md5($request->get('password'));
+		$items = _db()->useCB()->select('user.*')->from('user')->where(array('and', array('equal', 'username', $request->get('login')), array('equal','password',$password) ))->result_one();
 		if($items)
 		{
 		
@@ -223,14 +212,15 @@ class PzkUserController extends PzkController {
 		header('location:/user/Login');
 	}
 	// Gửi email quên mật khẩu
-	public function sendMailForgotpassword($email="",$key="") {
+	public function sendMailForgotpassword($email="",$password="") {
 		
 		//tạo URL gửi email xác nhận đăng ký
 		$url= "http://".$_SERVER["SERVER_NAME"].'/User/sendPassword';
 		
-		$strConfirm = $email.$key;
+		$strConfirm = $email.$password;
 		$confirm= md5($strConfirm);
-		
+		$mailtemplate = pzk_parse(pzk_app()->getPageUri('user/mailtemplate/forgotpassword'));
+			
 		//_db()->useCB()->update('user')->set(array('key' => $confirm))->where(array('username',$username))->result();
 		_db()->useCB()->update('user')->set(array('key' => $confirm))->where(array('and',array('email',$email),array('status',1)))->result();
 		$arr=array('forgotpassword'=>$confirm);
@@ -266,25 +256,40 @@ class PzkUserController extends PzkController {
 		$items = _db()->useCB()->select('user.*')->from('user')->where(array('equal','email',$request->get('email')))->result_one();
 		if($items)
 		{
-			$key=$items['key'];
+			$password=$items['password'];
 			// gửi email
-			$this->sendMailForgotpassword($email,$key);
+			$this->sendMailForgotpassword($email,$password);
+			$this->layout();
+			$pageUri = $this->getApp()->getPageUri('/user/showforgotpassword');
+			$page = PzkParser::parse($pageUri);	
+			$left = pzk_element('left');
+			$left->append($page);
+			$this->page->display();
+		
 		}
+	}
+	public function showforgotpasswordAction()
+	{
+			$this->layout();
+			$pageUri = $this->getApp()->getPageUri('/user/showforgotpassword');
+			$page = PzkParser::parse($pageUri);	
+			$left = pzk_element('left');
+			$left->append($page);
+			$this->page->display();
 	}
 	//Gửi lại mật khẩu
 		public function sendPasswordAction()
 	{
 		$request=pzk_element('request');
-
-		echo "Tài khoản của bạn trên website "."http://".$_SERVER["SERVER_NAME"]."<br>";
 		$confirm=$request->get('forgotpassword');
 		$items = _db()->useCB()->select('user.*')->from('user')->where(array('key', $confirm))->result_one();
 		if($items)
 		{
 			$password=md5(rand(0,9999999999).$items['username']);
 			$password=substr($password,0,8);
+			$updatepassword=md5($password);
 			$username=$items['username'];
-			_db()->useCB()->update('user')->set(array('password' => $password))->where(array('and',array('password',$password),array('status',1)))->result();
+			_db()->useCB()->update('user')->set(array('password' => $updatepassword))->where(array('and',array('username',$username),array('status',1)))->result();
 			$newpassword = pzk_parse(pzk_app()->getPageUri('user/newpassword'));
 			$newpassword->setUsername($username);
 			$newpassword->setPassword($password);
@@ -292,10 +297,7 @@ class PzkUserController extends PzkController {
 			$left = pzk_element('left');
 			$left->append($newpassword);
 			$this->page->display();
-			
-			//header('location:/user/newpassword');
-
-					
+	
 		}
 		else
 		{
