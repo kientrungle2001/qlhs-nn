@@ -31,10 +31,11 @@ class PzkController {
 	}
 	
 	public $masterStructure = 'masterStructure';
+	public $masterPage = false;
 	public $masterPosition = 'left';
 	public function viewStructure($structure, $useMasterStructure = true, $display = true) {
 		if($useMasterStructure) {
-			$page = $this->getStructure($this->masterStructure);
+			$page = $this->getStructure(pzk_or($this->masterPage, $this->masterStructure));
 			$request = pzk_element('request');
 			if(isset($request->routeData)) {
 				$title = $request->routeData['title'];
@@ -81,6 +82,7 @@ class PzkController {
 		$this->page = $page;
 		return $this;
 	}
+	
 	public function append($obj, $position = NULL) {
 		$obj = $this->getStructure($obj);
 		if($position){
@@ -90,12 +92,29 @@ class PzkController {
 		}
 		return $this;
 	}
+	
 	public function display() {
 		$this->page->display();
 		return $this;
 	}
+	
 	public function redirect($action) {
 		pzk_request()->redirect(pzk_request()->buildAction($action));
+	}
+	
+	public function validate($row, $validator) {
+		if(isset($validator) && $validator) {
+			$result = pzk_validate($row, $validator);
+			if($result !== true) {
+				foreach($result as $field => $messages) {
+					foreach($messages as $message) {
+						pzk_notifier()->addMessage($message, 'warning');
+					}
+				}
+				return false;
+			}
+		}
+		return true;
 	}
 }
 
