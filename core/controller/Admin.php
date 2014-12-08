@@ -23,44 +23,48 @@ class PzkAdminController extends PzkController {
 	}
 	public function addPostAction() {
 		$row = $this->getAddData();
-		$this->add($row);
-		$this->redirect('index');
+		if($this->validateAddData($row)) {
+			$this->add($row);
+			pzk_notifier()->addMessage('Thêm thành công');
+			$this->redirect('index');
+		} else {
+			pzk_validator()->setEditingData($row);
+			$this->redirect('add');
+		}
 	}
 	public function getAddData() {
-		$row = array();
-		$fields = explode(',', $this->addFields);
-		foreach($fields as $field) {
-			$field = trim($field);
-			$row[$field] = pzk_request($field);
-		}
-		return $row;
+		return pzk_request()->getFilterData($this->addFields);
+	}
+	public function validateAddData($row) {
+		return $this->validate($row, @$this->addValidator);
 	}
 	public function add($row) {
 		$entity = _db()->getEntity('table')->setTable($this->table);
 		$entity->setData($row);
 		$entity->save();
-		pzk_notifier()->addMessage('Thêm thành công');
 	}
 	public function editPostAction() {
 		$row = $this->getEditData();
-		$this->edit($row);
-		$this->redirect('index');
+		if($this->validateEditData($row)) {
+			$this->edit($row);
+			pzk_notifier()->addMessage('Cập nhật thành công');
+			$this->redirect('index');
+		} else {
+			pzk_validator()->setEditingData($row);
+			$this->redirect('edit/' . pzk_request('id'));
+		}
 	}
 	public function getEditData() {
-		$row = array();
-		$fields = explode(',', $this->editFields);
-		foreach($fields as $field) {
-			$field = trim($field);
-			$row[$field] = pzk_request($field);
-		}
-		return $row;
+		return pzk_request()->getFilterData($this->editFields);
+	}
+	public function validateEditData($row) {
+		return $this->validate($row, @$this->editValidator);
 	}
 	public function edit($row) {
 		$entity = _db()->getEntity('table')->setTable($this->table);
 		$entity->load(pzk_request('id'));
 		$entity->update($row);
 		$entity->save();
-		pzk_notifier()->addMessage('Cập nhật thành công');
 	}
 	public function editAction() {
 		$module = pzk_parse(pzk_app()->getPageUri('admin/'.$this->module.'/edit'));
