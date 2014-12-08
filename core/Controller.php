@@ -78,7 +78,7 @@ class PzkController {
 	}
 	
 	public function initPage() {
-		$page = $this->getStructure($this->masterStructure);
+		$page = $this->getStructure(pzk_or($this->masterPage, $this->masterStructure));
 		$this->page = $page;
 		return $this;
 	}
