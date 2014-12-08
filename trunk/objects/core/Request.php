@@ -87,6 +87,27 @@ class PzkCoreRequest extends PzkObjectLightWeight {
 	public function redirect($url) {
 		header('Location: ' . $url);
 	}
+	
+	public function getFilterData() {
+		$fields = array();
+		$arguments = func_get_args();
+		if(count($arguments) == 0) {
+			return $this->query;
+		} else if(count($arguments) == 1) {
+			if(is_string($arguments[0])) {
+				$fields = explodetrim(',', $arguments[0]);
+			} else if (is_array($arguments[0])) {
+				$fields = $arguments[0];
+			}
+		} else {
+			$fields = $arguments;
+		}
+		$data = array();
+		foreach($fields as $field) {
+			$data[$field] = $this->get($field);
+		}
+		return $data;
+	}
 }
 function pzk_request($var = NULL, $value = NULL) {
 	$request = pzk_element('request');
