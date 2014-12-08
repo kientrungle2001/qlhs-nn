@@ -1,4 +1,8 @@
 <?php $item = $data->getItem(); 
+$row = pzk_validator()->getEditingData();
+if($row) {
+	$item = array_merge($item, $row);
+}
 $parents = _db()->select('*')->from('categories')->result();
 $parents = buildArr($parents, 'parent', 0);
 ?>
