@@ -29,3 +29,6 @@ function pzk_notifier_messages() {
 function pzk_notifier() {
 	return pzk_element('notifier');
 }
+function pzk_notifier_add_message($message, $type) {
+	return pzk_element('notifier')->addMessage($message, $type);
+}

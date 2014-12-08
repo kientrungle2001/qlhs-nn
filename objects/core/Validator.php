@@ -1,7 +1,7 @@
 <?php
 class PzkCoreValidator extends PzkObjectLightWeight {
 	public function required($str) {
-		return !trim($str);
+		return trim($str);
 	}
 	public function email($str) {
 		if (filter_var($str, FILTER_VALIDATE_EMAIL)) { 
@@ -71,4 +71,25 @@ class PzkCoreValidator extends PzkObjectLightWeight {
 		if(count($result)) return $result;
 		return true;
 	}
+	public function isValid($value, $validator, $params = NULL) {
+		if(is_array($params)) {
+			return $this->$validator($value, @$params[0], @$params[1], @$params[2]);
+		} else {
+			return $this->$validator($value, @$params);
+		}
+	}
+	public function setEditingData($data) {
+		pzk_session('editingData', $data);
+	}
+	public function getEditingData() {
+		$data = pzk_session('editingData');
+		pzk_session('editingData', false);
+		return $data;
+	}
+}
+function pzk_validator() {
+	return pzk_element('validator');
+}
+function pzk_validate($data, $options) {
+	return pzk_validator()->validate($data, $options);
 }
