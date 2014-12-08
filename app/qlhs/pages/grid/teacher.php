@@ -2,6 +2,7 @@
 	<dg.dataGridItem field="id" width="80">Id</dg.dataGridItem>
 	<dg.dataGridItem field="name" width="120">Tên giáo viên</dg.dataGridItem>
 	<dg.dataGridItem field="phone" width="100">Số điện thoại</dg.dataGridItem>
+	<dg.dataGridItem field="password" width="100">Password</dg.dataGridItem>
 	<dg.dataGridItem field="school" width="160">Trường</dg.dataGridItem>
 	<dg.dataGridItem field="address" width="80">Địa chỉ</dg.dataGridItem>
 	<dg.dataGridItem field="salary" width="80">Lương</dg.dataGridItem>
@@ -16,6 +17,7 @@
 			<frm.formItem type="hidden" name="id" required="false" label="" />
 			<frm.formItem name="name" required="true" validatebox="true" label="Tên giáo viên" />
 			<frm.formItem name="phone" required="false" label="Số điện thoại" />
+			<frm.formItem name="password" required="false" label="Password" />
 			<frm.formItem name="school" required="false" label="Trường" />
 			<frm.formItem name="address" required="false" label="Địa chỉ" />
 			<frm.formItem name="salary" required="false" label="Lương" />

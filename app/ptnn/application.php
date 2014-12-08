@@ -7,4 +7,5 @@
 	<core.rewrite.request pattern="^\/([*controller*][\w_][\w\d_]*)\/([*action*][\w_][\w\d_]*)" queryParams="controller, action" />
 	<core.mailer id="mailer" username="kieunghia.luckystar@gmail.com" password="Nghiak4bcntt" host="smtp.gmail.com" secure="tls" port="587" />
 	<core.notifier id="notifier" />
+	<core.validator id="validator" />
 </core.application>
