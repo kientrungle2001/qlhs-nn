@@ -181,7 +181,7 @@ class PzkUserController extends PzkController {
 		
 		$request = pzk_element('request');
 		$password=md5($request->get('password'));
-		$items = _db()->useCB()->select('user.*')->from('user')->where(array('and', array('equal', 'username', $request->get('login')), array('equal','password',$password) ))->result_one();
+		$items = _db()->useCB()->select('user.*')->from('user')->where(array('and', array('equal', 'username', $request->get('login')), array('equal','password',$password), array('equal','status',1) ))->result_one();
 		if($items)
 		{
 		
@@ -198,7 +198,7 @@ class PzkUserController extends PzkController {
 		    $pageLogin = PzkParser::parse($pageUri);
 		    $left=pzk_element('left');
 		    $left->append($pageLogin);
-		    $pageLogin->setError('dang nhap khong thanh cong');
+		    $pageLogin->setError('Đăng nhập không thành công');
 
 		    $this->page->display();
 		   
@@ -209,7 +209,7 @@ class PzkUserController extends PzkController {
 		pzk_session('login',false);
 		pzk_session('username',false);
 		pzk_session('userId',false);
-		header('location:/user/Login');
+		header('location:/home');
 	}
 	// Gửi email quên mật khẩu
 	public function sendMailForgotpassword($email="",$password="") {
