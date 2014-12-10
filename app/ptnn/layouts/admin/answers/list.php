@@ -11,13 +11,13 @@ $parent = $data->getParent();
 	{each $items as $item}
 	<tr>
 		<td>{item[id]}</td>
-		<td>{item[value]}</td>
+		<td><a href="{url /admin_answers/edit}/{item[id]}">{item[value]}</a></td>
 		<td>{item[valueTrue]}</td>
-		<td><a href="{url /admin_answers/edit}/{item[id]}">Sửa</a></td>
+		<td><a class="btn btn-default" href="{url /admin_answers/edit}/{item[id]}">Sửa</a></td>
 		<td><a href="{url /admin_answers/del}/{item[id]}">Xóa</td>
 	</tr>
 	{/each}
 	<tr>
-		<td colspan="5"><a href="{url /admin_answers/add}/{parent.itemId}">Thêm câu trả lời</a></td>
+		<td colspan="5"><a class="btn btn-default" href="{url /admin_answers/add}/{parent.itemId}">Thêm câu trả lời</a></td>
 	</tr>
 </table>
