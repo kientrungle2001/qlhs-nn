@@ -4,7 +4,7 @@
 	$categories = buildArr($categories,'parent',0);
 	$categoryIds = explode(',', $item['categoryIds']);
 ?>
-<form role="form" method="post" action="{url /admin_questions/editPost}">
+<form id="questionsEditForm" role="form" method="post" action="{url /admin_questions/editPost}">
   <br />
   <button type="submit" class="btn btn-primary">Cập nhật</button>
   <a href="{url /admin_questions/index}">Quay lại</a><br />
@@ -33,3 +33,9 @@
   <button type="submit" class="btn btn-primary">Cập nhật</button>
   <a href="{url /admin_questions/index}">Quay lại</a>
 </form>
+<?php 
+$editValidator = json_encode(pzk_app()->controller->editValidator);
+?>
+<script>
+$('#questionsEditForm').validate({editValidator});
+</script>

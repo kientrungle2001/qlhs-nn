@@ -1,6 +1,10 @@
 <?php 
 	$keyword = pzk_session('questionsKeyword');
 	$orderBy = pzk_session('questionsOrderBy');
+	$categoryId = pzk_session('questionsCategoryId');
+	if($categoryId) {
+		$data->conditions .= " and categoryIds like '%,$categoryId,%'";
+	}
 	if($orderBy) {
 		$data->orderBy = $orderBy;
 	}
@@ -28,6 +32,7 @@
 		}
 		return implode(', ', $rs);
 	}
+	$categoryTree = buildArr($categories,'parent',0);
 ?>
 <nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
@@ -42,6 +47,17 @@
       </form>
 	  <form class="navbar-form navbar-right" role="sort">
         <div class="form-group">
+          <select id="categoryId" name="categoryId" class="form-control" placeholder="Danh mục" onchange="window.location='{url /admin_questions/changeCategoryId}?categoryId=' + this.value;">
+			<option value="">Tất cả</option>
+			{each $categoryTree as $cat}
+			<option value="{cat[id]}"><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $cat['lever']);?>{cat[name]}</option>
+			{/each}
+		  </select>
+		  <script type="text/javascript">
+			$('#categoryId').val('{categoryId}');
+		  </script>
+        </div>
+		<div class="form-group">
           <select id="orderBy" name="orderBy" class="form-control" placeholder="Sắp xếp theo" onchange="window.location='{url /admin_questions/changeOrderBy}?orderBy=' + this.value;">
 			<option value="id asc">ID tăng dần</option>
 			<option value="id desc">ID giảm dần</option>
