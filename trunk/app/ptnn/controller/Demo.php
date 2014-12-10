@@ -91,7 +91,19 @@ class PzkDemoController extends PzkController {
 		$author->save();
 		$numberOfNews = $author->getNumberOfNews();
 		echo $numberOfNews;
-	}
+		}
+		
+		//entity from query
+		$newsEntities = _db()->select('*')->from('news')->result('news');
+		foreach($newsEntities as $newsEntity) {
+			echo $newsEntity->getTitle() .'<br />';
+		}
+		
+		// table entity
+		$news = _db()->getTableEntity('news');
+		$news->load(2);
+		$news->setTitle('BV 2 Updated');
+		$news->save();
 	}
 	public function registerPostAction(){
 		echo "register";
