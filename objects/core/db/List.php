@@ -41,21 +41,37 @@ class PzkCoreDbList extends PzkObject {
 		}
 	}
 	
-	public function getItems () {
-		return _db()->useCB()->select($this->fields)->from($this->table)
+	public function getItems ($keyword = NULL, $fields = array()) {
+		$query = _db()->useCB()->select($this->fields)->from($this->table)
 				->where($this->conditions)
+				->orderBy($this->orderBy)
 				->limit($this->pageSize, $this->pageNum)
 				->groupBy($this->groupBy)
-				->having($this->having)
-				->result();
+				->having($this->having);
+		if($keyword && count($fields)) {
+			$conds = array('or');
+			foreach($fields as $field) {
+				$conds[] = array('like', $field, "%$keyword%");
+			}
+			$query->where($conds);
+		}
+		return $query->result();
 	}
 	
-	public function getCountItems() {
+	public function getCountItems($keyword = NULL, $fields = array()) {
 		$row = _db()->useCB()->select('count(*) as c')
 				->from($this->table)
 				->where($this->conditions)
 				->groupBy($this->groupBy)
-				->having($this->having)->result_one();
+				->having($this->having);
+		if($keyword && count($fields)) {
+			$conds = array('or');
+			foreach($fields as $field) {
+				$conds[] = array('like', $field, "%$keyword%");
+			}
+			$row->where($conds);
+		}
+		$row = $row->result_one();
 		return $row['c'];
 	}
 }
