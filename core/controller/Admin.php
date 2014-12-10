@@ -9,6 +9,26 @@ class PzkAdminController extends PzkController {
 			$this->table = $this->module;
 		}
 	}
+	public function changeStatusAction() {
+		$id = pzk_request()->getSegment(3);
+		$entity = _db()->getTableEntity($this->table);
+		$entity->load($id);
+		$status = 1 - $entity->getStatus();
+		$entity->update(array('status' => $status));
+		$this->redirect('index');
+	}
+	public function changeOrderByAction() {
+		pzk_session($this->table.'OrderBy', pzk_request('orderBy'));
+		$this->redirect('index');
+	}
+	public function changePageSizeAction() {
+		pzk_session($this->table.'PageSize', pzk_request('pageSize'));
+		$this->redirect('index');
+	}
+	public function searchPostAction() {
+		pzk_session($this->table.'Keyword', pzk_request('keyword'));
+		$this->redirect('index');
+	}
 	public function indexAction() {
 		$this->initPage()
 			->append('admin/'.$this->module.'/index')
