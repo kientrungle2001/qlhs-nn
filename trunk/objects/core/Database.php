@@ -448,6 +448,10 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 	public function getEntity($entity) {
 		return pzk_loader()->createModel('entity.' . $entity);
 	}
+	public function getTableEntity($table) {
+		$entity = $this->getEntity('table')->setTable($table);
+		return $entity;
+	}
 
 }
 
