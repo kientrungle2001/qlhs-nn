@@ -63,18 +63,18 @@
        $request = pzk_element('request');
        ?>
      <br> 
-      <label for="login">User:</label>
-      <input type="text" name="login" id="login" value="<?php echo $request->get('login') ;  ?>">
+      <label for="login">Tên đăng nhập:</label>
+      <input type="text" name="login" id="login"size="4" value="<?php echo $request->get('login') ;  ?>">
       <a href="/user/register">Tạo tài khoản mới</a>
       <br>
 
     
-      <label for="password">Password:</label>
-      <input type="password" name="password" id="password" value="">
+      <label for="password">Mật khẩu:</label>
+      <input type="password" name="password" id="password" size="15px" value="">
       <a href="/user/forgotpassword">Quên mật khẩu</a>
       <br>
     <label for="">&nbsp;</label>
-      <button type="submit" class="login-button">Login</button>
+      <button type="submit" class="login-button">Đăng nhập</button>
    
   </form>
   </div>
