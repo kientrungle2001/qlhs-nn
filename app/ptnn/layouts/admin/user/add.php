@@ -1,4 +1,4 @@
-<form role="form" method="post" action="{url /admin_user/addPost}">
+<form id="userAddForm" role="form" method="post" action="{url /admin_user/addPost}">
   <input type="hidden" name="id" value="" />
   <div class="form-group">
     <label for="name">Tên</label>
