@@ -162,4 +162,28 @@ class PzkEntityModel {
 				break;
 		}
 	}
+	
+	public function getWhere($where = 1, $orderBy = 'id asc'){
+		$arr = array();
+		$class = get_class($this);
+		$items = _db()->useCB()->select('*')->from($this->table)->where($where)->orderBy($orderBy)->result();
+		foreach($items as $item) {
+			$entity = new $class();
+			$entity->table = $this->table;
+			$entity->setData($item);
+			$arr[] = $entity;
+		}
+		return $arr;
+	}
+	public function getOne($where = 1, $orderBy = 'id asc'){
+		$item = _db()->useCB()->select('*')->from($this->table)->where($where)->orderBy($orderBy)->result_one();
+		if($item) {
+			$class = get_class($this);
+			$entity = new $class();
+			$entity->table = $this->table;
+			$entity->setData($item);
+			return $entity;
+		}
+		return null;
+	}
 }
