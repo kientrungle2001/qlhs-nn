@@ -96,16 +96,17 @@ class PzkUserController extends PzkController {
 				$name= $request->get('name');
 				$password=$request->get('password');
 				$birthday= $request->get('birthday');
+				$sex= $request->get('sex');
 				$address= $request->get('address');
 				$phone= $request->get('phone');
 				$idpassport= $request->get('idpassport');
 				$iddate= $request->get('iddate');
 				$idplace= $request->get('idplace');
-				$row = array('name' =>$name,'username'=>$username,'password'=>md5($password),'email'=>$email,'birthday'=>$birthday,'address'=>$address,'phone'=>$phone,'idpassport'=>$idpassport,'iddate'=>$iddate,'idplace'=>$idplace);
-				$item= _db()->insert('user')->fields('name,username,password,email,birthday,address,phone,idpassport,iddate,idplace')->values(array($row))->result();
+				$row = array('name' =>$name,'username'=>$username,'password'=>md5($password),'email'=>$email,'birthday'=>$birthday,'address'=>$address,'phone'=>$phone,'idpassport'=>$idpassport,'iddate'=>$iddate,'idplace'=>$idplace,'sex'=>$sex);
+				$item= _db()->insert('user')->fields('name,username,password,email,birthday,address,phone,idpassport,iddate,idplace,sex')->values(array($row))->result();
 				$this->sendMail($username,$password,$email);
 				// Hiển thị layout showregister
-				$showregister = pzk_parse(pzk_app()->getPageUri('user/showregister'));
+				$showregister = pzk_parse(pzk_app()->getPageUri('/user/showregister'));
 				$this->layout();
 				$left = pzk_element('left');
 				$left->append($showregister);
@@ -181,28 +182,47 @@ class PzkUserController extends PzkController {
 		
 		$request = pzk_element('request');
 		$password=md5($request->get('password'));
-		$items = _db()->useCB()->select('user.*')->from('user')->where(array('and', array('equal', 'username', $request->get('login')), array('equal','password',$password), array('equal','status',1) ))->result_one();
+		//$items = _db()->useCB()->select('user.*')->from('user')->where(array('and', array('equal', 'username', $request->get('login')), array('equal','password',$password), array('equal','status',1) ))->result_one();
+		$items = _db()->useCB()->select('user.*')->from('user')->where( array('equal', 'username', $request->get('login')))->result_one();
 		if($items)
 		{
-		
-			pzk_session('login', true);
-			pzk_session('username', $request->get('login'));
-			pzk_session('userId',$items['id']);
-			header('location:/home');
+			//lấy pass từ csdl
+			$pass= $items['password'];
+			$status=$items['status'];
+			if($pass==$password)
+			{
+				if($status==1)
+				{
+					pzk_session('login', true);
+					pzk_session('username', $request->get('login'));
+					pzk_session('userId',$items['id']);
+					header('location:/home');	
+				}else
+				{
+					//tài khoản của bạn đăng bị khóa hoặc chưa kích hoạt
+					$error="tài khoản của bạn đăng bị khóa hoặc chưa kích hoạt";
+				}
+			}else 
+				{
+					//Mật khẩu đăng nhập chưa đúng
+					$error="Mật khẩu đăng nhập chưa đúng";
+				}
+			
 
 		}else
 		{
-
+			$error="Tên đăng nhập chưa đúng";
+		}
 			$this->layout();
 			$pageUri = $this->getApp()->getPageUri('/user/login');
 		    $pageLogin = PzkParser::parse($pageUri);
 		    $left=pzk_element('left');
 		    $left->append($pageLogin);
-		    $pageLogin->setError('Đăng nhập không thành công');
+		    $pageLogin->setError($error);
 
 		    $this->page->display();
 		   
-		}
+		
 	}
 	// Đăng xuất 
 	public function logoutAction(){
