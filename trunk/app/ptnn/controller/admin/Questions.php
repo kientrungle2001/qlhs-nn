@@ -2,8 +2,8 @@
 class PzkAdminQuestionsController extends PzkAdminController {
 	public $masterStructure = 'admin/home/index';
 	public $masterPosition = 'left';
-	public $addFields = 'name, categoryIds';
-	public $editFields = 'name, categoryIds';
+	public $addFields = 'name, type, categoryIds';
+	public $editFields = 'name, type, categoryIds';
 		public $addValidator = array(
 		'rules' => array(
 			'name' => array(

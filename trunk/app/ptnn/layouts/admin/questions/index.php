@@ -2,8 +2,12 @@
 	$keyword = pzk_session('questionsKeyword');
 	$orderBy = pzk_session('questionsOrderBy');
 	$categoryId = pzk_session('questionsCategoryId');
+	$type = pzk_session('questionsType');
 	if($categoryId) {
 		$data->conditions .= " and categoryIds like '%,$categoryId,%'";
+	}
+	if($type) {
+		$data->conditions .= " and `type` like '$type'";
 	}
 	if($orderBy) {
 		$data->orderBy = $orderBy;
@@ -47,6 +51,16 @@
       </form>
 	  <form class="navbar-form navbar-right" role="sort">
         <div class="form-group">
+			<select class="form-control" id="type" name="type" placeholder="Loại" value="{item[type]}" onchange="window.location='{url /admin_questions/changeType}?type=' + this.value;">
+				<option value="">Tất cả</option>
+				<option value="tracnghiem">Trắc nghiệm</option>
+				<option value="dientu">Điền từ vào chỗ trống</option>
+			</select>
+			<script type="text/javascript">
+			$('#type').val('{type}');
+		  </script>
+		</div>
+		<div class="form-group">
           <select id="categoryId" name="categoryId" class="form-control" placeholder="Danh mục" onchange="window.location='{url /admin_questions/changeCategoryId}?categoryId=' + this.value;">
 			<option value="">Tất cả</option>
 			{each $categoryTree as $cat}
@@ -77,6 +91,7 @@
 		<th>#</th>
 		<th>Tên</th>
 		<th>Danh mục</th>
+		<th>Loại</th>
 		<th colspan="2">Hành động</th>
 	</tr>
 	{each $items as $item}
@@ -87,12 +102,13 @@
 		<td>{item[id]}</td>
 		<td><a href="{url /admin_questions/detail}/{item[id]}">{item[name]}</a></td>
 		<td>{catNames}</td>
+		<td>{item[type]}</td>
 		<td><a class="btn btn-default" href="{url /admin_questions/edit}/{item[id]}">Sửa</a></td>
 		<td><a href="{url /admin_questions/del}/{item[id]}">Xóa</td>
 	</tr>
 	{/each}
 	<tr>
-		<td colspan="5">
+		<td colspan="6">
 		<form class="form-inline" role="form">
 		<strong>Số mục: </strong>
 		<select id="pageSize" name="pageSize" class="form-control" placeholder="Số mục / trang" onchange="window.location='{url /admin_questions/changePageSize}?pageSize=' + this.value;">
@@ -120,6 +136,6 @@
 		</td>
 	</tr>
 	<tr>
-		<td colspan="5"><a class="btn btn-default" href="{url /admin_questions/add}">Thêm câu hỏi</a></td>
+		<td colspan="6"><a class="btn btn-default" href="{url /admin_questions/add}">Thêm câu hỏi</a></td>
 	</tr>
 </table>

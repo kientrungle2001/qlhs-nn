@@ -13,6 +13,16 @@
     <label for="name">Tên</label>
     <input type="text" class="form-control" id="name" name="name" placeholder="Tên câu hỏi" value="{item[name]}">
   </div>
+  <div class="form-group clearfix">
+    <label for="type">Loại câu hỏi</label>
+    <select class="form-control" id="type" name="type" placeholder="Loại" value="{item[type]}">
+		<option value="tracnghiem">Trắc nghiệm</option>
+		<option value="dientu">Điền từ vào chỗ trống</option>
+	</select>
+	<script>
+	$('#type').val('{item[type]}');
+	</script>
+  </div>
   <div class="form-group">
     <label for="name">Danh mục</label>
     <select multiple="multiple" class="form-control" id="categoryIds" name="categoryIds[]" placeholder="Danh mục" value="{item[categoryIds]}" style="height: 300px">

@@ -12,7 +12,7 @@ $parent = $data->getParent();
 	<tr>
 		<td>{item[id]}</td>
 		<td><a href="{url /admin_answers/edit}/{item[id]}">{item[value]}</a></td>
-		<td>{item[valueTrue]}</td>
+		<td><?php if ($item['valueTrue']) { ?>Đúng<?php } else { ?>Sai<?php } ?></td>
 		<td><a class="btn btn-default" href="{url /admin_answers/edit}/{item[id]}">Sửa</a></td>
 		<td><a href="{url /admin_answers/del}/{item[id]}">Xóa</td>
 	</tr>
