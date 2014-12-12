@@ -12,6 +12,12 @@ $parents = buildArr($parents, 'parent', 0);
     <label for="name">Tên danh mục</label>
     <input type="text" class="form-control" id="name" name="name" placeholder="Tên danh mục" value="{item[name]}">
   </div>
+
+<div class="form-group">
+    <label for="router">Tên đường dẫn</label>
+    <input type="text" class="form-control" id="router" name="router" placeholder="Đường dẫn" value="{item[router]}">
+</div>
+
   <div class="form-group">
     <label for="parent">Danh mục cha</label>
     <select class="form-control" id="parent" name="parent" placeholder="Danh mục cha" value="{item[parent]}">

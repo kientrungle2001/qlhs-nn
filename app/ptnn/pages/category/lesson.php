@@ -1,0 +1,1 @@
+<category.lesson table="categories" id="parent_category" layout="category/lesson"/>

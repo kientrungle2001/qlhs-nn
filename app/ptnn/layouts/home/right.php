@@ -1,3 +1,3 @@
 <div id="right">
-	right
+	{children all}
 </div>

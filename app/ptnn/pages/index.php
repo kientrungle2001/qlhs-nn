@@ -8,8 +8,8 @@
 		<html.css src="/3rdparty/bootstrap3/css/bootstrap-theme.min.css" />
 		<html.js src="/3rdparty/bootstrap3/js/bootstrap.min.js" />
 	</home.head>
-	<home.menu layout="home/menu"/>
+	<core.db.list table="categories" layout="home/menu"/>
 		<home.left id="left" layout="home/left"/>
-		<home.right layout="home/right"/>
+		<home.right id="right" layout="home/right"/>
 	<home.footer layout="home/footer"/>
 </page>
