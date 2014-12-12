@@ -18,6 +18,26 @@ class PzkDemoController extends PzkController {
 			echo 'Message has been sent';
 		}
 	}
+	
+	public function entityAction() {
+		/*
+		$entity = _db()->getTableEntity('news');
+		$entity->setTitle('Tin tuc');
+		$entity->setBrief('Mo ta');
+		$entity->setContent('Noi dung');
+		$entity->setRelated2s(array(1, 2, 3, 4));
+		$entity->save();
+		*/
+		$entity = _db()->getTableEntity('news');
+		$newss = $entity->getWhere(array('in', 'id', array(4, 5)));
+		foreach($newss as $news) {
+			echo $news->getTitle() . '<br />';
+			var_dump($news->getRelated2s());
+			//$news->setTitle($news->getTitle() . ' - updated');
+			//$news->save();
+		}
+	}
+	
 	public function registerAction(){
 		$pageUri = $this->getApp()->getPageUri('user/register');
 		// doc trang
@@ -103,6 +123,23 @@ class PzkDemoController extends PzkController {
 		$news->load(2);
 		$news->setTitle('BV 2 Updated');
 		$news->save();
+		
+		
+		$entity = _db()->getTableEntity('news');
+		$entity->setTitle('Tin tuc');
+		$entity->setBrief('Mo ta');
+		$entity->setContent('Noi dung');
+		$entity->setRelated2s(array(1, 2, 3, 4));
+		$entity->save();
+		
+		$entity = _db()->getTableEntity('news');
+		$newss = $entity->getWhere(array('in', 'id', array(4, 5)));
+		foreach($newss as $news) {
+			echo $news->getTitle() . '<br />';
+			var_dump($news->getRelated2s());
+			$news->setTitle($news->getTitle() . ' - updated');
+			$news->save();
+		}
 	}
 	public function registerPostAction(){
 		echo "register";
