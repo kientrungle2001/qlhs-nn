@@ -138,6 +138,7 @@ class PzkUserController extends PzkController {
 			pzk_session('login', true);
 			pzk_session('username',$items['username']);
 			pzk_session('userId',$items['id']);
+			pzk_session('name',$items['name']);
 			$active = pzk_parse(pzk_app()->getPageUri('user/registersuccess'));
 
 			$this->layout();
@@ -198,9 +199,10 @@ class PzkUserController extends PzkController {
 					pzk_session('login', true);
 					pzk_session('username', $request->get('login'));
 					pzk_session('userId',$items['id']);
+					pzk_session('name',$items['name']);
 					$datelogin=date("Y-m-d H:i:s");    
 					_db()->useCB()->update('user')->set(array('lastlogined' =>$datelogin ))->where(array('username',$items['username']))->result();
-					header('location:/home');	
+					header('location:/user/profileuser');	
 				}else
 				{
 					//tài khoản của bạn đăng bị khóa hoặc chưa kích hoạt
@@ -589,5 +591,14 @@ class PzkUserController extends PzkController {
 			$left = pzk_element('left');
 			$left->append($editsign);
 			$this->page->display();
+	}
+	// Function hiển thị thông tin cá nhân của user
+	public function profileuserAction()
+	{
+		$this->layout();		
+		$profileuser = $this->parse('user/profileuser');
+		$this->append('user/profileuser', 'right');
+		$this->page->display();
+			
 	}
 }
