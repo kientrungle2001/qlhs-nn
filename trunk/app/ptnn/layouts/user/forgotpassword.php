@@ -1,17 +1,62 @@
-<style>
+
+<script language="javascript" src="../3rdparty/Validate/lib/jquery.js"></script>
+<script src="../3rdparty/Validate/dist/jquery.validate.js"></script>
+<script>
+ 
+  $().ready(function() 
+  {
+   $("#formForgotpassword").validate(
+   {
+      rules: 
+      {
+        email: 
+        {
+          required: true,
+          email: true
+        },
+        captcha: "required"
+      },
+      messages:
+       {
+          email: 
+          {
+             required: "Yêu cầu nhập email",
+             email: "Email chưa đúng định dạng"
+          },
+
+           captcha: "Mã bảo mật không được bở trống"     
+        }
+        });
+    });
+</script>
+   <style>
+ 
+    #formForgotpassword label.error {
+        
+        width: auto;
+        display: block;
+        color: red;
+        font-style: italic;
+        font-size: 12px;
+        font-weight: normal;
+       padding-left:200px;
+    }
+ 
+
       label{
-          float: left;
+          
           width: 200px;
+          
       }
       input {
           margin-bottom: 10px;
       }
     </style>
-    <div style="border-width: 1px;border-style: solid; border-color: #FF7357;  width:80%; ">
+    <div style="border-width: 1px;border-style: solid; border-color: #FF7357;  width:80%; height: auto;">
     <div> 
     <p align="center"><strong> Lấy lại mật khẩu mới</strong></p>
     </div> 
-    <form method="post" action="/User/forgotpasswordPost" >
+    <form id="formForgotpassword" method="post" action="/User/forgotpasswordPost" >
     
       <?php 
         echo @$data->getError();
@@ -26,11 +71,13 @@
 
     
       <label for="captcha">Mã bảo mật:</label>
+      
       <input type="captcha" name="captcha" id="captcha" value="">
+      <img src="http://ptnn.vn/3rdparty/captcha/random_image.php" />
       
       <br>
     <label for="">&nbsp;</label>
-      <button type="submit" class="login-button">Đồng ý</button>
+      <button name="ok" type="submit" class="login-button">Đồng ý</button>
    
   </form>
   </div>

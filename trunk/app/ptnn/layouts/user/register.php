@@ -112,7 +112,7 @@
                                 <input id="birthday" name="birthday" type="date"  autocomplete="OFF" src=""/> 
                                 <br>
                                 <label for="sex">Giới tính</label> 
-                                <select style="float:left;width:150px;height:24px;"id="sex" name="sex">
+                                <select style="width:150px;height:24px;"id="sex" name="sex">
                                     <option value="Nam">Nam</option>
                                     <option value="Nữ">Nữ</option>
                                 </select>

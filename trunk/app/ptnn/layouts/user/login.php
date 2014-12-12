@@ -20,43 +20,71 @@
  
   <link rel="stylesheet" media="screen" href="screen.css">
   <style>
-      label{
-          float: left;
-          width: 200px;
+      label 
+      {
+        width:200px;
       }
       input {
           margin-bottom: 10px;
       }
     </style>
-  <script src="../../qlhs/3rdparty/Validate/lib/jquery.js"></script>
-  <script src="../../qlhs/3rdparty/Validate/dist/jquery.validate.js"></script>
+  <script language="javascript" src="../3rdparty/Validate/lib/jquery.js"></script>
+<script src="../3rdparty/Validate/dist/jquery.validate.js"></script>
   <script>
-  $(function() {
-    // highlight
-    var elements = $("input[type!='submit'], textarea, select");
-    elements.focus(function() {
-      $(this).parents('li').addClass('highlight');
-    });
-    elements.blur(function() {
-      $(this).parents('li').removeClass('highlight');
-    });
+  $().ready(function() 
+  {
+   $("#formLogin").validate(
+   {
+      rules: 
+      {
+        login: 
+        {
+          required: true,
+          minlength: 6
+        },
+        passwordlogin: 
+        {
+          required: true,
+          minlength: 6
+        },
+      },
+      messages:
+       {
+          login: 
+          {
+             required: "Tên đăng nhập không được bỏ trống",
+             minlength: "Tên đăng nhập tối thiểu là 6 ký tự"
+          },
 
-    $("#forgotpassword").click(function() {
-      $("#password").removeClass("required");
-      $("#login").submit();
-      $("#password").addClass("required");
-      return false;
+           passwordlogin: 
+          {
+             required: "Mật khẩu không được bỏ trống",
+             minlength: "Mật khẩu tối thiểu là 6 ký tự"
+          }
+        }
     });
-
-    $("#login").validate()
   });
+
   </script>
+  <style>
+ 
+    #formLogin label.error {
+        
+        width: auto;
+        display: block;
+        color: red;
+        font-style: italic;
+        font-size: 12px;
+        font-weight: normal;
+       padding-left:200px;
+    }
+    </style>
 </head>
     <div style="border-width: 1px;border-style: solid; border-color: #FF7357;  width:80%; ">
     <div> 
     <p align="center"><strong> Đăng Nhập</strong></p>
     </div> 
-    <form method="post" action="/User/loginPost" >
+    <form method="post" id="formLogin" action="/User/loginPost" >
     
       <?php 
         echo @$data->getError();
@@ -69,8 +97,8 @@
       <br>
 
     
-      <label for="password">Mật khẩu:</label>
-      <input type="password" name="password" id="password" size="15px" value="">
+      <label for="passwordlogin">Mật khẩu:</label>
+      <input type="password" name="password" id="passwordlogin" size="15px" value="">
       <a href="/user/forgotpassword">Quên mật khẩu</a>
       <br>
     <label for="">&nbsp;</label>
