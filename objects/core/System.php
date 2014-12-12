@@ -5,6 +5,10 @@ class PzkCoreSystem extends PzkObjectLightWeight {
 	public $bootstrap = 'application';
 	public $app = false;
 	
+	/**
+	 * 
+	 * @return PzkCoreApplication
+	 */
 	public function getApp() {
 		if($this->app) return $this->app;
 		$request = pzk_element('request');
@@ -22,5 +26,12 @@ class PzkCoreSystem extends PzkObjectLightWeight {
 		return BASE_DIR . '/' . $path;
 	}
 	
+}
+/**
+ * 
+ * @return PzkCoreSystem
+ */
+function pzk_system() {
+	return pzk_store_element('system');
 }
 ?>

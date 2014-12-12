@@ -55,4 +55,20 @@ class PzkCoreLoader extends PzkObjectLightWeight{
 	}
 
 }
+
+/**
+ * 
+ * @return PzkCoreLoader
+ */
+function pzk_loader() {
+	return pzk_store_element('loader');
+}
+
+/**
+ * 
+ * @param string $name
+ */
+function pzk_model($name) {
+	return pzk_loader()->getModel($name);
+}
 ?>
