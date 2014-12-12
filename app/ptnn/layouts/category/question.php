@@ -1,52 +1,32 @@
 <?php
-$keyword = pzk_session('questionsKeyword');
-$orderBy = pzk_session('questionsOrderBy');
-$categoryId = pzk_session('questionsCategoryId');
-if($categoryId) {
-    $data->conditions .= " and categoryIds like '%,$categoryId,%'";
-}
-if($orderBy) {
-    $data->orderBy = $orderBy;
-}
-$pageSize = pzk_session('questionsPageSize');
-if($pageSize) {
-    $data->pageSize = $pageSize;
-}
-$data->pageNum = pzk_request('page');
-$items = $data->getItems($keyword, array('name'));
-$countItems = $data->getCountItems($keyword, array('name'));
-$pages = ceil($countItems / $data->pageSize);
-$categories = _db()->select('*')->from('categories')->result();
-$cats = array();
-foreach($categories as $cat) {
-    $cats[$cat['id']] = $cat;
-}
-function getCategoriesName($item, $categories) {
-    $rs = array();
-    $catIds = explode(',', $item['categoryIds']);
-
-    foreach($catIds as $catId) {
-        if($catId) {
-            $rs[] = $categories[$catId]['name'];
-        }
-    }
-    return implode(', ', $rs);
-}
-$categoryTree = buildArr($categories,'parent',0);
+    $parent_id = pzk_request()->getSegment(3);
+if(pzk_request()->is('POST') && is_numeric($parent_id)) {
+    $request = pzk_request()->query;
+    $ids = ','.$request['id_category'].','.$request['subject'];
+    $items = $data->getQuestionByIds($ids, $request['level'], $request['number']);
 ?>
 
 <form action="" method="post">
-    <label for="">Chọn dạng</label>
-    <select name="" id="">
-        <option value="">Chọn dạng ... </option>
-    </select>
+    <div class="col-md-6">
+        <label for="">Chọn dạng</label>
+        <?php
+        $name = $data->getNameById($parent_id, 'categories');
+        echo $name['name'];
+        ?>
+    </div>
+    <?php if(!empty($request['subject'])) { ?>
+    <div class="col-md-6">
+        <label for="">Chủ đề</label>
+        <?php
+        $name = $data->getNameById($request['subject'], 'categories');
+        echo $name['name'];
+        ?>
+    </div>
+    <?php } ?>
+
     <br>
-    <label for="">Chủ đề</label>
-    <select name="" id="">
-        <option value="">Chọn chủ đề ...</option>
-    </select>
-    <br>
-    <table border="1px" cellpadding="0" cellspacing="0">
+
+    <table class="tb_question" border="1px" cellpadding="0" cellspacing="0">
         <thead>
         <tr>
             <th>Số câu</th>
@@ -57,25 +37,25 @@ $categoryTree = buildArr($categories,'parent',0);
         </tr>
         <tr>
             <th>
-                <select name="number" id="">
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
+                <?php echo $request['number']; ?>
             </th>
             <th>
-                <select name="time" id="">
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select> phút
+                <?php echo $request['time']; ?> phút
             </th>
             <th>
-                <select name="lever">
-                    <option value="1">Dễ</option>
-                    <option value="2">Bình thường</option>
-                    <option value="3">Khó</option>
-                </select>
+                <?php
+                switch ($request['level']) {
+                    case 1:
+                        echo "Dễ";
+                        break;
+                    case 2:
+                        echo "Bình thường";
+                        break;
+                    case 3:
+                        echo "Khó";
+                        break;
+                }
+                ?>
             </th>
         </tr>
         </thead>
@@ -104,3 +84,9 @@ $categoryTree = buildArr($categories,'parent',0);
     </table>
 
 </form>
+    <style>
+        .tb_question tr th{
+            text-align: center;
+        }
+    </style>
+<?php } ?>

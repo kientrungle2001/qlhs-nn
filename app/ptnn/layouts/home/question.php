@@ -41,7 +41,7 @@
 		<option value="">Chọn dạng ... </option>
 	</select>
 	<br>
-	<label for="">Chủ đề</label>	
+	<label for="">Chủ đề</label>
 	<select name="" id="">
 		<option value="">Chọn chủ đề ...</option>
 	</select>

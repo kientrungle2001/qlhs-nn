@@ -1,15 +1,16 @@
-<form action="/home/question" method="post">
+<form action="/category/question/<?php echo $data->getParentCategoryId(); ?>" method="post">
     <?php
     $category = $data->listCate();
     $cateParent = buildArr($category,'parent',0);
     $subject = buildArr($category,'parent',2);
     $cateEp = $data->getEpcate();
-
+    $curentCateId = $data->getParentCategoryId();
     ?>
+    <input type="hidden" name="id_category" value="<?php  echo $curentCateId; ?>"/>
     <div class="col-md-6">
         <label for="">Chọn dạng</label>
         {each $cateEp as $val}
-        <a href="<?php echo pzk_request()->build($val['router'].'/'.$val['id']); ?>">{val[name]}</a>
+        <a <?php if($curentCateId == $val['id']) { echo "class='active_type'"; } ?> href="<?php echo pzk_request()->build($val['router'].'/'.$val['id']); ?>">{val[name]}</a>
         {/each}
     </div>
     <div class="col-md-6">
@@ -43,7 +44,7 @@
             <th>Thời gian</th>
             <th>Mức độ</th>
             <th rowspan="2"><input type="submit" name="submit" value="Bắt đầu làm bài"></th>
-            <th rowspan="2" id="">15:00</th>
+
         </tr>
         <tr>
             <th>
@@ -61,7 +62,7 @@
                 </select> phút
             </th>
             <th>
-                <select name="lever">
+                <select name="level">
                     <option value="1">Dễ</option>
                     <option value="2">Bình thường</option>
                     <option value="3">Khó</option>
@@ -71,3 +72,9 @@
         </thead>
     </table>
 </form>
+<style>
+    .active_type{
+        color: orangered;
+        font-weight: bold;
+    }
+</style>

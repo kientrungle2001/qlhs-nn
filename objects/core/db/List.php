@@ -74,4 +74,9 @@ class PzkCoreDbList extends PzkObject {
 		$row = $row->result_one();
 		return $row['c'];
 	}
+
+    public function getNameById($id, $table) {
+        $data = _db()->useCB()->select('*')->from($table)->where(array('id', $id))->result_one();
+        return $data;
+    }
 }

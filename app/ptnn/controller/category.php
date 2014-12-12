@@ -61,11 +61,11 @@ class PzkCategoryController extends PzkController
 
     public function questionAction()
     {
-        $this->layout();
-        $question = pzk_parse('<home.question table="questions" layout="home/question" />');
-        $left = pzk_element('left');
-        $left->append($question);
-        $this->page->display();
+
+        $this->initPage();
+        $this->append('category/question', 'left');
+
+        $this->display();
     }
 }
 ?>
