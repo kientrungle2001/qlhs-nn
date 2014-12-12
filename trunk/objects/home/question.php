@@ -10,6 +10,6 @@
 		{
 			$listAnswer = _db()->select('*')->from('answers')->result();
 			return $listAnswer;
-		}		
+		}
 	}
  ?>

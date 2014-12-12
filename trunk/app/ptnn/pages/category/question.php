@@ -1,0 +1,1 @@
+<category.question table="questions"  layout="category/question"/>
