@@ -102,8 +102,9 @@ class PzkUserController extends PzkController {
 				$idpassport= $request->get('idpassport');
 				$iddate= $request->get('iddate');
 				$idplace= $request->get('idplace');
-				$row = array('name' =>$name,'username'=>$username,'password'=>md5($password),'email'=>$email,'birthday'=>$birthday,'address'=>$address,'phone'=>$phone,'idpassport'=>$idpassport,'iddate'=>$iddate,'idplace'=>$idplace,'sex'=>$sex);
-				$item= _db()->insert('user')->fields('name,username,password,email,birthday,address,phone,idpassport,iddate,idplace,sex')->values(array($row))->result();
+				$dateregister=date("Y-m-d H:i:s"); 
+				$row = array('name' =>$name,'username'=>$username,'password'=>md5($password),'email'=>$email,'birthday'=>$birthday,'address'=>$address,'phone'=>$phone,'idpassport'=>$idpassport,'iddate'=>$iddate,'idplace'=>$idplace,'sex'=>$sex,'registered'=>$dateregister);
+				$item= _db()->insert('user')->fields('name,username,password,email,birthday,address,phone,idpassport,iddate,idplace,sex,registered')->values(array($row))->result();
 				$this->sendMail($username,$password,$email);
 				// Hiển thị layout showregister
 				$showregister = pzk_parse(pzk_app()->getPageUri('/user/showregister'));
@@ -136,6 +137,7 @@ class PzkUserController extends PzkController {
 			_db()->useCB()->update('user')->set(array('status' => 1))->where(array('username',$items['username']))->result();
 			pzk_session('login', true);
 			pzk_session('username',$items['username']);
+			pzk_session('userId',$items['id']);
 			$active = pzk_parse(pzk_app()->getPageUri('user/registersuccess'));
 
 			$this->layout();
@@ -196,6 +198,8 @@ class PzkUserController extends PzkController {
 					pzk_session('login', true);
 					pzk_session('username', $request->get('login'));
 					pzk_session('userId',$items['id']);
+					$datelogin=date("Y-m-d H:i:s");    
+					_db()->useCB()->update('user')->set(array('lastlogined' =>$datelogin ))->where(array('username',$items['username']))->result();
 					header('location:/home');	
 				}else
 				{
@@ -231,6 +235,7 @@ class PzkUserController extends PzkController {
 		pzk_session('userId',false);
 		header('location:/home');
 	}
+	
 	// Gửi email quên mật khẩu
 	public function sendMailForgotpassword($email="",$password="") {
 		
@@ -271,22 +276,47 @@ class PzkUserController extends PzkController {
 	public function forgotpasswordPostAction()
 	{
 
+		$error="";
 		$request = pzk_element('request');
 		$email= $request->get('email');
-		$items = _db()->useCB()->select('user.*')->from('user')->where(array('equal','email',$request->get('email')))->result_one();
-		if($items)
-		{
-			$password=$items['password'];
-			// gửi email
-			$this->sendMailForgotpassword($email,$password);
-			$this->layout();
-			$pageUri = $this->getApp()->getPageUri('/user/showforgotpassword');
-			$page = PzkParser::parse($pageUri);	
-			$left = pzk_element('left');
-			$left->append($page);
-			$this->page->display();
-		
+		$captcha= $request->get('captcha');
+		if($captcha==$_SESSION['security_code'])
+		{	
+			$items = _db()->useCB()->select('user.*')->from('user')->where(array('equal','email',$request->get('email')))->result_one();
+			if($items)
+			{
+				if($items['status']==1)
+				{
+					$password=$items['password'];
+					$this->sendMailForgotpassword($email,$password);
+					$this->layout();
+					$pageUri = $this->getApp()->getPageUri('user/showforgotpassword');
+					$page = PzkParser::parse($pageUri);	
+					$left = pzk_element('left');
+					$left->append($page);
+					$this->page->display();
+				}
+				else
+				{
+					$error="Tài khoản của bạn đang bị khóa hoặc chưa kích hoạt";
+				}
+			
+			}else
+			{
+				$error="Email của bạn chưa đăng ký tài khoản";
+			}
 		}
+		else
+		{
+			$error="Mã bảo mật chưa đúng";
+		}
+		$this->layout();
+		$pageForgetpassword = $this->getApp()->getPageUri('user/forgotpassword');
+		$forgotpassword = PzkParser::parse($pageForgetpassword);	
+		$left = pzk_element('left');
+		$left->append($forgotpassword);
+		$forgotpassword->setError($error);
+		$this->page->display();
 	}
 	public function showforgotpasswordAction()
 	{
@@ -303,13 +333,14 @@ class PzkUserController extends PzkController {
 		$request=pzk_element('request');
 		$confirm=$request->get('forgotpassword');
 		$items = _db()->useCB()->select('user.*')->from('user')->where(array('key', $confirm))->result_one();
+		
 		if($items)
 		{
 			$password=md5(rand(0,9999999999).$items['username']);
 			$password=substr($password,0,8);
 			$updatepassword=md5($password);
 			$username=$items['username'];
-			_db()->useCB()->update('user')->set(array('password' => $updatepassword))->where(array('and',array('username',$username),array('status',1)))->result();
+			_db()->useCB()->update('user')->set(array('password' => $updatepassword,'key'=>''))->where(array('and',array('username',$username),array('status',1)))->result();
 			$newpassword = pzk_parse(pzk_app()->getPageUri('user/newpassword'));
 			$newpassword->setUsername($username);
 			$newpassword->setPassword($password);
@@ -317,12 +348,18 @@ class PzkUserController extends PzkController {
 			$left = pzk_element('left');
 			$left->append($newpassword);
 			$this->page->display();
-	
+
 		}
 		else
 		{
-			echo "sai rồi";
+			$newpassword = pzk_parse(pzk_app()->getPageUri('user/newpassword'));
+			$newpassword->setUsername("");
+			$this->layout();
+			$left = pzk_element('left');
+			$left->append($newpassword);
+			$this->page->display();		
 		}
+		
 
 	}
 	// Hiển thị password mới
@@ -381,8 +418,9 @@ class PzkUserController extends PzkController {
 		$iddate=$request->get('iddate');
 		$idplace=$request->get('idplace');
 		$username= pzk_session('username');
-		
-		_db()->useCB()->update('user')->set(array('name' => $name,'birthday' => $birthday,'address' => $address,'phone' => $phone,'idpassport' => $idpassport,'iddate' => $iddate,'idplace' => $idplace,))->where(array('username',$username))->result();
+		$editdate = date("Y-m-d H:i:s"); 
+		$userId= pzk_session('userId');
+		_db()->useCB()->update('user')->set(array('name' => $name,'birthday' => $birthday,'address' => $address,'phone' => $phone,'idpassport' => $idpassport,'iddate' => $iddate,'idplace' => $idplace,'modified'=>$editdate,'modifiedId'=>$userId))->where(array('username',$username))->result();
 			$username= pzk_session('username');
 			$items = _db()->useCB()->select('user.*')->from('user')->where(array('username',$username))->result_one();
 			
@@ -426,15 +464,12 @@ class PzkUserController extends PzkController {
 		$oldpassword=md5($request->get('oldpassword'));
 		$newpassword=$request->get('newpassword');
 		$username= pzk_session('username');
-		
-		//_db()->useCB()->update('user')->set(array('name' => $name,'birthday' => $birthday,'address' => $address,'phone' => $phone,'idpassport' => $idpassport,'iddate' => $iddate,'idplace' => $idplace,))->where(array('username',$username))->result();
-			
 		$items = _db()->useCB()->select('user.*')->from('user')->where(array('and',array('username',$username),array('password',$oldpassword)))->result_one();
 		if($items)
 		{
 			
 			$confirmpassword= md5($oldpassword.$newpassword);
-			$email=$items['email'];
+			$email=$items['email'];			
 			// Update Key
 			_db()->useCB()->update('user')->set(array('key' => $confirmpassword))->where(array('username',$username))->result();
 			$this->sendMailEditPassword($email,$confirmpassword,$newpassword);
@@ -476,7 +511,7 @@ class PzkUserController extends PzkController {
 	public function showeditpasswordAcction()
 	{
 			$this->layout();
-			$pageUri = $this->getApp()->getPageUri('/user/showeditpassword');
+			$pageUri = $this->getApp()->getPageUri('user/showeditpassword');
 			$page = PzkParser::parse($pageUri);	
 			$left = pzk_element('left');
 			$left->append($page);
@@ -490,18 +525,30 @@ class PzkUserController extends PzkController {
 		$confirm=$request->get('editpassword');
 		$newpassword=$request->get('conf');
 		$username=pzk_session('username');
+		$userId= pzk_session('userId');
+		$editdate = date("Y-m-d H:i:s");  
 		$items = _db()->useCB()->select('user.*')->from('user')->where(array('key', $confirm),array('username',$username))->result_one();
-		if($items['key']=$confirm)
+		if($items)
 		{			
 			//$username=$items['username'];
-			_db()->useCB()->update('user')->set(array('password' => $newpassword))->where(array('username',$username))->result();
-			$editpasswordsuccess = pzk_parse(pzk_app()->getPageUri('/user/editpasswordsuccess'));
+			_db()->useCB()->update('user')->set(array('password' => $newpassword,'key'=>'','modified'=>$editdate,'modifiedId'=>$items['id']))->where(array('username',$username))->result();
+			$editpasswordsuccess = pzk_parse(pzk_app()->getPageUri('user/editpasswordsuccess'));
+			$editpasswordsuccess->setUsername("ok");
 			$this->layout();
 			$left = pzk_element('left');
 			$left->append($editpasswordsuccess);
 			$this->page->display();
 		}
-		else echo "ko dduowcj";
+		else
+		{
+			$editpasswordsuccess = pzk_parse(pzk_app()->getPageUri('/user/editpasswordsuccess'));
+			$editpasswordsuccess->setUsername("");
+			$this->layout();
+			$left = pzk_element('left');
+			$left->append($editpasswordsuccess);
+			$this->page->display();			
+
+		}
 	}
 	
 	public function editpasswordsuccessAction()
@@ -531,12 +578,13 @@ class PzkUserController extends PzkController {
 			$username=pzk_session('username');
 			$request = pzk_element('request');				
 			$newsign=$request->get('newsign');
-			//echo $newsign;
-			_db()->useCB()->update('user')->set(array('sign'=>$newsign))->where(array('username',$username))->result();
+			$editdate = date("Y-m-d H:i:s"); 
+			$userId= pzk_session('userId');
+			_db()->useCB()->update('user')->set(array('sign'=>$newsign,'modified'=>$editdate,'modifiedId'=>$userId))->where(array('username',$username))->result();
 			$items=_db()->useCB()->select('user.*')->from('user')->where(array('username',$username))->result_one();
 			$sign=$items['sign'];
 			$this->layout();
-			$editsign = pzk_parse(pzk_app()->getPageUri('/user/editsign'));
+			$editsign = pzk_parse(pzk_app()->getPageUri('user/editsign'));
 			$editsign->setSign($sign);
 			$left = pzk_element('left');
 			$left->append($editsign);
