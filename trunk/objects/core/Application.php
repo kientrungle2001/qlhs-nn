@@ -44,6 +44,7 @@ class PzkCoreApplication extends PzkObjectLightWeight {
     }
 
     public function getPageUri($page) {
+		$page = preg_replace('/^\//', '', $page);
         return $this->getUri('pages/' . $page);
     }
 
