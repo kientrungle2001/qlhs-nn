@@ -292,6 +292,12 @@ function pzk_store_element($key, $value = NULL) {
 	return pzk_store('element.'. $key, $value);
 }
 
+/**
+ * Hàm lấy hoặc đặt element
+ * @param string $key: id của element
+ * @param string $value: element
+ * @return PzkObject đối tượng
+ */
 function pzk_element($key, $value = NULL) {
 	return pzk_store_element($key, $value);
 }
@@ -301,13 +307,20 @@ function pzk_element($key, $value = NULL) {
  *
  * @param String $key: khoa
  * @param Object $value: gia tri can dat
- * @return gia tri tuong ung voi khoa
+ * @return mixed gia tri tuong ung voi khoa
  */
 
 function pzk_store_session($key, $value = NULL, $timeout = NULL) {
 	return pzk_store('session.'. $key, $value, $timeout);
 }
 
+/**
+ * Lấy, đặt giá trị của session
+ * @param String $key
+ * @param mixed $value
+ * @param string $timeout thời gian hết hạn session
+ * @return mixed
+ */
 function pzk_session($key, $value = NULL, $timeout = NULL) {
 	return pzk_store_session($key, $value, $timeout);
 }
@@ -354,31 +367,13 @@ function pzk_filevar($key, $value = NULL, $timeout = NULL) {
 
 /////////////////////////// Cache Shortcuts /////////////////////////
 
+/**
+ * 
+ * @param unknown $xml
+ * @return PzkObject
+ */
 function pzk_parse($xml) {
 	return PzkParser::parse($xml);
-}
-
-function pzk_system() {
-	return pzk_store_element('system');
-}
-
-/**
- * Return application element
- *
- * @return {PzkApplication}
- */
-function pzk_app() {
-	return pzk_store_element('app');
-}
-
-
-/**
- * Return page object
- *
- * @return PzkPage
- */
-function pzk_page() {
-	return pzk_store_element('page');
 }
 
 /**
@@ -391,24 +386,8 @@ function pzk_route() {
 	return pzk_store_element('route');
 }
 
-function pzk_redirect($url) {
-	return pzk_route()->redirect($url);
-}
-
-function pzk_loader() {
-	return pzk_store_element('loader');
-}
-
-function pzk_model($name) {
-	return pzk_loader()->getModel($name);
-}
-
 function pzk_router($name) {
 	return pzk_model("route/$name");
-}
-
-function pzk_controller($name) {
-	return pzk_loader()->getController($name);
 }
 
 function pzk_rule($name) {
