@@ -1,0 +1,1 @@
+<category.section table="categories" id="parent_category" layout="category/section"/>

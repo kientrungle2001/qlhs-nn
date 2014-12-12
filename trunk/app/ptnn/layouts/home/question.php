@@ -1,3 +1,40 @@
+<?php
+    $keyword = pzk_session('questionsKeyword');
+    $orderBy = pzk_session('questionsOrderBy');
+    $categoryId = pzk_session('questionsCategoryId');
+    if($categoryId) {
+        $data->conditions .= " and categoryIds like '%,$categoryId,%'";
+    }
+    if($orderBy) {
+        $data->orderBy = $orderBy;
+    }
+    $pageSize = pzk_session('questionsPageSize');
+    if($pageSize) {
+        $data->pageSize = $pageSize;
+    }
+    $data->pageNum = pzk_request('page');
+    $items = $data->getItems($keyword, array('name'));
+    $countItems = $data->getCountItems($keyword, array('name'));
+    $pages = ceil($countItems / $data->pageSize);
+    $categories = _db()->select('*')->from('categories')->result();
+    $cats = array();
+    foreach($categories as $cat) {
+        $cats[$cat['id']] = $cat;
+    }
+    function getCategoriesName($item, $categories) {
+        $rs = array();
+        $catIds = explode(',', $item['categoryIds']);
+
+        foreach($catIds as $catId) {
+            if($catId) {
+                $rs[] = $categories[$catId]['name'];
+            }
+        }
+        return implode(', ', $rs);
+    }
+    $categoryTree = buildArr($categories,'parent',0);
+?>
+
 <form action="" method="post">
 	<label for="">Chọn dạng</label>
 	<select name="" id="">
@@ -15,7 +52,7 @@
 				<th>Số câu</th>
 				<th>Thời gian</th>
 				<th>Mức độ</th>
-				<th rowspan="2"><input type="submit" name="submit" value="Bắt đầu làm bài"></th>
+				<th rowspan="2"><input type="submit" name="submit" value="Hoàn thành"></th>
 				<th rowspan="2" id="countdown"></th>
 			</tr>
 			<tr>
@@ -43,4 +80,27 @@
 			</tr>
 		</thead>
 	</table>
+
+    <table class="table">
+        <?php $i = 1; ?>
+        {each $items as $item}
+        <?php
+            $answers = _db()->useCB()->select('*')->from('answers')->where(array('questionId', $item['id']))->result();
+        ?>
+        <tr>
+            <td><?php echo 'Câu '.$i.':'; ?></td>
+            <td>{item[name]}</td>
+        </tr>
+        {each $answers as $val}
+        <tr>
+            <td><input name="value_<?php echo $item['id']; ?>" type="radio" /></td>
+            <td>{val[value]}</td>
+        </tr>
+        {/each}
+        <?php $i++; ?>
+        {/each}
+
+
+    </table>
+
 </form>

@@ -38,7 +38,6 @@ class PzkDemoController extends PzkController {
 
 	}
 	public function indexAction() {
-		
 		// duong dan
 		if(pzk_session('login')){
 			echo "Đăng nhập thành công, Xin chào ^^: ";

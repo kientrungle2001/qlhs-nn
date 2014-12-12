@@ -3,8 +3,8 @@ class PzkAdminCategoryController extends PzkAdminController {
 	public $masterStructure = 'admin/home/index';
 	public $masterPosition = 'left';
 	public $table = 'categories';
-	public $addFields = 'name, parent';
-	public $editFields = 'name, parent';
+	public $addFields = 'name, parent, router';
+	public $editFields = 'name, parent, router';
 	public $addValidator = array(
 		'rules' => array(
 			'name' => array(

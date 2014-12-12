@@ -3,11 +3,13 @@
 	padding: 0px;
 }
 body{
-	margin: 0px auto;
+	margin: 0px auto !important;
 	width: 1300px;
 }
 /*Header*/
 #header{
+    float: left;
+    width: 100%;
 	height: 150px;
 	background: #86F9EB;
 	text-align: center;
@@ -25,7 +27,9 @@ body{
 /*Menu*/
 #menu{
 	height: 50px;
-	background: #0000FF;
+	background: #337ab7;
+    float: left;
+    width: 100%;
 }
 ul.drop li{
 	list-style: none;
@@ -34,8 +38,10 @@ ul.drop li a{
 	text-decoration: none;
 	float: left;
 	display: block;
-	line-height: 50px;
 	padding: 0px 17px;
+    height: 50px;
+    line-height: 50px ;
+    overflow: hidden;
 	color: #fff;
 	border-right: 1px solid #fff;
 }
