@@ -40,7 +40,8 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
                 <?php echo $request['number']; ?>
             </th>
             <th>
-                <?php echo $request['time']; ?> phút
+                 <div id="ms_timer"></div>
+
             </th>
             <th>
                 <?php
@@ -82,6 +83,25 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
 
 
     </table>
+<script>
+    $(function(){
+        $(function(){
+            $('#ms_timer').countdowntimer({
+                minutes :<?php echo $request['time']; ?>,
+                seconds : 0,
+                size : "lg",
+                timeUp : timeisUp
+            });
+            function timeisUp() {
+                alert(1);
+            }
+        });
+
+    });
+</script>
+
+
+
 
 </form>
     <style>
