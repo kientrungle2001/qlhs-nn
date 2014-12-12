@@ -116,6 +116,10 @@ class PzkController {
 		}
 		return true;
 	}
+	
+	public function parse($uri) {
+		return $this->getStructure($uri);
+	}
 }
 
 ?>
