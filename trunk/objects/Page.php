@@ -180,4 +180,13 @@ class PzkPage extends PzkObject {
 		return BASE_URL . '/design/' . $app->name . '/' . $page->template . '/' . $path;
 	}
 }
+
+/**
+ * Return page object
+ *
+ * @return PzkPage
+ */
+function pzk_page() {
+	return pzk_store_element('page');
+}
 ?>

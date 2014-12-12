@@ -5,12 +5,13 @@ class PzkCoreApplication extends PzkObjectLightWeight {
     public $name = false;
     public $libraries = array();
     public $dispatcher = 'ElementBased';
+    public $controller = false;
 	
 	public function run() {
 		$request = pzk_element('request');
 		$controller = pzk_or(@$request->query['controller'], 'Home');
 		$action = pzk_or(@$request->query['action'], 'index');
-		$controllerObject = $this->getController($controller);
+		$controllerObject = $this->_getController($controller);
 		if(!$controllerObject) die('No controller ' .$controller);
 		$controllerObject->setApp($this);
 		$this->controller = $controllerObject;
@@ -21,7 +22,7 @@ class PzkCoreApplication extends PzkObjectLightWeight {
 		}
 	}
 	
-	public function getController($controller) {
+	private function _getController($controller) {
 		$parts = explode('_', $controller);
 		$parts[count($parts)-1] = str_ucfirst($parts[count($parts)-1]);
 		$fileName = $this->getUri('controller/' . implode('/', $parts) . '.php');
@@ -69,5 +70,20 @@ class PzkCoreApplication extends PzkObjectLightWeight {
     }
 
 }
+/**
+ * Return application element
+ *
+ * @return PzkCoreApplication
+ */
+function pzk_app() {
+	return pzk_store_element('app');
+}
 
+/**
+ * 
+ * @return PzkController
+ */
+function pzk_controller() {
+	return pzk_app()->controller;
+}
 ?>
