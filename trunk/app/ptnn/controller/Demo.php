@@ -133,6 +133,7 @@ class PzkDemoController extends PzkController {
 		$entity->save();
 		
 		$entity = _db()->getTableEntity('news');
+		// getWhere($conditions, $orderBy);
 		$newss = $entity->getWhere(array('in', 'id', array(4, 5)));
 		foreach($newss as $news) {
 			echo $news->getTitle() . '<br />';
