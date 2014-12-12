@@ -25,6 +25,10 @@ class PzkAdminController extends PzkController {
 		pzk_session($this->table.'CategoryId', pzk_request('categoryId'));
 		$this->redirect('index');
 	}
+	public function changeTypeAction() {
+		pzk_session($this->table.'Type', pzk_request('type'));
+		$this->redirect('index');
+	}
 	public function changePageSizeAction() {
 		pzk_session($this->table.'PageSize', pzk_request('pageSize'));
 		$this->redirect('index');
