@@ -1,17 +1,77 @@
+<script language="javascript" src="../3rdparty/Validate/lib/jquery.js"></script>
+<script src="../3rdparty/Validate/dist/jquery.validate.js"></script>
+
+ <script>
+  $().ready(function() 
+  {
+   $("#formEditpassword").validate(
+   {
+      rules: 
+      {
+        oldpassword: 
+        {
+          required: true,
+          minlength: 6
+        },
+        newpassword: 
+        {
+          required: true,
+          minlength: 6
+        },
+        renewpassword: 
+        {
+          required: true,
+          equalTo: "#newpassword"
+        }
+      },
+      messages:
+       {
+          oldpassword: 
+          {
+             required: "Mật khẩu cũ không được bỏ trống",
+             minlength: "Mật khẩu tối thiểu 6 ký tự"
+          },
+
+           newpassword: 
+          {
+             required: "Mật khẩu mới không được bỏ trống",
+             minlength: "Mật khẩu tối thiểu là 6 ký tự"
+          },
+           renewpassword: 
+          {
+             required: "Nhập lại mật khẩu mới",
+              equalTo: "Nhập lại mật khẩu mới"
+          }
+        }
+    });
+  });
+
+  </script>
 <style>
       label{
-          float: left;
+          
           width: 200px;
       }
       input {
           margin-bottom: 10px;
       }
+      #formEditpassword label.error {
+        
+        width: auto;
+        display: block;
+        color: red;
+        font-style: italic;
+        font-size: 12px;
+        font-weight: normal;
+       padding-left:200px;
+    }
     </style>
+
     <div style="border-width: 1px;border-style: solid; border-color: #FF7357;  width:80%; ">
     <div> 
     <p align="center"><strong> Thay đổi mật khẩu</strong></p>
     </div> 
-    <form method="post" action="/User/editpasswordPost" >
+    <form method="post" id="formEditpassword" action="/User/editpasswordPost" >
     
       <?php 
         echo @$data->getError();
