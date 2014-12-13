@@ -32,7 +32,8 @@
                     email: true
                 },
                 
-                agree: "required"
+                agree: "required",
+                captcha: "required"
             },
             messages: {
                 
@@ -50,7 +51,8 @@
                     equalTo: "Yêu cầu nhập lại mật khẩu ở trên"
                 },
                 email: "Email chưa đúng định dạng",
-                agree: " Bạn chưa đồng ý với điều khoản của NextNobels. Để đăng ký bạn phải chấp nhận các điều khoản"
+                agree: " Bạn chưa đồng ý với điều khoản của NextNobels. Để đăng ký bạn phải chấp nhận các điều khoản",
+                captcha: "Bạn hãy nhập mã bảo mật giống với hình bên cạnh"
             }
         });
     });
@@ -58,15 +60,18 @@
 
 </script>
     <style>
-    #formRegister {
+    #formRegister 
+    {
         width: 500px;
     }
-    #formRegister label {
-        width: 250px;
+    #formRegister input
+    {
+        width: 200px;
+        height: 30px;
     }
-    #formRegister label.error {
-        margin-left: 10px;
-        width: auto;
+    #formRegister label.error 
+    {
+
         display: inline;
         color: red;
         font-style: italic;
@@ -75,9 +80,46 @@
 
     }
     #formRegister label.error, #formRegister input.submit {
-        margin-left: 253px;
+       
     }
-    
+    .name
+    {
+        width:300px;
+        height:100px;
+        float:left;
+    }
+    .inputid
+    {
+       width:150px;
+        height:100px;
+        float: right;
+    }
+    .profile
+    {
+        width:300px;
+        height:50px;
+        float:left;
+    }
+    .inputprofile
+    {
+       width:150px;
+        height:auto;
+        float: right;
+    }
+    #formRegister label.note 
+    {
+        display: inline;
+        font-style: italic;
+        font-size: 12px;
+         font-weight: normal;
+    }
+    #formRegister legend.step
+    {
+        font-family: Arial;
+        color: Green;
+    }
+  
+
     </style>
 <div style=" border-width: 1px;border-style: solid; border-color: #FF7357;  width:100%; " id="register"> 
                 <div align="center" id="steps" style=" padding-bottom: 10px;border-width: 1px;border-style: solid; border-color: #FF7357;  background-color: #fff;  width:100%;">
@@ -85,67 +127,113 @@
                 </div>
                     
                     <form id="formRegister" name="formRegister" method="post"action="/User/registerPost" > 
-                        <fieldset class="step" style="padding-bottom: 20px;padding-top: 20px;"> 
-                            <legend>Thông tin tài khoản</legend>
+                        <fieldset  style="padding-bottom: 20px;padding-top: 20px;width:100%;"> 
+                            <legend class="step">Thông tin tài khoản</legend>
                            
-                                <label for="username">Tên đăng nhập</label> 
+                               <div class="name">
+                                    <label for="username">Tên đăng nhập *</label> 
+                                    <label class="note" for="">(ít nhất 5 kí tự)<br>*Chỉ gồm chữ latin và số <br> Ví dụ: <strong>hoctiengviet</strong></label>
+                               </div>                                 
+                                <div  class="inputid">
+                                    <input class="user" type="text" id="username" name="username" minlength="5"  value="" /> 
+                                </div>
                                 
-                                <input type="text" id="username" name="username" minlength="5"  value="" /> 
-                                <br>
-                                <label for="password1">Mật khẩu</label> 
-                                <input id="password1" name="password"  type="password"  value="" /> 
-                                <br>
-                                <label for="confirm_password">Xác nhận lại mật khẩu</label> 
-                                <input id="confirm_password" name="confirm_password"  type="password"  value="" /> 
-                                <br>
-                                <label for="email">Email</label> 
-                                <input id="email" name="email" type="email"placeholder="info@gmail.com"  value="" /> 
+                                <div class="name">
+                                    <label for="password1">Mật khẩu*</label> 
+                                    <label class="note" >(ít nhất 6 kí tự) <br>*Mật khẩu phải bao gồm cả chữ cái và chữ số, có ít nhất 1 chữ cái viết hoa, 1 chữ cái viết thường, 1 chữ số và không được chứa khoảng trắng</label> 
+                                </div>
+                                <div class="inputid">
+                                    <input class="user"id="password1" name="password"  type="password"  value="" /> 
+                                </div>
+                                
+                                <div class="name">
+                                <label for="confirm_password">Xác nhận lại mật khẩu* </label> 
+                                <label class="note"><br>*Bạn hãy nhập lại mật khẩu ở trên</label>
+                                </div>
+                                <div class="inputid">
+                                    <input class="user" id="confirm_password" name="confirm_password"  type="password"  value="" /> 
+                                </div>
+                                
+                                <div class="name">
+                                    <label for="email">Email</label> 
+                                    <label class="note"for=""> <br>  *Bạn hãy nhập email của bạn</label>
+                                </div>
+                                <div class="inputid">
+                                <input class="user" id="email" name="email" type="email"placeholder="info@gmail.com"  value="" /> 
+                                </div>
                                 <br>
                         </fieldset> 
-                        <fieldset class="step"style="padding-bottom: 20px;padding-top: 20px;"> 
-                            <legend>Thông tin cá nhân</legend> 
-                                <br>
-                                <label for="name">Họ và Tên</label> 
-                                <input id="name" name="name" type="text"minlength="5"  autocomplete="OFF"/> 
-                                <br>
-                                <label for="birthday">Ngày sinh</label> 
-                                <input id="birthday" name="birthday" type="date"  autocomplete="OFF" src=""/> 
-                                <br>
-                                <label for="sex">Giới tính</label> 
-                                <select style="width:150px;height:24px;"id="sex" name="sex">
+                        <fieldset style="padding-bottom: 20px;padding-top: 20px;"> 
+                            <legend class="step">Thông tin cá nhân</legend> 
+     
+                                <div class="profile">
+                                    <label  for="name">Họ và Tên</label>
+                                </div>
+                                <div class="inputprofile">
+                                    <input id="name" name="name" type="text"minlength="5"  autocomplete="OFF"/> 
+                                </div>
+                                <div class="profile">
+                                    <label for="birthday">Ngày sinh</label> 
+                                </div> 
+                                <div class="inputprofile">
+                                    <input id="birthday" name="birthday" type="date"  autocomplete="OFF" src=""/> 
+                                </div>
+                                <div class="profile">
+                                    <label for="sex">Giới tính</label>
+                                </div>
+                                <div class="inputprofile">
+                                    <select style="width:150px;height:24px;"id="sex" name="sex">
                                     <option value="Nam">Nam</option>
                                     <option value="Nữ">Nữ</option>
-                                </select>
-                                <p></p>
-
-                                <label for="address">Địa chỉ</label> 
-                                <input id="address" name="address" type="text"   autocomplete="OFF" src=""/> 
-                                <br>
-                                <label for="phone">Số điện thoại</label> 
-                                <input id="phone" name="phone" placeholder="eg: 0987876789" type="tel"  autocomplete="OFF" src=""/> 
-                                <br>
-
-                                <label for="idpassport">Số CMT hoặc hộ chiếu</label> 
-                                <input id="idpassport" name="idpassport"  type="text" autocomplete="OFF" src=""/> 
-                                <br>
-                                <label for="iddate">Ngày cấp</label> 
-                                <input id="iddate" name="iddate"  type="date" autocomplete="OFF" src=""/> 
-                                <br>
-                                <label for="idplace">Nơi cấp</label> 
-                                <input id="idplace" name="idplace"  type="text"  autocomplete="OFF" src=""/> 
-                                <br> 
+                                    </select>
+                                </div>
+                                <div class="profile">
+                                    <label for="address">Địa chỉ</label>
+                                </div>
+                                <div class="inputprofile">
+                                    <input id="address" name="address" type="text"   autocomplete="OFF" src=""/> 
+                                </div>
+                                <div class="profile">
+                                    <label for="phone">Số điện thoại</label>
+                                </div>
+                                <div class="inputprofile">
+                                    <input id="phone" name="phone" placeholder="eg: 0987876789" type="tel"  autocomplete="OFF" src=""/> 
+                                </div>
+                                <div class="profile">
+                                    <label for="idpassport">Số CMT hoặc hộ chiếu</label> 
+                                </div>
+                                <div class="inputprofile">
+                                    <input id="idpassport" name="idpassport"  type="text" autocomplete="OFF" src=""/> 
+                                </div>
+                                <div class="profile">
+                                    <label for="iddate">Ngày cấp</label> 
+                                </div>
+                                <div class="inputprofile">
+                                    <input id="iddate" name="iddate"  type="date" autocomplete="OFF" src=""/> 
+                                </div>                                
+                                <div class="profile">
+                                    <label for="idplace">Nơi cấp</label> 
+                                </div>
+                                <div class="inputprofile">
+                                    <input id="idplace" name="idplace"  type="text"  autocomplete="OFF" src=""/> 
+                                </div>      
+ 
                         </fieldset>                       
                         
                         <fieldset class=""style="padding-bottom: 20px;padding-top: 20px;"> 
-                            <legend>Xác nhận</legend> 
-                                <br>
+                            <legend class="step">Điều khoản sử dụng</legend> 
+                            <div style="width:100%;height:auto;">
                                     <input style="float:left;height: 18px;width:18px;padding-left:0px;" type="checkbox" class="checkbox" id="agree" name="agree">    
                                     <label style="float:left;"for="agree">Tôi đồng ý với các điều khoản trên</label>
-                                    
-                                <br>
-                                         
-                                       <p align="center"> <button id="registerButton" type="submit">Đăng Ký</button> <p>
-                          
+                            </div>        
+                            <div style="width:100%;float:left;height:auto;">                                       
+                                    <label style="width:150px;" for="captcha">Nhập mã bảo mật:</label>
+                                    <img src="http://ptnn.vn/3rdparty/captcha/random_image.php" /> 
+                                    <input  type="captcha" name="captcha" id="captcha" value="">
+                                        
+                                    <p align="center"> <button id="registerButton" type="submit">Đăng Ký</button> <p>
+                            </div>                                       
+                                                      
                         </fieldset> 
                     </form> 
         
