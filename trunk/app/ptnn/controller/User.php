@@ -75,45 +75,65 @@ class PzkUserController extends PzkController {
 			$this->page->display();
 	}
 	public function registerPostAction()
-	{		
+	{	
+		$error="hihi";	
 		$request=pzk_element('request');
 		$username=$request->get('username');
 		$email=$request->get('email');
-		$testUser= _db()->useCB()->select('username')->from('user')->where(array('equal','username',$request->get('username')))->result();
-		if($testUser)
+		$captcha= $request->get('captcha');
+		if($captcha==$_SESSION['security_code'])
 		{
-			echo 'user đã tồn tại trên hệ thống';
-		}
-		else
-		{	
-			$testEmail= _db()->useCB()->select('email')->from('user')->where(array('equal','email',$request->get('email')))->result();
-			if($testEmail)
+			$testUser= _db()->useCB()->select('username')->from('user')->where(array('equal','username',$request->get('username')))->result();
+			if($testUser)
 			{
-				echo "Email đã tồn tại trên hệ thống";
+				$error="Tên đăng nhập đã tồn tại trên hệ thống";
 			}
 			else
-			{
-				$name= $request->get('name');
-				$password=$request->get('password');
-				$birthday= $request->get('birthday');
-				$sex= $request->get('sex');
-				$address= $request->get('address');
-				$phone= $request->get('phone');
-				$idpassport= $request->get('idpassport');
-				$iddate= $request->get('iddate');
-				$idplace= $request->get('idplace');
-				$dateregister=date("Y-m-d H:i:s"); 
-				$row = array('name' =>$name,'username'=>$username,'password'=>md5($password),'email'=>$email,'birthday'=>$birthday,'address'=>$address,'phone'=>$phone,'idpassport'=>$idpassport,'iddate'=>$iddate,'idplace'=>$idplace,'sex'=>$sex,'registered'=>$dateregister);
-				$item= _db()->insert('user')->fields('name,username,password,email,birthday,address,phone,idpassport,iddate,idplace,sex,registered')->values(array($row))->result();
-				$this->sendMail($username,$password,$email);
-				// Hiển thị layout showregister
-				$showregister = pzk_parse(pzk_app()->getPageUri('/user/showregister'));
-				$this->layout();
-				$left = pzk_element('left');
-				$left->append($showregister);
-				$this->page->display();
+			{	
+				$testEmail= _db()->useCB()->select('email')->from('user')->where(array('equal','email',$request->get('email')))->result();
+				if($testEmail)
+				{
+					$error= "Email đã tồn tại trên hệ thống";
+				}
+				else
+				{
+					$name= $request->get('name');
+					$password=$request->get('password');
+					$birthday= $request->get('birthday');
+					$sex= $request->get('sex');
+					$address= $request->get('address');
+					$phone= $request->get('phone');
+					$idpassport= $request->get('idpassport');
+					$iddate= $request->get('iddate');
+					$idplace= $request->get('idplace');
+					$dateregister=date("Y-m-d H:i:s"); 
+					$row = array('name' =>$name,'username'=>$username,'password'=>md5($password),'email'=>$email,'birthday'=>$birthday,'address'=>$address,'phone'=>$phone,'idpassport'=>$idpassport,'iddate'=>$iddate,'idplace'=>$idplace,'sex'=>$sex,'registered'=>$dateregister);
+					$item= _db()->insert('user')->fields('name,username,password,email,birthday,address,phone,idpassport,iddate,idplace,sex,registered')->values(array($row))->result();
+					$this->sendMail($username,$password,$email);
+					// Hiển thị layout showregister
+					$showregister = pzk_parse(pzk_app()->getPageUri('user/showregister'));
+					$this->layout();
+					$left = pzk_element('left');
+					$left->append($showregister);
+					$this->page->display();
+				}
 			}
+
 		}
+		else
+		{
+			$error="Mã bảo mật chưa đúng";
+
+		}
+			$this->layout();
+			$pageUri = $this->getApp()->getPageUri('user/register');
+		    $pageRegister = PzkParser::parse($pageUri);
+		    $left=pzk_element('left');
+		    $left->append($pageRegister);
+		    pzk_notifier_add_message($error, 'danger');
+		    //$pageRegister->setError($error);
+
+		    $this->page->display();
 	}
 	// Hiển thị thông báo sau khi đăng ký tài khoản
 	public function showregisterAction()
