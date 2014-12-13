@@ -1,9 +1,45 @@
 <?php
 class PzkCoreMailer extends PzkObjectLightWeight {
+	/**
+	 * Host để gửi mail
+	 * @var string
+	 */
+	public $host = false;
+	/**
+	 * Username đăng nhập vào hệ thống mail
+	 * @var string
+	 */
+	public $username = false;
+	/**
+	 * Password đăng nhập vào hệ thống mail
+	 * @var string
+	 */
+	public $password = false;
+	/**
+	 * Kiểu kết nối: ssl hay tls
+	 * @var string
+	 */
 	public $secure = 'ssl';
+	/**
+	 * Cổng kết nối
+	 * @var int
+	 */
 	public $port = 465;
+	/**
+	 * Gửi từ địa chỉ email
+	 * @var string
+	 */
 	public $from = 'nextnobels.jsc.edu@gmail.com';
+	/**
+	 * Gửi từ tên
+	 * @var string
+	 */
 	public $fromName = 'NextNobels';
+	
+	/**
+	 * Trả về mailer của hệ thống
+	 * @return PHPMailer
+	 */
 	public function getMail() {
 		require_once BASE_DIR .'/3rdparty/PHPMailer/PHPMailerAutoload.php';
 
@@ -24,6 +60,10 @@ class PzkCoreMailer extends PzkObjectLightWeight {
 		return $mail;
 	}
 }
+/**
+ * Trả về mailer của hệ thống
+ * @return PHPMailer
+ */
 function pzk_mailer() {
 	return pzk_element('mailer')->getMail();
 }

@@ -178,6 +178,11 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 		return $this;
     }
 
+    /**
+     * Thực thi query
+     * @param string $entity trả về mảng dạng entity hay dạng mảng thông thường
+     * @return NULL|array|array<PzkEntityModel>
+     */
     public function result($entity = false) {
         $this->connect();
         //mysql_query('set names utf-8', $this->connId);
@@ -304,6 +309,10 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
         return $this;
     }
 	
+    /**
+     * Trả về câu query trước khi execute
+     * @return string
+     */
 	public function getQuery() {
 		if (@$this->options['action'] == 'select') {
             $query = 'select ' . $this->options['fields']
@@ -325,6 +334,11 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
         }
 	}
 	
+	/**
+	 * Trả về một bản ghi
+	 * @param string $entity: trả về theo entity hay theo dạng mảng thông thường
+	 * @return Ambigous <multitype:, Ambigous <NULL, unknown>>|NULL
+	 */
 	public function result_one($entity = false) {
 		$this->limit(1,0);
 		$rows = $this->result($entity);
@@ -351,22 +365,45 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 		return $this->getParent($table, $item['parentId'], $conditions);
 	}
 	
+	/**
+	 * Trả về các con theo parentId và điều kiện
+	 * @param unknown $table
+	 * @param unknown $parentId
+	 * @param mixed $conditions
+	 * @return array
+	 */
 	public function getChildren($table, $parentId, $conditions = false) {
-		return $this->clear()->select('*')->from($table)->where('parentId=' . $parentId . ' and ' . pzk_or($conditions, '1'))->result();
+		return $this->clear()->useCB()->select('*')->from($table)->where('parentId=' . $parentId . ' and ' . pzk_or($conditions, '1'))->result();
 	}
-
-    public function limit($pagination, $page) {
+	
+	/**
+	 * Phân trang
+	 * @param unknown $pagination: số bản ghi / trang
+	 * @param unknown $page: số hiệu trang
+	 * @return PzkCoreDatabase
+	 */
+    public function limit($pagination, $page = 0) {
         $this->options['start'] = $pagination * $page;
         $this->options['pagination'] = $pagination;
         return $this;
     }
-
+	
+    /**
+     * Clear query để bắt đầu lại
+     * @return PzkCoreDatabase
+     */
     public function clear() {
         $this->options = array();
 		//$this->useCache(15*60);
         return $this;
     }
 
+    /**
+     * Describle một bảng: trả về các columns của bảng
+     * @param string $table
+     * @param boolean $columns trả về danh sách tên column hay trả về danh sách chi tiết của column
+     * @return array
+     */
     public function describle($table, $columns = true) {
         $result = mysql_query('describe ' . $table, $this->connId);
         $rslt = array();
@@ -380,6 +417,11 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
         return $rslt;
     }
 
+    /**
+     * Query một câu lệnh sql thông thường
+     * @param string $sql câu lệnh sql
+     * @return array|resource|multitype:multitype:
+     */
     public function query($sql) {
         $this->connect();
         if (@$_REQUEST['showQuery'])
@@ -394,12 +436,22 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
         return $rslt;
     }
 	
+    /**
+     * Query lấy một bản ghi
+     * @param string $sql câu lệnh sql
+     * @return array|NULL
+     */
 	public function query_one($sql) {
 		$result = $this->query($sql);
 		if(is_bool($result)) return $result;
 		return $result[0];
 	}
 	
+	/**
+	 * Lấy các trường của một bảng trong csdl
+	 * @param string $table
+	 * @return array mảng các trường
+	 */
 	public function getFields($table) {
 		$query = "select COLUMN_NAME from information_schema.columns where table_name = '$table' order by ordinal_position";
 		$fields = $this->query($query);
@@ -410,6 +462,12 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 		return $columns;
 	}
 	
+	/**
+	 * Xây dựng insert data
+	 * @param string $table bảng
+	 * @param array $data mảng dữ liệu chưa được lọc
+	 * @return array mảng dữ liệu insert được
+	 */
 	public function buildInsertData($table, $data) {
 		$fields = $this->getFields($table);
 		$params = array();
@@ -429,25 +487,20 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 		}
 		return $result;
 	}
-
-    public function get($sql, $field = false) {
-        $items = $this->query($sql);
-        if ($items) {
-            if ($field) {
-                return $items[0][$field];
-            }
-            return $items[0];
-        }
-        return NULL;
-    }
 	
-	public function getRow($table, $id) {
-		return $this->clear()->select('*')->from($table)->where('id=' . $id)->result_one();
-	}
-	
+	/**
+	 * Trả về một entity trong model/entity
+	 * @param string $entity tên entity theo kiểu edu.student
+	 * @return PzkEntityModel
+	 */
 	public function getEntity($entity) {
 		return pzk_loader()->createModel('entity.' . $entity);
 	}
+	/**
+	 * Trả về entity table
+	 * @param string $table tên bảng cơ sở dữ liệu
+	 * @return PzkEntityTableModel
+	 */
 	public function getTableEntity($table) {
 		$entity = $this->getEntity('table')->setTable($table);
 		return $entity;
@@ -455,6 +508,9 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 
 }
 
+/**
+ * @return PzkCoreDatabase
+ */
 function _db() {
     return pzk_store_element('db')->clear();
 }
