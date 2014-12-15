@@ -230,14 +230,9 @@ class PzkAdminUserController extends PzkGridAdminController {
 				'minlength' => 2,
 				'maxlength' => 50
 			),
-			'username' => array(
+			'type' => array(
 				'required' => true,
-				'minlength' => 5,
-				'maxlength' => 50
-			),
-			'email' => array(
-				'required' => true,
-				'email' => true,
+				'minlength' => 2,
 				'maxlength' => 50
 			)
 		),
@@ -247,86 +242,12 @@ class PzkAdminUserController extends PzkGridAdminController {
 				'minlength' => 'Tên phải dài 2 ký tự trở lên',
 				'maxlength' => 'Tên chỉ dài tối đa 50 ký tự'
 			),
-			'username' => array(
-				'required' => 'Tên đăng nhập không được để trống',
-				'minlength' => 'Tên đăng nhập phải dài 5 ký tự trở lên',
-				'maxlength' => 'Tên đăng nhập chỉ dài tối đa 50 ký tự'
-			),
-			'email' => array(
-				'required' => 'Email không được để trống',
-				'email' => 'Email phải đúng định dạng',
-				'maxlength' => 'Độ dài tối đa của email là 50 ký tự'
-			)
-		)
-	);
-	
-	public $passwordValidator = array( 
-		'rules' => array(
-			'password' =>
-				array(
-					'minlength' => 6,
-					'equalTo' => '')
-		),
-		'messages' => array(
-			'password' =>
-				array(
-					'minlength' => 'Mật khẩu dài tối thiểu 6 ký tự',
-					'equalTo' => 'Mật khẩu nhập lại không khớp')
-		)
-	);
-	public function editPostAction() {
-		$row = $this->getEditData();
-		if($this->validateEditData($row)) {
-			$password = trim(pzk_request('password'));
-			$confirmpassword = trim(pzk_request('confirmpassword'));
-			$this->passwordValidator['rules']['password']['equalTo'] = $confirmpassword;
-			if($password) {
-				$passwordValidateResult = $this->validate(
-					array( 'password' => $password ),
-					$this->passwordValidator
-				);
-				if($passwordValidateResult) {
-					$row['password'] = md5($password);
-					$this->edit($row);
-					pzk_notifier()->addMessage('Cập nhật thành công');
-					$this->redirect('index');
-				} else {
-					pzk_validator()->setEditingData($row);
-					$this->redirect('edit/' . pzk_request('id'));
-				}
+				'type' => array(
+						'required' => 'Nhóm không được để trống',
+						'minlength' => 'Nhóm phải dài 2 ký tự trở lên',
+						'maxlength' => 'Nhóm chỉ dài tối đa 50 ký tự'
+				)
 				
-			} else {
-				$this->edit($row);
-				pzk_notifier()->addMessage('Cập nhật thành công');
-				$this->redirect('index');
-			}
-		} else {
-			pzk_validator()->setEditingData($row);
-			$this->redirect('edit/' . pzk_request('id'));
-		}
-	}
-	public function addPostAction() {
-		$row = $this->getAddData();
-		if($this->validateAddData($row)) {
-			$password = trim(pzk_request('password'));
-			$confirmpassword = trim(pzk_request('confirmpassword'));
-			$this->passwordValidator['rules']['password']['equalTo'] = $confirmpassword;
-			$passwordValidateResult = $this->validate(
-				array( 'password' => $password ),
-				$this->passwordValidator
-			);
-			if($passwordValidateResult) {
-				$row['password'] = md5($password);
-				$this->edit($row);
-				pzk_notifier()->addMessage('Cập nhật thành công');
-				$this->redirect('index');
-			} else {
-				pzk_validator()->setEditingData($row);
-				$this->redirect('add');
-			}
-		} else {
-			pzk_validator()->setEditingData($row);
-			$this->redirect('add');
-		}
-	}
+		)
+	);
 }

@@ -1,6 +1,8 @@
 <?php
 class PzkAdminController extends PzkController {
 	public $table = false;
+	public $masterStructure = 'admin/home/index';
+	public $masterPosition = 'left';
 	public function __construct() {
 		$controller = pzk_request('controller');
 		$contrParts = explode('_', $controller);
