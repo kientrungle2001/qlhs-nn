@@ -107,8 +107,10 @@ class PzkUserController extends PzkController {
 					$iddate= $request->get('iddate');
 					$idplace= $request->get('idplace');
 					$dateregister=date("Y-m-d H:i:s"); 
+					//insert into user table
 					$row = array('name' =>$name,'username'=>$username,'password'=>md5($password),'email'=>$email,'birthday'=>$birthday,'address'=>$address,'phone'=>$phone,'idpassport'=>$idpassport,'iddate'=>$iddate,'idplace'=>$idplace,'sex'=>$sex,'registered'=>$dateregister);
 					$item= _db()->insert('user')->fields('name,username,password,email,birthday,address,phone,idpassport,iddate,idplace,sex,registered')->values(array($row))->result();
+
 					$this->sendMail($username,$password,$email);
 					// Hiển thị layout showregister
 					$showregister = pzk_parse(pzk_app()->getPageUri('user/showregister'));
@@ -154,7 +156,10 @@ class PzkUserController extends PzkController {
 		$items = _db()->useCB()->select('user.*')->from('user')->where(array('key', $confirm))->result_one();
 		if($items)
 		{
-			_db()->useCB()->update('user')->set(array('status' => 1))->where(array('username',$items['username']))->result();
+			_db()->useCB()->update('user')->set(array('status' => 1,'key'=>""))->where(array('username',$items['username']))->result();
+			//insert into wallets table
+			$rowWallets = array('username' =>$items['username'],'amount'=>0);
+			$itemWallets= _db()->useCB()->insert('wallets')->fields('username,amount')->values(array($rowWallets))->result();
 			pzk_session('login', true);
 			pzk_session('username',$items['username']);
 			pzk_session('userId',$items['id']);
@@ -166,6 +171,17 @@ class PzkUserController extends PzkController {
 			$left->append($active);
 			$this->page->display();
 
+		}
+		else
+
+		{
+			pzk_session('username',"");
+			$active = pzk_parse(pzk_app()->getPageUri('user/registersuccess'));
+
+			$this->layout();
+			$left = pzk_element('left');
+			$left->append($active);
+			$this->page->display();
 		}
 
 	}
@@ -621,4 +637,19 @@ class PzkUserController extends PzkController {
 		$this->page->display();
 			
 	}
+	public function paymentAction()
+	{
+		$this->layout();		
+		$payment = $this->parse('user/payment');
+		$this->append('user/payment', 'left');
+		$this->page->display();		
+	}
+	public function paymentPostAction()
+	{
+		$this->layout();		
+		$payment = $this->parse('user/payment');
+		$this->append('user/payment', 'left');
+		$this->page->display();		
+	}
+
 }
