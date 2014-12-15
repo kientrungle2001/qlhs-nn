@@ -4,7 +4,7 @@ class PzkApiUserController extends PzkController {
 		$request = pzk_request();
 		$password=md5($request->get('password'));
 		$items = _db()->useCB()->select('user.*')->from('user')
-				->where( array('equal', 'username', $request->get('login')))->result_one();
+				->where(array('equal', 'username', $request->get('login')))->result_one();
 		if($items)
 		{
 			//lấy pass từ csdl
@@ -18,19 +18,16 @@ class PzkApiUserController extends PzkController {
 					pzk_session('username', $request->get('login'));
 					pzk_session('userId',$items['id']);
 					return json_encode(array('success' => 1));
-				}else
-				{
-					//tài khoản của bạn đăng bị khóa hoặc chưa kích hoạt
+				} else {
+					// Tài khoản của bạn đăng bị khóa hoặc chưa kích hoạt
 					$error="Tài khoản của bạn đăng bị khóa hoặc chưa kích hoạt";
 				}
-			}else 
-				{
-					//Mật khẩu đăng nhập chưa đúng
-					$error="Mật khẩu đăng nhập chưa đúng";
-				}
+			} else {
+				// Mật khẩu đăng nhập chưa đúng
+				$error="Mật khẩu đăng nhập chưa đúng";
+			}
 
-		}else
-		{
+		} else {
 			$error="Tên đăng nhập chưa đúng";
 		}
 		return json_encode(array('error' => $error, 'success' => 0));

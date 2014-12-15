@@ -47,14 +47,14 @@
         <div class="form-group">
           <input type="text" name="keyword" class="form-control" placeholder="Từ khóa" value="{keyword}">
         </div>
-        <button type="submit" class="btn btn-default">Tìm kiếm</button>
+        <button type="submit" class="btn btn-default">Tìm</button>
       </form>
 	  <form class="navbar-form navbar-right" role="sort">
         <div class="form-group">
 			<select class="form-control" id="type" name="type" placeholder="Loại" value="{item[type]}" onchange="window.location='{url /admin_questions/changeType}?type=' + this.value;">
 				<option value="">Tất cả</option>
 				<option value="tracnghiem">Trắc nghiệm</option>
-				<option value="dientu">Điền từ vào chỗ trống</option>
+				<option value="dientu">Điền từ</option>
 			</select>
 			<script type="text/javascript">
 			$('#type').val('{type}');
@@ -73,10 +73,10 @@
         </div>
 		<div class="form-group">
           <select id="orderBy" name="orderBy" class="form-control" placeholder="Sắp xếp theo" onchange="window.location='{url /admin_questions/changeOrderBy}?orderBy=' + this.value;">
-			<option value="id asc">ID tăng dần</option>
-			<option value="id desc">ID giảm dần</option>
-			<option value="name asc">Tên tăng dần</option>
-			<option value="name desc">Tên giảm dần</option>
+			<option value="id asc">ID ^</option>
+			<option value="id desc">ID v</option>
+			<option value="name asc">Tên ^</option>
+			<option value="name desc">Tên v</option>
 		  </select>
 		  <script type="text/javascript">
 			$('#orderBy').val('{orderBy}');
