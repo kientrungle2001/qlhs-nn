@@ -53,6 +53,11 @@
               <a href="editinfor">Thay đổi thông tin cá nhân</a>
             </td>
           </tr>
+          <tr>
+            <td align="center">
+              <a href="payment/payment">Nạp Tiền</a>
+            </td>
+          </tr>
         </table>
      </div>              
         
