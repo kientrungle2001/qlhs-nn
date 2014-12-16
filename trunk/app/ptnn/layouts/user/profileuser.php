@@ -36,25 +36,25 @@
         <table>
           <tr>
             
-            <td align="center">Chỉnh sửa thông tin cá nhân</td>
+            <td >Chỉnh sửa thông tin cá nhân</td>
           </tr>
           <tr>
-            <td align="center">
+            <td >
               <a href="editsign">Thay đổi chữ ký</a>
             </td>
           </tr>
           <tr>
-            <td align="center">
+            <td >
               <a href="editpassword">Thay đổi mật khẩu</a>
             </td>
           </tr>
           <tr>
-            <td align="center">
+            <td >
               <a href="editinfor">Thay đổi thông tin cá nhân</a>
             </td>
           </tr>
           <tr>
-            <td align="center">
+            <td >
               <a href="payment/payment">Nạp Tiền</a>
             </td>
           </tr>
