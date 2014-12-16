@@ -82,5 +82,13 @@ class PzkCategoryController extends PzkController
 
         $this->display();
     }
+    public function successAction()
+    {
+
+        $this->initPage();
+        $this->append('category/success', 'left');
+
+        $this->display();
+    }
 }
 ?>

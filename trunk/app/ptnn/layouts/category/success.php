@@ -19,7 +19,6 @@ if(pzk_request()->is('POST')) {
     ?>
 
     <form action="/category/success" method="post">
-
         <input type="hidden" name="questionIds" value="<?php echo $request['questionIds'];?>"/>
         <div class="col-md-6">
             <label for="">Chọn dạng</label>
@@ -99,11 +98,7 @@ if(pzk_request()->is('POST')) {
             {each $answers as $val}
             <tr>
                 <?php $a = "value_".$item; ?>
-                <td>
-                    <input  disabled="disabled"   <?php if(isset($request[$a]) && $request[$a] == $val['id']){ echo 'checked'; }  ?> type="radio" />
-                    <input name="value_<?php echo $item; ?>" style="display: none;"  value="{val[id]}" <?php if(isset($request[$a]) && $request[$a] == $val['id']){ echo 'checked'; }  ?> type="radio" />
-
-                </td>
+                <td><input name="value_<?php echo $item; ?>" disabled="disabled"  value="{val[id]}" <?php if(isset($request[$a]) && $request[$a] == $val['id']){ echo 'checked'; }  ?> type="radio" /></td>
                 <td <?php if($val['valueTrue'] == 1) { echo "class='highlinght'";} ?> >{val[value]}</td>
             </tr>
             {/each}
@@ -115,23 +110,8 @@ if(pzk_request()->is('POST')) {
 
         <div class="item center">
             <input id="answer" type="submit" name="done" value="Lưu vào vở bài tập">
-            <a href="/category/requestion/">Làm lại</a>
         </div>
     </form>
-    <script>
-        $('#resetquestions').click(function() {
-
-            $.ajax({
-                url:"/category/question/24",
-                type:"post",
-                data:{start:1,des_id:1,orderdes:1},
-                async:false,
-                success:function (result) {
-                    window.location.href = "/category/question/24";
-                }
-            });
-        })
-    </script>
     <style>
         .tb_question tr th{
             text-align: center;
