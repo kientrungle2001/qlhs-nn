@@ -648,7 +648,7 @@ class PzkUserController extends PzkController {
 	{
 
 		//$nganluong_url = 'https://www.nganluong.vn/checkout.php';
-		$nganluong_url = 'http://ptnn.vn/user/payment/confirmpayment.php';
+		$nganluong_url = 'http://ptnn.vn/user/confirmpayment.php';
 	
 		// Mã website của bạn đăng ký trong chức năng tích hợp thanh toán của NgânLượng.vn.
 		$merchant_site_code = '17185'; //100001 chỉ là ví dụ, bạn hãy thay bằng mã của bạn
@@ -730,10 +730,10 @@ class PzkUserController extends PzkController {
 		$payment=$request->get('payment');
 		if($payment=='nganluong')
 		{
-			$return_url="http://ptnn.vn/user/payment/confirmpayment.php";
+			$return_url="http://ptnn.vn/user/confirmpayment.php";
 			$receiver="kieunghia.cntt@gmail.com";
-			$transaction_info="";
-			$order_code="hd01";
+			$transaction_info="Nạp tiền qua Ngân Lượng";
+			$order_code=pzk_session('username');
 			$url=$this->buildCheckoutUrl($return_url, $receiver, $transaction_info, $order_code, $price);
 			header('location:'.$url);
 		}
@@ -749,8 +749,34 @@ class PzkUserController extends PzkController {
 	}
 	public function confirmpaymentAction()
 	{
+
+		$request=pzk_element('request');
+		// Thanh toán bằng tài khoản Ngân Lượng
+		$username=$request->get('order_code');
+		$price=$request->get('price');
+		$transaction_info=$request->get('transaction_info');
+		$datetime= date("Y-m-d H:i:s");
+		//update database
+		//insert table history_payment
+		$row = array('username' =>$username,'amount'=>$price,'typepayment'=>$transaction_info,'datepayment'=>$datetime);
+		$item= _db()->insert('history_payment')->fields('username,amount,typepayment,datepayment')->values(array($row))->result();
+		// inset or update table wallets
+		$items=_db()->useCB()->select('wallets.*')->from('wallets')->where(array('username',$username))->result_one();
+		if($items)
+		{
+			$price= $price+ $items['amount'];
+			_db()->useCB()->update('wallets')->set(array('amount'=>$price))->where(array('username',$username))->result();
+		}
+		else
+		{
+			$row = array('username' =>$username,'amount'=>$price);
+			$item= _db()->insert('wallets')->fields('username,amount')->values(array($row))->result();
+		}
+		
+		
 		$this->layout();		
 		$payment = $this->parse('user/payment/confirmpayment');
+		//$payment->setAmount('10000');
 		$this->append('user/payment/confirmpayment', 'left');
 		$this->page->display();		
 	}
