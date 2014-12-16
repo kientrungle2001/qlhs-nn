@@ -112,6 +112,7 @@ class PzkDemoController extends PzkController {
 		echo $numberOfNews;
 		}
 		
+		if(0) {
 		//entity from query
 		$newsEntities = _db()->select('*')->from('news')->result('news');
 		foreach($newsEntities as $newsEntity) {
@@ -140,6 +141,7 @@ class PzkDemoController extends PzkController {
 			var_dump($news->getRelated2s());
 			$news->setTitle($news->getTitle() . ' - updated');
 			$news->save();
+		}
 		}
 	}
 	public function registerPostAction(){
