@@ -67,5 +67,20 @@ class PzkCategoryController extends PzkController
 
         $this->display();
     }
+    public function answerAction()
+    {
+        $this->initPage();
+        $this->append('category/answer', 'left');
+
+        $this->display();
+    }
+    public function reviewAction()
+    {
+
+        $this->initPage();
+        $this->append('category/review', 'left');
+
+        $this->display();
+    }
 }
 ?>

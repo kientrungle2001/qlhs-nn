@@ -6,20 +6,18 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
     $items = $data->getQuestionByIds($ids, $request['level'], $request['number']);
 ?>
 
-<form action="" method="post">
+<form id="dm"  action="/category/answer" method="post">
     <div class="col-md-6">
         <label for="">Chọn dạng</label>
         <?php
-        $name = $data->getNameById($parent_id, 'categories');
-        echo $name['name'];
+        echo $data->getNameById($parent_id, 'categories', 'name');
         ?>
     </div>
     <?php if(!empty($request['subject'])) { ?>
     <div class="col-md-6">
         <label for="">Chủ đề</label>
         <?php
-        $name = $data->getNameById($request['subject'], 'categories');
-        echo $name['name'];
+        echo $data->getNameById($request['subject'], 'categories', 'name');
         ?>
     </div>
     <?php } ?>
@@ -32,15 +30,15 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
             <th>Số câu</th>
             <th>Thời gian</th>
             <th>Mức độ</th>
-            <th rowspan="2"><input type="submit" name="submit" value="Hoàn thành"></th>
-            <th rowspan="2" id="countdown"></th>
+            <th rowspan="2"></th>
+
         </tr>
         <tr>
             <th>
                 <?php echo $request['number']; ?>
             </th>
             <th>
-                 <div id="ms_timer"></div>
+                 <div class="ms_timer"></div>
 
             </th>
             <th>
@@ -64,17 +62,27 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
 
     <table class="table">
         <?php $i = 1; ?>
+
+        <?php
+            $arIdQ = array();
+            foreach($items as $value) {
+                $arIdQ[] = $value['id'];
+            }
+        ?>
+        <input type="hidden" name="questionIds" value="<?php echo implode(',', $arIdQ); ?>"/>
+
         {each $items as $item}
         <?php
         $answers = _db()->useCB()->select('*')->from('answers')->where(array('questionId', $item['id']))->result();
         ?>
         <tr>
             <td><?php echo 'Câu '.$i.':'; ?></td>
-            <td>{item[name]}</td>
+            <td>{item[name]}
+            </td>
         </tr>
         {each $answers as $val}
         <tr>
-            <td><input name="value_<?php echo $item['id']; ?>" type="radio" /></td>
+            <td><input name="value_<?php echo $item['id']; ?>" value="{val[id]}" type="radio" /></td>
             <td>{val[value]}</td>
         </tr>
         {/each}
@@ -86,23 +94,32 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
 <script>
     $(function(){
         $(function(){
-            $('#ms_timer').countdowntimer({
+            $('.ms_timer').countdowntimer({
                 minutes :<?php echo $request['time']; ?>,
                 seconds : 0,
                 size : "lg",
                 timeUp : timeisUp
             });
             function timeisUp() {
-                alert(1);
+                clearInterval(intervalId);
             }
+            intervalId = setInterval(function(){
+                var time = $('.ms_timer').html();
+                arrtime = time.split(":");
+                minutes = parseInt(arrtime[0]);
+                seconds = parseInt(arrtime[1]);
+                $('#mi').val(minutes);
+                $('#se').val(seconds);
+            }, 100);
         });
 
     });
 </script>
-
-
-
-
+    <div class="item center">
+        <input id="answer" type="submit" name="done" value="Hoàn thành">
+    </div>
+    <input id="mi" type="hidden" value=""/>
+    <input id="se" type="hidden" value=""/>
 </form>
     <style>
         .tb_question tr th{
