@@ -1,5 +1,8 @@
 <?php
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+
 $start_time = microtime(TRUE);
+
 function pre($msg) {
 	echo "<pre>$msg</pre>";
 }

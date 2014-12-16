@@ -6,8 +6,6 @@ if(pzk_request()->is('POST')) {
     ?>
 
     <form action="/category/review" method="post">
-        <input type="hidden" name="id_category" value="<?php echo $request['id_category']; ?>"/>
-        <input type="hidden" name="subject" value="<?php echo $request['subject']; ?>">
         <input type="hidden" name="questionIds" value="<?php echo $request['questionIds'];?>"/>
         <div class="col-md-6">
             <label for="">Dạng</label>
@@ -23,7 +21,7 @@ if(pzk_request()->is('POST')) {
                 echo $data->getNameById($request['subject'], 'categories', 'name');
                 //echo $name['name'];
                 ?>
-                <input type="hidden" name="subject" value="<?Php echo $request['subject']; ?>"/>
+                <input type="hidden" name="subject" value="<?php echo $request['subject']; ?>"/>
             </div>
         <?php } ?>
 
@@ -35,8 +33,8 @@ if(pzk_request()->is('POST')) {
                 <th>Số câu</th>
                 <th>Thời gian</th>
                 <th>Mức độ</th>
-                <th rowspan="2"></th>
-
+                <input type="hidden" name="start_time" value="<?php echo $request['start_time']; ?>"/>
+                <input type="hidden" name="end_time" value="<?php echo date('H:i:s', time()); ?>"/>
             </tr>
             <tr>
                 <th>
