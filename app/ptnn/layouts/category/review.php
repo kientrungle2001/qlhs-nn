@@ -15,7 +15,6 @@ if(pzk_request()->is('POST')) {
             }
         }
     }
-    echo $total;
     ?>
 
     <form action="/category/success" method="post">
@@ -33,8 +32,9 @@ if(pzk_request()->is('POST')) {
                 <label for="">Chủ đề</label>
                 <?php
                 echo $data->getNameById($request['subject'], 'categories', 'name');
+                //echo $name['name'];
                 ?>
-                <input type="hidden" name="subject" value="<?Php echo $request['subject']; ?>"/>
+                <input type="hidden" name="subject" value="<?php echo $request['subject']; ?>"/>
             </div>
         <?php } ?>
 
@@ -44,10 +44,11 @@ if(pzk_request()->is('POST')) {
             <thead>
             <tr>
                 <th>Số câu</th>
-                <th>Thời gian</th>
+                <th>Thời gian còn lại</th>
                 <th>Mức độ</th>
-                <th rowspan="2"></th>
-
+                <th>Số đáp án đúng</th>
+                <th>Giờ làm bài</th>
+                <th>Giờ nộp bài</th>
             </tr>
             <tr>
                 <th>
@@ -58,6 +59,7 @@ if(pzk_request()->is('POST')) {
                     <div id="ms_timer"><?php if($request['mi']){ echo $request['mi']; } ?> : <?php if($request['se']) { echo $request['se']; } ?></div>
                     <input id="mi" name="mi" type="hidden" value="<?php echo $request['mi']; ?>"/>
                     <input id="se" name="se" type="hidden" value="<?php echo $request['se']; ?>"/>
+
 
                 </th>
                 <th>
@@ -76,6 +78,9 @@ if(pzk_request()->is('POST')) {
                     ?>
                     <input type="hidden" name="level" value="<?Php echo $request['level']; ?>"/>
                 </th>
+                <th><?php echo $total.'/'.count($items); ?></th>
+                <th><?php echo $request['start_time']; ?></th>
+                <th><?php echo $request['end_time']; ?></th>
             </tr>
             </thead>
         </table>

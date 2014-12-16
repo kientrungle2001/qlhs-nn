@@ -32,7 +32,7 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
             <th>Số câu</th>
             <th>Thời gian làm bài</th>
             <th>Mức độ</th>
-
+            <th>Thời gian bắt đầu làm</th>
 
         </tr>
         <tr>
@@ -59,6 +59,11 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
                 }
                 ?>
                 <input type="hidden" name="level" value="<?php echo $request['level']; ?>"/>
+            </th>
+            <th>
+
+                <?php echo date('H:i:s', time()); ?>
+                <input type="hidden" name="start_time" value="<?php echo date('H:i:s', time()); ?>"/>
             </th>
         </tr>
         </thead>
@@ -106,12 +111,14 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
             });
             function timeisUp() {
                 clearInterval(intervalId);
+                $('#dm').submit();
+
             }
             intervalId = setInterval(function(){
                 var time = $('.ms_timer').html();
                 arrtime = time.split(":");
-                minutes = parseInt(arrtime[0]);
-                seconds = parseInt(arrtime[1]);
+                minutes = arrtime[0];
+                seconds = arrtime[1];
                 $('#mi').val(minutes);
                 $('#se').val(seconds);
             }, 100);
