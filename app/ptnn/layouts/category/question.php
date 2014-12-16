@@ -12,6 +12,7 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
         <?php
         echo $data->getNameById($parent_id, 'categories', 'name');
         ?>
+        <input type="hidden" name="parent_id" value="<?Php echo $parent_id; ?>"/>
     </div>
     <?php if(!empty($request['subject'])) { ?>
     <div class="col-md-6">
@@ -19,6 +20,7 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
         <?php
         echo $data->getNameById($request['subject'], 'categories', 'name');
         ?>
+        <input type="hidden" name="subject" value="<?php echo $request['subject']; ?>"/>
     </div>
     <?php } ?>
 
@@ -28,14 +30,15 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
         <thead>
         <tr>
             <th>Số câu</th>
-            <th>Thời gian</th>
+            <th>Thời gian làm bài</th>
             <th>Mức độ</th>
-            <th rowspan="2"></th>
+
 
         </tr>
         <tr>
             <th>
                 <?php echo $request['number']; ?>
+                <input type="hidden" name="number" value="<?php echo $request['number']; ?>"/>
             </th>
             <th>
                  <div class="ms_timer"></div>
@@ -55,6 +58,7 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
                         break;
                 }
                 ?>
+                <input type="hidden" name="level" value="<?php echo $request['level']; ?>"/>
             </th>
         </tr>
         </thead>
@@ -118,8 +122,8 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
     <div class="item center">
         <input id="answer" type="submit" name="done" value="Hoàn thành">
     </div>
-    <input id="mi" type="hidden" value=""/>
-    <input id="se" type="hidden" value=""/>
+    <input id="mi" name="mi" type="hidden" value=""/>
+    <input id="se" name="se" type="hidden" value=""/>
 </form>
     <style>
         .tb_question tr th{

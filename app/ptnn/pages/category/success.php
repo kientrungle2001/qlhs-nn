@@ -1,0 +1,1 @@
+<category.success  layout="category/success"/>
