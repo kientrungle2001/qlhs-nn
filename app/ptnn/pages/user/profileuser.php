@@ -1,3 +1,3 @@
 
-	<user.profileuser  layout="user/profileuser" />
+	<user.Profileuser  layout="user/profileuser" />
 	
