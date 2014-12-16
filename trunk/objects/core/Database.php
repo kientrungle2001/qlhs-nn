@@ -4,11 +4,22 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
     public $connId;
     public $options;
 
+    /**
+     * Hàm khởi tạo và clear
+     * @param string $attrs các thuộc tính
+     */
     public function __construct($attrs = array()) {
         parent::__construct($attrs);
         $this->clear();
     }
 	
+    /**
+     * Join với table với điều kiện join, và kiểu join
+     * @param string $table bảng cần join
+     * @param mixed $conds điều kiện join
+     * @param string $type kiểu join: inner, left, right, mặc định là inner
+     * @return PzkCoreDatabase
+     */
 	public function join($table, $conds, $type = 'inner') {
 		if(!isset($this->options['joins'])) {
 			$this->options['joins'] = array();
@@ -17,6 +28,9 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 		return $this;
 	}
 
+	/**
+	 * Kết nối tới cơ sở dữ liệu
+	 */
     public function connect() {
         if (!@$this->connId) {
             $this->connId = @mysql_connect(@$this->host, @$this->user, @$this->password, true) or die('Cant connect');
