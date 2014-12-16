@@ -631,10 +631,17 @@ class PzkUserController extends PzkController {
 	// Function hiển thị thông tin cá nhân của user
 	public function profileuserAction()
 	{
-		$this->layout();		
-		$profileuser = $this->parse('user/profileuser');
-		$this->append('user/profileuser', 'right');
-		$this->page->display();
+//		$this->layout();		
+//		$profileuser = $this->parse('user/profileuser');
+//		$this->append('user/profileuser', 'right');
+//		$this->page->display();
+		$this->layout();	
+		$editsign = pzk_parse(pzk_app()->getPageUri('user/profileuser'));
+
+			$editsign->setSign($sign);
+			$left = pzk_element('left');
+			$left->append($editsign);
+			$this->page->display();
 			
 	}
 	public function paymentAction()
