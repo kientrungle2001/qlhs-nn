@@ -1,0 +1,1 @@
+<category.answer  layout="category/answer"/>
