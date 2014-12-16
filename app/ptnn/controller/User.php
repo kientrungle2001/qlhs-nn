@@ -640,15 +640,118 @@ class PzkUserController extends PzkController {
 	public function paymentAction()
 	{
 		$this->layout();		
-		$payment = $this->parse('user/payment');
-		$this->append('user/payment', 'left');
+		$payment = $this->parse('user/payment/payment');
+		$this->append('user/payment/payment', 'left');
 		$this->page->display();		
 	}
+	public function buildCheckoutUrl($return_url, $receiver, $transaction_info, $order_code, $price)
+	{
+
+		//$nganluong_url = 'https://www.nganluong.vn/checkout.php';
+		$nganluong_url = 'http://ptnn.vn/user/payment/confirmpayment.php';
+	
+		// Mã website của bạn đăng ký trong chức năng tích hợp thanh toán của NgânLượng.vn.
+		$merchant_site_code = '17185'; //100001 chỉ là ví dụ, bạn hãy thay bằng mã của bạn
+
+		// Mật khẩu giao tiếp giữa website của bạn và NgânLượng.vn.
+		$secure_pass= '123456789'; //d685739bf1 chỉ là ví dụ, bạn hãy thay bằng mật khẩu của bạn
+		// Nếu bạn thay đổi mật khẩu giao tiếp trong quản trị website của chức năng tích hợp thanh toán trên NgânLượng.vn, vui lòng update lại mật khẩu này trên website của bạn
+	
+		$affiliate_code = ''; 
+		// Bước 1. Mảng các tham số chuyển tới nganluong.vn
+		$arr_param = array(
+			'merchant_site_code'=>	strval($merchant_site_code),
+			'return_url'		=>	strtolower(urlencode($return_url)),
+			'receiver'			=>	strval($receiver),
+			'transaction_info'	=>	strval($transaction_info),
+			'order_code'		=>	strval($order_code),
+			'price'				=>	strval($price)					
+		);
+		$secure_code ='';
+		$secure_code = implode(' ', $arr_param) . ' ' . $secure_pass;
+		$arr_param['secure_code'] = md5($secure_code);
+		
+		/* Bước 2. Kiểm tra  biến $redirect_url xem có '?' không, nếu không có thì bổ sung vào*/
+		$redirect_url = $nganluong_url;
+		if (strpos($redirect_url, '?') === false)
+		{
+			$redirect_url .= '?';
+		}
+		else if (substr($redirect_url, strlen($redirect_url)-1, 1) != '?' && strpos($redirect_url, '&') === false)
+		{
+			// Nếu biến $redirect_url có '?' nhưng không kết thúc bằng '?' và có chứa dấu '&' thì bổ sung vào cuối
+			$redirect_url .= '&';			
+		}
+				
+		/* Bước 3. tạo url*/
+		$url = '';
+		foreach ($arr_param as $key=>$value)
+		{
+			if ($key != 'return_url') $value = urlencode($value);
+			
+			if ($url == '')
+				$url .= $key . '=' . $value;
+			else
+				$url .= '&' . $key . '=' . $value;
+		}
+		
+		return $redirect_url.$url;
+	}
+	public function verifyPaymentNL($transaction_info, $order_code, $price, $payment_id, $payment_type, $error_text, $secure_code)
+	{
+		$merchant_site_code = '17185'; //100001 chỉ là ví dụ, bạn hãy thay bằng mã của bạn
+
+		// Mật khẩu giao tiếp giữa website của bạn và NgânLượng.vn.
+		$secure_pass= '123456789'; 
+		$str = '';
+		$str .= ' ' . strval($transaction_info);
+		$str .= ' ' . strval($order_code);
+		$str .= ' ' . strval($price);
+		$str .= ' ' . strval($payment_id);
+		$str .= ' ' . strval($payment_type);
+		$str .= ' ' . strval($error_text);
+		$str .= ' ' . strval($merchant_site_code);
+		$str .= ' ' . strval($secure_pass);
+
+        // Mã hóa các tham số
+		$verify_secure_code = '';
+		$verify_secure_code = md5($str);
+		
+		// Xác thực mã của chủ web với mã trả về từ nganluong.vn
+		if ($verify_secure_code === $secure_code) return true;
+		else return false;
+	}
+
+
 	public function paymentPostAction()
 	{
+		$request=pzk_element('request');
+		$price=$request->get('amount');
+		$payment=$request->get('payment');
+		if($payment=='nganluong')
+		{
+			$return_url="http://ptnn.vn/user/payment/confirmpayment.php";
+			$receiver="kieunghia.cntt@gmail.com";
+			$transaction_info="";
+			$order_code="hd01";
+			$url=$this->buildCheckoutUrl($return_url, $receiver, $transaction_info, $order_code, $price);
+			header('location:'.$url);
+		}
+		if($payment=='baokim')
+		{
+
+		}
+		if($payment=='thecao')
+		{
+
+		}
+	
+	}
+	public function confirmpaymentAction()
+	{
 		$this->layout();		
-		$payment = $this->parse('user/payment');
-		$this->append('user/payment', 'left');
+		$payment = $this->parse('user/payment/confirmpayment');
+		$this->append('user/payment/confirmpayment', 'left');
 		$this->page->display();		
 	}
 
