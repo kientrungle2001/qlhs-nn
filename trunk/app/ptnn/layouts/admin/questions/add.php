@@ -15,6 +15,17 @@ $categories = buildArr($categories,'parent',0);
 		<option value="dientu">Điền từ vào chỗ trống</option>
 	</select>
   </div>
+    <div class="form-group clearfix">
+        <label for="type">Mức độ câu hỏi</label>
+        <select class="form-control" id="level" name="level" placeholder="Loại" value="{item[level]}">
+            <option value="1">Dễ</option>
+            <option value="2">Bình thường</option>
+            <option value="3">Khó</option>
+        </select>
+        <script>
+            $('#type').val('{item[type]}');
+        </script>
+    </div>
   <div class="form-group">
     <label for="name">Danh mục</label>
     <select multiple="multiple" class="form-control" id="categoryIds" name="categoryIds[]" placeholder="Danh mục" value="{item[categoryIds]}" style="height: 300px">

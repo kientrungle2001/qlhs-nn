@@ -23,6 +23,19 @@
 	$('#type').val('{item[type]}');
 	</script>
   </div>
+
+    <div class="form-group clearfix">
+        <label for="type">Mức độ câu hỏi</label>
+        <select class="form-control" id="level" name="level" placeholder="Loại" value="{item[level]}">
+            <option <?php if($item['level'] ==1) { echo 'selected="selected"'; } ?> value="1">Dễ</option>
+            <option <?php if($item['level'] ==2) { echo 'selected="selected"'; } ?> value="2">Bình thường</option>
+            <option <?php if($item['level'] ==3) { echo 'selected="selected"'; } ?> value="3">Khó</option>
+        </select>
+        <script>
+            $('#type').val('{item[type]}');
+        </script>
+    </div>
+
   <div class="form-group">
     <label for="name">Danh mục</label>
     <select multiple="multiple" class="form-control" id="categoryIds" name="categoryIds[]" placeholder="Danh mục" value="{item[categoryIds]}" style="height: 300px">
