@@ -7,8 +7,16 @@ $row = pzk_validator()->getEditingData();
 <form role="form" method="post" action="{url /admin_news/add}">
   <input type="hidden" name="id" value="" />
   <div class="form-group">
-    <label for="name">Tên tin tức</label>
+    <label for="title">Tên tin tức</label>
     <input type="text" class="form-control" id="title" name="title" placeholder="Tên tin tức" value="{row[title]}">
+  </div>
+  <div class="form-group">
+    <label for="brief">Miêu tả</label>
+    <input type="text" class="form-control" id="content" name="brief" placeholder="Nhập nội dung" value="{row[brief]}">
+  </div>
+  <div class="form-group">
+    <label for="content">Nội dung</label>
+    <input type="text" class="form-control" id="content" name="content" placeholder="Nhập nội dung" value="{row[content]}">
   </div>
   <div class="form-group">
     <label for="parent">Danh mục cha</label>

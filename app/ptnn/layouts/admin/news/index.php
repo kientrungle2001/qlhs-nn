@@ -19,8 +19,9 @@
 		<td>{item[title]}</td>
 		<td>{item[brief]}</td>
 		<td>{item[content]}</td>
-		<td colspan="2">
-		<a href="{url /admin_news/add}/{item[id]}">Thêm     
+		<td colspan="3">
+		<a href="{url /admin_news/add}/{item[id]}">Thêm 
+        <a href="{url /admin_news/edit}/{item[id]}">Sửa		
 		<a href="{url /admin_news/del}/{item[id]}">Xóa
 		</td>
 	
