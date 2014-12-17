@@ -91,7 +91,7 @@ function pzk_loader() {
 /**
  * Lấy đối tượng model
  * @param string $name tên model dưới dạng edu.student
- * @return Model
+ * @return object
  */
 function pzk_model($name, $newInstance = false) {
 	if($newInstance) {
