@@ -12,7 +12,7 @@ $row = pzk_validator()->getEditingData();
   </div>
   <div class="form-group">
     <label for="brief">Miêu tả</label>
-    <input type="text" class="form-control" id="content" name="brief" placeholder="Nhập nội dung" value="{row[brief]}">
+    <input type="text" class="form-control" id="brief" name="brief" placeholder="Nhập nội dung" value="{row[brief]}">
   </div>
   <div class="form-group">
     <label for="content">Nội dung</label>
