@@ -7,7 +7,7 @@ class PzkAdminAnswersController extends PzkAdminController {
 	public function editPostAction() {
 		$row = $this->getEditData();
 		$this->edit($row);
-		pzk_request()->redirect('/admin_questions/detail/' . $row['questionId']);
+		pzk_request()->redirect('admin_questions/detail/' . $row['questionId']);
 	}
 	public function addAction() {
 		$this->initPage()
@@ -19,7 +19,7 @@ class PzkAdminAnswersController extends PzkAdminController {
 	public function addPostAction() {
 		$row = $this->getAddData();
 		$this->add($row);
-		pzk_request()->redirect('/admin_questions/detail/' . $row['questionId']);
+		pzk_request()->redirect('admin_questions/detail/' . $row['questionId']);
 	}
 	public function delPostAction() {
 		$row = _db()->select('*')->from($this->table)
@@ -28,6 +28,6 @@ class PzkAdminAnswersController extends PzkAdminController {
 		_db()->useCB()->delete()->from($this->table)
 			->where(array('id', pzk_request()->get('id')))->result();
 		pzk_notifier()->addMessage('Xóa thành công');
-		pzk_request()->redirect('/admin_questions/detail/' . $row['questionId']);
+		pzk_request()->redirect('admin_questions/detail/' . $row['questionId']);
 	}
 }
