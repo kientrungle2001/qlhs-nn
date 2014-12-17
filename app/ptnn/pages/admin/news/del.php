@@ -1,0 +1,1 @@
+<core.db.detail table="news" itemId="0" layout="admin/news/del" />
