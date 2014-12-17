@@ -1,0 +1,1 @@
+<div table="news" parentId="0" layout="admin/news/add" />
