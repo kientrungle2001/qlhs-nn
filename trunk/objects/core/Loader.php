@@ -104,7 +104,7 @@ function pzk_model($name, $newInstance = false) {
  * @param string $object đường dẫn dạng: core.db.List
  */
 function pzk_import($object) {
-	$object = str_replace('/', '.', $object);
+	$object = str_replace('.', '/', $object);
 	return pzk_loader()->importObject($object);
 }
 ?>
