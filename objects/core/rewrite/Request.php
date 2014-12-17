@@ -1,16 +1,59 @@
 <?php
 class PzkCoreRewriteRequest extends PzkObjectLightweight{
+	/**
+	 * Là tên của trường trong đối tượng pzk_request(). Trường này được đem ra so sánh
+	 * @var string
+	 */
 	public $matcher = 'route'; // 
+	
+	/**
+	 * Mẫu để so sánh
+	 * @var string
+	 */
 	public $pattern = '';
+	/**
+	 * Giá trị trả về cuối cùng
+	 * @var string
+	 */
 	public $route = false; // target
+	
+	/**
+	 * Phương thức so sánh, có mấy kiều: preg_match, equal, strpos
+	 * @var string
+	 */
 	public $matchMethod = 'preg_match'; // equal, strpos
+	
+	/**
+	 * Phương thức thay thế trong route, kiểu: preg_replace, str_replace
+	 * @var string
+	 */
 	public $replaceMethod = 'preg_replace';
+	
+	/**
+	 * Thay thế toàn bộ
+	 * @var boolean
+	 */
 	public $replaceFullTarget = false;
+	
+	/**
+	 * Thay thế vào đối tượng pzk_request(). viết dạng var1, var2
+	 * @var string
+	 */
 	public $queryParams = false;
+	/**
+	 * Bổ sung giá trị mặc định vào pzk_request(). Viết dạng chuỗi json
+	 * @var json string
+	 */
 	public $defaultQueryParams = false;
-	public $optionsParams = false;
-	public $defaultOptionsParams = false;
+	/**
+	 * Gán giá trị theo url cho các đối tượng
+	 * @var string
+	 */
 	public $elementParams = false;
+	/**
+	 * Giá trị mặc định cho các đối tượng
+	 * @var string
+	 */
 	public $defaultElementParams = false;
 	public function init() {
 		$request = pzk_element('request');
