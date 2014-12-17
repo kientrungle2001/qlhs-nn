@@ -743,8 +743,7 @@ class PzkUserController extends PzkController {
 		$transaction_info=$request->get('transaction_info');
 		$datetime= date("Y-m-d H:i:s");
 		// Kiểm tra thông tin trả về từ trang thanh toán
-		if(0)
-		{
+		
 			//update database
 			//insert table history_payment
 			$row = array('username' =>$username,'amount'=>$price,'typepayment'=>$transaction_info,'datepayment'=>$datetime);
@@ -775,7 +774,7 @@ class PzkUserController extends PzkController {
 			$left->append($payment);
 			$this->page->display();
 
-		}
+		
 	}
 
 }
