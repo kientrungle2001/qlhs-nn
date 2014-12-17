@@ -4,11 +4,11 @@ $parents = _db()->select('*')->from('news')->result();
 $parents = buildArr($parents, 'parent', 0);
 $row = pzk_validator()->getEditingData();
 ?>
-<form role="form" method="post" action="{url /admin_news/addPost}">
+<form role="form" method="post" action="{url /admin_news/add}">
   <input type="hidden" name="id" value="" />
   <div class="form-group">
     <label for="name">Tên tin tức</label>
-    <input type="text" class="form-control" id="name" name="name" placeholder="Tên tin tức" value="{row[name]}">
+    <input type="text" class="form-control" id="title" name="title" placeholder="Tên tin tức" value="{row[title]}">
   </div>
   <div class="form-group">
     <label for="parent">Danh mục cha</label>
