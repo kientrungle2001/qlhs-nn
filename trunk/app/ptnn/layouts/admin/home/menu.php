@@ -3,6 +3,7 @@
 		<li><a href="/admin_home/index">Bảng điều khiển</a></li>
 		<li><a href="/admin_category/index">Danh mục</a></li>
 		<li><a href="/admin_questions/index">Câu hỏi</a></li>
+        <li><a href="/admin_questiontype/index">Dạng câu hỏi</a></li>
 		<li><a href="/admin_user/index">Người dùng</a></li>
 		<li><a href="/admin_usertype/index">Nhóm người dùng</a></li>
 		<li><a href="/admin_usertypecategorypermission/index">Hạn ngạch</a></li>

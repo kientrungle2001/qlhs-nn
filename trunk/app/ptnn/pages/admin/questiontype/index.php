@@ -1,0 +1,1 @@
+<core.db.list table="questiontype" layout="admin/questiontype/index" />

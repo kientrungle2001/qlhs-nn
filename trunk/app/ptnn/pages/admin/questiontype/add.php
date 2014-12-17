@@ -1,0 +1,1 @@
+<div table="questiontype" parentId="0" layout="admin/questiontype/add" />

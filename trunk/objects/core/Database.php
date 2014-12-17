@@ -34,9 +34,11 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
     public function connect() {
         if (!@$this->connId) {
             $this->connId = @mysql_connect(@$this->host, @$this->user, @$this->password, true) or die('Cant connect');
+
 			//mysql_query("SET character_set_results=utf8", $this->connId);
             mysql_select_db(@$this->dbName, $this->connId) or die('Cant select db: ' . @$this->dbName);
-            mysql_query('set names utf-8', $this->connId);
+            //mysql_query('set names utf-8', $this->connId);
+            mysql_set_charset('utf8', $this->connId);
         }
     }
 
