@@ -38,6 +38,23 @@ class PzkAdminNewsController extends PzkAdminController {
 		)
 	);
 	public function addAction() {
+		if(pzk_request()->is('POST')) {
+				$post = pzk_request()->query;
+		debug($post);die();
+		}
+		 $addLesson=array(
+                    'news_id'=>$post['parent_id'],
+					'title'=>$post['title'],
+					'brief'=>$post['brief'],
+					
+                    
+                );
+                //debug($addLesson);die();
+
+                $entity = _db()->useCb()->getEntity('table')->setTable('lessons');
+                $entity->setData($addLesson);
+                $entity->save();
+		
 		$this->initPage();
 		
 		$news = pzk_parse(pzk_app()->getPageUri('admin/news/add'));

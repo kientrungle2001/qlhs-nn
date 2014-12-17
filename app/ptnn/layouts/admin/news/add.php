@@ -4,7 +4,7 @@ $parents = _db()->select('*')->from('news')->result();
 $parents = buildArr($parents, 'parent', 0);
 $row = pzk_validator()->getEditingData();
 ?>
-<form role="form" method="post" action="{url /admin_news/add}">
+<form role="form" method="post" action="{url /admin_news/addPost}">
   <input type="hidden" name="id" value="" />
   <div class="form-group">
     <label for="title">Tên tin tức</label>
