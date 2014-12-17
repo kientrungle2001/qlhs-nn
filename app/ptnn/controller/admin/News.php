@@ -3,8 +3,8 @@ class PzkAdminNewsController extends PzkAdminController {
 	public $masterStructure = 'admin/home/index';
 	public $masterPosition = 'left';
 	public $table = 'news';
-	public $addFields = 'title, parent, content';
-	public $editFields = 'title, parent, content';
+	public $addFields = 'title, parent, content,brief';
+	public $editFields = 'title, parent, content,brief';
 	public $addValidator = array(
 		'rules' => array(
 			'name' => array(
