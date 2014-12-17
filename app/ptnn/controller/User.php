@@ -59,7 +59,7 @@ class PzkUserController extends PzkController {
 	public function userAction()
 	{
 		$this->layout();
-		$pageUri = $this->getApp()->getPageUri('/user/user');
+		$pageUri = $this->getApp()->getPageUri('user/user');
 		$page = PzkParser::parse($pageUri);	
 		$this->page->display();
 	
@@ -108,16 +108,8 @@ class PzkUserController extends PzkController {
 					$iddate= $request->get('iddate');
 					$idplace= $request->get('idplace');
 					$dateregister=date("Y-m-d H:i:s"); 
-					//insert into user table
-					//$rowWallets = array('username' =>$items['username'],'amount'=>0);
-					//$itemWallets= _db()->useCB()->insert('wallets')->fields('username,amount')->values(array($rowWallets))->result();
-					//$row = array('name' =>$name,'username'=>$username,'password'=>md5($password),'email'=>$email,'birthday'=>$birthday,'address'=>$address,'phone'=>$phone,'idpassport'=>$idpassport,'iddate'=>$iddate,'idplace'=>$idplace,'sex'=>$sex,'registered'=>$dateregister);
-					//$item= _db()->useCB()->insert('user')->fields('name,username,password,email,birthday,address,phone,idpassport,iddate,idplace,sex,registered')->values(array($row))->result();
-					//$row = array('name'=>$name,'username' =>$username,'password'=>md5($password),'birthday'=>$birthday,'sex'=>$sex,'address'=>$address);
-					//$item= _db()->insert('user')->fields('name,username,password,birthday,sex,address')->values(array($row))->result();
-					echo $email .$password. $username;
-					$rowRegister=array('username'=>$username,'password'=>$password,'email'=>$email,'birthday'=>$birthday,'sex'=>$sex,'address'=>$address,'phone'=>$phone,'idpassport'=>$idpassport,'idplace'=>$idplace,'iddate'=>$iddate,'dateregister'=>$dateregister);
-					_db()->useCB()->insert('user')->fields('username','password','email','birthday','sex','address','phone','idpassport','idplace','iddate','dateregister')->values(array($rowRegister))->result();
+					$rowRegister= array('username' =>$username,'password'=>md5($password),'email'=>$email,'name'=>$name,'birthday'=>$birthday,'sex'=>$sex,'address'=>$address,'phone'=>$phone,'idpassport'=>$idpassport,'idplace'=>$idplace,'registered'=>$dateregister);
+					_db()->useCB()->insert('user')->fields('username,password,email,name,birthday,sex,address,phone,idpassport,idplace,iddate,registered')->values(array($rowRegister))->result();
 					$this->sendMail($username,$password,$email);
 					// Hiển thị layout showregister
 					$showregister = pzk_parse(pzk_app()->getPageUri('user/showregister'));
@@ -256,8 +248,6 @@ class PzkUserController extends PzkController {
 					//Mật khẩu đăng nhập chưa đúng
 					$error="Mật khẩu đăng nhập chưa đúng";
 				}
-			
-
 		}else
 		{
 			$error="Tên đăng nhập chưa đúng";
@@ -267,11 +257,8 @@ class PzkUserController extends PzkController {
 		    $pageLogin = PzkParser::parse($pageUri);
 		    $left=pzk_element('left');
 		    $left->append($pageLogin);
-		    $pageLogin->setError($error);
-
+		    pzk_notifier_add_message($error, 'danger');
 		    $this->page->display();
-		   
-		
 	}
 	// Đăng xuất 
 	public function logoutAction(){
@@ -360,7 +347,7 @@ class PzkUserController extends PzkController {
 		$forgotpassword = PzkParser::parse($pageForgetpassword);	
 		$left = pzk_element('left');
 		$left->append($forgotpassword);
-		$forgotpassword->setError($error);
+		pzk_notifier_add_message($error, 'danger');
 		$this->page->display();
 	}
 	public function showforgotpasswordAction()
@@ -404,8 +391,6 @@ class PzkUserController extends PzkController {
 			$left->append($newpassword);
 			$this->page->display();		
 		}
-		
-
 	}
 	// Hiển thị password mới
 	public function newpasswordAction() 
@@ -447,9 +432,6 @@ class PzkUserController extends PzkController {
 			$left = pzk_element('left');
 			$left->append($editinfor);
 			$this->page->display();
-			
-			
-		
 	}
 	public function editinforPostAction()
 	{
@@ -530,9 +512,7 @@ class PzkUserController extends PzkController {
 		$left=pzk_element('left');
 		$left->append($editinfor);
 		$this->page->display();
-		   
-		
-	}
+		}
 
 	public function sendMailEditPassword($email="",$key="",$newpassword="")
 	{
@@ -763,29 +743,40 @@ class PzkUserController extends PzkController {
 		$price=$request->get('price');
 		$transaction_info=$request->get('transaction_info');
 		$datetime= date("Y-m-d H:i:s");
-		//update database
-		//insert table history_payment
-		$row = array('username' =>$username,'amount'=>$price,'typepayment'=>$transaction_info,'datepayment'=>$datetime);
-		$item= _db()->insert('history_payment')->fields('username,amount,typepayment,datepayment')->values(array($row))->result();
-		// inset or update table wallets
-		$items=_db()->useCB()->select('wallets.*')->from('wallets')->where(array('username',$username))->result_one();
-		if($items)
+		// Kiểm tra thông tin trả về từ trang thanh toán
+		if(0)
 		{
-			$price= $price+ $items['amount'];
-			_db()->useCB()->update('wallets')->set(array('amount'=>$price))->where(array('username',$username))->result();
+			//update database
+			//insert table history_payment
+			$row = array('username' =>$username,'amount'=>$price,'typepayment'=>$transaction_info,'datepayment'=>$datetime);
+			$item= _db()->insert('history_payment')->fields('username,amount,typepayment,datepayment')->values(array($row))->result();
+			// inset or update table wallets
+			$items=_db()->useCB()->select('wallets.*')->from('wallets')->where(array('username',$username))->result_one();
+			if($items)
+			{
+				$price= $price+ $items['amount'];
+				_db()->useCB()->update('wallets')->set(array('amount'=>$price))->where(array('username',$username))->result();
+			}
+			else
+			{
+				$row = array('username' =>$username,'amount'=>$price);
+				$item= _db()->insert('wallets')->fields('username,amount')->values(array($row))->result();
+			}
+	
+			/*$this->layout();		
+			$payment = $this->parse('user/payment/confirmpayment');
+			$this->append('user/payment/confirmpayment', 'left');
+			$this->page->display();		*/
+			$payment = pzk_parse(pzk_app()->getPageUri('user/payment/confirmpayment'));
+			$payment->setPrice($request->get('price'));
+			$payment->setMethod($request->get('transaction_info'));
+			$payment->setAmount($price);
+			$this->layout();			
+			$left = pzk_element('left');
+			$left->append($payment);
+			$this->page->display();
+
 		}
-		else
-		{
-			$row = array('username' =>$username,'amount'=>$price);
-			$item= _db()->insert('wallets')->fields('username,amount')->values(array($row))->result();
-		}
-		
-		
-		$this->layout();		
-		$payment = $this->parse('user/payment/confirmpayment');
-		//$payment->setAmount('10000');
-		$this->append('user/payment/confirmpayment', 'left');
-		$this->page->display();		
 	}
 
 }
