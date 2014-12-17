@@ -76,12 +76,11 @@ class PzkUserController extends PzkController {
 	}
 	public function registerPostAction()
 	{	
-		$error="hihi";	
+		$error="";	
 		$request=pzk_element('request');
 		$username=$request->get('username');
 		$email=$request->get('email');
 		$captcha= $request->get('captcha');
-
 		if($captcha==$_SESSION['security_code'])
 		{
 			$testUser= _db()->useCB()->select('username')->from('user')->where(array('equal','username',$request->get('username')))->result();
@@ -108,7 +107,7 @@ class PzkUserController extends PzkController {
 					$iddate= $request->get('iddate');
 					$idplace= $request->get('idplace');
 					$dateregister=date("Y-m-d H:i:s"); 
-					$rowRegister= array('username' =>$username,'password'=>md5($password),'email'=>$email,'name'=>$name,'birthday'=>$birthday,'sex'=>$sex,'address'=>$address,'phone'=>$phone,'idpassport'=>$idpassport,'idplace'=>$idplace,'registered'=>$dateregister);
+					$rowregister= array('username' =>$username,'password'=>md5($password),'email'=>$email,'name'=>$name,'birthday'=>$birthday,'sex'=>$sex,'address'=>$address,'phone'=>$phone,'idpassport'=>$idpassport,'idplace'=>$idplace,'registered'=>$dateregister);
 					_db()->useCB()->insert('user')->fields('username,password,email,name,birthday,sex,address,phone,idpassport,idplace,iddate,registered')->values(array($rowRegister))->result();
 					$this->sendMail($username,$password,$email);
 					// Hiển thị layout showregister
