@@ -45,7 +45,7 @@ class PzkCoreRequest extends PzkObjectLightWeight {
 		$this->parse_full_path();
 	}
 	
-	public function parse_full_path()
+	private function parse_full_path()
 	{
 		$s = &$_SERVER;
 		$ssl = (!empty($s['HTTPS']) && $s['HTTPS'] == 'on') ? true:false;

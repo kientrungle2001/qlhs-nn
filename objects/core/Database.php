@@ -40,49 +40,92 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
         }
     }
 
+    /**
+     * Chèn vào bảng
+     * @param string $table
+     * @return PzkCoreDatabase
+     */
     public function insert($table) {
         $this->options['action'] = 'insert';
         $this->options['table'] = "`$table`";
         return $this;
     }
 
+    /**
+     * Giá trị cần chèn vào bảng
+     * @param array $values: dạng array($row1, $row2), trong đó $row1 là giá trị bản ghi
+     * @return PzkCoreDatabase
+     */
     public function values($values) {
         $this->options['values'] = $values;
         return $this;
     }
 
+    /**
+     * Các trường cần insert vào
+     * @param string $fields dạng chuỗi, cách nhau bởi dấu ,
+     * @return PzkCoreDatabase
+     */
     public function fields($fields) {
         $this->options['fields'] = $fields;
         return $this;
     }
 
+    /**
+     * Lệnh xóa
+     * @return PzkCoreDatabase
+     */
     public function delete() {
         $this->options['action'] = 'delete';
         return $this;
     }
 
+    /**
+     * Lệnh cập nhật
+     * @param string $table
+     * @return PzkCoreDatabase
+     */
     public function update($table) {
         $this->options['action'] = 'update';
         $this->options['table'] = $table;
         return $this;
     }
 
+    /**
+     * Lệnh đặt giá trị cho cập nhật
+     * @param string $values: giá trị dạng array('trường' => 'giá trị')
+     * @return PzkCoreDatabase
+     */
     public function set($values) {
         $this->options['values'] = $values;
         return $this;
     }
 
+    /**
+     * Lệnh SELECT
+     * @param string $fields các trường, cách nhau bởi dấu phẩy ,
+     * @return PzkCoreDatabase
+     */
     public function select($fields) {
         $this->options['action'] = 'select';
         $this->options['fields'] = $fields;
         return $this;
     }
 
+    /**
+     * Lệnh đếm
+     * @return PzkCoreDatabase
+     */
     public function count() {
         $this->options['action'] = 'count';
         return $this;
     }
 
+    /**
+     * Lệnh FROM
+     * @param string $table
+     * @return PzkCoreDatabase
+     */
     public function from($table) {
         if (strpos($table, '`') !== false || preg_match('/^[\w\d_]/', $table) !== false) {
             $this->options['table'] = $table;
@@ -92,20 +135,42 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
         return $this;
     }
 
+    /**
+     * Lệnh WHERE
+     * @param mixed $conds điều kiện: là chuỗi hoặc là biểu thức dạng mảng
+     * @return PzkCoreDatabase
+     */
     public function where($conds) {
 		$condsStr = $this->buildCondition($conds);
         $this->options['conds'] = pzk_or(@$this->options['conds'], 1) . ' AND ' . $condsStr;
         return $this;
     }
+    
+    /**
+     * Sử dụng condition builder
+     * @see PzkCoreDatabaseArrayCondition
+     * @return PzkCoreDatabase
+     */
 	public function useCB() {
 		$this->options['useConditionBuilder'] = true;
 		return $this;
 	}
+	/**
+	 * Sử dụng cache
+	 * @param string $timeout
+	 * @return PzkCoreDatabase
+	 */
 	public function useCache($timeout = null) {
 		$this->options['useCache'] = true;
 		$this->options['cacheTimeout'] = $timeout;
 		return $this;
 	}
+	/**
+	 * Lệnh xây dựng điều kiện từ biểu thức dạng mảng
+	 * @see PzkCoreDatabaseArrayCondition
+	 * @param mixed $conds điều kiện
+	 * @return string điều kiện sql
+	 */
 	public function buildCondition($conds) {
 		$builder = pzk_element('conditionBuilder');
 		if($builder) {
@@ -164,7 +229,13 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
             $condsStr = 1;
 		return $condsStr;
 	}
-
+	
+	
+	/**
+	 * Lọc dữ liệu theo mảng, dùng như where
+	 * @param array $filters bộ lọc
+	 * @return PzkCoreDatabase
+	 */
     public function filters($filters) {
         if ($filters && is_array($filters)) {
             $this->where($filters);
@@ -172,17 +243,32 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
         return $this;
     }
 
+    /**
+     * Sắp xếp thứ tự
+     * @param string $orderBy
+     * @return PzkCoreDatabase
+     */
     public function orderBy($orderBy) {
         $this->options['orderBy'] = $orderBy;
         return $this;
     }
 
+    /**
+     * Gom nhóm
+     * @param string $groupBy
+     * @return PzkCoreDatabase
+     */
     public function groupBy($groupBy) {
 		if(!$groupBy) return $this;
         $this->options['groupBy'] = $groupBy;
         return $this;
     }
 
+    /**
+     * Điều kiện having
+     * @param mixed $conds
+     * @return PzkCoreDatabase
+     */
     public function having($conds) {
 		if(!$conds) return $this;
         if (isset($this->options['groupBy'])) {
@@ -362,6 +448,11 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 		return NULL;
 	}
 	
+	/**
+	 * Xóa cây
+	 * @param string $table bảng
+	 * @param int $id id của cây
+	 */
 	public function treeDelete($table, $id) {
 		$children = $this->clear()->select('id')->from($table)->where('parentId=' . $id)->result();
 		foreach($children as $row) {
@@ -370,6 +461,13 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 		$this->clear()->delete()->from($table)->where('id=' . $id)->result();
 	}
 	
+	/**
+	 * Lấy parent
+	 * @param string $table
+	 * @param int $id
+	 * @param mixed $conditions
+	 * @return array
+	 */
 	public function getParent($table, $id, $conditions = false) {
 		$item = $this->clear()->select('*')->from($table)->where('id=' . $id)->result_one();
 		if(!$item) return NULL;
@@ -523,13 +621,18 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 }
 
 /**
+ * Lấy ra database instance
  * @return PzkCoreDatabase
  */
 function _db() {
     return pzk_store_element('db')->clear();
 }
 
+/**
+ * Thực thi câu lệnh sql
+ * @param string $sql
+ * @return array
+ */
 function db_query($sql) {
     return _db()->query($sql);
 }
-?>

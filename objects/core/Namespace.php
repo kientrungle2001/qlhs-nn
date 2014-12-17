@@ -1,6 +1,4 @@
 <?php
-class PzkNamespace extends PzkObject {
-	public function init() {
-		
-	}
+pzk_import('core.Shorty');
+class PzkCoreNamespace extends PzkCoreShorty {
 }
