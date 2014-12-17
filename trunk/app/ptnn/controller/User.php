@@ -81,6 +81,7 @@ class PzkUserController extends PzkController {
 		$username=$request->get('username');
 		$email=$request->get('email');
 		$captcha= $request->get('captcha');
+
 		if($captcha==$_SESSION['security_code'])
 		{
 			$testUser= _db()->useCB()->select('username')->from('user')->where(array('equal','username',$request->get('username')))->result();
@@ -108,9 +109,15 @@ class PzkUserController extends PzkController {
 					$idplace= $request->get('idplace');
 					$dateregister=date("Y-m-d H:i:s"); 
 					//insert into user table
-					$row = array('name' =>$name,'username'=>$username,'password'=>md5($password),'email'=>$email,'birthday'=>$birthday,'address'=>$address,'phone'=>$phone,'idpassport'=>$idpassport,'iddate'=>$iddate,'idplace'=>$idplace,'sex'=>$sex,'registered'=>$dateregister);
-					$item= _db()->insert('user')->fields('name,username,password,email,birthday,address,phone,idpassport,iddate,idplace,sex,registered')->values(array($row))->result();
-
+					//$rowWallets = array('username' =>$items['username'],'amount'=>0);
+					//$itemWallets= _db()->useCB()->insert('wallets')->fields('username,amount')->values(array($rowWallets))->result();
+					//$row = array('name' =>$name,'username'=>$username,'password'=>md5($password),'email'=>$email,'birthday'=>$birthday,'address'=>$address,'phone'=>$phone,'idpassport'=>$idpassport,'iddate'=>$iddate,'idplace'=>$idplace,'sex'=>$sex,'registered'=>$dateregister);
+					//$item= _db()->useCB()->insert('user')->fields('name,username,password,email,birthday,address,phone,idpassport,iddate,idplace,sex,registered')->values(array($row))->result();
+					//$row = array('name'=>$name,'username' =>$username,'password'=>md5($password),'birthday'=>$birthday,'sex'=>$sex,'address'=>$address);
+					//$item= _db()->insert('user')->fields('name,username,password,birthday,sex,address')->values(array($row))->result();
+					echo $email .$password. $username;
+					$rowRegister=array('username'=>$username,'password'=>$password,'email'=>$email,'birthday'=>$birthday,'sex'=>$sex,'address'=>$address,'phone'=>$phone,'idpassport'=>$idpassport,'idplace'=>$idplace,'iddate'=>$iddate,'dateregister'=>$dateregister);
+					_db()->useCB()->insert('user')->fields('username','password','email','birthday','sex','address','phone','idpassport','idplace','iddate','dateregister')->values(array($rowRegister))->result();
 					$this->sendMail($username,$password,$email);
 					// Hiển thị layout showregister
 					$showregister = pzk_parse(pzk_app()->getPageUri('user/showregister'));
@@ -631,17 +638,10 @@ class PzkUserController extends PzkController {
 	// Function hiển thị thông tin cá nhân của user
 	public function profileuserAction()
 	{
-//		$this->layout();		
-//		$profileuser = $this->parse('user/profileuser');
-//		$this->append('user/profileuser', 'right');
-//		$this->page->display();
-		$this->layout();	
-		$editsign = pzk_parse(pzk_app()->getPageUri('user/profileuser'));
-
-			$editsign->setSign($sign);
-			$left = pzk_element('left');
-			$left->append($editsign);
-			$this->page->display();
+		$this->layout();		
+		$profileuser = $this->parse('user/profileuser');
+		$this->append('user/profileuser', 'right');
+		$this->page->display();
 			
 	}
 	public function paymentAction()
