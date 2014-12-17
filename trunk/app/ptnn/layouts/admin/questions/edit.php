@@ -4,7 +4,7 @@
 	$categories = buildArr($categories,'parent',0);
 	$categoryIds = explode(',', $item['categoryIds']);
 ?>
-<form id="questionsEditForm" role="form" method="post" action="{url /admin_questions/editPost}">
+<form id="questionsEditForm" role="form" method="post" action="{url /admin_questions/editAllCatePost}">
   <br />
   <button type="submit" class="btn btn-primary">Cập nhật</button>
   <a href="{url /admin_questions/index}">Quay lại</a><br />
