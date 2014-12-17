@@ -6,16 +6,16 @@ if($row) {
 $parents = _db()->select('*')->from('news')->result();
 $parents = buildArr($parents, 'parent', 0);
 ?>
-<form role="form" method="post" action="{url /admin_news/editPost}">
+<form role="form" method="post" action="{url /admin_news/edit}">
   <input type="hidden" name="id" value="{item[id]}" />
   <div class="form-group">
-    <label for="name">Tên danh mục</label>
-    <input type="text" class="form-control" id="name" name="name" placeholder="Tên danh mục" value="{item[name]}">
+    <label for="title">Tên tin tức</label>
+    <input type="text" class="form-control" id="title" name="title" placeholder="Tên tin tức" value="{item[title]}">
   </div>
 
 <div class="form-group">
-    <label for="router">Tên đường dẫn</label>
-    <input type="text" class="form-control" id="router" name="router" placeholder="Đường dẫn" value="{item[router]}">
+    <label for="content">Nội dung</label>
+    <input type="text" class="form-control" id="content" name="content" placeholder="Nội dung" value="{item[content]}">
 </div>
 
   <div class="form-group">
