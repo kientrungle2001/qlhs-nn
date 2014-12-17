@@ -73,6 +73,19 @@ class PzkAdminController extends PzkController {
 		$entity->setData($row);
 		$entity->save();
 	}
+    public function editAllCatePostAction() {
+        $row = $this->getEditData();
+        $str = ','.implode(',', $row['categoryIds']).',';
+        $row['categoryIds'] = $str;
+        if($this->validateEditData($row)) {
+            $this->edit($row);
+            pzk_notifier()->addMessage('Cập nhật thành công');
+            $this->redirect('index');
+        } else {
+            pzk_validator()->setEditingData($row);
+            $this->redirect('edit/' . pzk_request('id'));
+        }
+    }
 	public function editPostAction() {
 		$row = $this->getEditData();
 		if($this->validateEditData($row)) {
