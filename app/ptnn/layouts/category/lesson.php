@@ -37,7 +37,7 @@
 
 
     <br>
-    <table border="1px" cellpadding="0" cellspacing="0">
+    <table class="tb_lesson" border="1px" cellpadding="0" cellspacing="0">
         <thead>
         <tr>
             <th>Số câu</th>
@@ -76,5 +76,8 @@
     .active_type{
         color: orangered;
         font-weight: bold;
+    }
+    .tb_lesson tr th{
+        text-align: center;
     }
 </style>

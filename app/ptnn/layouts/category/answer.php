@@ -89,6 +89,7 @@ if(pzk_request()->is('POST')) {
                 <td>
                     <input disabled   <?php if(isset($request[$a]) && $request[$a] == $val['id']){ echo 'checked'; }  ?> type="radio" />
                     <input name="value_<?php echo $item; ?>" style="display: none;"  value="{val[id]}" <?php if(isset($request[$a]) && $request[$a] == $val['id']){ echo 'checked'; }  ?> type="radio" />
+
                 </td>
                 <td>{val[value]}</td>
             </tr>

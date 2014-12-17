@@ -49,6 +49,10 @@ if(pzk_request()->is('POST')) {
                 <th>Số đáp án đúng</th>
                 <th>Giờ làm bài</th>
                 <th>Giờ nộp bài</th>
+                <input type="hidden" name="start_time" value="<?php echo $request['start_time']; ?>"/>
+                <input type="hidden" name="end_time" value="<?php echo $request['end_time']; ?>"/>
+                <input type="hidden" name="total" value="<?php echo count($items); ?>"/>
+                <input type="hidden" name="total_true" value="<?php echo $total; ?>"/>
             </tr>
             <tr>
                 <th>
@@ -107,6 +111,7 @@ if(pzk_request()->is('POST')) {
                 <td>
                     <input  disabled="disabled"   <?php if(isset($request[$a]) && $request[$a] == $val['id']){ echo 'checked'; }  ?> type="radio" />
                     <input name="value_<?php echo $item; ?>" style="display: none;"  value="{val[id]}" <?php if(isset($request[$a]) && $request[$a] == $val['id']){ echo 'checked'; }  ?> type="radio" />
+                    <input name="value[<?php echo $item; ?>]" style="display: none;"  value="{val[id]}" <?php if(isset($request[$a]) && $request[$a] == $val['id']){ echo 'checked'; }  ?> type="radio" />
 
                 </td>
                 <td <?php if($val['valueTrue'] == 1) { echo "class='highlinght'";} ?> >{val[value]}</td>
