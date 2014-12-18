@@ -1,5 +1,5 @@
 <?php $items = $data->getItems();
-	$item = buildArr($items,'parent',0);
+	$items = buildArr($items,'parent',0);
 ?>
 <table class="table">
 	<tr>
@@ -12,10 +12,11 @@
 	{each $items as $item}
 	<?php 
 	$tab = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp';
-	$news = str_repeat($tab, $item['id'])
+	$news = str_repeat($tab, $item['lever'])
 	.$item['title']
 	.$item['content']
-	.$item['brief'];
+	.$item['brief']
+	.$item['parent'];
 	?>
 	<tr>
 		<td>{item[id]}</td>
