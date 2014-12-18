@@ -6,13 +6,16 @@ if($row) {
 $parents = _db()->select('*')->from('news')->result();
 $parents = buildArr($parents, 'parent', 0);
 ?>
-<form role="form" method="post" action="{url /admin_news/edit}">
+<form role="form" method="post" action="{url /admin_news/editPost}">
   <input type="hidden" name="id" value="{item[id]}" />
   <div class="form-group">
     <label for="title">Tên tin tức</label>
     <input type="text" class="form-control" id="title" name="title" placeholder="Tên tin tức" value="{item[title]}">
   </div>
-
+<div class="form-group">
+    <label for="title">Miêu tả</label>
+    <input type="text" class="form-control" id="brief" name="brief" placeholder="Tên tin tức" value="{item[brief]}">
+  </div>
 <div class="form-group">
     <label for="content">Nội dung</label>
     <input type="text" class="form-control" id="content" name="content" placeholder="Nội dung" value="{item[content]}">
@@ -26,7 +29,7 @@ $parents = buildArr($parents, 'parent', 0);
 			<?php 
 			$selected = '';
 			if($parent['id'] == $item['parent']) { $selected = 'selected'; }?>
-			<option value="{parent[id]}" {selected}><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $parent['lever']); ?>{parent[name]}</option>
+			<option value="{parent[id]}" {selected}><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $parent['lever']); ?>{parent[title]}</option>
 		{/each}
 	</select>
   </div>
