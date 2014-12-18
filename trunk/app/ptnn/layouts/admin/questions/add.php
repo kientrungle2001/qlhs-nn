@@ -1,6 +1,7 @@
 <?php 
 $categories = _db()->select('*')->from('categories')->result(); 
 $categories = buildArr($categories,'parent',0);
+$questionTypes = _db()->select('*')->from('questiontype')->result();
 ?>
 <form id="questionsAddForm" role="form" method="post" action="{url /admin_questions/addPost}">
   <input type="hidden" name="id" value="" />
@@ -11,13 +12,17 @@ $categories = buildArr($categories,'parent',0);
   <div class="form-group clearfix">
     <label for="type">Loại câu hỏi</label>
     <select class="form-control" id="type" name="type" placeholder="Loại" value="{item[type]}">
-		<option value="tracnghiem">Trắc nghiệm</option>
-		<option value="dientu">Điền từ vào chỗ trống</option>
+        <option value="">Chọn loại câu hỏi</option>
+		{each $questionTypes as $val }
+        <option value="{val[id]}">{val[name]}</option>
+        {/each}
+
 	</select>
   </div>
     <div class="form-group clearfix">
         <label for="type">Mức độ câu hỏi</label>
         <select class="form-control" id="level" name="level" placeholder="Loại" value="{item[level]}">
+            <option value="">Chọn mức độ câu hỏi</option>
             <option value="1">Dễ</option>
             <option value="2">Bình thường</option>
             <option value="3">Khó</option>

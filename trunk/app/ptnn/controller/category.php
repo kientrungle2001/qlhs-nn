@@ -109,9 +109,9 @@ class PzkCategoryController extends PzkController
                 );
                 //debug($addLesson);die();
 
-                $entity = _db()->useCb()->getEntity('table')->setTable('lessons');
-                $entity->setData($addLesson);
-                $entity->save();
+                //$entity = _db()->useCb()->getEntity('table')->setTable('lessons');
+                //$entity->setData($addLesson);
+                //$entity->save();
                 $this->redirect('');
 
             }
