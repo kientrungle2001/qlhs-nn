@@ -8,4 +8,5 @@
 	<core.mailer id="mailer" username="kieunghia.luckystar@gmail.com" password="Nghiak4bcntt" host="smtp.gmail.com" secure="tls" port="587" />
 	<core.notifier id="notifier" />
 	<core.validator id="validator" />
+	<core.jQuery id="jQuery" />
 </core.application>
