@@ -7,12 +7,15 @@
 		<th>Tên Tin Tức</th>
 		<th>Miêu tả</th>
 		<th>Nội Dung</th>
-				<th colspan="2">Hành động</th>
+		<th colspan="2">Hành động</th>
 	</tr>
 	{each $items as $item}
 	<?php 
 	$tab = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp';
-	$news = str_repeat($tab, $item['lever']).$item['title'].$item['content'].$item['brief'];
+	$news = str_repeat($tab, $item['lever'])
+	.$item['title']
+	.$item['content']
+	.$item['brief'];
 	?>
 	<tr>
 		<td>{item[id]}</td>
