@@ -1,13 +1,17 @@
-	
-	<div id="menu">
+
+<div id="menu">
         <ul class="drop">
             <li><a href="/">Trang Chủ</a></li>
-        </ul>
+		</ul>
         <?php $items = $data->getItems();
         $items = buildTree($items);
         show_menu($items);
         ?>
 
+<div id='ads-right'>
+<div style='margin:0 0 5px 0; padding:0;width:308px;position:fixed; right:24px; top:201px;'>
+<a href="http://ptnn.vn/category/section/1" target='_blank'><img border='0' height='192' src='http://i207.photobucket.com/albums/bb162/emdaxa/nextnobel.jpg' width='308'/></a>
+</div></div>
 	</div>
     <style>
         #menu {
