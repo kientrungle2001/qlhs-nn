@@ -60,7 +60,8 @@ class PzkUserController extends PzkController {
 	{
 		$this->layout();
 		$pageUri = $this->getApp()->getPageUri('user/user');
-		$page = PzkParser::parse($pageUri);	
+		$page = PzkParser::parse($pageUri);
+		$page->setA(1000);	
 		$this->page->display();
 	
 	}
@@ -70,9 +71,9 @@ class PzkUserController extends PzkController {
 		$this->layout();
 		$pageUri = $this->getApp()->getPageUri('/user/register');
 		$page = PzkParser::parse($pageUri);	
-			$left = pzk_element('left');
-			$left->append($page);
-			$this->page->display();
+		$left = pzk_element('left');
+		$left->append($page);
+		$this->page->display();
 	}
 	public function registerPostAction()
 	{	
@@ -107,7 +108,7 @@ class PzkUserController extends PzkController {
 					$iddate= $request->get('iddate');
 					$idplace= $request->get('idplace');
 					$dateregister=date("Y-m-d H:i:s"); 
-					$rowregister= array('username' =>$username,'password'=>md5($password),'email'=>$email,'name'=>$name,'birthday'=>$birthday,'sex'=>$sex,'address'=>$address,'phone'=>$phone,'idpassport'=>$idpassport,'idplace'=>$idplace,'registered'=>$dateregister);
+					$rowRegister= array('username' =>$username,'password'=>md5($password),'email'=>$email,'name'=>$name,'birthday'=>$birthday,'sex'=>$sex,'address'=>$address,'phone'=>$phone,'idpassport'=>$idpassport,'idplace'=>$idplace,'registered'=>$dateregister);
 					_db()->useCB()->insert('user')->fields('username,password,email,name,birthday,sex,address,phone,idpassport,idplace,iddate,registered')->values(array($rowRegister))->result();
 					$this->sendMail($username,$password,$email);
 					// Hiển thị layout showregister
@@ -634,7 +635,7 @@ class PzkUserController extends PzkController {
 	{
 
 		//$nganluong_url = 'https://www.nganluong.vn/checkout.php';
-		$nganluong_url = 'http://ptnn.vn/user/confirmpayment.php';
+		$nganluong_url = 'http://nextnobels.vn/user/confirmpayment.php';
 	
 		// Mã website của bạn đăng ký trong chức năng tích hợp thanh toán của NgânLượng.vn.
 		$merchant_site_code = '17185'; //100001 chỉ là ví dụ, bạn hãy thay bằng mã của bạn
@@ -716,7 +717,7 @@ class PzkUserController extends PzkController {
 		$payment=$request->get('payment');
 		if($payment=='nganluong')
 		{
-			$return_url="http://ptnn.vn/user/confirmpayment.php";
+			$return_url="http://nextnobels.vn/user/payment/confirmpayment.php";
 			$receiver="kieunghia.cntt@gmail.com";
 			$transaction_info="Nạp tiền qua Ngân Lượng";
 			$order_code=pzk_session('username');
@@ -732,6 +733,149 @@ class PzkUserController extends PzkController {
 
 		}
 	
+	}
+	// Nạp thẻ cào qua Ngân Lương
+	// Get error code
+	public function GetErrorMessage($error_code) 
+	{
+		$arrCode = array(
+				   '00'=>  'Giao dịch thành công',
+				   '99'=>  'Lỗi, tuy nhiên lỗi chưa được định nghĩa hoặc chưa xác định được nguyên nhân',
+				   '01'=>  'Lỗi, địa chỉ IP truy cập API của NgânLượng.vn bị từ chối',
+				   '02'=>  'Lỗi, tham số gửi từ merchant tới NgânLượng.vn chưa chính xác (thường sai tên tham số hoặc thiếu tham số)',
+				   '03'=>  'Lỗi, Mã merchant không tồn tại hoặc merchant đang bị khóa kết nối tới NgânLượng.vn',
+				   '04'=>  'Lỗi, Mã checksum không chính xác (lỗi này thường xảy ra khi mật khẩu giao tiếp giữa merchant và NgânLượng.vn không chính xác, hoặc cách sắp xếp các tham số trong biến params không đúng)',
+				   '05'=>  'Tài khoản nhận tiền nạp của merchant không tồn tại',
+				   '06'=>  'Tài khoản nhận tiền nạp của merchant đang bị khóa hoặc bị phong tỏa, không thể thực hiện được giao dịch nạp tiền',
+				   '07'=>  'Thẻ đã được sử dụng ',
+				   '08'=>  'Thẻ bị khóa',
+				   '09'=>  'Thẻ hết hạn sử dụng',
+				   '10'=>  'Thẻ chưa được kích hoạt hoặc không tồn tại',
+				   '11'=>  'Mã thẻ sai định dạng',
+				   '12'=>  'Sai số serial của thẻ',
+				   '13'=>  'Mã thẻ và số serial không khớp',
+				   '14'=>  'Thẻ không tồn tại',
+				   '15'=>  'Thẻ không sử dụng được',
+				   '16'=>  'Số lần thử (nhập sai liên tiếp) của thẻ vượt quá giới hạn cho phép',
+				   '17'=>  'Hệ thống Telco bị lỗi hoặc quá tải, thẻ chưa bị trừ',
+				   '18'=>  'Hệ thống Telco bị lỗi hoặc quá tải, thẻ có thể bị trừ, cần phối hợp với NgânLượng.vn để tra soát',
+				   '19'=>  'Kết nối từ NgânLượng.vn tới hệ thống Telco bị lỗi, thẻ chưa bị trừ (thường do lỗi kết nối giữa NgânLượng.vn với Telco, ví dụ sai tham số kết nối, mà không liên quan đến merchant)',
+				   '20'=>  'Kết nối tới telco thành công, thẻ bị trừ nhưng chưa cộng tiền trên NgânLượng.vn');
+				   
+		return $arrCode[$error_code];
+	}
+	// Gạch thẻ
+			
+	public function CardPay($pin_card,$card_serial,$type_card,$ref_code,$client_fullname,$client_mobile,$client_email) 
+	{
+		$params = array(
+						'func'					=> 'CardCharge',
+						'version'				=> '2.0',
+						'merchant_id'			=> '17185',
+						'merchant_account'		=> 'kieunghia.cntt@gmail.com',
+						'merchant_password'		=> MD5('17185|'.'123456789'),
+						'pin_card'				=> $pin_card,
+						'card_serial'			=> $card_serial,
+						'type_card'				=> $type_card,
+						'ref_code'				=> $ref_code,
+						'client_fullname'		=> $client_fullname,
+						'client_email'			=> $client_email,
+						'client_mobile'			=> $client_mobile,
+					);	
+//print_r( $params);	 
+				
+					$post_field = '';
+					foreach ($params as $key => $value){
+						if ($post_field != '') $post_field .= '&';
+						$post_field .= $key."=".$value;
+					}
+					
+				$api_url = "https://www.nganluong.vn/mobile_card.api.post.v2.php";
+				//$api_url = "http://exu.vn/mobile_card.api.post.v2.php";
+				
+				//echo $api_url. $post_field;
+				//https://www.nganluong.vn/mobile_card.api.post.v2.php?func=CardCharge&version=2.0&merchant_id=24338&merchant_account=hoannet@gmail.com&merchant_password=e4285e0c4ca12bb265af1f00adf706de&pin_card=34565454343344&card_serial=34565454343344&type_card=VIETTEL&ref_code=23254807583&client_fullname=Tên khách hàng&client_email= Email Khách hàng&client_mobile=Mobile Khách Hàng
+				//die;
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_URL,$api_url);
+				curl_setopt($ch, CURLOPT_ENCODING , 'UTF-8');
+				curl_setopt($ch, CURLOPT_VERBOSE, 1);
+				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+				curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+				curl_setopt($ch, CURLOPT_POST, 1);
+				curl_setopt($ch, CURLOPT_POSTFIELDS, $post_field);
+				$result = curl_exec($ch);
+				
+				$status = curl_getinfo($ch, CURLINFO_HTTP_CODE); 
+				$error = curl_error($ch);
+				
+				//var_dump($result);
+				
+				
+				if ($result != '' && $status==200){
+					$arr_result = explode("|",$result);
+					if (count($arr_result) == 13) {
+					   $error_code	     = $arr_result[0];
+					   $merchant_id	     = $arr_result[1];
+					   $merchant_account = $arr_result[2];				
+					   $pin_card	         = $arr_result[3];
+						$card_serial     = $arr_result[4];
+						$type_card	     = $arr_result[5];
+						$order_id		 = $arr_result[6];
+						$client_fullname = $arr_result[7];
+						$client_email    = $arr_result[8];
+						$client_mobile   = $arr_result[9];
+						$card_amount     = $arr_result[10];
+						$amount			 = $arr_result[11];
+						$transaction_id	 = $arr_result[12];
+						
+					}
+					return $arr_result;
+				}
+				else return $error;	
+				
+				
+		    }
+
+	public function paycardPostAction()
+	{
+		$request=pzk_element('request');
+		$type_card=$request->get('typecard');
+		$card_serial=$request->get('txtSeri');
+		$pin_card=$request->get('txtPin');
+		$ref_code= pzk_session('username').date("Y-m-d H:i:s");
+		$client_fullname="";
+		$client_mobile="";
+		$client_email="";
+		$arr_result=$this->CardPay($pin_card,$card_serial,$type_card,$ref_code,$client_fullname,$client_mobile,$client_email);
+		if (count($arr_result) == 13)
+		{
+					   $error_code	     = $arr_result[0];
+					   $merchant_id	     = $arr_result[1];
+					   $merchant_account = $arr_result[2];				
+					   $pin_card	     = $arr_result[3];
+						$card_serial     = $arr_result[4];
+						$type_card	     = $arr_result[5];
+						$order_id		 = $arr_result[6];
+						$client_fullname = $arr_result[7];
+						$client_email    = $arr_result[8];
+						$client_mobile   = $arr_result[9];
+						$card_amount     = $arr_result[10];
+						$amount			 = $arr_result[11];
+						$transaction_id	 = $arr_result[12];	
+			if($error_code=='00')
+			{
+				// Nạp thẻ thành công
+
+			}
+			else
+			{
+				//Nạp thất bại
+				$error=$this->GetErrorMessage($error_code);
+				echo $error;
+			}
+		} else echo $arr_result;
 	}
 	public function confirmpaymentAction()
 	{
