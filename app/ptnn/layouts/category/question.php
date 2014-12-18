@@ -101,6 +101,9 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
 
         </table>
     <script>
+        function submitform() {
+            $('#dm').submit();
+        }
         $(function(){
             $(function(){
                 $('.ms_timer').countdowntimer({
@@ -111,7 +114,8 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
                 });
                 function timeisUp() {
                     clearInterval(intervalId);
-                    $('#dm').submit();
+                    $('#se').val('00');
+                    submitform();
 
                 }
                 intervalId = setInterval(function(){
