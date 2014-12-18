@@ -3,6 +3,7 @@
 	$categories = _db()->select('*')->from('categories')->result(); 
 	$categories = buildArr($categories,'parent',0);
 	$categoryIds = explode(',', $item['categoryIds']);
+    $questionTypes = _db()->select('*')->from('questiontype')->result();
 ?>
 <form id="questionsEditForm" role="form" method="post" action="{url /admin_questions/editAllCatePost}">
   <br />
@@ -16,8 +17,11 @@
   <div class="form-group clearfix">
     <label for="type">Loại câu hỏi</label>
     <select class="form-control" id="type" name="type" placeholder="Loại" value="{item[type]}">
-		<option value="tracnghiem">Trắc nghiệm</option>
-		<option value="dientu">Điền từ vào chỗ trống</option>
+        <option>Chọn loại câu hỏi</option>
+        {each $questionTypes as $val}
+		<option <?php if($item['type'] == $val['id']) { echo 'selected="selected"'; } ?> value="{val[id]}">{val[name]}</option>
+        {/each}
+
 	</select>
 	<script>
 	$('#type').val('{item[type]}');
@@ -27,6 +31,7 @@
     <div class="form-group clearfix">
         <label for="type">Mức độ câu hỏi</label>
         <select class="form-control" id="level" name="level" placeholder="Loại" value="{item[level]}">
+            <option value="">Chọn mức độ câu hỏi</option>
             <option <?php if($item['level'] ==1) { echo 'selected="selected"'; } ?> value="1">Dễ</option>
             <option <?php if($item['level'] ==2) { echo 'selected="selected"'; } ?> value="2">Bình thường</option>
             <option <?php if($item['level'] ==3) { echo 'selected="selected"'; } ?> value="3">Khó</option>

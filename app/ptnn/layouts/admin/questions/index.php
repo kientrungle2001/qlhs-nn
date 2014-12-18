@@ -21,10 +21,21 @@
 	$countItems = $data->getCountItems($keyword, array('name'));
 	$pages = ceil($countItems / $data->pageSize);	
 	$categories = _db()->select('*')->from('categories')->result();
+    $questionTypes = _db()->select('*')->from('questiontype')->result();
 	$cats = array();
 	foreach($categories as $cat) {
 		$cats[$cat['id']] = $cat;
 	}
+    function getQuestionTypeName($questionTypes, $questionTypeId) {
+        $rs = '';
+        foreach($questionTypes as $type) {
+            if($type['id'] == $questionTypeId){
+                $rs = $type['name'];
+            }
+        }
+        return $rs;
+
+    }
 	function getCategoriesName($item, $categories) {
 		$rs = array();
 		$catIds = explode(',', $item['categoryIds']);
@@ -97,12 +108,13 @@
 	{each $items as $item}
 	<?php 
 	$catNames = getCategoriesName($item, $cats);
+    $questionTypeName = getQuestionTypeName($questionTypes, $item['type']);
 	?>
 	<tr>
 		<td>{item[id]}</td>
 		<td><a href="{url /admin_questions/detail}/{item[id]}">{item[name]}</a></td>
 		<td>{catNames}</td>
-		<td>{item[type]}</td>
+		<td>{questionTypeName}</td>
 		<td><a class="btn btn-default" href="{url /admin_questions/edit}/{item[id]}">Sửa</a></td>
 		<td><a href="{url /admin_questions/del}/{item[id]}">Xóa</td>
 	</tr>
