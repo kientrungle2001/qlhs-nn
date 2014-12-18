@@ -1,1 +1,1 @@
-<core.db.list table="categories" layout="admin/category/index" />
+<core.db.list id="list" table="categories" layout="admin/category/index" />

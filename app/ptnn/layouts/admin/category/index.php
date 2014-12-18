@@ -19,7 +19,7 @@
 		Route: <a href="{url /}{item[router]}/{item[id]}" target="_blank">{item[router]}</a>
 		Alias: <a href="{url /}{item[alias]}-{item[id]}" target="_blank">{item[alias]}</a> )
 		</td>
-		<td><?php if($item['status']) { ?>Hoạt động (<a href="{url /admin_category/changeStatus}/{item[id]}">dừng</a>)<?php } else { ?>Không hoạt động (<a href="{url /admin_category/changeStatus}/{item[id]}">mở</a>)<?php } ?></td>
+		<td id="status-{item[id]}"><?php if($item['status']) { ?><input id="switch-state-{item[id]}" type="checkbox" checked data-size="mini" /><?php } else { ?><input id="switch-state-{item[id]}" type="checkbox" data-size="mini" /><?php } ?><script type="text/javascript">jQuery('#switch-state-{item[id]}').bootstrapSwitch({onSwitchChange: function(evt,state) { <?php echo $data->onEvent('changeStatus')?>({id: {item[id]}, status: state}); }})</script></td>
 		<td><a href="{url /admin_category/add}/{item[id]}">Thêm</td>
 		<td><a href="{url /admin_category/del}/{item[id]}">Xóa</td>
 	</tr>

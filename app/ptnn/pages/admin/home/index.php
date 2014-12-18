@@ -13,6 +13,8 @@
 		<html.css src="<?php echo BASE_URL?>/3rdparty/bootstrap3/css/bootstrap.min.css" />
 		<html.css src="<?php echo BASE_URL?>/3rdparty/bootstrap3/css/bootstrap-theme.min.css" />
 		<html.js src="<?php echo BASE_URL?>/3rdparty/bootstrap3/js/bootstrap.min.js" />
+		<html.css src="<?php echo BASE_URL?>/3rdparty/bootstrap3/switch/dist/css/bootstrap3/bootstrap-switch.min.css" />
+		<html.js src="<?php echo BASE_URL?>/3rdparty/bootstrap3/switch/dist/js/bootstrap-switch.min.js" />
 	</home.head>
 	<home.menu layout="admin/home/menu" />
 		<home.left id="left" layout="admin/home/left" />
