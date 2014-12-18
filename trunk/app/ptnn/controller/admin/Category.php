@@ -48,24 +48,4 @@ class PzkAdminCategoryController extends PzkAdminController {
 				->display();
 	}
 	
-	public function indexAction() {
-		$this->initPage()
-		->append('admin/'.$this->module.'/index')
-		->append('admin/'.$this->module.'/menu', 'right');
-		$list = pzk_element('list');
-		$list->addEventListener('changeStatus', 'onChangeStatus');
-		$this->display();
-	}
-	
-	public function onChangeStatusAction() {
-		$id = pzk_request('id');
-		$entity = _db()->getTableEntity($this->table)->load($id);
-		$status = 1 - $entity->getStatus();
-		$entity->update(array('status' => $status));
-		if($entity->getStatus() == '1') {
-			//jQuery('#status-' . $id)->html('Hoạt động')->display();
-		} else {
-			//jQuery('#status-' . $id)->html('Không hoạt động')->display();
-		}
-	}
 }

@@ -1,1 +1,1 @@
-<core.db.list table="user" layout="admin/grid/index" />
+<core.db.list id="list" table="user" layout="admin/grid/index" />
