@@ -1,3 +1,7 @@
+<div align='center'><a href='http://www.hit-counts.com'><img 
+src='http://www.hit-counts.com/counter.php?t=MTM0MTQ1Mg==' 
+border='0' alt='Free Hit Counter'></a><BR>
+</div>
 </div>
 <div id="footer">
 	<p>Phần mềm phát triển ngôn ngữ ♂ &hearts; ♀</p>
