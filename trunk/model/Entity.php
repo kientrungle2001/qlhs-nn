@@ -20,6 +20,16 @@ class PzkEntityModel {
 		}
 		return $this;
 	}
+	public function loadWhere($conditions, $cacheTimeout = NULL) {
+		if($conditions) {
+			$query = _db();
+			if($cacheTimeout) {
+				$query->useCache($cacheTimeout);
+			}
+			$this->data = $query->select('*')->from($this->table)->where($conditions)->result_one();
+		}
+		return $this;
+	}
 	public function update($data) {
 		$this->data = array_merge($this->data, $data);
 		_db()->update($this->table)->set($data)->where('id=' . $this->data['id'])->result();
