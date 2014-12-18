@@ -1,0 +1,1 @@
+<core.db.detail table="banner" itemId="0" layout="admin/banner/del" />
