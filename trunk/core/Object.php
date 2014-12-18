@@ -429,4 +429,30 @@
 				throw new \Exception("Property $name doesn't exist.");
 				break;
 		}
+	}
+	
+	public $events = array();
+	
+	public function addEventListener($event, $handler){
+		if(!isset($this->events[$event])) {
+			$this->events[$event] = array();
+		}
+		$this->events[$event][] = $handler;
+	}
+	
+	public function onEvent($event) {
+		$str = '';
+		$rq = pzk_request();
+		$controller = $rq->get('controller');
+		$BASE_REQUEST = BASE_REQUEST;
+		$eventHandlers = isset($this->events[$event]) ? $this->events[$event]: array();
+		foreach ($eventHandlers as $handler) {
+			$str .= "(function(data) {
+			jQuery.ajax({url: '$BASE_REQUEST/$controller/$handler',type: 'post', data:data, success: function(resp) {
+				eval(resp);
+			}});
+		})(data);";
+		}
+		$str = "(function(data){ {$str} })";
+		return $str;
 	}}
