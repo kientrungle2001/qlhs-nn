@@ -10,6 +10,7 @@
 		<li><a href="/admin_game/index">Trò chơi</a></li>
 		<li><a href="/admin_news/index">Tin Tức</a></li>
 		<li><a href="/admin_banner/index">Quản lý banner</a></li>
+		<li><a href="/admin/banner1/index">Quản lý banner test</a></li>
 		<li><a href="/admin_examination/index" style="border-right: none">Đề thi</a></li>
 		
 	</ul>
