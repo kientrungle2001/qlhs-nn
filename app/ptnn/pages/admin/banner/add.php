@@ -1,0 +1,1 @@
+<div table="banner" parentId="0" layout="admin/banner/add" />
