@@ -41,10 +41,12 @@ class PzkAdminController extends PzkController {
 	}
 	public function indexAction() {
 		$this->initPage()
-			->append('admin/'.$this->module.'/index')
-			->append('admin/'.$this->module.'/menu', 'right')
-			->display();
+		->append('admin/'.$this->module.'/index')
+		->append('admin/'.$this->module.'/menu', 'right');
+		$this->fireEvent('index.after', $this);
+		$this->display();
 	}
+	
 	public function addAction() {
 		$this->initPage()
 			->append('admin/'.$this->module.'/add')

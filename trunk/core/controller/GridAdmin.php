@@ -10,6 +10,9 @@ class PzkGridAdminController extends PzkAdminController {
 	public $searchFields = array();
 	public $filterFieldSettings = array();
 	public $sortFields = array();
+	public $events = array(
+		'index.after' => array('this.indexAfter')
+	);
 	public function append($obj, $position = NULL) {
 		$obj = $this->parse($obj);
 		$obj->setTable($this->table);
@@ -17,10 +20,30 @@ class PzkGridAdminController extends PzkAdminController {
 	}
 	public function indexAction() {
 		$this->initPage()
-			->append('admin/grid/index')
-			->append('admin/grid/menu', 'right')
-			->display();
+		->append('admin/grid/index')
+		->append('admin/grid/menu', 'right');
+		$this->fireEvent('index.after', $this);
+		$this->display();
 	}
+	public function indexAfter($event, $data) {
+		$list = pzk_element('list');
+		if($list) {
+			$list->addEventListener('changeStatus', 'onChangeStatus');
+		}
+	}
+	
+	public function onChangeStatusAction() {
+		$id = pzk_request('id');
+		$entity = _db()->getTableEntity($this->table)->load($id);
+		$status = 1 - $entity->getStatus();
+		$entity->update(array('status' => $status));
+		if($entity->getStatus() == '1') {
+			//jQuery('#status-' . $id)->html('Hoạt động')->display();
+		} else {
+			//jQuery('#status-' . $id)->html('Không hoạt động')->display();
+		}
+	}
+	
 	public function addAction() {
 		$this->initPage()
 			->append('admin/grid/add')
