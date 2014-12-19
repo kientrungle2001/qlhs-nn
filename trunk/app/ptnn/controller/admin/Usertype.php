@@ -242,12 +242,11 @@ class PzkAdminUserController extends PzkGridAdminController {
 				'minlength' => 'Tên phải dài 2 ký tự trở lên',
 				'maxlength' => 'Tên chỉ dài tối đa 50 ký tự'
 			),
-				'type' => array(
-						'required' => 'Nhóm không được để trống',
-						'minlength' => 'Nhóm phải dài 2 ký tự trở lên',
-						'maxlength' => 'Nhóm chỉ dài tối đa 50 ký tự'
-				)
-				
+			'type' => array(
+				'required' => 'Nhóm không được để trống',
+				'minlength' => 'Nhóm phải dài 2 ký tự trở lên',
+				'maxlength' => 'Nhóm chỉ dài tối đa 50 ký tự'
+			)
 		)
 	);
 }
