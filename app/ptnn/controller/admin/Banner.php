@@ -3,8 +3,8 @@ class PzkAdminBannerController extends PzkAdminController {
 	public $masterStructure = 'admin/home/index';
 	public $masterPosition = 'left';
 	public $table = 'banner';
-	public $addFields = 'ngaytao, click, title';
-	public $editFields = 'ngaytao, click, title';
+	public $addFields = 'ngaytao, click, title, img, code';
+	public $editFields = 'ngaytao, click, title, img, code';
 	public $addValidator = array(
 		'rules' => array(
 			'title' => array(
@@ -44,10 +44,9 @@ class PzkAdminBannerController extends PzkAdminController {
 		 $addbanner=array(
                     'title'=>$post['title'],
 					'ngaytao'=>$post['ngaytao'],
-					'click'=>$post['click']
-					);
-
-         $entity = _db()->useCb()->getEntity('table')->setTable('banner');
+					'click'=>$post['click']);
+										        
+												$entity = _db()->useCb()->getEntity('table')->setTable('banner');
                 $entity->setData($addbanner);
                 $entity->save();
 				
