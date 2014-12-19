@@ -120,6 +120,35 @@ class PzkController {
 	public function parse($uri) {
 		return $this->getStructure($uri);
 	}
+	
+	public $events = array();
+	public function fireEvent($event, $data = NULL) {
+		$eventHandlers = isset($this->events[$event]) ? $this->events[$event]: array();
+		foreach ($eventHandlers as $handler) {
+			$tmp = explode('.', $handler);
+			$action = 'handle';
+			if(@$tmp[1]) { 
+				$action = $tmp[1]; 
+			}
+			$obj = @$tmp[0];
+			if($obj == 'this') {
+				$h = $this;
+			} else {
+				$h = pzk_element($obj);
+				if(!$h) {
+					$h = $this->parse($obj);
+				}
+			}
+			if($h) {
+				$h->$action($event, $data);
+			}
+		}
+	}
+	
+	public function addEventListener($event, $handler){
+		if(!isset($this->events[$event])) {
+			$this->events[$event] = array();
+		}
+		$this->events[$event][] = $handler;
+	}
 }
-
-?>
