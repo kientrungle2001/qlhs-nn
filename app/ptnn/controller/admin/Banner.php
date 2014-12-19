@@ -39,19 +39,20 @@ class PzkAdminBannerController extends PzkAdminController {
 	);
 	public function addAction() {
 		if(pzk_request()->is('POST')) {
-				$post = pzk_request()->query;
-				
-		 $addbanner=array(
+		$post = pzk_request()->query;
+		$addbanner=array(
                     'title'=>$post['title'],
 					'ngaytao'=>$post['ngaytao'],
 					'click'=>$post['click']);
 										        
-												$entity = _db()->useCb()->getEntity('table')->setTable('banner');
+				$entity = _db()->useCb()->getEntity('table')->setTable('banner');
                 $entity->setData($addbanner);
                 $entity->save();
 				
 		}
-				
+	
+		
+					
 		$this->initPage();
 		$banner = pzk_parse(pzk_app()->getPageUri('admin/banner/add'));
 		$banner->setParentId(pzk_request()->getSegment(3));
@@ -60,4 +61,5 @@ class PzkAdminBannerController extends PzkAdminController {
 				->append('admin/banner/menu','right')
 				->display();
 	}
+	
 }

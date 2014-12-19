@@ -1,3 +1,4 @@
+
 <?php 
 $parentId = $data->getParentId();
 $parents = _db()->select('*')->from('banner')->result();
@@ -17,11 +18,8 @@ $row = pzk_validator()->getEditingData();
     <label for="title">Code</label>
     <input type="text" class="form-control" id="code" name="code" placeholder="Nhập code" value="{row[code]}">
   </div>
-  <div class="form-group">
-    <label for="title">Hình ảnh</label>
-    <input type="file" class="form-control" id="img" name="img" placeholder="Tên tin tức" value="{row[img]}">
-  </div>
- 
-  <button type="submit" class="btn btn-primary">Cập nhật</button>
+    <button type="submit" class="btn btn-primary">Cập nhật</button>
   <a href="{url /admin_banner/index}">Quay lại</a>
 </form>
+
+  

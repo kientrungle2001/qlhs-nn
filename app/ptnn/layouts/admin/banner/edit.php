@@ -15,11 +15,6 @@ $parents = _db()->select('*')->from('banner')->result();
     <label for="title">Ngày tạo</label>
     <input type="date" class="form-control" id="ngaytao" name="ngaytao" placeholder="Ngày tạo" value="{item[ngaytao]}">
   </div>
-<div class="form-group">
-    <label for="img">Hình ảnh</label>
-    <input type="file" class="form-control" id="img" name="img" placeholder="Nội dung" value="{item[img]}">
-</div>
-
   <div class="form-group">
     <label for="code">Code</label>
     <input type="text" class="form-control" id="code" name="code" placeholder="Nhập lại code" value="{item[code]}">
