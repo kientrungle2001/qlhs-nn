@@ -4,7 +4,6 @@ if($row) {
 	$item = array_merge($item, $row);
 }
 $parents = _db()->select('*')->from('banner')->result();
-$parents = buildArr($parents, 'parent', 0);
 ?>
 <form role="form" method="post" action="{url /admin_banner/editPost}">
   <input type="hidden" name="id" value="{item[id]}" />
@@ -14,25 +13,17 @@ $parents = buildArr($parents, 'parent', 0);
   </div>
 <div class="form-group">
     <label for="title">Ngày tạo</label>
-    <input type="text" class="form-control" id="ngaytao" name="ngaytao" placeholder="Ngày tạo" value="{item[ngaytao]}">
+    <input type="date" class="form-control" id="ngaytao" name="ngaytao" placeholder="Ngày tạo" value="{item[ngaytao]}">
   </div>
 <div class="form-group">
-    <label for="content">Hình ảnh</label>
-    <input type="text" class="form-control" id="content" name="content" placeholder="Nội dung" value="{item[content]}">
+    <label for="img">Hình ảnh</label>
+    <input type="file" class="form-control" id="img" name="img" placeholder="Nội dung" value="{item[img]}">
 </div>
 
   <div class="form-group">
-    <label for="parent">Số lượt click</label>
-    <select class="form-control" id="parent" name="parent" placeholder="Danh mục cha" value="{item[parent]}">
-		<option value="0">Danh mục gốc</option>
-		{each $parents as $parent}
-			<?php 
-			$selected = '';
-			if($parent['id'] == $item['parent']) { $selected = 'selected'; }?>
-			<option value="{parent[id]}" {selected}><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $parent['lever']); ?>{parent[title]}</option>
-		{/each}
-	</select>
-  </div>
+    <label for="code">Code</label>
+    <input type="text" class="form-control" id="code" name="code" placeholder="Nhập lại code" value="{item[code]}">
+		  </div>
   <button type="submit" class="btn btn-primary">Cập nhật</button>
-  <a href="{url /admin_news/index}">Quay lại</a>
+  <a href="{url /admin_banner/index}">Quay lại</a>
 </form>
