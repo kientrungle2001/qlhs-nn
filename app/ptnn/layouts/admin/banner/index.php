@@ -41,7 +41,7 @@
 		<td colspan="6">
 		<form class="form-inline" role="form">
 		<strong>Số mục: </strong>
-		<select id="pageSize" name="pageSize" class="form-control" placeholder="Số mục / trang" onchange="window.location='{url /admin_news/changePageSize}?pageSize=' + this.value;">
+		<select id="pageSize" name="pageSize" class="form-control" placeholder="Số mục / trang" onchange="window.location='{url /admin_banner/changePageSize}?pageSize=' + this.value;">
 			<option value="10">10</option>
 			<option value="20">20</option>
 			<option value="30">30</option>
@@ -60,7 +60,7 @@
 				$btn = 'btn-default';
 			}
 		?>
-		<a class="btn {btn}" href="{url /admin_news/index}?page={page}">{? echo ($page + 1)?}</a>
+		<a class="btn {btn}" href="{url /admin_banner/index}?page={page}">{? echo ($page + 1)?}</a>
 		<?php } ?>
 		</form>
 		</td>
