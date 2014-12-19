@@ -10,8 +10,7 @@
 		<th>#</th>
 		<th>Tên Banner</th>
 		<th>Ngày Tạo</th>
-		<th>Ảnh</th>
-		<th>Code</th>
+			<th>Code</th>
 		<th>Số lượt Click</th>
 		<th colspan="2">Hành động</th>
 	</tr>
@@ -22,15 +21,13 @@
 	.$item['title']
 	.$item['ngaytao']
 	.$item['click']
-	.$item['img']
 	.$item['code'];
 	?>
 	<tr>
 		<td>{item[id]}</td>
 		<td>{item[title]}</td>
 		<td>{item[ngaytao]}</td>
-		<td>{item[img]}</td>
-		<td>{item[code]}</td>
+			<td>{item[code]}</td>
 		<td>{item[click]}</td>
 		<td colspan="3">
 		<a href="{url /admin_banner/add}/{item[id]}">Thêm 
