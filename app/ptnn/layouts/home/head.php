@@ -1,4 +1,4 @@
-	<link rel="stylesheet" href="<?php echo BASE_URL ?>/default/skin/ptnn/css/style.css">
+	<link rel="stylesheet" href="<?php echo BASE_URL ?>/default/skin/ptnn/css/style.css" />
 	
 	<div id="header">
 		
