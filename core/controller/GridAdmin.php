@@ -37,38 +37,4 @@ class PzkGridAdminController extends PzkAdminController {
 			//jQuery('#status-' . $id)->html('Không hoạt động')->display();
 		}
 	}
-	
-	public function addAction() {
-		$this->initPage()
-			->append('admin/grid/add')
-			->append('admin/grid/menu', 'right')
-			->display();
-	}
-	public function editAction() {
-		$module = pzk_parse(pzk_app()->getPageUri('admin/grid/edit'));
-		$module->setItemId(pzk_request()->getSegment(3));
-		$this->initPage()
-			->append($module)
-			->append('admin/grid/menu', 'right')
-			->display();
-	}
-	public function detailAction() {
-		$module = pzk_parse(pzk_app()->getPageUri('admin/grid/detail'));
-		$module->setItemId(pzk_request()->getSegment(3));
-		$this->initPage()
-			->append($module)
-			->append('admin/grid/menu', 'right');
-		if($childList = pzk_element($this->module.'Children')){
-			$childList->setParentId(pzk_request()->getSegment(3));
-		}
-		$this->display();
-	}
-	public function delAction() {
-		$module = pzk_parse(pzk_app()->getPageUri('admin/grid/del'));
-		$module->setItemId(pzk_request()->getSegment(3));
-		$this->initPage()
-			->append($module)
-			->append('admin/grid/menu', 'right')
-			->display();
-	}
 }
