@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 class PzkAdminBannerController extends PzkAdminController {
 	public $masterStructure = 'admin/home/index';
 	public $masterPosition = 'left';
@@ -15,9 +15,9 @@ class PzkAdminBannerController extends PzkAdminController {
 		),
 		'messages' => array(
 			'title' => array(
-				'required' => 'T�n tin t?c kh�ng du?c d? tr?ng',
-				'minlength' => 'T�n tin t?c ph?i d�i 2 k� t? tr? l�n',
-				'maxlength' => 'T�n tin t?c ch? d�i t?i da 255 k� t?'
+				'required' => 'Tên banner không được để trống',
+				'minlength' => 'Tên banner phải từ hai ký tự trở lên',
+				'maxlength' => 'Tên banner chỉ được tối đa 255 ký tự'
 			)
 		)
 	);
@@ -31,9 +31,9 @@ class PzkAdminBannerController extends PzkAdminController {
 		),
 		'messages' => array(
 			'title' => array(
-				'required' => 'T�n danh m?c kh�ng du?c d? tr?ng',
-				'minlength' => 'T�n danh m?c ph?i d�i 2 k� t? tr? l�n',
-				'maxlength' => 'T�n danh m?c ch? d�i t?i da 255 k� t?'
+				'required' => 'Tên banner không được để trống',
+				'minlength' => 'Tên banner phải từ hai ký tự trở lên',
+				'maxlength' => 'Tên banner chỉ được tối đa 255 ký tự'
 			)
 		)
 	);
