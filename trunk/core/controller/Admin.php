@@ -3,6 +3,7 @@ class PzkAdminController extends PzkController {
 	public $table = false;
 	public $masterStructure = 'admin/home/index';
 	public $masterPosition = 'left';
+	public $customModule = false;
 	public function __construct() {
 		$controller = pzk_request('controller');
 		$contrParts = explode('_', $controller);
@@ -41,16 +42,16 @@ class PzkAdminController extends PzkController {
 	}
 	public function indexAction() {
 		$this->initPage()
-		->append('admin/'.$this->module.'/index')
-		->append('admin/'.$this->module.'/menu', 'right');
+		->append('admin/'.pzk_or($this->customModule, $this->module).'/index')
+		->append('admin/'.pzk_or($this->customModule, $this->module).'/menu', 'right');
 		$this->fireEvent('index.after', $this);
 		$this->display();
 	}
 	
 	public function addAction() {
 		$this->initPage()
-			->append('admin/'.$this->module.'/add')
-			->append('admin/'.$this->module.'/menu', 'right')
+			->append('admin/'.pzk_or($this->customModule, $this->module).'/add')
+			->append('admin/'.pzk_or($this->customModule, $this->module).'/menu', 'right')
 			->display();
 	}
 	public function addPostAction() {
@@ -113,30 +114,30 @@ class PzkAdminController extends PzkController {
 		$entity->save();
 	}
 	public function editAction() {
-		$module = pzk_parse(pzk_app()->getPageUri('admin/'.$this->module.'/edit'));
+		$module = pzk_parse(pzk_app()->getPageUri('admin/'.pzk_or($this->customModule, $this->module).'/edit'));
 		$module->setItemId(pzk_request()->getSegment(3));
 		$this->initPage()
 			->append($module)
-			->append('admin/'.$this->module.'/menu', 'right')
+			->append('admin/'.pzk_or($this->customModule, $this->module).'/menu', 'right')
 			->display();
 	}
 	public function detailAction() {
-		$module = pzk_parse(pzk_app()->getPageUri('admin/'.$this->module.'/detail'));
+		$module = pzk_parse(pzk_app()->getPageUri('admin/'.pzk_or($this->customModule, $this->module).'/detail'));
 		$module->setItemId(pzk_request()->getSegment(3));
 		$this->initPage()
 			->append($module)
-			->append('admin/'.$this->module.'/menu', 'right');
+			->append('admin/'.pzk_or($this->customModule, $this->module).'/menu', 'right');
 		if($childList = pzk_element($this->module.'Children')){
 			$childList->setParentId(pzk_request()->getSegment(3));
 		}
 		$this->display();
 	}
 	public function delAction() {
-		$module = pzk_parse(pzk_app()->getPageUri('admin/'.$this->module.'/del'));
+		$module = pzk_parse(pzk_app()->getPageUri('admin/'.pzk_or($this->customModule, $this->module).'/del'));
 		$module->setItemId(pzk_request()->getSegment(3));
 		$this->initPage()
 			->append($module)
-			->append('admin/'.$this->module.'/menu', 'right')
+			->append('admin/'.pzk_or($this->customModule, $this->module).'/menu', 'right')
 			->display();
 	}
 	
