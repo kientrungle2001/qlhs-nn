@@ -20,7 +20,7 @@
 		Alias: <a href="{url /}{item[alias]}-{item[id]}" target="_blank">{item[alias]}</a> )
 		</td>
 		<td id="status-{item[id]}"><?php if($item['status']) { ?><input id="switch-state-{item[id]}" type="checkbox" checked data-size="mini" /><?php } else { ?><input id="switch-state-{item[id]}" type="checkbox" data-size="mini" /><?php } ?><script type="text/javascript">jQuery('#switch-state-{item[id]}').bootstrapSwitch({onSwitchChange: function(evt,state) { <?php echo $data->onEvent('changeStatus')?>({id: {item[id]}, status: state}); }})</script></td>
-		<td><a href="{url /admin_category/add}/{item[id]}">Thêm</td>
+		<td><a href="{url /admin_category/add}/{item[id]}" class="btn btn-default">Thêm</td>
 		<td><a href="{url /admin_category/del}/{item[id]}">Xóa</td>
 	</tr>
 	{/each}
