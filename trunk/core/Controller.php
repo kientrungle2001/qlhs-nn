@@ -98,8 +98,17 @@ class PzkController {
 		return $this;
 	}
 	
-	public function redirect($action) {
-		pzk_request()->redirect(pzk_request()->buildAction($action));
+	public function redirect($action, $query = false) {
+		if(strpos($action, 'http') !== false) {
+			pzk_request()->redirect($action);
+			die();
+		}
+		$parts = explode('/', $action);
+		if(!@$parts[1] || is_numeric(@$parts[1])) {
+			pzk_request()->redirect(pzk_request()->buildAction($action, $query));
+		} else {
+			pzk_request()->redirect(pzk_request()->build($action, $query));
+		}
 	}
 	
 	public function validate($row, $validator) {
