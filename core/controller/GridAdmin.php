@@ -2,6 +2,7 @@
 class PzkGridAdminController extends PzkAdminController {
 	public $masterStructure = 'admin/home/index';
 	public $masterPosition = 'left';
+	public $customModule = 'grid';
 	public $table = false;
 	public $listFieldSettings = array();
 	public $addLabel = 'Thêm bản ghi';
@@ -17,13 +18,6 @@ class PzkGridAdminController extends PzkAdminController {
 		$obj = $this->parse($obj);
 		$obj->setTable($this->table);
 		return parent::append($obj, $position);
-	}
-	public function indexAction() {
-		$this->initPage()
-		->append('admin/grid/index')
-		->append('admin/grid/menu', 'right');
-		$this->fireEvent('index.after', $this);
-		$this->display();
 	}
 	public function indexAfter($event, $data) {
 		$list = pzk_element('list');
