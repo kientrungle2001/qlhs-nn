@@ -276,7 +276,7 @@ class PzkParser {
         $content = preg_replace('/\{style ([^\}]+)\}/', '<?php $tmp = @$data->$1; if (isset($data->$1) && $data->$1 !== "" && $data->$1 !== false) {echo \'$1:\'.$tmp.\';\'; } ?>', $content);
         $content = preg_replace('/\{filter ([^\}]+)\}/', '$data->filter(\'$1\')', $content);
         $content = preg_replace('/\{children ([^\}]+)\}/', '<?php $data->displayChildren(\'$1\');?>', $content);
-
+		$content = preg_replace('/\{event ([^\}]+)\}/', '<?php $data->onEvent(\'$1\');?>', $content);
         $idExp = '[\w\d_]+';
         $o = '\{';
         $c = '\}';
