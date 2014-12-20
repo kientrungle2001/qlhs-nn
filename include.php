@@ -53,6 +53,7 @@ require_once 'core/Object/LightWeight.php';
 require_once 'core/Store.php';
 require_once 'core/Parser.php';
 require_once 'core/Controller.php';
+require_once 'core/controller/Backend.php';
 require_once 'core/controller/Admin.php';
 require_once 'core/controller/GridAdmin.php';
 require_once 'lib/thumb.php';

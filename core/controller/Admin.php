@@ -1,5 +1,5 @@
 <?php
-class PzkAdminController extends PzkController {
+class PzkAdminController extends PzkBackendController {
 	public $table = false;
 	public $masterStructure = 'admin/home/index';
 	public $masterPosition = 'left';
@@ -11,6 +11,7 @@ class PzkAdminController extends PzkController {
 		if(!$this->table) {
 			$this->table = $this->module;
 		}
+
 	}
 	public function changeStatusAction() {
 		$id = pzk_request()->getSegment(3);
