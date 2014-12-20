@@ -14,4 +14,5 @@
 		<div><p><a href="home/index">CÔNG TY CP GIÁO DỤC PHÁT TRIỂN TRÍ TUỆ VÀ SÁNG TẠO NEXTNOBELS</a></p>
 			<p>Phần mềm luyện viết văn miêu tả và phát triển ngôn ngữ</p>
 		</div>
+        <a href="/admin_login/logout">logout</a>
 	</div>

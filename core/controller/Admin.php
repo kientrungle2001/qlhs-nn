@@ -5,6 +5,7 @@ class PzkAdminController extends PzkBackendController {
 	public $masterPosition = 'left';
 	public $customModule = false;
 	public function __construct() {
+        parent:: __construct();//goi lop cha
 		$controller = pzk_request('controller');
 		$contrParts = explode('_', $controller);
 		$this->module = $contrParts[1];

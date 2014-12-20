@@ -18,7 +18,7 @@ class PzkAdminLoginController extends PzkController {
                 $this->redirect('admin_home/index');
             }else {
                 pzk_notifier_add_message('Tên đăng nhập or mật khẩu không đúng', 'danger');
-                $this->redirect('admin_home/index');
+                $this->redirect('admin_login/index');
             }
 
 
@@ -34,11 +34,11 @@ class PzkAdminLoginController extends PzkController {
 
     }
 
-    public function logout(){
+    public function logoutAction(){
         pzk_session('adminUser', false);
         pzk_session('adminId', false);
         pzk_session('adminLevel', false);
-        $this->redirect('admin_home/index');
+        $this->redirect('admin_login/index');
     }
     public function fillter($str){
         $str = str_replace("<", "&lt;", $str);
