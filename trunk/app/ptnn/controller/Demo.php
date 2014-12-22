@@ -185,4 +185,63 @@ class PzkDemoController extends PzkController {
 		      $page->display();
 		}
 	}
+	
+	public function sessionAction() {
+		// cach 1: su dung php $_SESSION
+		// cach 2: su dung database
+		// cach 3: su dung file
+		session_set('abc', '123', 'SessionVar');
+		$abc = session_get('abc', 'SessionVar');
+		
+	}
+}
+
+function session_set($var, $val, $storage = 'FileVar') {
+	$s = new $storage('session.txt');
+	$s->save($var, $val);
+}
+
+function session_get($var, $storage = 'FileVar') {
+	$s = new $storage('session.txt');
+	return $s->load($var);
+}
+
+class FileVar {
+	public $file;
+	public function __construct($file) {
+		$this->file = $file;
+	}
+	
+	public function save($var, $val) {
+		$contet = file_get_contents($this->file);
+		$data = json_decode($content, true);
+		if(!$data) {
+			$data = array();
+		}
+		$data[$var] = $val;
+		file_put_contents($this->file, json_encode($data));
+	}
+	public function load($var) {
+		$contet = file_get_contents($this->file);
+		$data = json_decode($content, true);
+		if(!$data) {
+			$data = array();
+		}
+		if(isset($data[$var]))
+			return $data[$var];
+		return NULL;
+	}
+}
+
+class SessionVar {
+	public $file;
+	public function __construct($file) {
+		$this->file = $file;
+	}
+	public function save($var, $val) {
+		$_SESSION[$var] = $val;
+	}
+	public function load($var) {
+		return @$_SESSION[$var];
+	}
 }
