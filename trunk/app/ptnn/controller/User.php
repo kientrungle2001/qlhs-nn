@@ -99,7 +99,7 @@ class PzkUserController extends PzkController {
 				else
 				{
 					$name= $request->get('name');
-					$password=$request->get('password');
+					$password=$request->get('password1');
 					$birthday= $request->get('birthday');
 					$sex= $request->get('sex');
 					$address= $request->get('address');
@@ -219,13 +219,16 @@ class PzkUserController extends PzkController {
 	{
 		
 		$request = pzk_element('request');
-		$password=md5($request->get('password'));
+		$password=md5($request->get('passwordlogin'));
+		//$password=$request->get('password');
 		//$items = _db()->useCB()->select('user.*')->from('user')->where(array('and', array('equal', 'username', $request->get('login')), array('equal','password',$password), array('equal','status',1) ))->result_one();
 		$items = _db()->useCB()->select('user.*')->from('user')->where( array('equal', 'username', $request->get('login')))->result_one();
 		if($items)
 		{
 			//lấy pass từ csdl
 			$pass= $items['password'];
+
+
 			$status=$items['status'];
 			if($pass==$password)
 			{
@@ -247,6 +250,11 @@ class PzkUserController extends PzkController {
 				{
 					//Mật khẩu đăng nhập chưa đúng
 					$error="Mật khẩu đăng nhập chưa đúng";
+					//echo "mật khẩu database:".$items['password'];
+					//echo "mật khẩu nhập vào ".$password;
+					//echo "mã hóa ".md5(md5("Nghiak4bcntt"));
+			
+
 				}
 		}else
 		{
@@ -810,7 +818,7 @@ class PzkUserController extends PzkController {
 				$status = curl_getinfo($ch, CURLINFO_HTTP_CODE); 
 				$error = curl_error($ch);
 				
-				//var_dump($result);
+				var_dump($result);
 				
 				
 				if ($result != '' && $status==200){
@@ -836,7 +844,7 @@ class PzkUserController extends PzkController {
 				else return $error;	
 				
 				
-		    }
+		}
 
 	public function paycardPostAction()
 	{
@@ -871,6 +879,7 @@ class PzkUserController extends PzkController {
 			}
 			else
 			{
+				
 				//Nạp thất bại
 				$error=$this->GetErrorMessage($error_code);
 				echo $error;
