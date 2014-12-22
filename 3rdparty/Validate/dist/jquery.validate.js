@@ -313,10 +313,12 @@ $.extend( $.validator, {
 		required: "Bạn hãy nhập đầy đủ thông tin.",
 		remote: "Please fix this field.",
 		email: "Bạn chưa nhập đúng email.",
+		username: "Bạn chưa nhập đúng tên đăng nhập.",
+		password: "Bạn chưa nhập đúng mật khẩu.",
 		url: "Please enter a valid URL.",
 		date: "Please enter a valid date.",
 		dateISO: "Please enter a valid date ( ISO ).",
-		number: "Please enter a valid number.",
+		number: "Bạn chỉ được phép nhập ký tự số.",
 		digits: "Please enter only digits.",
 		creditcard: "Please enter a valid credit card number.",
 		equalTo: "Please enter the same value again.",
@@ -925,6 +927,8 @@ $.extend( $.validator, {
 	classRuleSettings: {
 		required: { required: true },
 		email: { email: true },
+		password: { password: true },
+		username: { username: true },
 		url: { url: true },
 		date: { date: true },
 		dateISO: { dateISO: true },
@@ -1136,6 +1140,19 @@ $.extend( $.validator, {
 			// Or use custom methods to implement your own email validation
 			return this.optional( element ) || /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test( value );
 		},
+		username: function( value, element ) {
+			// From http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#e-mail-state-%28type=email%29
+			// Retrieved 2014-01-14
+			// If you have a problem with this implementation, report a bug against the above spec
+			// Or use custom methods to implement your own email validation
+			//return this.optional( element ) || /^[a-z0-9_-]{6,16}$/.test( value );
+			return this.optional( element ) || /^[a-z0-9_-]+$/.test( value );
+		},
+		password: function( value, element ) {
+			
+			return this.optional( element ) || /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])/.test( value );
+		},
+
 
 		// http://jqueryvalidation.org/url-method/
 		url: function( value, element ) {
