@@ -3,8 +3,8 @@ class PzkAdminBannerController extends PzkAdminController {
 	public $masterStructure = 'admin/home/index';
 	public $masterPosition = 'left';
 	public $table = 'banner';
-	public $addFields = 'ngaytao, click, title, img, code';
-	public $editFields = 'ngaytao, click, title, img, code';
+	public $addFields = 'ngaytao, url, title, code';
+	public $editFields = 'ngaytao, url, title, code';
 	public $addValidator = array(
 		'rules' => array(
 			'title' => array(
