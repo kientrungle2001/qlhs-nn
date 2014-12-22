@@ -22,7 +22,7 @@ class PzkAdminModel {
         $password = md5(trim($password));
         $users = _db()->select('a.*, at.*')
             ->from('admin a')
-            ->join('admin_type at', 'a.usertype_id = at.id')
+            ->join('admin_level at', 'a.usertype_id = at.id')
             ->where("name='$username' and password='$password'")
             ->limit(0, 1);
         $users = $users->result_one();
