@@ -10,9 +10,24 @@
 
 <div id='ads-right'>
 <div style='margin:0 0 5px 0; padding:0;width:308px;position:fixed; right:24px; top:201px;'>
-<a href="http://ptnn.vn/category/section/1" target='_blank'><img border='0' height='192' src='http://i207.photobucket.com/albums/bb162/emdaxa/nextnobel.jpg' width='308'/></a>
+<a href="http://bit.ly/13TbkET" target='_blank'><img border='0' height='192' src='http://i207.photobucket.com/albums/bb162/emdaxa/nextnobel.jpg' width='308'/></a>
 </div></div>
 	</div>
+    <div id='ads-right'>
+<div style='margin:0 0 5px 0; padding:0;width:308px;position:fixed; right:24px; top:393px;'>
+<a href="http://bit.ly/1ANIj7y" target='_blank'><img border='0' height='192' src='http://i207.photobucket.com/albums/bb162/emdaxa/phai.jpg' width='308'/></a>
+</div></div>
+    </div>
+    <div id='ads-right'>
+<div style='margin:0 0 5px 0; padding:0;width:308px;position:fixed; left:-24px; top:393px;'>
+<a href="http://bit.ly/1xD167J" target='_blank'><img border='0' height='192' src='http://i207.photobucket.com/albums/bb162/emdaxa/trai.jpg' width='308'/></a>
+</div></div>
+    </div>
+    <div id='ads-right'>
+<div style='margin:0 0 5px 0; padding:0;width:192px;position:fixed; right:667px; top:450px;'>
+<a href="http://bit.ly/1ANIzU8" target='_blank'><img border='0' height='308' src='http://i207.photobucket.com/albums/bb162/emdaxa/center.jpg' width='308'/></a>
+</div></div>
+    </div>
     <style>
         #menu {
             float: left;

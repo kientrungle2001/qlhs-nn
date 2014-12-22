@@ -12,8 +12,12 @@ $parents = _db()->select('*')->from('banner')->result();
     <input type="text" class="form-control" id="title" name="title" placeholder="Tên banner" value="{item[title]}">
   </div>
 <div class="form-group">
-    <label for="title">Ngày tạo</label>
+    <label for="ngaytao">Ngày tạo</label>
     <input type="date" class="form-control" id="ngaytao" name="ngaytao" placeholder="Ngày tạo" value="{item[ngaytao]}">
+  </div>
+  <div class="form-group">
+    <label for="url">URL</label>
+    <input type="text" class="form-control" id="url" name="url" placeholder="Ngày tạo" value="{item[url]}">
   </div>
   <div class="form-group">
     <label for="code">Code</label>

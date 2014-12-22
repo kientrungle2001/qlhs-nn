@@ -11,11 +11,15 @@ $row = pzk_validator()->getEditingData();
     <input type="text" class="form-control" id="title" name="title" placeholder="Tên tin tức" value="{row[title]}">
   </div>
   <div class="form-group">
-    <label for="brief">Ngày tạo</label>
+    <label for="ngaytao">Ngày tạo</label>
     <input type="date" class="form-control" id="ngaytao" name="ngaytao" placeholder="Nhập nội dung" value="{row[ngaytao]}">
   </div>
   <div class="form-group">
-    <label for="title">Code</label>
+    <label for="url">Ngày tạo</label>
+    <input type="text" class="form-control" id="url" name="url" placeholder="Nhập nội dung" value="{row[url]}">
+  </div>
+  <div class="form-group">
+    <label for="code">Code</label>
     <input type="text" class="form-control" id="code" name="code" placeholder="Nhập code" value="{row[code]}">
   </div>
     <button type="submit" class="btn btn-primary">Cập nhật</button>

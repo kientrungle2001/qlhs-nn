@@ -10,8 +10,8 @@
 		<th>#</th>
 		<th>Tên Banner</th>
 		<th>Ngày Tạo</th>
-			<th>Code</th>
-		<th>Số lượt Click</th>
+		<th>URL</th>
+		<th>Code</th>
 		<th colspan="2">Hành động</th>
 	</tr>
 	{each $items as $item}
@@ -20,15 +20,15 @@
 	$banner = str_repeat($tab, $item['lever'])
 	.$item['title']
 	.$item['ngaytao']
-	.$item['click']
+	.$item['url']
 	.$item['code'];
 	?>
 	<tr>
 		<td>{item[id]}</td>
 		<td>{item[title]}</td>
 		<td>{item[ngaytao]}</td>
-			<td>{item[code]}</td>
-		<td>{item[click]}</td>
+		<td>{item[url]}</td>
+		<td>{item[code]}</td>
 		<td colspan="3">
 		<a href="{url /admin_banner/add}/{item[id]}">Thêm 
         <a href="{url /admin_banner/edit}/{item[id]}">Sửa		
