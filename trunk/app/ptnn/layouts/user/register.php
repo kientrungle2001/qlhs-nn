@@ -12,15 +12,19 @@
                 
                 username: {
                     required: true,
-                    minlength: 5
+                    minlength: 5,
+                    username:true
+                   
                 },
                 name: {
                     required: true,
                     minlength: 5
+                    
                 },
-                password: {
+                password1: {
                     required: true,
-                    minlength: 6
+                    minlength: 6,
+                    password:true
                 },
                 confirm_password: {
                     required: true,
@@ -39,17 +43,21 @@
                 
                 username: {
                     required: "Yêu cầu nhập tên đăng nhập",
-                    minlength: "Tên đăng nhập tối thiểu phải 6 ký tự"
+                    minlength: "Tên đăng nhập tối thiểu phải 6 ký tự",
+                    username:" Tên đăng nhập chưa đúng"
+                    
                 },
-                password: {
+                password1: {
                     required: "Yêu cầu nhập mật khẩu đầy đủ",
-                    minlength: "Mật khẩu tối thiểu phải 6 ký tự "
+                    minlength: "Mật khẩu tối thiểu phải 6 ký tự ",
+                    password:"Yêu cầu nhập đúng mật khẩu"
                 },
                 confirm_password: {
                     required: "Yêu cầu nhập lại mật khẩu ở trên",
                     minlength: "Mật khẩu tối thiểu là 6 ký tự",
                     equalTo: "Yêu cầu nhập lại mật khẩu ở trên"
                 },
+
                 email: "Email chưa đúng định dạng",
                 agree: " Bạn chưa đồng ý với điều khoản của NextNobels. Để đăng ký bạn phải chấp nhận các điều khoản",
                 captcha: "Bạn hãy nhập mã bảo mật giống với hình bên cạnh"
@@ -132,7 +140,7 @@
                            
                                <div class="name">
                                     <label for="username">Tên đăng nhập *</label> 
-                                    <label class="note" for="">(ít nhất 5 kí tự)<br>*Chỉ gồm chữ latin và số <br> Ví dụ: <strong>hoctiengviet</strong></label>
+                                    <label class="note" for="">(ít nhất 6 kí tự)<br>*Chỉ gồm chữ latin và số <br> Ví dụ: <strong>hoctiengviet</strong></label>
                                </div>                                 
                                 <div  class="inputid">
                                     <input class="user" type="text" id="username" name="username" minlength="5"  value="" /> 
@@ -143,7 +151,7 @@
                                     <label class="note" >(ít nhất 6 kí tự) <br>*Mật khẩu phải bao gồm cả chữ cái và chữ số, có ít nhất 1 chữ cái viết hoa, 1 chữ cái viết thường, 1 chữ số và không được chứa khoảng trắng</label> 
                                 </div>
                                 <div class="inputid">
-                                    <input class="user"id="password1" name="password"  type="password"  value="" /> 
+                                    <input class="user"id="password1" name="password1"  type="password"  value="" /> 
                                 </div>
                                 
                                 <div class="name">

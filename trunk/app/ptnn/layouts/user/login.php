@@ -30,42 +30,7 @@
     </style>
   <script language="javascript" src="../3rdparty/Validate/lib/jquery.js"></script>
 <script src="../3rdparty/Validate/dist/jquery.validate.js"></script>
-  <script>
-  $().ready(function() 
-  {
-   $("#formLogin").validate(
-   {
-      rules: 
-      {
-        login: 
-        {
-          required: true,
-          minlength: 6
-        },
-        passwordlogin: 
-        {
-          required: true,
-          minlength: 6
-        },
-      },
-      messages:
-       {
-          login: 
-          {
-             required: "Tên đăng nhập không được bỏ trống",
-             minlength: "Tên đăng nhập tối thiểu là 6 ký tự"
-          },
 
-           passwordlogin: 
-          {
-             required: "Mật khẩu không được bỏ trống",
-             minlength: "Mật khẩu tối thiểu là 6 ký tự"
-          }
-        }
-    });
-  });
-
-  </script>
   <style>
  
     #formLogin label.error {
@@ -98,7 +63,7 @@
 
     
       <label for="passwordlogin">Mật khẩu:</label>
-      <input type="password" name="password" id="passwordlogin" size="15px" value="">
+      <input type="password" name="passwordlogin" id="passwordlogin" size="15px" value="">
       <a href="/user/forgotpassword">Quên mật khẩu</a>
       <br>
     <label for="">&nbsp;</label>

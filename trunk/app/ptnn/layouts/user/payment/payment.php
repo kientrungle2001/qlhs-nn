@@ -1,4 +1,37 @@
+<script language="javascript" src="../3rdparty/Validate/lib/jquery.js"></script>
+<script src="../3rdparty/Validate/dist/jquery.validate.js"></script>
+<script>
+ 
+    $().ready(function() {
+        
+        // validate signup form on keyup and submit
+        $("#formPayment").validate({
+            rules: 
+            {
+                
+                amount: 
+                {
+                    required: true,
+                    minlength: 4,
+                    number: true,
+                    
+                },
+            messages: 
+            {
+                
+                amount: 
+                {
+                    required: "Bạn hãy nhập số tiền ",
+                    minlength: "Số tiền nạp phải >=20.000đ ",
+                    number: "Bạn chỉ được nhập chữ số"
+                }
+            }
+          }
+        });
+    });
+       
 
+</script>
  
   <link rel="stylesheet" media="screen" href="screen.css">
   <style>
@@ -11,6 +44,16 @@
           margin-bottom: 10px;
           width: 17px;
       }
+       #formPayment label.error 
+    {
+
+        display: inline;
+        color: red;
+        font-style: italic;
+        font-size: 12px;
+         font-weight: normal;
+
+    }
       #ttNganluong {
     background: url("http://ptnn.vn/default/images/thecao/napthe.png") no-repeat scroll 0 0 transparent;
     border: 0 none;
