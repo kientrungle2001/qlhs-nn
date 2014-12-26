@@ -11,6 +11,41 @@
     <label for="{field[index]}">{field[label]}</label>
     <input type="{field[type]}" class="form-control" id="{field[index]}" name="{field[index]}" placeholder="{field[label]}" value="{? if ($field['type'] != 'password') { echo $row[$field['index']]; } ?}">
   </div>
+    {? elseif($field['type'] == 'category'): ?}
+    <div class="form-group clearfix">
+        <label for="{field[index]}">{field[label]}</label>
+        <select class="form-control" id="{field[index]}" name="{field[index]}" >
+            <?php
+            $table = $field['table'];
+            $data = _db()->useCB()->select('*')->from($table)->where(array('status', 1))->result();
+            ?>
+            {each $data as $val }
+            <option value="{val[level]}">{val[level]}</option>
+            {/each}
+
+        </select>
+    </div>
+
+    {? elseif($field['type'] == 'admin_controller'): ?}
+    <div class="form-group clearfix">
+        <label for="{field[index]}">{field[label]}</label>
+        <select class="form-control" id="{field[index]}" name="{field[index]}" >
+            <?php
+            $arrcontroller = glob(BASE_DIR.'/app/ptnn/controller/admin/*.php');
+
+            ?>
+            {each $arrcontroller as $val }
+            <?php
+                //$file = file_get_contents($val);
+            //preg_match('/\/\/\[([^\]]+)\]/', $file, $match);
+            //var_dump($match);
+            ?>
+            <option value="<?php echo 'admin_'.strtolower(basename($val,".php"));  ?>"><?php echo 'admin_'.strtolower(basename($val,".php"));  ?></option>
+            {/each}
+
+        </select>
+    </div>
+
   {? elseif($field['type'] == 'status'): ?}
   <div class="form-group clearfix">
 	<label for="{field[index]}">{field[label]}</label>
