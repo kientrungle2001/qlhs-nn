@@ -25,8 +25,6 @@ class PzkAdminLoginController extends PzkController {
 
         }else{
             $view = pzk_parse('<div layout="admin/login/login" />');
-            $view->append($view);
-
             $view->display();
         }
 
