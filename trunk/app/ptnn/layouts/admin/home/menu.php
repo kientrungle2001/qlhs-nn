@@ -4,7 +4,11 @@
 		<li><a href="/admin_category/index">Danh mục</a></li>
 		<li><a href="/admin_questions/index">Câu hỏi</a></li>
         <li><a href="/admin_questiontype/index">Dạng câu hỏi</a></li>
-		<li><a href="/admin_user/index">Người dùng</a></li>
+        <?php if(pzk_session('adminLevel')=='admin') { ?>
+		    <li><a href="/admin_mob/index">Add mob</a></li>
+            <li><a href="/admin_adminlevel/index">Add level</a></li>
+            <li><a href="/admin_levelaction/index">Add level action</a></li>
+        <?php } ?>
 		<li><a href="/admin_usertype/index">Nhóm người dùng</a></li>
 		<li><a href="/admin_usertypecategorypermission/index">Hạn ngạch</a></li>
 		<li><a href="/admin_game/index">Trò chơi</a></li>

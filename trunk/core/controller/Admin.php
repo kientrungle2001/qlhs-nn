@@ -58,7 +58,6 @@ class PzkAdminController extends PzkBackendController {
 	}
 	public function addPostAction() {
 		$row = $this->getAddData();
-        //debug($row);die();
 		if($this->validateAddData($row)) {
 			$this->add($row);
 			pzk_notifier()->addMessage('Thêm thành công');

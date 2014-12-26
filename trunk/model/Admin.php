@@ -38,7 +38,7 @@ class PzkAdminModel {
     public function checkAction($action, $level) {
         $users = _db()->select('a.*')
             ->from('admin_level_action a')
-            ->where("action='$action' and admin_level='$level'")
+            ->where("admin_action='$action' and admin_level='$level'")
             ->limit(0, 1);
         $users = $users->result();
         if ($users) {
