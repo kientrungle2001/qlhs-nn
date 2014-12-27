@@ -40,7 +40,11 @@ class PzkUserController extends PzkController {
 		$url= "http://".$_SERVER["SERVER_NAME"].'/User/activeRegister';
 		$strConfirm = $password.$email.$username;
 		$confirm= md5($strConfirm);
-		_db()->useCB()->update('user')->set(array('key' => $confirm))->where(array('username',$username))->result();
+		$user=_db()->getEntity('user.user');
+		$user->loadWhere(array('username',$username));
+		//var_dump($user->getId());
+		$user->update(array('key' => $confirm));
+		//_db()->useCB()->update('user')->set(array('key' => $confirm))->where(array('username',$username))->result();
 		$arr=array('active'=>$confirm);
 		$url= $this->getLink($url,$arr);
 		$mailtemplate->setUrl($url);
@@ -58,11 +62,9 @@ class PzkUserController extends PzkController {
 	// Hiển thị tài khoản trên header
 	public function userAction()
 	{
-		$this->layout();
-		$pageUri = $this->getApp()->getPageUri('user/user');
-		$page = PzkParser::parse($pageUri);
-		$page->setA(1000);	
-		$this->page->display();
+			$this->layout();
+					
+			$this->display();
 	
 	}
 	// Đăng ký tài khoản mới
@@ -82,17 +84,20 @@ class PzkUserController extends PzkController {
 		$username=$request->get('username');
 		$email=$request->get('email');
 		$captcha= $request->get('captcha');
+		$user=_db()->getEntity('user.user');
 		if($captcha==$_SESSION['security_code'])
 		{
-			$testUser= _db()->useCB()->select('username')->from('user')->where(array('equal','username',$request->get('username')))->result();
-			if($testUser)
+			//$testUser= _db()->useCB()->select('username')->from('user')->where(array('equal','username',$request->get('username')))->result();
+			$testUser=$user->loadWhere(array('username',$username));
+			if($testUser->getId())
 			{
+				
 				$error="Tên đăng nhập đã tồn tại trên hệ thống";
 			}
 			else
 			{	
-				$testEmail= _db()->useCB()->select('email')->from('user')->where(array('equal','email',$request->get('email')))->result();
-				if($testEmail)
+				$testEmail= $user->loadWhere(array('email',$email));
+				if($testEmail->getId())
 				{
 					$error= "Email đã tồn tại trên hệ thống";
 				}
@@ -109,7 +114,9 @@ class PzkUserController extends PzkController {
 					$idplace= $request->get('idplace');
 					$dateregister=date("Y-m-d H:i:s"); 
 					$rowRegister= array('username' =>$username,'password'=>md5($password),'email'=>$email,'name'=>$name,'birthday'=>$birthday,'sex'=>$sex,'address'=>$address,'phone'=>$phone,'idpassport'=>$idpassport,'idplace'=>$idplace,'registered'=>$dateregister);
-					_db()->useCB()->insert('user')->fields('username,password,email,name,birthday,sex,address,phone,idpassport,idplace,iddate,registered')->values(array($rowRegister))->result();
+					$user->setData($rowRegister);
+					$user->save();
+					//_db()->useCB()->insert('user')->fields('username,password,email,name,birthday,sex,address,phone,idpassport,idplace,iddate,registered')->values(array($rowRegister))->result();
 					$this->sendMail($username,$password,$email);
 					// Hiển thị layout showregister
 					$showregister = pzk_parse(pzk_app()->getPageUri('user/showregister'));
@@ -149,20 +156,26 @@ class PzkUserController extends PzkController {
 	public function activeregisterAction()
 	{
 		$request=pzk_element('request');
-
-		
 		$confirm=$request->get('active');
-		$items = _db()->useCB()->select('user.*')->from('user')->where(array('key', $confirm))->result_one();
-		if($items)
-		{
-			_db()->useCB()->update('user')->set(array('status' => 1,'key'=>""))->where(array('username',$items['username']))->result();
-			//insert into wallets table
-			$rowWallets = array('username' =>$items['username'],'amount'=>0);
-			$itemWallets= _db()->useCB()->insert('wallets')->fields('username,amount')->values(array($rowWallets))->result();
+
+		$user=_db()->getEntity('user.user');
+		$items=$user->loadWhere(array('key', $confirm));
+		
+		//$items = _db()->useCB()->select('user.*')->from('user')->where(array('key', $confirm))->result_one();
+		if($items->getId())
+		{	
+			
+			$user->update(array('status' => 1,'key'=>""));
+			$wallets=_db()->getEntity('user.wallets');
+			$username=$items->getUsername();
+			$rowWallets = array('username' =>$username,'amount'=>0);
+			$wallets->setData($rowWallets);
+			$wallets->save();
+			//$itemWallets= _db()->useCB()->insert('wallets')->fields('username,amount')->values(array($rowWallets))->result();
 			pzk_session('login', true);
-			pzk_session('username',$items['username']);
-			pzk_session('userId',$items['id']);
-			pzk_session('name',$items['name']);
+			pzk_session('username',$items->getUsername());
+			pzk_session('userId',$items->getId());
+			pzk_session('name',$items->getName());
 			$active = pzk_parse(pzk_app()->getPageUri('user/registersuccess'));
 
 			$this->layout();
@@ -217,12 +230,33 @@ class PzkUserController extends PzkController {
 	// Xử lý đăng nhập
 	public function loginPostAction()
 	{
+		if($_SERVER['HTTP_REFERER']!="http://ptnn.vn/User/loginPost")
+		{
+			pzk_session('referer_url',$_SERVER['HTTP_REFERER']);
+		}
+		//$referer_url= $_SERVER['HTTP_REFERER'];
 		
+		if(pzk_session('login'))
+		{
+			header('location: /home');
+		}
+		$error="";
+		$path=$_SERVER['HTTP_REFERER'];
+
 		$request = pzk_element('request');
-		$password=md5($request->get('passwordlogin'));
-		//$password=$request->get('password');
-		//$items = _db()->useCB()->select('user.*')->from('user')->where(array('and', array('equal', 'username', $request->get('login')), array('equal','password',$password), array('equal','status',1) ))->result_one();
-		$items = _db()->useCB()->select('user.*')->from('user')->where( array('equal', 'username', $request->get('login')))->result_one();
+		// Đăng nhập bằng form user
+		$password=md5($request->get('userpassword'));
+		$username=$request->get('userlogin');
+		$submitlogin=$request->get('submitlogin');
+		// Đăng nhập bằng form login
+		if($request->get('passwordlogin') !="" || $request->get('login') !="")
+		{
+			$password=md5($request->get('passwordlogin'));
+			$username=$request->get('login');
+		}
+		if($username !="")
+		{
+			$items = _db()->useCB()->select('user.*')->from('user')->where( array('equal', 'username',$username))->result_one();
 		if($items)
 		{
 			//lấy pass từ csdl
@@ -235,12 +269,17 @@ class PzkUserController extends PzkController {
 				if($status==1)
 				{
 					pzk_session('login', true);
-					pzk_session('username', $request->get('login'));
+					pzk_session('username', $username);
 					pzk_session('userId',$items['id']);
 					pzk_session('name',$items['name']);
 					$datelogin=date("Y-m-d H:i:s");    
 					_db()->useCB()->update('user')->set(array('lastlogined' =>$datelogin ))->where(array('username',$items['username']))->result();
-					header('location:/user/profileuser');	
+					$referer_url=pzk_session('referer_url');
+					pzk_session('referer_url',false);
+					header('location:'.$referer_url);
+					
+					die();	
+					//header('location:http://'.$_SERVER['SERVER_NAME']);	
 				}else
 				{
 					//tài khoản của bạn đăng bị khóa hoặc chưa kích hoạt
@@ -253,15 +292,18 @@ class PzkUserController extends PzkController {
 					//echo "mật khẩu database:".$items['password'];
 					//echo "mật khẩu nhập vào ".$password;
 					//echo "mã hóa ".md5(md5("Nghiak4bcntt"));
-			
+
 
 				}
 		}else
 		{
 			$error="Tên đăng nhập chưa đúng";
 		}
+		}else $error="Bạn phải nhập đầy đủ tên đăng nhập và mật khẩu";
+					
 			$this->layout();
-			$pageUri = $this->getApp()->getPageUri('/user/login');
+			
+			$pageUri = $this->getApp()->getPageUri('user/login');
 		    $pageLogin = PzkParser::parse($pageUri);
 		    $left=pzk_element('left');
 		    $left->append($pageLogin);
@@ -632,6 +674,145 @@ class PzkUserController extends PzkController {
 		$this->page->display();
 			
 	}
+	public function editavataAction()
+	{
+		$this->layout();		
+		$editavata = pzk_parse(pzk_app()->getPageUri('user/editavata'));
+		$left = pzk_element('left');
+		$left->append($editavata);
+		$this->page->display();
+	}
+	public function editavatasuccessAction()
+	{
+		$this->layout();		
+		$editavatasuccess = pzk_parse(pzk_app()->getPageUri('user/editavatasuccess'));
+		$left = pzk_element('left');
+		$left->append($editavatasuccess);
+		$this->page->display();
+	}
+	public function editavataPostAction()
+	{
+		$error="";
+		$target_dir = "C:/wamp/www/qlhs/3rdparty/uploads/images/";
+		$basename= basename($_FILES["fileToUpload"]["name"]);
+		$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+		$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+		$size =$_FILES["fileToUpload"]["size"];
+		$check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+		if($check !==false)
+		{
+			if($size < 500000)
+			{
+				if($imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg"|| $imageFileType == "gif"|| $imageFileType == "JPG" || $imageFileType == "PNG" || $imageFileType == "JPEG" || $imageFileType == "GIF")
+				{
+					// Kiểm tra nếu tên file ảnh đã có trong thư mục thì đổi tên
+					if(file_exists($target_file))
+					{
+						$add=md5(rand(0,200000));
+   						$target_file=$target_dir .$add.basename($_FILES["fileToUpload"]["name"]);
+					}
+					if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file))
+					{
+						// Upload thành công
+						//insert đường dẫn file vào database
+						$username= pzk_session('username');
+						$userId= pzk_session('userId');
+						$editdate=date("Y-m-d H:i:s");
+						//$avata=$target_file;
+						$avata='http://'.$_SERVER['SERVER_NAME'].'/3rdparty/uploads/images/'.$basename;
+						_db()->useCB()->update('user')->set(array('avata'=>$avata,'modified'=>$editdate,'modifiedId'=>$userId))->where(array('username',$username))->result();
+						$this->layout();		
+						$editavata = pzk_parse(pzk_app()->getPageUri('user/editavata'));
+						$left = pzk_element('left');
+						$left->append($editavata);
+						$this->page->display();
+					}
+				}
+				else
+				{
+					$error="Bạn chỉ được phép upload file ảnh JPG, JPEG, PNG, GIF";
+				}
+			}
+			else
+			{
+				$error="Dung lượng của file ảnh quá lớn, bạn hãy chọn file ảnh có kích thước < 488kb ";
+			}
+		}
+		else
+		{
+			$error="Bạn chỉ được phép upload file ảnh JPG, JPEG, PNG, GIF";
+		}
+		// hiển thị thành công
+		$this->layout();		
+		$editavata = pzk_parse(pzk_app()->getPageUri('user/editavata'));
+		
+		pzk_notifier_add_message($error, 'danger');
+		$left = pzk_element('left');
+		$left->append($editavata);
+		$this->page->display();
+	}
+	public function editavataPost1Action()
+	{
+		$request=pzk_element('request');
+		$fileToUpload= $request->get('fileToUpload');
+		//$fileToUpload= $request->get('test');
+		echo $fileToUpload;
+		die();
+		$target_dir = "C:/wamp/www/qlhs/3rdparty/uploads/images/";
+		$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+		$uploadOk = 0;
+		$message="";
+		$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+		// Kiểm tra xem có phải là file ảnh ko?
+    	$check = getimagesize($fileToUpload);
+    	// Nếu là file ảnh
+    	if($check !== false)
+    	{	
+    		echo "file ảnh đây ";
+    		die();
+    		// Chỉ chấp nhận file ảnh .jpg, npg, jpeg
+    		if($imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg"|| $imageFileType == "gif" ) 
+    		{
+    			// Dung lượng file ảnh phải <500.000byte hoặc 488kb
+    			if ($_FILES["fileToUpload"]["size"] < 500000)
+    			{
+    				$uploadOk = 1;
+    				//Ok
+    			}else
+    			{
+    				$message=" Dung lượng file ảnh quá lớn, bạn hãy chọn file ảnh có kích thước < 488 kb";
+    			} 
+    		}
+    		else
+    		{
+    			// Không phải là file .jpg, png, jpeg
+    			$message= "Bạn chỉ được phép upload file ảnh .JPG, JPEG, PNG, GIF";
+    		}
+    		// File ảnh up lên đã thỏa mãn điều kiện
+    		if($uploadOk == 1)
+    		{
+    			// Kiểm tra nếu tên file ảnh đã tồn tại trong thư mục thì đổi tên
+    			if (file_exists($target_file)) 
+				{
+    				// Trường hợp tên file đã tồn tại thì đổi tên
+    				$add=md5(rand(0,200000));
+    				$target_file=$add.$target_file;
+    			}
+    			//copy ảnh vào file upload
+    			if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) 
+    			{
+        			$message="Bạn đã thay đổi avata thành công";
+        		}
+    		}
+    	}
+    	$this->layout();		
+		$editavata = pzk_parse(pzk_app()->getPageUri('user/editavata'));
+		$editavata->setMessage($message);
+
+		$left = pzk_element('left');
+		$left->append($editavata);
+		$this->page->display();
+	}
 	public function paymentAction()
 	{
 		$this->layout();		
@@ -729,12 +910,40 @@ class PzkUserController extends PzkController {
 			$receiver="kieunghia.cntt@gmail.com";
 			$transaction_info="Nạp tiền qua Ngân Lượng";
 			$order_code=pzk_session('username');
+			
 			$url=$this->buildCheckoutUrl($return_url, $receiver, $transaction_info, $order_code, $price);
 			header('location:'.$url);
 		}
 		if($payment=='baokim')
 		{
-
+			require(BASE_DIR.'/3rdparty/nganluong/include/nganluong.microcheckout.class.php');
+			require(BASE_DIR.'/3rdparty/nganluong/include/lib/nusoap.php');
+			require(BASE_DIR.'/3rdparty/nganluong/config.php');
+		$inputs = array(
+		'receiver'		=> RECEIVER,
+		'order_code'	=> 'DH-'.date('His-dmY'),
+		'return_url'	=> '',
+		'cancel_url'	=> '',
+		'language'		=> 'vn'
+	);
+	$link_checkout = '';
+	$obj = new NL_MicroCheckout(MERCHANT_ID, MERCHANT_PASS, URL_WS);
+	$result = $obj->setExpressCheckoutDeposit($inputs);
+	if ($result != false) {
+		if ($result['result_code'] == '00') {
+			$link_checkout = $result['link_checkout'];
+			$link_checkout = str_replace('micro_checkout.php?token=', 'index.php?portal=checkout&page=micro_checkout&token_code=', $link_checkout);
+			$link_checkout .='&payment_option=nganluong';
+			header('location:'.$link_checkout);
+			//die($link_checkout);
+		} else {
+			die('Ma loi '.$result['result_code'].' ('.$result['result_description'].') ');
+		}
+	} else {
+		die('Loi ket noi toi cong thanh toan ngan luong');
+	}
+	
+			
 		}
 		if($payment=='thecao')
 		{
@@ -827,7 +1036,7 @@ class PzkUserController extends PzkController {
 					   $error_code	     = $arr_result[0];
 					   $merchant_id	     = $arr_result[1];
 					   $merchant_account = $arr_result[2];				
-					   $pin_card	         = $arr_result[3];
+					   $pin_card	     = $arr_result[3];
 						$card_serial     = $arr_result[4];
 						$type_card	     = $arr_result[5];
 						$order_id		 = $arr_result[6];
@@ -929,5 +1138,4 @@ class PzkUserController extends PzkController {
 
 		
 	}
-
 }
