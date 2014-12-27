@@ -148,4 +148,34 @@ class PzkAdminController extends PzkBackendController {
 		pzk_notifier()->addMessage('Xóa thành công');
 		$this->redirect('index');
 	}
+	public function uploadAction() {
+		$this->initPage()
+			->append('admin/'.pzk_or($this->customModule, $this->module).'/upload')
+			->append('admin/'.pzk_or($this->customModule, $this->module).'/menu', 'right')
+			->display();
+	}
+	public function uploadPostAction() {
+		$row = $this->getUploadData();
+        //debug($row);die();
+		if($this->validateUploadData($row)) {
+			$this->upload($row);
+			pzk_notifier()->addMessage('Thêm thành công');
+			$this->redirect('index');
+		} else {
+			pzk_validator()->setEditingData($row);
+			$this->redirect('upload');
+		}
+	}
+	public function getUploadData() {
+		return pzk_request()->getFilterData($this->uploadFields);
+	}
+	public function validateUploadData($row) {
+		return $this->validate($row, @$this->uploadValidator);
+	}
+	public function upload($row) {
+		$entity = _db()->getEntity('table')->setTable($this->table);
+		$entity->setData($row);
+		$entity->save();
+	}
+	
 }
