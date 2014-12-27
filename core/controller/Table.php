@@ -23,7 +23,7 @@ class PzkTableController extends PzkController {
 			$arrFields = $fields;
             $table = @$fields['table']?$fields['table']: $oldTable;
             $groupBy = isset($fields['groupBy']) ? $fields['groupBy'] : false;
-			$defaultOrderBy = isset($fields['groupBy']) ? $fields['groupBy'] : false;
+			$defaultOrderBy = isset($fields['orderBy']) ? $fields['orderBy'] : false;
 			$defaultConds = isset($fields['conds']) ? $fields['conds'] : '1';
 			$fields = @$fields['fields']?@$fields['fields']: '*';
         }
