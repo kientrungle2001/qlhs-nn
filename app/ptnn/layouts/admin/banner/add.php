@@ -4,7 +4,7 @@ $parentId = $data->getParentId();
 $parents = _db()->select('*')->from('banner')->result();
 $row = pzk_validator()->getEditingData();
 ?>
-<form role="form" method="post" action="movefile.php"">
+<form role="form" method="post" action="{url /admin_banner/addPost}">
   <input type="hidden" name="id" value="" />
   <div class="form-group">
     <label for="title">Tên banner</label>
@@ -22,8 +22,7 @@ $row = pzk_validator()->getEditingData();
     <label for="code">Code</label>
     <input type="text" class="form-control" id="code" name="code" placeholder="Nhập code" value="{row[code]}">
   </div>
-
-    <button type="submit" class="btn btn-primary">Cập nhật</button>
+      <button type="submit" class="btn btn-primary">Cập nhật</button>
   <a href="{url /admin_banner/index}">Quay lại</a>
 
 </form>

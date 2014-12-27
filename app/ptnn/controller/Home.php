@@ -29,5 +29,6 @@
 			$left->append($question);
 			$this->page->display();
 		}
+		
 	}
  ?>
