@@ -1,0 +1,1 @@
+<mail.mailtemplate layout="mail/mailtemplate/register" />
