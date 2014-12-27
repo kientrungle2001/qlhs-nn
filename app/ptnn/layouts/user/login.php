@@ -3,13 +3,7 @@
 
     
    ?>
-    <?php
-      echo pzk_session('username');
-      
-      ?>
-      <br>
-      <a href="/user/logout"> đăng xuất </a>
-
+    
    <?php } else{
 
     
@@ -52,12 +46,13 @@
     <form method="post" id="formLogin" action="/User/loginPost" >
     
       <?php 
-        echo @$data->getError();
+      
+       echo @$data->getError();
        $request = pzk_element('request');
        ?>
      <br> 
       <label for="login">Tên đăng nhập:</label>
-      <input type="text" name="login" id="login"size="4" value="<?php echo $request->get('login') ;  ?>">
+      <input type="text" name="login" id="login"size="4" value="">
       <a href="/user/register">Tạo tài khoản mới</a>
       <br>
 
@@ -66,8 +61,10 @@
       <input type="password" name="passwordlogin" id="passwordlogin" size="15px" value="">
       <a href="/user/forgotpassword">Quên mật khẩu</a>
       <br>
-    <label for="">&nbsp;</label>
-      <button type="submit" class="login-button">Đăng nhập</button>
+
+     <input style="float:left;height: 18px;width:18px;padding-left:20px;" type="checkbox" class="checkbox"  name="rememberpassword">    
+                                    <label style="float:left;"for="agree">Nhớ tên truy cập</label>
+      <button type="submit" name="submitlogin" class="login-button">Đăng nhập</button>
    
   </form>
   </div>

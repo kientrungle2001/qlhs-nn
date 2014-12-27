@@ -1,7 +1,6 @@
 
 <link rel="stylesheet" href="<?php echo BASE_URL ?>/default/skin/ptnn/css/style.css">
-<script language="javascript" src="../3rdparty/Validate/lib/jquery.js"></script>
-<script src="../3rdparty/Validate/dist/jquery.validate.js"></script>
+
 <script>
  
     $().ready(function() {

@@ -34,22 +34,23 @@
 {
   opacity:.8;
 }
+
 </style>
 <div id="user" style="padding-right: 50px;padding-button: 50px;">
 <?php
     if(pzk_session('login')){
 
-    
+    $data->loadData();
    ?>
 
 <div class="menu">
 <ul>
-  <li> <a href="/user/profileuser"><?php echo "Xin chào: ". pzk_session('username');     ?></a>
+  <li> <a href="/user/profileuser"><?php echo "Xin chào: ". $data->getName();     ?></a>
   <ul>
-    <li>Tài khoản hiện có :</li>
-    <li><a href="user/editinfor">Sửa thông tin cá nhân</a></li>
-    <li><a href="user/payment">Nạp tiền</a></li>
-     <li><a href="user/logout">Thoát</a></li>
+    <li><a href="#">Tài khoản hiện có :<?php echo $data->getAmount(); ?>vnđ</a></li>
+    <li><a href="/user/editinfor">Sửa thông tin cá nhân</a></li>
+    <li><a href="/user/payment">Nạp tiền</a></li>
+     <li><a href="/user/logout">Thoát</a></li>
   </ul>
   </li>
 </ul>
@@ -57,14 +58,15 @@
 </div>
 
 
-<?php } else{  ?>
+<?php } else{ ?>
+
 <form method="post" action="/User/loginPost" >
   
-    <input style="width: 120px;" type="text" name="login" size="10px" id="login"placeholder="Username" value="">
-    <input style="width: 120px;"type="password" name="passwordlogin"placeholder="Password" id="password" value="">
-    <button type="submit" class="login-button">Đăng nhập</button>
+    <input style="width: 120px;" type="text" name="userlogin" size="10px" id="userlogin"placeholder="Username" value="">
+    <input style="width: 120px;"type="password" name="userpassword"placeholder="Password" id="userpassword" value="">
+    <button type="submit" class="login-button" id="usersubmit">Đăng nhập</button>
     <a href="/user/register">Đăng ký</a>
-   
+  
 </form>
   <?php } ?>
   </div>
