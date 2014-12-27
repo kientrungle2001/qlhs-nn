@@ -18,6 +18,10 @@ $items = $data->getItems($keyword, $controller->searchFields);
 $countItems = $data->getCountItems($keyword, $controller->searchFields);
 
 $pages = ceil($countItems / $data->pageSize);
+if(pzk_request('controller') =='admin_menu') {
+    $datamenu = _db()->select('*')->from('admin_menu')->result();
+    $arrmenu = buildArr($datamenu,'parent',0);
+}
 
 ?>
 <nav class="navbar navbar-default" role="navigation">
@@ -46,6 +50,37 @@ $pages = ceil($countItems / $data->pageSize);
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+
+<?Php if(isset($arrmenu)) { ?>
+
+    <table class="table">
+        <tr>
+            <th>#</th>
+            <th>Tên danh mục</th>
+            <th>Trạng thái</th>
+            <th colspan="2">Hành động</th>
+        </tr>
+        {each $arrmenu as $item}
+        <?php
+        $tab = '&nbsp;&nbsp;&nbsp;&nbsp;';
+        $cate = str_repeat($tab, $item['lever']).$item['name'];
+        ?>
+        <tr>
+            <td>{item[id]}</td>
+            <td><a href="{url /admin_menu/edit}/{item[id]}">{cate}</a>
+
+            </td>
+            <td id="status-{item[id]}"><?php if($item['status']) { ?><input id="switch-state-{item[id]}" type="checkbox" checked data-size="mini" /><?php } else { ?><input id="switch-state-{item[id]}" type="checkbox" data-size="mini" /><?php } ?><script type="text/javascript">jQuery('#switch-state-{item[id]}').bootstrapSwitch({onSwitchChange: function(evt,state) { <?php echo $data->onEvent('changeStatus')?>({id: {item[id]}, status: state}); }})</script></td>
+            <td><a href="{url /admin_menu/del}/{item[id]}">Xóa</td>
+        </tr>
+        {/each}
+        <tr>
+            <td colspan="5"><a href="{url /admin_menu/add}">Thêm danh mục</a></td>
+        </tr>
+    </table>
+
+<?php } else { ?>
+
 <table class="table">
 	<tr>
 		<th>#</th>
@@ -58,8 +93,10 @@ $pages = ceil($countItems / $data->pageSize);
 	<tr>
 		<td>{item[id]}</td>
 		{each $listFieldSettings as $field}
+
 		{? if ($field['type'] == 'text') : ?}
 		<td>{? echo $item[$field['index']] ?}</td>
+
 		{? elseif($field['type'] == 'status'): ?}
 		<td><input id="switch-{field[index]}-{item[id]}" type="checkbox" {if $item['status']}checked="checked"{/if} data-size="mini" /><script type="text/javascript">jQuery('#switch-{field[index]}-{item[id]}').bootstrapSwitch({onSwitchChange: function(evt,state) { {event changeStatus}({id: {item[id]}, status: state}); }})</script></td>
 		{? endif ?}
@@ -97,3 +134,4 @@ $pages = ceil($countItems / $data->pageSize);
 		<td colspan="8"><a class="btn btn-default" href="{url /admin}_{controller.module}/add">{controller.addLabel}</a></td>
 	</tr>
 </table>
+<?php } ?>

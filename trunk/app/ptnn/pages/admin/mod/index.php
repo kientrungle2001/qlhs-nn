@@ -1,0 +1,1 @@
+<core.db.list table="admin" layout="admin/mod/index" />

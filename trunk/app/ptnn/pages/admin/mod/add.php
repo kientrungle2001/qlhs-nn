@@ -1,0 +1,1 @@
+<div table="admin" parentId="0" layout="admin/mod/add" />

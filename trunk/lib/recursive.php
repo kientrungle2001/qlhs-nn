@@ -59,6 +59,27 @@
         echo '</ul>';
     }
 
+function showAdminMenu($array = array()){
+    echo '<ul class="drop">';
+        foreach ($array as $item)
+        {
+            echo '<li>';
+            if($item['admin_controller'] == '0'){
+                echo '<a href="javarscript:void(0);">';
+            }else {
+                echo '<a href="/'.$item['admin_controller'].'/index">';
+            }
+            echo $item['name'];
+            echo '</a>';
+            if (!empty($item['children']))
+            {
+                showAdminMenu($item['children']);
+            }
+            echo '</li>';
+        }
+        echo '</ul>';
+    }
+
     function getChilds($root_id, &$array_themes=array()) {//tham so la mang truyen vao, muon thao tac voi mang can them & dang truoc
         $this->load->model('catalog/category');
         $rootChild = $this->model_catalog_category->getCategories($root_id);
