@@ -27,6 +27,7 @@ class PzkEntityModel {
 				$query->useCache($cacheTimeout);
 			}
 			$this->data = $query->useCB()->select('*')->from($this->table)->where($conditions)->result_one();
+			//echo $query->getQuery();
 		}
 		return $this;
 	}
