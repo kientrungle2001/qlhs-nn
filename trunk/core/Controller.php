@@ -97,7 +97,12 @@ class PzkController {
 		$this->page->display();
 		return $this;
 	}
-	
+	public function render($page) {
+		$this->initPage();
+		$this->append($page);
+		$this->display();
+		return $this;
+	}
 	public function redirect($action, $query = false) {
 		if(strpos($action, 'http') !== false) {
 			pzk_request()->redirect($action);
