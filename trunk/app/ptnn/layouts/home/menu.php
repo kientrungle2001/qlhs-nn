@@ -7,6 +7,7 @@
         $items = buildTree($items);
         show_menu($items);
         ?>
+		</div>
      <style>
         #menu {
             float: left;
