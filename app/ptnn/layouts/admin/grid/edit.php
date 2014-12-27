@@ -6,6 +6,7 @@ if($row) {
 	$item = array_merge($item, $row);
 }
 $row = $item;
+
 $editFieldSettings = $controller->editFieldSettings;
 ?>
 <form role="form" method="post" action="{url /admin}_{controller.module}/editPost">
@@ -43,15 +44,62 @@ $editFieldSettings = $controller->editFieldSettings;
             {each $arrcontroller as $val }
             <?php
             $namec = 'admin_'.strtolower(basename($val,".php"));
+            //var_dump($row[$field['index']]);
             //$file = file_get_contents($val);
             //preg_match('/\/\/\[([^\]]+)\]/', $file, $match);
             //var_dump($match);
             ?>
+
             <option <?php if($row[$field['index']] == $namec) { echo 'selected'; } ?> value="<?php echo 'admin_'.strtolower(basename($val,".php"));  ?>"><?php echo 'admin_'.strtolower(basename($val,".php"));  ?></option>
             {/each}
 
         </select>
     </div>
+
+    {? elseif($field['type'] == 'parent'): ?}
+    <div class="form-group clearfix">
+        <label for="{field[index]}">{field[label]}</label>
+        <select class="form-control" id="{field[index]}" name="{field[index]}" >
+            <?php
+
+            $parents = _db()->select('*')->from('admin_menu')->result();
+            $parents = buildArr($parents, 'parent', 0);
+
+
+            ?>
+            <option value="0">Danh mục gốc</option>
+            {each $parents as $parent}
+            <?php
+            $selected = '';
+            if($parent['id'] == $item['parent']) { $selected = 'selected'; }?>
+            <option value="{parent[id]}" {selected}><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $parent['lever']); ?>{parent[name]}</option>
+            {/each}
+
+        </select>
+    </div>
+
+    {? elseif($field['type'] == 'select'): ?}
+    <div class="form-group clearfix">
+        <label for="{field[index]}">{field[label]}</label>
+        <select class="form-control" id="{field[index]}" name="{field[index]}" >
+            <?php
+            $table = $field['table'];
+            $data = _db()->useCB()->select('*')->from($table)->where(array('status', 1))->result();
+            ?>
+            {each $data as $val }
+            <option <?php if($row[$field['index']] == $val[$field['show_value']]) { echo 'selected'; } ?> value="<?php echo $val[$field['show_value']]; ?>"><?php echo $val[$field['show_name']]; ?></option>
+            {/each}
+
+        </select>
+        <input id="{field[hidden]}" type="hidden" value="<?php echo $row[$field['hidden']]; ?>" name="{field[hidden]}"/>
+    </div>
+    <script>
+        $('#{field[index]}').change(function() {
+            var optionSelected = $(this).find("option:selected");
+            var textSelected   = optionSelected.text();
+            $('#{field[hidden]}').val(textSelected);
+        });
+    </script>
 
   {? elseif($field['type'] == 'status'): ?}
   <div class="form-group"><?php 
