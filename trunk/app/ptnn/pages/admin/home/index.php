@@ -15,7 +15,7 @@
 		<html.js src="<?php echo BASE_URL?>/3rdparty/bootstrap3/js/bootstrap.min.js" />
 		<html.css src="<?php echo BASE_URL?>/3rdparty/bootstrap3/switch/dist/css/bootstrap3/bootstrap-switch.min.css" />
 		<html.js src="<?php echo BASE_URL?>/3rdparty/bootstrap3/switch/dist/js/bootstrap-switch.min.js" />
-        <script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>
+        <html.js src="<?php echo BASE_URL?>/3rdparty/tinymce/js/tinymce/tinymce.min.js" />
 	</home.head>
 	<home.menu layout="admin/home/menu" />
 		<home.left id="left" layout="admin/home/left" />
