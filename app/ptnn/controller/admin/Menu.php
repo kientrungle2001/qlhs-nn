@@ -16,6 +16,7 @@ class PzkAdminMenuController extends PzkGridAdminController {
             'type' => 'text',
             'label' => 'tên menu'
         ),
+
         array(
             'index' => 'admin_controller',
             'type' => 'text',
@@ -33,6 +34,11 @@ class PzkAdminMenuController extends PzkGridAdminController {
             'index' => 'name',
             'type' => 'text',
             'label' => 'Tên menu',
+        ),
+        array(
+            'index' => 'content',
+            'type' => 'tinymce',
+            'label' => 'noi dung'
         ),
         array(
             'index' => 'parent',
