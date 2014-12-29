@@ -123,4 +123,11 @@ class PzkAdminAdminlevelController extends PzkGridAdminController {
                 $this->redirect('index');
         }
     }
+    public function delPostAction() {
+        echo 2; die();
+        _db()->useCB()->delete()->from($this->table)
+            ->where(array('id', pzk_request()->get('id')))->result();
+        pzk_notifier()->addMessage('Xóa thành công');
+        $this->redirect('index');
+    }
 }
