@@ -36,6 +36,11 @@ class PzkDemoController extends PzkController {
 			//$news->setTitle($news->getTitle() . ' - updated');
 			//$news->save();
 		}
+		
+		$entity = _db()->getEntity('user');
+		$entity->loadWhere(array('username', $username));
+		$entity->setName('Kieu Nghia');
+		$entity->save();
 	}
 	
 	public function registerAction(){
