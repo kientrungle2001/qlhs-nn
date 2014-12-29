@@ -3,6 +3,7 @@
 	$dates = $data->getStudyDates($class['id']);
 	$students = $data->getStudents($class['id']);
 	$period = $data->getPeriod();
+	$teachers = $data->getTeachers(@$class['teacherId'], @$class['teacher2Id']);
 	?>
 		<div title="{period[name]}">
 			
@@ -14,7 +15,23 @@
 					<th>Số điện thoại</th>
 					{each $dates as $date}
 					<?php if ($date['studyDate'] >= $period['startDate'] && $date['studyDate'] < $period['endDate']) { ?>
-					<th>{? echo date('d/m', strtotime($date['studyDate']))?}</th>
+					<th>{? echo date('d/m', strtotime($date['studyDate']))?}
+					<br />
+					<?php if (@$class['teacherId']) { 
+							$teacher = $teachers[$class['teacherId']]; 
+							$names = explode(' ', $teacher['name']);
+							$name = array_pop($names);
+							?>
+							{name}
+						<?php } ?>
+						<br />
+						<?php if (@$class['teacher2Id']) { 
+							$teacher2 = $teachers[$class['teacher2Id']];
+							$names = explode(' ', $teacher2['name']);
+							$name2 = array_pop($names); ?>
+							{name2}
+						<?php } ?>
+					</th>
 					<?php } ?>
 					{/each}
 				</tr>
