@@ -5,22 +5,9 @@
 		<dg.dataGridItem field="name" width="140">Môn học</dg.dataGridItem>
 		
 		<layout.toolbar id="dgsubject_toolbar" style="display: none;">
-			<layout.toolbarItem action="$dgsubject.detail(function(row) { 
-				jQuery('#searchSubject').val(row.id); 
-				searchClasses();  });" icon="sum" />
-			<layout.toolbarItem action="$dgsubject.detail(function(row) { 
-				jQuery('#searchSubject').val(''); 
-				searchClasses();  });" icon="reload" />	
-			<layout.toolbarItem action="$dgsubject.add()" icon="add" />
-			<layout.toolbarItem action="$dgsubject.edit()" icon="edit" />
-			<layout.toolbarItem action="$dgsubject.del()" icon="remove" />
-		</layout.toolbar>
-		<wdw.dialog gridId="dgsubject" width="700px" height="auto" title="Môn học">
-			<frm.form gridId="dgsubject">
-				<frm.formItem type="hidden" name="id" required="false" label="" />
-				<frm.formItem name="name" required="true" validatebox="true" label="Môn học" />
-			</frm.form>
-		</wdw.dialog>
+			<layout.toolbarItem icon="sum" action="$dgsubject.detail(function(row) { jQuery('#searchSubject').val(row.id); searchClasses(); jQuery('#searchTeacherSubject').val(row.id); searchTeacher(); });" />
+			<layout.toolbarItem icon="reload" action="$dgsubject.detail(function(row) { jQuery('#searchSubject').val(''); searchClasses(); jQuery('#searchTeacherSubject').val(''); searchTeacher(); });" />	
+		</layout.toolbar>	
 	</dg.dataGrid>
 	
 	<dg.dataGrid id="dglevel" title="" table="level" width="200px" height="145px" pagination="false" rownumbers="false">
@@ -28,40 +15,30 @@
 		<dg.dataGridItem field="name" width="140">Trình độ</dg.dataGridItem>
 		
 		<layout.toolbar id="dglevel_toolbar" style="display: none;">
-			<layout.toolbarItem action="$dglevel.detail(function(row) { jQuery('#searchLevel').val(row.id); searchClasses();  });" icon="sum" />
-			<layout.toolbarItem action="$dglevel.detail(function(row) { jQuery('#searchLevel').val(''); searchClasses();  });" icon="reload" />
+			<layout.toolbarItem action="$dglevel.detail(function(row) { jQuery('#searchLevel').val(row.id); searchClasses(); jQuery('#searchTeacherLevel').val(row.id); searchTeacher(); });" icon="sum" />
+			<layout.toolbarItem action="$dglevel.detail(function(row) { jQuery('#searchLevel').val(''); searchClasses(); jQuery('#searchTeacherLevel').val(''); searchTeacher(); });" icon="reload" />
 		</layout.toolbar>
 	</dg.dataGrid>
 	
-	<dg.dataGrid id="dgteacher" title="" table="teacher" width="200px" height="250px" pagination="false" rownumbers="false" pageSize="50">
+	<dg.dataGrid id="dgteacher" title="" table="teacher_class" width="200px" height="250px" pagination="false" rownumbers="false" pageSize="50">
 		<dg.dataGridItem field="id" width="20">Id</dg.dataGridItem>
 		<dg.dataGridItem field="name" width="140">Tên giáo viên</dg.dataGridItem>
-		<!--dg.dataGridItem field="phone" width="100">Số điện thoại</dg.dataGridItem>
-		<dg.dataGridItem field="school" width="160">Trường</dg.dataGridItem>
-		<dg.dataGridItem field="address" width="80">Địa chỉ</dg.dataGridItem>
-		<dg.dataGridItem field="salary" width="80">Lương</dg.dataGridItem-->
-		
-		<layout.toolbar id="dgteacher_toolbar" style="display: none;">
-			<layout.toolbarItem action="$dgteacher.detail(function(row) { 
-				jQuery('#searchTeacher').val(row.id); 
-				searchClasses();  });" icon="sum" />
-			<layout.toolbarItem action="$dgteacher.detail(function(row) { 
-				jQuery('#searchTeacher').val(''); 
-				searchClasses();  });" icon="reload" />	
-			<layout.toolbarItem action="$dgteacher.add()" icon="add" />
-			<layout.toolbarItem action="$dgteacher.edit()" icon="edit" />
-			<layout.toolbarItem action="$dgteacher.del()" icon="remove" />
+		<layout.toolbar id="dgteacher_toolbar">
+			<hform id="dgteacher_search">
+				<form.combobox 
+					id="searchTeacherSubject" name="subjectId"
+					sql="select id as value, 
+							name as label from `subject` order by name ASC"
+					layout="category-select-list"></form.combobox>
+					<form.combobox 
+							id="searchTeacherLevel" name="level"
+							sql="select distinct(level) as value, level as label from classes order by label asc"
+							layout="category-select-list"></form.combobox>
+					<layout.toolbarItem action="searchTeacher()" icon="search" />
+			</hform>
+			<layout.toolbarItem action="$dgteacher.detail(function(row) { jQuery('#searchTeacher').val(row.id); searchClasses();  });" icon="sum" />
+			<layout.toolbarItem action="$dgteacher.detail(function(row) { jQuery('#searchTeacher').val(''); searchClasses();  });" icon="reload" />
 		</layout.toolbar>
-		<wdw.dialog gridId="dgteacher" width="700px" height="auto" title="Giáo viên">
-			<frm.form gridId="dgteacher">
-				<frm.formItem type="hidden" name="id" required="false" label="" />
-				<frm.formItem name="name" required="true" validatebox="true" label="Tên giáo viên" />
-				<frm.formItem name="phone" required="false" label="Số điện thoại" />
-				<frm.formItem name="school" required="false" label="Trường" />
-				<frm.formItem name="address" required="false" label="Địa chỉ" />
-				<frm.formItem name="salary" required="false" label="Lương" />
-			</frm.form>
-		</wdw.dialog>
 	</dg.dataGrid>
 </div>
 <div style="float:left; width: 500px;">
@@ -195,6 +172,14 @@
 				'subjectId': '#searchSubject', 
 				'level': '#searchLevel',
 				'status': '#searchStatus'
+			}
+		});
+	}
+	function searchTeacher() {
+		pzk.elements.dgteacher.search({
+			'fields': {
+				'subjectId': '#searchTeacherSubject', 
+				'level': '#searchTeacherLevel'
 			}
 		});
 	}

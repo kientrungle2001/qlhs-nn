@@ -35,7 +35,8 @@ class PzkDtableController extends PzkTableController {
 				group_concat(distinct(case when class_student.endClassDate >= CURDATE() or class_student.endClassDate=\'0000-00-00\'  then classes.name end), \' \') as currentClassNames,
 				group_concat(\'[\', classes.name, \' \', case when student_order.payment_periodId = 0 then \'Cả khóa\' else payment_period.name end, \']<br />\' order by classes.name) as periodNames,
 				group_concat(\'[\', payment_period.id, \']\') as periodIds',
-			'groupBy' => 'student.id'
+			'groupBy' => 'student.id',
+			'orderBy' => 'student.id desc'
 		),
 		'teaching' => array(
 			'table' => '`teaching` as t 
@@ -70,6 +71,11 @@ class PzkDtableController extends PzkTableController {
 			'fields' => 'distinct(level) as id, level as name',
 			'orderBy' => 'level asc'
 		),
+		'teacher_class' => array(
+			'table' => 'teacher',
+			'fields' => 'id, name',
+			'orderBy' => 'id asc'
+		),
 		'general_order' => array(
 			
 		)
@@ -103,12 +109,21 @@ class PzkDtableController extends PzkTableController {
 		'classes' => array(
 			'none' => 0
 		),
+		'teacher_class' => array(
+			'none' => 0
+		),
 		'student_order' => array(
 			'classId' => array('=' => 'o`.`classId')
 		),
 		'class_student' => array(
 			'studentName' => array(
 				'like' => 's`.`name'
+			)
+		),
+		'teacher_class_filter' => array(
+			'where' => array(
+				'subjectId' => array('sql', 'id in (select teacherId as id from classes where subjectId=?) or id in (select teacher2Id as id from classes where subjectId=?)'),
+				'level' => array('sql', 'id in (select teacherId as id from classes where level=?) or id in (select teacher2Id as id from classes where level=?)')
 			)
 		),
 		'classes_filter' => array(
