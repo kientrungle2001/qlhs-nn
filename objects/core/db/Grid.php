@@ -1,4 +1,5 @@
 <?php
+pzk_import('core.db.List');
 class PzkCoreDbGrid extends PzkCoreDbList {
     public $joins = false;
     public function prepareQuery($query) {
