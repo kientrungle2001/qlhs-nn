@@ -17,10 +17,17 @@ class PzkEduMusterTab extends PzkObject {
 			->orderBy('studyDate asc')->result();
 	}
 	
-	public function getStudents() {
-		return _db()->select('s.*, cs.startClassDate, cs.endClassDate')->from('`class_student` as cs 
+	public function getStudents($bool = false) {
+		$students = _db()->select('s.*, cs.startClassDate, cs.endClassDate')->from('`class_student` as cs 
 				inner join `student` as s on cs.studentId=s.id')
 				->where('classId='.$this->classId)->orderBy('s.name asc')->result();
+		if(!$bool)
+			return $students;
+		$result = array();
+		foreach($students as $student){
+			$result[$student['id']] = $student;
+		}
+		return $result;
 	}
 	
 	public function getTeachers($teacherId1 = false, $teacherId2 = false) {
