@@ -90,6 +90,17 @@
         </select>
     </div>
 
+    {? elseif($field['type'] == 'tinymce'): ?}
+    <div class="form-group clearfix">
+        <label for="{field[index]}">{field[label]}</label>
+        <textarea id="{field[index]}" name="{field[index]}"></textarea>
+    </div>
+    <script type="text/javascript">
+        tinymce.init({
+            selector: "textarea#{field[index]}"
+        });
+    </script>
+
   {? elseif($field['type'] == 'status'): ?}
   <div class="form-group clearfix">
 	<label for="{field[index]}">{field[label]}</label>
@@ -101,16 +112,7 @@
   {? endif ?}
   {/each}
 
-    <script type="text/javascript">
-        tinymce.init({
-            selector: "textarea"
-        });
-    </script>
 
-    <!-- Place this in the body of the page content -->
-    <form method="post">
-        <textarea></textarea>
-    </form>
 
   <div class="form-group">
   <button type="submit" class="btn btn-primary">Cập nhật</button>
