@@ -1,6 +1,6 @@
 <?php
     $level = pzk_session('adminLevel');
-    if($level == 'admin'){
+    if($level == 'Administrator'){
         $allmenu = _db()->useCB()->select('*')
             ->from('admin_menu')
             ->where(array('status',1))

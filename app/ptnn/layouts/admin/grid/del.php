@@ -4,7 +4,7 @@ $addFieldSettings = $controllers->addFieldSettings;
 $controller = pzk_request('controller');
 $row = $item;
 ?>
-<form role="form" method="post" action="{url /}{controller}/delPost}">
+<form role="form" method="post" action="{url /}{controller}/delPost">
 
 
     <input type="hidden" name="id" value="{item[id]}" />

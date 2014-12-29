@@ -8,7 +8,7 @@ class PzkBackendController extends PzkController
         if(!$admin) {
             $this->redirect('admin_login/index');
         }
-        elseif($admin && $level=='admin') {
+        elseif($admin && $level=='Administrator') {
 
         }
         else {
