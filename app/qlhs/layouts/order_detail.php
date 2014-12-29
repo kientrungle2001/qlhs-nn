@@ -66,8 +66,8 @@ $order_items = _db()->select('*')->from('student_order')->where('orderId='. $ord
 				<?php 
 				
 				foreach($order_items as $order_item) {
-					$class = _db()->getRow('classes', $order_item['classId']);
-					$subject = _db()->getRow('subject', $class['subjectId']);
+					$class = _db()->select('*')->from('classes')->where('id='.$order_item['classId'])->result_one();
+					$subject = _db()->select('*')->from('subject')->where('id='.$class['subjectId'])->result_one();
 				?>
 				<tr>
 					<td>{subject[name]}</td>
