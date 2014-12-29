@@ -49,6 +49,7 @@
         });
     </script>
 
+
     {? elseif($field['type'] == 'admin_controller'): ?}
     <div class="form-group clearfix">
         <label for="{field[index]}">{field[label]}</label>

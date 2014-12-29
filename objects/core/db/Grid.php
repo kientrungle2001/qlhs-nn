@@ -1,0 +1,15 @@
+<?php
+class PzkCoreDbGrid extends PzkCoreDbList {
+    public $joins = false;
+    public function prepareQuery($query) {
+        if(is_string($this->joins))
+            $this->joins = json_decode($this->joins, true);
+        $join = $this->joins;
+        if($join) {
+            foreach($join as $val) {
+                $query->join($val['table'], $val['condition'], $val['type']);
+            }
+        }
+    }
+}
+?>

@@ -93,13 +93,7 @@ $editFieldSettings = $controller->editFieldSettings;
         </select>
         <input id="{field[hidden]}" type="hidden" value="<?php echo $row[$field['hidden']]; ?>" name="{field[hidden]}"/>
     </div>
-    <script>
-        $('#{field[index]}').change(function() {
-            var optionSelected = $(this).find("option:selected");
-            var textSelected   = optionSelected.text();
-            $('#{field[hidden]}').val(textSelected);
-        });
-    </script>
+
 
   {? elseif($field['type'] == 'status'): ?}
   <div class="form-group"><?php 

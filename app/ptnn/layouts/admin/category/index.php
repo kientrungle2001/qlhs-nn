@@ -1,4 +1,5 @@
-<?php $items = $data->getItems();
+<?php
+    $items = $data->getItems();
 	$items = buildArr($items,'parent',0);
 ?>
 <table class="table">
