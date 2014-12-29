@@ -44,7 +44,7 @@ class PzkMailController extends PzkController {
 						$left = pzk_element('left');
 						$this->page->display();
 						
-					}
+					} else
 					if($testEmail2)
 					{
 						$error="Email đã tồn tại trên hệ thống"."<br>"."Vui lòng đăng nhập để đăng ký";
