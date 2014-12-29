@@ -1,6 +1,7 @@
 <?php
 class PzkAdminController extends PzkBackendController {
 	public $table = false;
+    public $childTable = false;
 	public $masterStructure = 'admin/home/index';
 	public $masterPosition = 'left';
 	public $customModule = false;
@@ -143,8 +144,17 @@ class PzkAdminController extends PzkBackendController {
 	}
 	
 	public function delPostAction() {
-		_db()->useCB()->delete()->from($this->table)
-			->where(array('id', pzk_request()->get('id')))->result();
+
+        if($this->childTable) {
+            foreach($this->childTable as $val) {
+                _db()->useCB()->delete()->from($val['table'])
+                    ->where(array($val['findField'], pzk_request()->get('id')))->result();
+            }
+
+        }
+        _db()->useCB()->delete()->from($this->table)
+            ->where(array('id', pzk_request()->get('id')))->result();
+
 		pzk_notifier()->addMessage('Xóa thành công');
 		$this->redirect('index');
 	}

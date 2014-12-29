@@ -55,8 +55,11 @@ class PzkCoreDbList extends PzkObject {
 			}
 			$query->where($conds);
 		}
+        $this->prepareQuery($query);
 		return $query->result();
 	}
+
+
 	
 	public function getCountItems($keyword = NULL, $fields = array()) {
 		$row = _db()->useCB()->select('count(*) as c')
@@ -71,9 +74,14 @@ class PzkCoreDbList extends PzkObject {
 			}
 			$row->where($conds);
 		}
-		$row = $row->result_one();
+        $this->prepareQuery($row);
+        $row = $row->result_one();
 		return $row['c'];
 	}
+
+    public function prepareQuery($query) {
+
+    }
 
     public function getNameById($id, $table, $field) {
         $data = _db()->useCB()->select('*')->from($table)->where(array('id', $id))->result_one();

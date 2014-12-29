@@ -1,7 +1,7 @@
 <?php
 class PzkAdminLevelactionController extends PzkGridAdminController {
-    public $addFields = 'admin_action, admin_level, name_menu, status';
-    public $editFields = 'admin_action, admin_level, name_menu, status';
+    public $addFields = 'admin_action, admin_level_id, admin_level, name_menu, status';
+    public $editFields = 'admin_action, admin_level_id, admin_level, name_menu, status';
     public $table = 'admin_level_action';
     public $sortFields = array(
         'id asc' => 'ID tăng',
@@ -31,16 +31,19 @@ class PzkAdminLevelactionController extends PzkGridAdminController {
     public $addLabel = 'Thêm quyền';
     public $addFieldSettings = array(
         array(
-            'index' => 'admin_level',
-            'type' => 'category',
+            'index' => 'admin_level_id',
+            'type' => 'select',
             'label' => 'Nhóm người dùng',
-            'table'=>'admin_level'
+            'table'=>'admin_level',
+            'show_value' => 'id',
+            'show_name' => 'level',
+            'hidden'=>'admin_level'
 
         ),
         array(
             'index' => 'admin_action',
             'type' => 'select',
-            'label' => 'ten controller',
+            'label' => 'tên menu',
             'table' => 'admin_menu',
             'show_value' => 'admin_controller',
             'show_name' => 'name',
@@ -63,10 +66,13 @@ class PzkAdminLevelactionController extends PzkGridAdminController {
     );
     public $editFieldSettings = array(
         array(
-            'index' => 'admin_level',
-            'type' => 'category',
+            'index' => 'admin_level_id',
+            'type' => 'select',
             'label' => 'Nhóm người dùng',
-            'table'=>'admin_level'
+            'table'=>'admin_level',
+            'show_value' => 'id',
+            'show_name' => 'level',
+            'hidden'=>'admin_level'
 
         ),
 
