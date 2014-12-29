@@ -70,6 +70,7 @@
 		<th>#</th>
 		<th>Tên</th>
         <th>Nhóm người dùng</th>
+        <th>Status</th>
 
 		<th colspan="2">Hành động</th>
 	</tr>
@@ -82,6 +83,10 @@
 		<td>{item[id]}</td>
 		<td>{item[name]}</td>
         <td>{level}</td>
+        <td>
+            <input id="switch-{field[index]}-{item[id]}" type="checkbox" {if $item['status']}checked="checked"{/if} data-size="mini" />
+            <script type="text/javascript">jQuery('#switch-{field[index]}-{item[id]}').bootstrapSwitch({onSwitchChange: function(evt,state) { {event changeStatus}({id: {item[id]}, status: state}); }})</script>
+        </td>
 		<td><a class="btn btn-default" href="{url /admin_mod/edit}/{item[id]}">Sửa</a></td>
 		<td><a href="{url /admin_mod/del}/{item[id]}">Xóa</td>
 	</tr>

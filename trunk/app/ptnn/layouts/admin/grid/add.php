@@ -100,6 +100,18 @@
   </div>
   {? endif ?}
   {/each}
+
+    <script type="text/javascript">
+        tinymce.init({
+            selector: "textarea"
+        });
+    </script>
+
+    <!-- Place this in the body of the page content -->
+    <form method="post">
+        <textarea></textarea>
+    </form>
+
   <div class="form-group">
   <button type="submit" class="btn btn-primary">Cập nhật</button>
   <a href="{url /admin}_{controller.module}/index">Quay lại</a>
