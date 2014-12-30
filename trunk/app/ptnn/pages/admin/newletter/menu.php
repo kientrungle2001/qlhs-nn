@@ -1,0 +1,1 @@
+<div layout="admin/newletter/menu" />

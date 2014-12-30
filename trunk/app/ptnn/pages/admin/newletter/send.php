@@ -1,0 +1,1 @@
+<div table="mail" parentId="0" layout="admin/newletter/send" />

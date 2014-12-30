@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 class PzkAdminController extends PzkBackendController {
 	public $table = false;
     public $childTable = false;
