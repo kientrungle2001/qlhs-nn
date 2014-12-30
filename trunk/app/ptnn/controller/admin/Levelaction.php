@@ -1,7 +1,7 @@
 <?php
 class PzkAdminLevelactionController extends PzkGridAdminController {
-    public $addFields = 'admin_action, admin_level_id, admin_level, name_menu, status';
-    public $editFields = 'admin_action, admin_level_id, admin_level, name_menu, status';
+    public $addFields = 'admin_action, admin_level_id, admin_level, name_menu, action_type, status';
+    public $editFields = 'admin_action, admin_level_id, admin_level, name_menu, action_type, status';
     public $table = 'admin_level_action';
     public $sortFields = array(
         'id asc' => 'ID tăng',
@@ -20,6 +20,11 @@ class PzkAdminLevelactionController extends PzkGridAdminController {
             'index' => 'name_menu',
             'type' => 'text',
             'label' => 'Tên menu'
+        ),
+        array(
+            'index' => 'action_type',
+            'type' => 'text',
+            'label' => 'Cấm quyền'
         ),
         array(
             'index' => 'status',
@@ -48,6 +53,12 @@ class PzkAdminLevelactionController extends PzkGridAdminController {
             'show_value' => 'admin_controller',
             'show_name' => 'name',
             'hidden'=>'name_menu'
+        ),
+        array(
+            'index' => 'action_type',
+            'type' => 'select_fix',
+            'label' => 'Cấm quyền',
+
         ),
 
         array(
@@ -84,6 +95,13 @@ class PzkAdminLevelactionController extends PzkGridAdminController {
             'show_value' => 'admin_controller',
             'show_name' => 'name',
             'hidden'=>'name_menu'
+        ),
+
+        array(
+            'index' => 'action_type',
+            'type' => 'select_fix',
+            'label' => 'Cấm quyền',
+
         ),
 
         array(

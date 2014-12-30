@@ -13,14 +13,23 @@ class PzkBackendController extends PzkController
         }
         else {
             $controller = pzk_request('controller');
-            $parentCa = $controller;
-
-            $adminmodel = pzk_model('admin');
-            $checkLogin = $adminmodel->checkAction($parentCa, $level);
-            if(!$checkLogin) {
-                $view = pzk_parse('<div layout="erorr/erorr" />');
-                $view->display();
-                die();
+            $action = pzk_request('action');
+            if(isset($action) && $action != 'index') {
+                $adminmodel = pzk_model('admin');
+                $checkAction = $adminmodel->checkActionType($action, $controller, $level);
+                if($checkAction) {
+                    $view = pzk_parse('<div layout="erorr/erorr" />');
+                    $view->display();
+                    die();
+                }
+            }else {
+                $adminmodel = pzk_model('admin');
+                $checkLogin = $adminmodel->checkAction($controller, $level);
+                if(!$checkLogin) {
+                    $view = pzk_parse('<div layout="erorr/erorr" />');
+                    $view->display();
+                    die();
+                }
             }
         }
 
