@@ -49,7 +49,7 @@ class PzkMailController extends PzkController {
 					{
 						$error="Email đã tồn tại trên hệ thống"."<br>"."Vui lòng đăng nhập để đăng ký";
 						$this->layout();
-						 pzk_notifier_add_message($error, 'danger');
+						pzk_notifier_add_message($error, 'danger');
 						$left = pzk_element('left');
 						$this->page->display();
 						

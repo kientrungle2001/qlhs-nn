@@ -1,0 +1,1 @@
+<core.db.detail table="mail" itemId="0" layout="admin/newletter/edit" />
