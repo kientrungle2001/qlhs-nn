@@ -71,6 +71,11 @@ class PzkAdminMenuController extends PzkGridAdminController {
             'label' => 'Tên menu',
         ),
         array(
+            'index' => 'content',
+            'type' => 'tinymce',
+            'label' => 'noi dung'
+        ),
+        array(
             'index' => 'parent',
             'type' => 'parent',
             'label' => 'Menu cha',
