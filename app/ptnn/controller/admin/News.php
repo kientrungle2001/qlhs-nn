@@ -1,10 +1,70 @@
 ﻿<?php
-class PzkAdminNewsController extends PzkAdminController {
-	public $masterStructure = 'admin/home/index';
-	public $masterPosition = 'left';
+class PzkAdminNewsController extends PzkGridAdminController {
 	public $table = 'news';
 	public $addFields = 'title, parent, content,brief';
 	public $editFields = 'title, parent, content,brief';
+	public $listFieldSettings = array(
+        array(
+            'index' => 'title',
+            'type' => 'text',
+            'label' => 'Tên tin tức'
+        ),
+
+        array(
+            'index' => 'brief',
+            'type' => 'text',
+            'lable' => 'Mô tả'
+        ),
+        array(
+            'index' => 'content',
+            'type' => 'text',
+            'lable' => 'Nội dung'
+        )
+    );
+    public $addLabel = 'Thêm menu';
+    public $addFieldSettings = array(
+        array(
+            'index' => 'title',
+            'type' => 'text',
+            'label' => 'Tên tin tức',
+        ),
+        array(
+            'index' => 'content',
+            'type' => 'tinymce',
+            'label' => 'Nội dung'
+        ),
+        array(
+            'index' => 'parent',
+            'type' => 'parent',
+            'label' => 'Menu cha',
+        )
+    );
+    public $editFieldSettings = array(
+        array(
+            'index' => 'title',
+            'type' => 'text',
+            'label' => 'Tên menu',
+        ),
+        array(
+            'index' => 'parent',
+            'type' => 'parent',
+            'label' => 'Menu cha',
+        ),
+        
+        array(
+            'index' => 'status',
+            'type' => 'status',
+            'label' => 'Trạng thái',
+            'options' => array(
+                '0' => 'Không hoạt động',
+                '1' => 'Hoạt động'
+            ),
+            'actions' => array(
+                '0' => 'mở',
+                '1' => 'dừng'
+            )
+        )
+    );
 	public $addValidator = array(
 		'rules' => array(
 			'title' => array(
