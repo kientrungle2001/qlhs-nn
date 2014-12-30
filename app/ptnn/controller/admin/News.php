@@ -37,6 +37,8 @@ class PzkAdminNewsController extends PzkGridAdminController {
             'index' => 'parent',
             'type' => 'parent',
             'label' => 'Menu cha',
+			 'table' => 'news',
+            'show_value' => 'title'
         )
     );
     public $editFieldSettings = array(
@@ -49,20 +51,6 @@ class PzkAdminNewsController extends PzkGridAdminController {
             'index' => 'parent',
             'type' => 'parent',
             'label' => 'Menu cha',
-        ),
-        
-        array(
-            'index' => 'status',
-            'type' => 'status',
-            'label' => 'Trạng thái',
-            'options' => array(
-                '0' => 'Không hoạt động',
-                '1' => 'Hoạt động'
-            ),
-            'actions' => array(
-                '0' => 'mở',
-                '1' => 'dừng'
-            )
         )
     );
 	public $addValidator = array(

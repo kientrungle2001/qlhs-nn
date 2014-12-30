@@ -1,10 +1,75 @@
 ﻿<?php
-class PzkAdminBannerController extends PzkAdminController {
-	public $masterStructure = 'admin/home/index';
-	public $masterPosition = 'left';
+class PzkAdminBannerController extends PzkGridAdminController {
 	public $table = 'banner';
 	public $addFields = 'ngaytao, url, title, code';
 	public $editFields = 'ngaytao, url, title, code';
+		public $listFieldSettings = array(
+        array(
+            'index' => 'title',
+            'type' => 'text',
+            'label' => 'Tên banner'
+        ),
+        array(
+            'index' => 'ngaytao',
+            'type' => 'text',
+            'label' => 'Ngày tạo'
+        ),
+		array(
+            'index' => 'url',
+            'type' => 'text',
+            'label' => 'URL'
+        ),
+        array(
+            'index' => 'code',
+            'type' => 'text',
+            'label' => 'Code'
+        )
+    );
+    public $addLabel = 'Thêm menu';
+    public $addFieldSettings = array(
+          array(
+            'index' => 'title',
+            'type' => 'text',
+            'label' => 'Tên banner'
+        ),
+        array(
+            'index' => 'ngaytao',
+            'type' => 'text',
+            'label' => 'Ngày tạo'
+        ),
+		array(
+            'index' => 'url',
+            'type' => 'text',
+            'label' => 'URL'
+        ),
+        array(
+            'index' => 'code',
+            'type' => 'text',
+            'label' => 'Code'
+        )
+    );
+    public $editFieldSettings = array(
+          array(
+            'index' => 'title',
+            'type' => 'text',
+            'label' => 'Tên banner'
+        ),
+        array(
+            'index' => 'ngaytao',
+            'type' => 'text',
+            'label' => 'Ngày tạo'
+        ),
+		array(
+            'index' => 'url',
+            'type' => 'text',
+            'label' => 'URL'
+        ),
+        array(
+            'index' => 'code',
+            'type' => 'text',
+            'label' => 'Code'
+        )
+    );
 	public $addValidator = array(
 		'rules' => array(
 			'title' => array(
@@ -37,29 +102,5 @@ class PzkAdminBannerController extends PzkAdminController {
 			)
 		)
 	);
-	public function addAction() {
-		if(pzk_request()->is('POST')) {
-		$post = pzk_request()->query;
-		$addbanner=array(
-                    'title'=>$post['title'],
-					'ngaytao'=>$post['ngaytao'],
-					'click'=>$post['click']);
-										        
-				$entity = _db()->useCb()->getEntity('table')->setTable('banner');
-                $entity->setData($addbanner);
-                $entity->save();
-				
-		}
-	
-		
-					
-		$this->initPage();
-		$banner = pzk_parse(pzk_app()->getPageUri('admin/banner/add'));
-		$banner->setParentId(pzk_request()->getSegment(3));
-		
-		$this	->append($banner)
-				->append('admin/banner/menu','right')
-				->display();
-	}
 	
 }
