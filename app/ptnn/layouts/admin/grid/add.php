@@ -67,6 +67,16 @@
         </select>
     </div>
 
+    {? elseif($field['type'] == 'select_fix'): ?}
+    <div class="form-group clearfix">
+        <label for="{field[index]}">{field[label]}</label>
+        <select class="form-control" id="{field[index]}" name="{field[index]}" >
+            <option value="1">Không cấm</option>
+            <option value="edit">edit</option>
+            <option value="add">add</option>
+        </select>
+    </div>
+
 
     {? elseif($field['type'] == 'parent'): ?}
     <div class="form-group clearfix">

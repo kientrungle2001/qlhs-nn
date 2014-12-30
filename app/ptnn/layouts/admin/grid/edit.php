@@ -56,6 +56,16 @@ $editFieldSettings = $controller->editFieldSettings;
         </select>
     </div>
 
+    {? elseif($field['type'] == 'select_fix'): ?}
+    <div class="form-group clearfix">
+        <label for="{field[index]}">{field[label]}</label>
+        <select class="form-control" id="{field[index]}" name="{field[index]}" >
+            <option <?php if($row[$field['index']] == 1) { echo 'selected'; } ?> value="1">Không cấm</option>
+            <option <?php if($row[$field['index']] == 'edit') { echo 'selected'; } ?> value="edit">edit</option>
+            <option <?php if($row[$field['index']] == 'add') { echo 'selected'; } ?> value="add">add</option>
+        </select>
+    </div>
+
     {? elseif($field['type'] == 'parent'): ?}
     <div class="form-group clearfix">
         <label for="{field[index]}">{field[label]}</label>
