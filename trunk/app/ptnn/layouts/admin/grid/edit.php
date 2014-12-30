@@ -62,7 +62,7 @@ $editFieldSettings = $controller->editFieldSettings;
         <select class="form-control" id="{field[index]}" name="{field[index]}" >
             <?php
 
-            $parents = _db()->select('*')->from('admin_menu')->result();
+            $parents = _db()->select('*')->from($field['table'])->result();
             $parents = buildArr($parents, 'parent', 0);
 
 
@@ -72,7 +72,9 @@ $editFieldSettings = $controller->editFieldSettings;
             <?php
             $selected = '';
             if($parent['id'] == $item['parent']) { $selected = 'selected'; }?>
-            <option value="{parent[id]}" {selected}><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $parent['lever']); ?>{parent[name]}</option>
+            <option value="{parent[id]}" {selected}><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $parent['lever']); ?>
+            <?php echo $parent[$field['show_value']]; ?>
+            </option>
             {/each}
 
         </select>

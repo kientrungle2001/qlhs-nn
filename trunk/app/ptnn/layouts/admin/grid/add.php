@@ -74,7 +74,7 @@
         <select class="form-control" id="{field[index]}" name="{field[index]}" >
             <?php
             $parentId = $data->getParentId();
-            $parents = _db()->select('*')->from('admin_menu')->result();
+            $parents = _db()->select('*')->from($field['table'])->result();
             $parents = buildArr($parents, 'parent', 0);
             $row = pzk_validator()->getEditingData();
 
@@ -84,7 +84,9 @@
             <?php
             $selected = '';
             if($parent['id'] == $parentId) { $selected = 'selected'; }?>
-            <option value="{parent[id]}" {selected}><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $parent['lever']); ?>{parent[name]}</option>
+            <option value="{parent[id]}" {selected}><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $parent['lever']); ?>
+                <?php echo $parent[$field['show_value']]; ?>
+            </option>
             {/each}
 
         </select>
@@ -107,7 +109,7 @@
                 "searchreplace visualblocks code fullscreen media",
                 "insertdatetime media table contextmenu paste responsivefilemanager textcolor"
             ],
-           
+
             toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | styleselect formatselect fontselect fontsizeselect | forecolor backcolor",
             entity_encoding : "raw",
             relative_urls: false,

@@ -13,12 +13,12 @@ class PzkAdminNewsController extends PzkGridAdminController {
         array(
             'index' => 'brief',
             'type' => 'text',
-            'lable' => 'Mô tả'
+            'label' => 'Mô tả'
         ),
         array(
             'index' => 'content',
             'type' => 'text',
-            'lable' => 'Nội dung'
+            'label' => 'Nội dung'
         )
     );
     public $addLabel = 'Thêm menu';
@@ -97,28 +97,5 @@ class PzkAdminNewsController extends PzkGridAdminController {
 			)
 		)
 	);
-	public function addAction() {
-		if(pzk_request()->is('POST')) {
-				$post = pzk_request()->query;
-				
-		 $addnews=array(
-                    'title'=>$post['title'],
-					'brief'=>$post['brief'],
-					'content'=>$post['content'],
-					'parent'=>$post['parent']);
 
-         $entity = _db()->useCb()->getEntity('table')->setTable('news');
-                $entity->setData($addnews);
-                $entity->save();
-				
-		}
-				
-		$this->initPage();
-		$news = pzk_parse(pzk_app()->getPageUri('admin/news/add'));
-		$news->setParentId(pzk_request()->getSegment(3));
-		
-		$this	->append($news)
-				->append('admin/news/menu','right')
-				->display();
-	}
 }

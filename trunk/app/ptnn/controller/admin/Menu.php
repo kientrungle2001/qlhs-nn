@@ -44,6 +44,8 @@ class PzkAdminMenuController extends PzkGridAdminController {
             'index' => 'parent',
             'type' => 'parent',
             'label' => 'Menu cha',
+            'table' => 'admin_menu',
+            'show_value' => 'name'
         ),
         array(
             'index' => 'admin_controller',
@@ -79,6 +81,8 @@ class PzkAdminMenuController extends PzkGridAdminController {
             'index' => 'parent',
             'type' => 'parent',
             'label' => 'Menu cha',
+            'table' => 'admin_menu',
+            'show_value' => 'name'
         ),
         array(
             'index' => 'admin_controller',
