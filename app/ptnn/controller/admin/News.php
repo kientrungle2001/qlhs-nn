@@ -36,11 +36,19 @@ class PzkAdminNewsController extends PzkGridAdminController {
             'label' => 'Ngày kết thúc'
         ),
 		array(
-            'index' => 'active',
-            'type' => 'text',
-            'label' => 'Trạng thái'
-        )
-    );
+			'index' => 'status',
+			'type' => 'status',
+			'label' => 'Trạng thái',
+			'options' => array(
+				'0' => 'Không hoạt động',
+				'1' => 'Hoạt động'
+			),
+			'actions' => array(
+				'0' => 'mở',
+				'1' => 'dừng'
+			)
+		)
+	);
     public $addLabel = 'Thêm menu';
     public $addFieldSettings = array(
         array(
@@ -63,6 +71,29 @@ class PzkAdminNewsController extends PzkGridAdminController {
             'type' => 'text',
             'label' => 'Alias'
         ),
+		array(
+            'index' => 'begindate',
+            'type' => 'date',
+            'label' => 'Ngày bắt đầu'
+        ),
+		array(
+            'index' => 'enddate',
+            'type' => 'date',
+            'label' => 'Ngày kết thúc'
+        ),
+		array(
+			'index' => 'status',
+			'type' => 'status',
+			'label' => 'Trạng thái',
+			'options' => array(
+				'0' => 'Không hoạt động',
+				'1' => 'Hoạt động'
+			),
+			'actions' => array(
+				'0' => 'mở',
+				'1' => 'dừng'
+			)
+		),
         array(
             'index' => 'parent',
             'type' => 'parent',
@@ -92,6 +123,29 @@ class PzkAdminNewsController extends PzkGridAdminController {
             'type' => 'text',
             'label' => 'Alias'
         ),
+		array(
+            'index' => 'begindate',
+            'type' => 'date',
+            'label' => 'Ngày bắt đầu'
+        ),
+		array(
+            'index' => 'enddate',
+            'type' => 'date',
+            'label' => 'Ngày kết thúc'
+        ),
+		array(
+			'index' => 'status',
+			'type' => 'status',
+			'label' => 'Trạng thái',
+			'options' => array(
+				'0' => 'Không hoạt động',
+				'1' => 'Hoạt động'
+			),
+			'actions' => array(
+				'0' => 'mở',
+				'1' => 'dừng'
+			)
+		),
         array(
             'index' => 'parent',
             'type' => 'parent',

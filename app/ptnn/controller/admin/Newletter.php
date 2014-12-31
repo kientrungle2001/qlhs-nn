@@ -1,10 +1,113 @@
 ﻿<?php
-class PzkAdminNewletterController extends PzkAdminController {
-	public $masterStructure = 'admin/home/index';
-	public $masterPosition = 'left';
+class PzkAdminNewletterController extends PzkGridAdminController {
 	public $table = 'mail';
-	public $addFields = 'mail, dateregister' ;
-	public $editFields = 'mail,dateregister';
+	public $addFields = 'mail, dateregister,status' ;
+	public $editFields = 'mail,dateregister,status';
+	public $listFieldSettings = array(
+        array(
+            'index' => 'mail',
+            'type' => 'text',
+            'label' => 'Địa chỉ mail'
+        ),
+
+        array(
+            'index' => 'dateregister',
+            'type' => 'text',
+            'label' => 'Ngày đăng ký'
+        ),
+		array(
+			'index' => 'status',
+			'type' => 'status',
+			'label' => 'Trạng thái',
+			'options' => array(
+				'0' => 'Không hoạt động',
+				'1' => 'Hoạt động'
+			),
+			'actions' => array(
+				'0' => 'mở',
+				'1' => 'dừng'
+			)
+		)
+	);
+    public $addLabel = 'Thêm menu';
+    public $addFieldSettings = array(
+        array(
+            'index' => 'mail',
+            'type' => 'text',
+            'label' => 'Địa chỉ mail'
+        ),
+
+        array(
+            'index' => 'dateregister',
+            'type' => 'text',
+            'label' => 'Ngày đăng ký'
+        ),
+		array(
+			'index' => 'status',
+			'type' => 'status',
+			'label' => 'Trạng thái',
+			'options' => array(
+				'0' => 'Không hoạt động',
+				'1' => 'Hoạt động'
+			),
+			'actions' => array(
+				'0' => 'mở',
+				'1' => 'dừng'
+			)
+		)
+    );
+    public $editFieldSettings = array(
+        array(
+            'index' => 'mail',
+            'type' => 'text',
+            'label' => 'Địa chỉ mail'
+        ),
+
+        array(
+            'index' => 'dateregister',
+            'type' => 'text',
+            'label' => 'Ngày đăng ký'
+        ),
+		array(
+			'index' => 'status',
+			'type' => 'status',
+			'label' => 'Trạng thái',
+			'options' => array(
+				'0' => 'Không hoạt động',
+				'1' => 'Hoạt động'
+			),
+			'actions' => array(
+				'0' => 'mở',
+				'1' => 'dừng'
+			)
+		)
+    );
+	   public $sendFieldSettings = array(
+        array(
+            'index' => 'mail',
+            'type' => 'text',
+            'label' => 'Địa chỉ mail'
+        ),
+
+        array(
+            'index' => 'dateregister',
+            'type' => 'text',
+            'label' => 'Ngày đăng ký'
+        )
+    );
+	   public $sendallFieldSettings = array(
+        array(
+            'index' => 'mail',
+            'type' => 'text',
+            'label' => 'Địa chỉ mail'
+        ),
+
+        array(
+            'index' => 'dateregister',
+            'type' => 'text',
+            'label' => 'Ngày đăng ký'
+        )
+    );
 	public $addValidator = array(
 		'rules' => array(
 			'mail' => array(
