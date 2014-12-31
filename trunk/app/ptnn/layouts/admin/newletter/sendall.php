@@ -1,4 +1,8 @@
-﻿<form role="form" method="post" action="{url /admin_newletter/sendallPost}">
+﻿<?php
+$controller = pzk_controller();
+$sendallFieldSettings = $controller->sendallFieldSettings;
+?>
+<form role="form" method="post" action="{url /admin_newletter/sendallPost}">
   <input type="hidden" name="id" value="" />
   <div class="form-group">
     <label for="title">Tiêu đề</label>
