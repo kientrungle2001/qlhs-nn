@@ -107,7 +107,6 @@ class PzkCategoryController extends PzkController
                     'total_true'=>$post['total_true'],
                     'start_time'=>$post['start_time']
                 );
-                //debug($addLesson);die();
 
                 $entity = _db()->useCb()->getEntity('table')->setTable('lessons');
                 $entity->setData($addLesson);
