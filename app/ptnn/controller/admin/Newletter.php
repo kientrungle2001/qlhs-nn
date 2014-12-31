@@ -48,7 +48,10 @@ class PzkAdminNewletterController extends PzkAdminController {
 		}
 	public function sendMail($email="",$title="",$content="") 
 		{
+			
+			
 			$mail = pzk_mailer();
+			$mail->CharSet = "UTF-8";
 			$mail->AddAddress($email);
 			$mail->Subject = $title;
 			$mail->Body    = $content;
