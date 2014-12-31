@@ -1,4 +1,5 @@
-﻿<form role="form" method="post" action="{url /admin_newletter/sendPost}">
+﻿
+<form role="form" method="post" action="{url /admin_newletter/sendPost}">
   <input type="hidden" name="id" value="" />
   <div class="form-group">
     <label for="title">Tiêu đề</label>

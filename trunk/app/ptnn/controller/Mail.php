@@ -91,6 +91,10 @@ class PzkMailController extends PzkController {
 		$left->append($page);
 		$this->page->display();
 	}
+	public function unreg()
+	{
+		$email=pzk_request(3);
+	}
 	
 	
 	

@@ -9,6 +9,7 @@
 		<th>#</th>
 		<th>Địa chỉ email</th>
 		<th>Ngày đăng ký</th>
+		<th>Trạng thái</th>
 		<th colspan="2">Hành động</th>
 	</tr>
 	{each $items as $item}
@@ -16,12 +17,14 @@
 	$tab = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp';
 	$news = str_repeat($tab, $item['id'])
 	.$item['mail']
-	.$item['dateregister'];
+	.$item['dateregister']
+	.$item['active'];
 	?>
 	<tr>
 		<td>{item[id]}</td>
 		<td>{item[mail]}</td>
 		<td>{item[dateregister]}</td>
+		<td>{item[active]}</td>
 		<td colspan="3">
 		<a href="{url /admin_newletter/add}/{item[id]}">Thêm 
         <a href="{url /admin_newletter/edit}/{item[id]}">Sửa		
