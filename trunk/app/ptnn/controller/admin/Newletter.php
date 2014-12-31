@@ -197,11 +197,7 @@ class PzkAdminNewletterController extends PzkGridAdminController {
 	public function sendAction()
 		{
 						$this->layout();
-						$pageUri = $this->getApp()->getPageUri('mail/showsend');
-						$page = PzkParser::parse($pageUri);	
-						$left = pzk_element('left');
-						$left->append($page);
-						$this->page->display();
+						
 		}
 	
 	
@@ -221,11 +217,7 @@ class PzkAdminNewletterController extends PzkGridAdminController {
 	public function sendallAction()
 		{
 						$this->layout();
-						$pageUri = $this->getApp()->getPageUri('mail/showsend');
-						$page = PzkParser::parse($pageUri);	
-						$left = pzk_element('left');
-						$left->append($page);
-						$this->page->display();
+
 		}
 	
 	
