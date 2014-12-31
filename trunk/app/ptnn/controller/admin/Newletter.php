@@ -3,6 +3,15 @@ class PzkAdminNewletterController extends PzkGridAdminController {
 	public $table = 'mail';
 	public $addFields = 'mail, dateregister,status' ;
 	public $editFields = 'mail,dateregister,status';
+	public $sortFields = array(
+		'id asc' => 'ID tăng',
+		'id desc' => 'ID giảm',
+		'mail asc' => 'email tăng',
+		'mail desc' => 'email giảm',
+		'dateregister asc' => 'Ngày đăng ký tăng',
+		'dateregister desc' => 'Ngày đăng ký giảm'
+	);
+	public $searchFields = array('mail', 'dateregister');
 	public $listFieldSettings = array(
         array(
             'index' => 'mail',
@@ -189,25 +198,7 @@ class PzkAdminNewletterController extends PzkGridAdminController {
 						$this->page->display();
 		}
 	
-	public function addAction() {
-		if(pzk_request()->is('POST')) 
-		{
-			$post = pzk_request()->query;	
-			$addnews=array(
-                    'mail'=>$post['mail'],
-					'dateregister'=>$post['dateregister']);
-			$entity = _db()->useCb()->getEntity('table')->setTable('mail');
-            $entity->setData($addnews);
-            $entity->save();	
-		}
-				
-		$this->initPage();
-		$news = pzk_parse(pzk_app()->getPageUri('admin/newletter/add'));
-		$news->setParentId(pzk_request()->getSegment(3));
-		$this	->append($news)
-				->append('admin/newletter/menu','right')
-				->display();
-	}
+	
 	public function sendallPostAction()
 	{
 		$emails=_db()->select('email')->from('user')->result();
