@@ -80,7 +80,7 @@ $items = explode(',',$lesson['question_ids']);
                 <input disabled   <?php if(isset($lessonvalue[$item]) && $lessonvalue[$item] == $val['id']){ echo 'checked'; }  ?> type="radio" />
 
             </td>
-            <td>{val[value]}</td>
+            <td <?php if($val['valueTrue'] == 1) { echo "class='highlinght'";} ?> >{val[value]}</td>
         </tr>
         {/each}
         <?php $i++; ?>
@@ -95,5 +95,8 @@ $items = explode(',',$lesson['question_ids']);
 <style>
     .tb_question tr th{
         text-align: center;
+    }
+    .highlinght{
+        background-color: #a8cae6;
     }
 </style>
