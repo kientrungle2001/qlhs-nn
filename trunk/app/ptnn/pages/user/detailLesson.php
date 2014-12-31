@@ -1,0 +1,1 @@
+<user.detailLesson  layout="user/detailLesson" />

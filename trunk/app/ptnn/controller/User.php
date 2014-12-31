@@ -954,4 +954,23 @@ class PzkUserController extends PzkController {
 			$this->render($payment);			
 			
 	}
+
+    public function lessonAction() {
+
+        $this->initPage();
+        $this->append('user/lesson', 'left');
+
+        $this->display();
+
+    }
+
+    public function detailLessonAction() {
+
+        $this->initPage();
+        $this->append('user/detailLesson', 'left');
+
+        $this->display();
+
+    }
+
 }
