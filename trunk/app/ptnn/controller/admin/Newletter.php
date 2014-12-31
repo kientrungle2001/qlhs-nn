@@ -158,6 +158,12 @@ class PzkAdminNewletterController extends PzkGridAdminController {
 				->append('admin/newletter/menu','right')
 				->display();
 		}
+		public function addAction() {
+		$this->initPage()
+			->append('admin/'.$this->module.'/add')
+			->append('admin/'.$this->module.'/menu', 'right');
+		$this->display();
+	}
 	public function sendMail($email="",$title="",$content="") 
 		{
 			
