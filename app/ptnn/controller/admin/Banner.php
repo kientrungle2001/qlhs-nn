@@ -1,8 +1,17 @@
 ﻿<?php
 class PzkAdminBannerController extends PzkGridAdminController {
 	public $table = 'banner';
-	public $addFields = 'ngaytao, url, title, code';
-	public $editFields = 'ngaytao, url, title, code';
+	public $addFields = 'ngaytao, url, title, code,status';
+	public $editFields = 'ngaytao, url, title, code,status';
+	public $sortFields = array(
+		'id asc' => 'ID tăng',
+		'id desc' => 'ID giảm',
+		'ngaytao asc' => 'Ngày tăng',
+		'ngaytao desc' => 'Ngày giảm',
+		'title asc' => 'Tiêu đề tăng',
+		'title desc' => 'Tiêu đề giảm'
+	);
+	public $searchFields = array('title', 'url', 'ngaytao', 'code', 'status');
 		public $listFieldSettings = array(
         array(
             'index' => 'title',
@@ -23,7 +32,20 @@ class PzkAdminBannerController extends PzkGridAdminController {
             'index' => 'code',
             'type' => 'text',
             'label' => 'Code'
-        )
+        ),
+		array(
+			'index' => 'status',
+			'type' => 'status',
+			'label' => 'Trạng thái',
+			'options' => array(
+				'0' => 'Không hoạt động',
+				'1' => 'Hoạt động'
+			),
+			'actions' => array(
+				'0' => 'mở',
+				'1' => 'dừng'
+			)
+		)
     );
     public $addLabel = 'Thêm menu';
     public $addFieldSettings = array(
@@ -46,7 +68,20 @@ class PzkAdminBannerController extends PzkGridAdminController {
             'index' => 'code',
             'type' => 'text',
             'label' => 'Code'
-        )
+        ),
+		array(
+			'index' => 'status',
+			'type' => 'status',
+			'label' => 'Trạng thái',
+			'options' => array(
+				'0' => 'Không hoạt động',
+				'1' => 'Hoạt động'
+			),
+			'actions' => array(
+				'0' => 'mở',
+				'1' => 'dừng'
+			)
+		)
     );
     public $editFieldSettings = array(
           array(
@@ -68,7 +103,21 @@ class PzkAdminBannerController extends PzkGridAdminController {
             'index' => 'code',
             'type' => 'text',
             'label' => 'Code'
-        )
+        ),
+		array(
+			'index' => 'status',
+			'type' => 'status',
+			'label' => 'Trạng thái',
+			'options' => array(
+				'0' => 'Không hoạt động',
+				'1' => 'Hoạt động'
+			),
+			'actions' => array(
+				'0' => 'mở',
+				'1' => 'dừng'
+			)
+		)
+		
     );
 	public $addValidator = array(
 		'rules' => array(
