@@ -1,5 +1,6 @@
 <?php
-$user_id = 3;
+$user_id = pzk_session('userId');
+if(isset($user_id)) {
 $lesson_id = pzk_request()->getSegment(3);
 $lesson = _db()->useCB()->select('*')->from('lessons')->where(array('and', array('user_id', $user_id), array('id', $lesson_id)))->result_one();
 $lessonvalue = unserialize($lesson['answer_value']);
@@ -100,3 +101,6 @@ $items = explode(',',$lesson['question_ids']);
         background-color: #a8cae6;
     }
 </style>
+<?php
+}
+?>
