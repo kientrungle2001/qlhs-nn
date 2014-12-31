@@ -1,14 +1,7 @@
 <?php 
 	$keyword = pzk_session('questionsKeyword');
 	$orderBy = pzk_session('questionsOrderBy');
-	$categoryId = pzk_session('questionsCategoryId');
-	$type = pzk_session('questionsType');
-	if($categoryId) {
-		$data->conditions .= " and categoryIds like '%,$categoryId,%'";
-	}
-	if($type) {
-		$data->conditions .= " and `type` like '$type'";
-	}
+
 	if($orderBy) {
 		$data->orderBy = $orderBy;
 	}
