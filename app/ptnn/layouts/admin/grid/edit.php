@@ -9,10 +9,10 @@ $row = $item;
 
 $editFieldSettings = $controller->editFieldSettings;
 ?>
-<form role="form" method="post" action="{url /admin}_{controller.module}/editPost">
+<form role="form" method="post" enctype="multipart/form-data"  action="{url /admin}_{controller.module}/editPost">
   <input type="hidden" name="id" value="{item[id]}" />
   {each $editFieldSettings as $field}
-  {? if ($field['type'] == 'text' || $field['type'] == 'date' || $field['type'] == 'email' || $field['type'] == 'password') : ?}
+  {? if ($field['type'] == 'text' || $field['type'] =='file' || $field['type'] == 'date' || $field['type'] == 'email' || $field['type'] == 'password') : ?}
   <div class="form-group clearfix">
     <label for="{field[index]}">{field[label]}</label>
     <input type="{field[type]}" class="form-control" id="{field[index]}" name="{field[index]}" placeholder="{field[label]}" value="{? if ($field['type'] != 'password') { echo $row[$field['index']]; } ?}">
