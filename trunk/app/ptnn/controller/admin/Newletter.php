@@ -29,12 +29,12 @@ class PzkAdminNewletterController extends PzkGridAdminController {
 			'type' => 'status',
 			'label' => 'Trạng thái',
 			'options' => array(
-				'0' => 'Không hoạt động',
-				'1' => 'Hoạt động'
+				'1' => 'Không hoạt động',
+				'0' => 'Hoạt động'
 			),
 			'actions' => array(
-				'0' => 'mở',
-				'1' => 'dừng'
+				'1' => 'mở',
+				'0' => 'dừng'
 			)
 		)
 	);
@@ -56,12 +56,12 @@ class PzkAdminNewletterController extends PzkGridAdminController {
 			'type' => 'status',
 			'label' => 'Trạng thái',
 			'options' => array(
-				'0' => 'Không hoạt động',
-				'1' => 'Hoạt động'
+				'1' => 'Không hoạt động',
+				'0' => 'Hoạt động'
 			),
 			'actions' => array(
-				'0' => 'mở',
-				'1' => 'dừng'
+				'1' => 'mở',
+				'0' => 'dừng'
 			)
 		)
     );
@@ -82,12 +82,12 @@ class PzkAdminNewletterController extends PzkGridAdminController {
 			'type' => 'status',
 			'label' => 'Trạng thái',
 			'options' => array(
-				'0' => 'Không hoạt động',
-				'1' => 'Hoạt động'
+				'1' => 'Không hoạt động',
+				'0' => 'Hoạt động'
 			),
 			'actions' => array(
-				'0' => 'mở',
-				'1' => 'dừng'
+				'1' => 'mở',
+				'0' => 'dừng'
 			)
 		)
     );

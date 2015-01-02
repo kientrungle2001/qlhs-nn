@@ -87,13 +87,24 @@ class PzkMailController extends PzkController {
 		$this->layout();
 		$pageUri = $this->getApp()->getPageUri('mail/register');
 		$page = PzkParser::parse($pageUri);	
-		$left = pzk_element('right');
+		$left = pzk_element('left');
 		$left->append($page);
 		$this->page->display();
 	}
-	public function unreg()
+	public function unregAction()
 	{
-		$email=pzk_request(3);
+		$this->layout();
+		$pageUri = $this->getApp()->getPageUri('mail/unreg');
+		$page = PzkParser::parse($pageUri);	
+		$left = pzk_element('left');
+		$left->append($page);
+		$this->page->display();
+	}
+	public function unregPostAction()
+	{
+		$email=pzk_request('email')
+		$del=_db()->useCB()->delete()->from('mail')
+            ->where('mail'=$email)->result();
 	}
 	
 	
