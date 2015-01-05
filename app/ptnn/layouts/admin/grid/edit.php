@@ -77,7 +77,7 @@ $editFieldSettings = $controller->editFieldSettings;
 
 
             ?>
-            <option value="0">Danh mục gốc</option>
+
             {each $parents as $parent}
             <?php
             $selected = '';
