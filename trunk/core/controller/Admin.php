@@ -187,5 +187,91 @@ class PzkAdminController extends PzkBackendController {
 		$entity->setData($row);
 		$entity->save();
 	}
+    public function doUpload($filename, $dir, $allowed, $row) {
+        if(isset($_FILES[$filename])) {
+            if(!empty($_FILES[$filename]['name'])){
+                // Kiem tra xem file upload co nam trong dinh dang cho phep
+                if(in_array(strtolower($_FILES[$filename]['type']), $allowed)) {
+                    // Neu co trong dinh dang cho phep, tach lay phan mo rong
+                    $ext = end(explode('.', $_FILES[$filename]['name']));
+                    $renamed = md5(rand(0,200000)).'.'."$ext";
+
+                    if(move_uploaded_file($_FILES[$filename]['tmp_name'], $dir.$renamed)) {
+                        if(!empty($row)) {
+                            $row[$filename] = $renamed;
+                            $id = pzk_request('id');
+                            if(isset($id)) {
+                                if($this->validateEditData($row)) {
+                                    $data = _db()->useCB()->select('url')->from('video')->where(array('id', $id))->result_one();
+                                    $url = BASE_DIR."/3rdparty/uploads/videos/".$data['url'];
+                                    unlink($url);
+                                    $this->edit($row);
+                                    pzk_notifier()->addMessage('Cập nhật thành công');
+                                    $this->redirect('index');
+                                } else {
+                                    pzk_validator()->setEditingData($row);
+                                    $this->redirect('edit/' . pzk_request('id'));
+                                }
+                            }else {
+                                if($this->validateAddData($row)) {
+                                    $this->add($row);
+                                    pzk_notifier()->addMessage('Thêm thành công');
+                                    $this->redirect('index');
+                                } else {
+                                    pzk_validator()->setEditingData($row);
+                                    $this->redirect('add');
+                                }
+                            }
+                        }
+                    } else {
+                        $errors = "upload error";
+                    }
+                } else {
+                    // FIle upload khong thuoc dinh dang cho phep
+                    $errors = "File upload không thuộc định dạng cho phép!";
+                    $this->redirect('index');
+                }
+            } else {
+                if(!empty($row)) {
+                    $id = pzk_request('id');
+                    if(isset($id)) {
+                        if($this->validateEditData($row)) {
+
+                            $this->edit($row);
+                            pzk_notifier()->addMessage('Cập nhật thành công');
+                            $this->redirect('index');
+                        } else {
+                            pzk_validator()->setEditingData($row);
+                            $this->redirect('edit/' . pzk_request('id'));
+                        }
+                    }else {
+                        if($this->validateAddData($row)) {
+                            $this->add($row);
+                            pzk_notifier()->addMessage('Thêm thành công');
+                            $this->redirect('index');
+                        } else {
+                            pzk_validator()->setEditingData($row);
+                            $this->redirect('add');
+                        }
+                    }
+                }
+            } // END isset $_FILES
+
+
+
+        }
+
+
+
+        // Xoa file da duoc upload va ton tai trong thu muc tam
+        if(isset($_FILES[$filename]['tmp_name']) && is_file($_FILES[$filename]['tmp_name']) && file_exists($_FILES[$filename]['tmp_name'])) {
+            unlink($_FILES[$filename]['tmp_name']);
+        }
+
+        if(isset($errors)) {
+            pzk_notifier_add_message($errors, 'danger');
+        }
+
+    }
 	
 }

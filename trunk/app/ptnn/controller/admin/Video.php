@@ -1,7 +1,7 @@
 <?php
 class PzkAdminVideoController extends PzkGridAdminController {
-    public $addFields = 'url, status, category_id';
-    public $editFields = 'url, status, category_id';
+    public $addFields = 'url, status, name, category_id';
+    public $editFields = 'url, status, name, category_id';
     public $table = 'video';
     public $sortFields = array(
         'id asc' => 'ID tăng',
@@ -12,9 +12,9 @@ class PzkAdminVideoController extends PzkGridAdminController {
     public $searchFields = array('name');
     public $listFieldSettings = array(
         array(
-            'index' => 'url',
+            'index' => 'name',
             'type' => 'text',
-            'label' => 'tên menu'
+            'label' => 'tên video'
         ),
 
 
@@ -26,6 +26,11 @@ class PzkAdminVideoController extends PzkGridAdminController {
     );
     public $addLabel = 'Thêm menu';
     public $addFieldSettings = array(
+        array(
+            'index' => 'name',
+            'type' => 'text',
+            'label' => 'Tên Video',
+        ),
         array(
             'index' => 'url',
             'type' => 'file',
@@ -56,6 +61,11 @@ class PzkAdminVideoController extends PzkGridAdminController {
     );
     public $editFieldSettings = array(
         array(
+            'index' => 'name',
+            'type' => 'text',
+            'label' => 'Tên Video',
+        ),
+        array(
             'index' => 'url',
             'type' => 'file',
             'label' => 'Chọn Video',
@@ -63,16 +73,11 @@ class PzkAdminVideoController extends PzkGridAdminController {
 
 
         array(
-            'index' => 'parent',
+            'index' => 'category_id',
             'type' => 'parent',
             'label' => 'Menu cha',
-            'table' => 'admin_menu',
+            'table' => 'categories',
             'show_value' => 'name'
-        ),
-        array(
-            'index' => 'admin_controller',
-            'type' => 'admin_controller',
-            'label' => 'tên controller'
         ),
         array(
             'index' => 'status',
@@ -126,7 +131,50 @@ class PzkAdminVideoController extends PzkGridAdminController {
     );
 
     public function addPostAction() {
-        
+        $target_dir = BASE_DIR."/3rdparty/uploads/videos/";
+        $allowed = array('video/mp4', 'video/avi');
+        $filename = $this->addFieldSettings[1]['index'];
+        $rows = $this->getAddData();
+        $row = array(
+            'name'=>$rows['name'],
+            'category_id'=>$rows['category_id'],
+            'status'=>$rows['status']
+        );
+
+        $this->doUpload($filename, $target_dir, $allowed, $row);
+
+    }
+
+    public function editPostAction() {
+
+
+        $target_dir = BASE_DIR."/3rdparty/uploads/videos/";
+        $allowed = array('video/mp4', 'video/avi');
+        $filename = $this->addFieldSettings[1]['index'];
+        $rows = $this->getAddData();
+        $row = array(
+            'name'=>$rows['name'],
+            'category_id'=>$rows['category_id'],
+            'status'=>$rows['status']
+        );
+
+
+
+        $this->doUpload($filename, $target_dir, $allowed, $row);
+
+
+    }
+
+    public function delPostAction() {
+        $id = pzk_request()->get('id');
+        $data = _db()->useCB()->select('url')->from('video')->where(array('id', $id))->result_one();
+        $url = BASE_DIR."/3rdparty/uploads/videos/".$data['url'];
+        unlink($url);
+        _db()->useCB()->delete()->from($this->table)
+            ->where(array('id', $id))->result();
+
+        pzk_notifier()->addMessage('Xóa thành công');
+        $this->redirect('index');
     }
 }
 ?>
