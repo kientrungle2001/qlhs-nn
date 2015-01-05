@@ -198,6 +198,12 @@ class PzkAdminNewletterController extends PzkGridAdminController {
 		{
 						$this->layout();
 						
+						
+						
+						
+						
+						
+						
 		}
 	
 	
