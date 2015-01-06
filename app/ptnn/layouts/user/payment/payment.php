@@ -1,38 +1,6 @@
 <script language="javascript" src="../3rdparty/Validate/lib/jquery.js"></script>
 <script src="../3rdparty/Validate/dist/jquery.validate.js"></script>
-<script>
- 
-    $().ready(function() {
-        
-        // validate signup form on keyup and submit
-        $("#formPayment").validate({
-            rules: 
-            {
-                
-                amount: 
-                {
-                    required: true,
-                    minlength: 4,
-                    number: true,
-                    
-                },
-            messages: 
-            {
-                
-                amount: 
-                {
-                    required: "Bạn hãy nhập số tiền ",
-                    minlength: "Số tiền nạp phải >=20.000đ ",
-                    number: "Bạn chỉ được nhập chữ số"
-                }
-            }
-          }
-        });
-    });
-       
 
-</script>
- 
   <link rel="stylesheet" media="screen" href="screen.css">
   <style>
       label 
@@ -67,28 +35,64 @@
 }
     </style>
 
- 
+<?php 
+// Nạp tiền qua cổng thanh toán Ngân Lượng
+    require(BASE_DIR.'/3rdparty/nganluong/include/nganluong.microcheckout.class.php');
+    require(BASE_DIR.'/3rdparty/nganluong/include/lib/nusoap.php');
+    require(BASE_DIR.'/3rdparty/nganluong/config.php');
+    $inputs = array(
+    'receiver'    => RECEIVER,
+    'order_code'  => 'username'.pzk_session('username').'DH-'.date('His-dmY'),
+    'return_url'  => 'http://ptnn.vn/user/payment',
+    'cancel_url'  => 'http://ptnn.vn/user/payment',
+    'language'    => 'vn'
+    );
+    $link_checkout = '';
+    $obj = new NL_MicroCheckout(MERCHANT_ID, MERCHANT_PASS, URL_WS);
+    $result = $obj->setExpressCheckoutDeposit($inputs);
+
+    if ($result != false) 
+    {
+      if ($result['result_code'] == '00') 
+      {
+        $link_checkout = $result['link_checkout'];
+        $link_checkout = str_replace('micro_checkout.php?token=', 'index.php?portal=checkout&page=micro_checkout&token_code=', $link_checkout);
+        $link_checkout .='&payment_option=nganluong';
+
+      } 
+      else 
+      {
+        die('Ma loi '.$result['result_code'].' ('.$result['result_description'].') ');
+      }
+    }
+    else
+    {
+    die('Loi ket noi toi cong thanh toan ngan luong');
+    }
+ ?> 
 </head>
     <div style="border-width: 1px;border-style: solid; border-color: #FF7357;  width:100%; ">
     <div> 
     <p align="center"><strong> Nạp Tiền</strong></p>
     </div> 
-    <form method="post" id="formPayment" action="/User/paymentPost" >
+    <form method="post" id="formPayment" action="" >
      <br> 
-      <label for="login">Nhập số tiền:</label>
-      <input type="text" name="amount" id="amount"size="4" >
+     
+      <label for="">Hình thức nạp tiền</label>
       <br>
-      <label for="">Hình thức nạp thẻ</label>
-      <br>
-      <input type="radio" name="payment" id="payment" value="nganluong">Nạp tiền qua cổng thanh toán Ngân Lượng<br>
-      <input type="radio" name="payment" id="payment" value="baokim">Nạp tiền qua cổng thanh toán Bảo Kim <br>
-      <input type="radio" name="payment" id="payment" value="theocao">Nạp tiền dùng thẻ cào Ngân Lượng<br>
-      <input type="radio" name="payment" id="payment" value="theocao">Nạp tiền dùng thẻ của Nextnobels<br>
+      <input type="radio" name="payment_option" class="payment_option" value="nganluong">Nạp tiền qua cổng thanh toán Ngân Lượng<br>
+     
+      <input type="radio" name="payment_option" class="payment_option" value="theocaonextnobels">Nạp tiền dùng thẻ của Nextnobels<br>
     
     <label for="">&nbsp;</label>
     
-      <button type="submit" class="payment-button">Thanh toán</button>
-   
+      <button type="submit" name="btn_payment" id="btn_payment" >Thanh toán</button>
+   <script language="javascript" src="/3rdparty/nganluong/include/nganluong.apps.mcflow.js"></script>
+<script language="javascript">
+  var mc_flow = new NGANLUONG.apps.MCFlow({trigger:'btn_payment',url:'<?php echo @$link_checkout;?>'});
+  dump(mc_flow);
+  
+</script>
   </form>
 <form name="napthe" action="/User/paycardPost" method="post">
 <div  style="border: 1px solid #444444;  margin: 0 auto;  padding: 10px;  width:100%;">
