@@ -34,7 +34,7 @@
       
 
   }
-  .avata
+  .avatar
   {
       margin-top:20px;  
       width:50%;
@@ -51,17 +51,21 @@
   }
 </style>
 <?php 
-$items=_db()->useCB()->select('user.*')->from('user')->where(array('username',pzk_session('username')))->result_one();
+$user=_db()->getEntity('user.user');
+$user->loadWhere(array('username',pzk_session('username')));
+//$items=_db()->useCB()->select('user.*')->from('user')->where(array('username',pzk_session('username')))->result_one();
+$items=_db()->useCB()->select('count(*) as invi')->from('invitation')->where(array('userinvitation',pzk_session('username')))->result_one();
+
 ?>
 <div id="profileuser" >
 
      <div class="profile_user" style="height: 50px;">
-       <p align="center" style=" padding-top: 10px;"> Bạn có lời mời kết bạn</p>
+       <p align="center" style=" padding-top: 10px;"> Bạn có <a href="/user/listinvitation"><?php echo $items['invi']; ?> lời mời kết bạn</a></p>
      </div>
      <div class="profile_user" >
 
      <div style="float:left; padding-top: 20px;padding-bottom: 20px;padding-left: 20px;">
-       <img src="<?php echo $items['avata']; ?>"alt="" width="100px" height="100px"> 
+       <img src="<?php echo $user->getAvatar(); ?>"alt="" width="100px" height="100px"> 
      </div>
      <div>
        <p align="center"> <strong >xin chào <?php echo pzk_session('name'); ?></strong></p>
@@ -72,36 +76,36 @@ $items=_db()->useCB()->select('user.*')->from('user')->where(array('username',pz
         <table>
           <tr>
             
-            <td ><a href="editinfor">Chỉnh sửa thông tin cá nhân</a></td>
+            <td ><a href="/user/editinfor">Chỉnh sửa thông tin cá nhân</a></td>
           </tr>
           <tr>
             <td >
-              <a href="editavata">Thay đổi avata</a>
+              <a href="/user/editavata">Thay đổi avatar</a>
             </td>
           </tr>
           <tr>
             <td >
-              <a href="editsign">Thay đổi chữ ký</a>
+              <a href="/user/editsign">Thay đổi chữ ký</a>
             </td>
           </tr>
           <tr>
             <td >
-              <a href="editpassword">Thay đổi mật khẩu</a>
+              <a href="/user/editpassword">Thay đổi mật khẩu</a>
             </td>
           </tr>
           <tr>
             <td >
-              <a href="editinfor">Thay đổi thông tin cá nhân</a>
+              <a href="/user/editinfor">Thay đổi thông tin cá nhân</a>
             </td>
           </tr>
           <tr>
             <td >
-              <a href="payment/payment">Nạp Tiền</a>
+              <a href="/user/payment/payment">Nạp Tiền</a>
             </td>
           </tr>
           <tr>
             <td >
-              <a href="logout">Thoát</a>
+              <a href="/user/logout">Thoát</a>
             </td>
           </tr>
         </table>
@@ -113,19 +117,28 @@ $items=_db()->useCB()->select('user.*')->from('user')->where(array('username',pz
        
        <div class="title" style="height: 450px;">
       <?php 
-          $userfriend= _db()->useCB()->select('userfriend')->from('friend')->where(array('equal','username',pzk_session('username')))->result();
-          foreach ($userfriend as &$item) { ?>
+
+        //$friends=_db()->useCB()->select('friend.*')->from('friend')->where(array('username',pzk_session('username')))->result();
+        $sql="select * from `friend` where username='".pzk_session('username')."' order by id asc limit 0,3 ";
+        $friend= _db()->query($sql);
+        //$friends=_db()->useCB()->select('friend.*')->from('friend')->where(array('username',pzk_session('username')))->result();  
+         // $friend=_db()->getEntity('user.friend');
+          //$friend->loadWhere(array('username',pzk_session('username')));
+      
+          foreach ($friend as $items) { 
+           
+           ?>
         <div style="clear: both;">  
         <div style="float:left; padding-top: 20px;padding-bottom: 20px;padding-left: 20px;">
-            <img src="<?php echo $items['avata']; ?>"alt="" width="100px" height="100px"> 
+            <img src="<?php echo BASE_URL.'/3rdparty/uploads/img/noavatar.gif' ; ?>"alt="" width="80px" height="80px"> 
         </div>
         <div>
-            <p align="center"> <strong >xin chào <?php echo $item['userfriend']; ?></strong></p>
+            <p align="center"><a href="/user/profilefriend?member=<?php echo $items['userfriend']; ?> "> <strong ><?php echo $items['userfriend']; ?></strong></a></p>
         </div>
         </div>    
-        <?php  } ?> 
+        <?php  }  ?> 
         <div style="float:right;clear: both;">
-          <a href="#">Xem hết >></a>
+          <a href="/user/friendlist">Xem hết >></a>
         </div> 
        </div>
        <div class="title">
