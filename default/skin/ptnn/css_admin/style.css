@@ -49,6 +49,7 @@ ul.drop li a:hover{
 #main{
 	clear: both;
 	min-height: 800px;
+	padding-top: 20px;
 }
 /*Left*/
 #left{
@@ -56,6 +57,7 @@ ul.drop li a:hover{
 	float: left;
 	min-height: 800px;
 	border-right: 1px dotted #ccc;
+	padding-right: 2%;
 }
 #contain-left{
 	width: 90%;
@@ -76,10 +78,22 @@ table{
 /*Right*/
 #right{
 	/*clear: both;*/
-	width: 35%;
+	width: 33%;
 	min-height: 800px;
 	float: left;
+	margin-left:2%;
 }
+#right ul{
+	border:1px solid #CCCCCC;
+	border-radius:3px;
+	background-color:#eff0f2;
+}
+
+#right ul  li > a:hover{
+	border-left: 4px solid #205081;
+	background-color:#fefefe;	
+}
+
 /*Footer*/
 #footer{
 	clear: both;
