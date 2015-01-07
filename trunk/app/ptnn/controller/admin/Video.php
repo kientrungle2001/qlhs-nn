@@ -33,7 +33,7 @@ class PzkAdminVideoController extends PzkGridAdminController {
         ),
         array(
             'index' => 'url',
-            'type' => 'file',
+            'type' => 'upvideo',
             'label' => 'Chọn Video',
         ),
 
@@ -43,6 +43,7 @@ class PzkAdminVideoController extends PzkGridAdminController {
             'label' => 'Menu cha',
             'table' => 'categories',
             'show_value' => 'name'
+
         ),
 
         array(
@@ -67,7 +68,7 @@ class PzkAdminVideoController extends PzkGridAdminController {
         ),
         array(
             'index' => 'url',
-            'type' => 'file',
+            'type' => 'upvideo',
             'label' => 'Chọn Video',
         ),
 
@@ -77,7 +78,8 @@ class PzkAdminVideoController extends PzkGridAdminController {
             'type' => 'parent',
             'label' => 'Menu cha',
             'table' => 'categories',
-            'show_value' => 'name'
+            'show_value' => 'name',
+            'curentfield' =>'category_id'
         ),
         array(
             'index' => 'status',
@@ -130,45 +132,31 @@ class PzkAdminVideoController extends PzkGridAdminController {
         )
     );
 
-    public function addPostAction() {
-        $target_dir = BASE_DIR."/3rdparty/uploads/videos/";
-        $allowed = array('video/mp4', 'video/avi');
-        $filename = $this->addFieldSettings[1]['index'];
-        $rows = $this->getAddData();
-        $row = array(
-            'name'=>$rows['name'],
-            'category_id'=>$rows['category_id'],
-            'status'=>$rows['status']
-        );
 
-        $this->doUpload($filename, $target_dir, $allowed, $row);
-
-    }
 
     public function editPostAction() {
+        $row = $this->getEditData();
+        $id = pzk_request()->get('id');
 
-
-        $target_dir = BASE_DIR."/3rdparty/uploads/videos/";
-        $allowed = array('video/mp4', 'video/avi');
-        $filename = $this->addFieldSettings[1]['index'];
-        $rows = $this->getAddData();
-        $row = array(
-            'name'=>$rows['name'],
-            'category_id'=>$rows['category_id'],
-            'status'=>$rows['status']
-        );
-
-
-
-        $this->doUpload($filename, $target_dir, $allowed, $row);
-
-
+        if($this->validateEditData($row)) {
+            $data = _db()->useCB()->select('url')->from('video')->where(array('id', $id))->result_one();
+            if(($row['url'] != $data['url'])) {
+                $url = BASE_DIR.$data['url'];
+                unlink($url);
+            }
+            $this->edit($row);
+            pzk_notifier()->addMessage('Cập nhật thành công');
+            $this->redirect('index');
+        } else {
+            pzk_validator()->setEditingData($row);
+            $this->redirect('edit/' . pzk_request('id'));
+        }
     }
 
     public function delPostAction() {
         $id = pzk_request()->get('id');
         $data = _db()->useCB()->select('url')->from('video')->where(array('id', $id))->result_one();
-        $url = BASE_DIR."/3rdparty/uploads/videos/".$data['url'];
+        $url = BASE_DIR.$data['url'];
         unlink($url);
         _db()->useCB()->delete()->from($this->table)
             ->where(array('id', $id))->result();

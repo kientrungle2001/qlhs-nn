@@ -2,6 +2,7 @@
 	$controller = pzk_controller();
 	$addFieldSettings = $controller->addFieldSettings;
 	$row = pzk_validator()->getEditingData();
+    $scriptHolder = pzk_parse('<div id="holder" />');
 ?>
 <form id="{controller.module}AddForm" role="form" enctype="multipart/form-data" method="post" action="{url /admin}_{controller.module}/addPost">
   <input type="hidden" name="id" value="" />
@@ -67,7 +68,81 @@
         </select>
     </div>
 
-    {? elseif($field['type'] == 'select_fix'): ?}
+    {? elseif($field['type'] == 'upload'): ?}
+
+    <div class="form-group clearfix">
+        <label for="{field[index]}">{field[label]}</label>
+        <!--input type="file" name="{field[index]}" id="{field[index]}" /-->
+        <?php
+
+        $uploadify = pzk_parse('<form.uploadify name="'.$field['index'].'" scriptTo="holder" />');
+        $scriptHolder->display();
+        $uploadify->display();?>
+
+
+
+    </div>
+    <!--script>
+
+        <?php $timestamp = time();?>
+        setTimeout(function() {
+            $('#{field[index]}').uploadify({
+                'formData'     : {
+                    'timestamp' : '<?php echo $timestamp;?>',
+                    'token'     : '<?php echo md5('unique_salt' . $timestamp);?>'
+                },
+                'debug'    : true,
+                'swf'      : '/3rdparty/uploadify/uploadify.swf',
+                'uploader' : '/3rdparty/uploadify/uploadify.php'
+                //'folder': '/3rdparty/uploads/videos'
+            });
+        }, 300);
+
+    </script-->
+
+  {? elseif($field['type'] == 'upvideo'): ?}
+
+  <link rel="stylesheet" href="/3rdparty/uploadify/uploadify.css" type="text/css"/>
+  <div class="form-group clearfix">
+      <b>{field[label]}</b><br><br>
+      <!--<img id="{field[index]}_image" src="" height="80px" width="auto">-->
+      <input id="{field[index]}_value" name="{field[index]}" value="" type="hidden">
+     <input type="file" name="{field[index]}" id="{field[index]}"  multiple="true" />
+      <a href="javascript:$('#{field[index]}').uploadify('upload')">Upload Files</a>
+
+  </div>
+
+  <script type="text/javascript">
+      <?php $timestamp = time();?>
+      $(function() {
+          $('#{field[index]}').uploadify({
+              'formData'     : {
+                  'timestamp' : '<?php echo $timestamp;?>',
+                  'token'     : '<?php echo md5('unique_salt' . $timestamp);?>'
+              },
+              'swf'      : BASE_URL+'/3rdparty/uploadify/uploadify.swf',
+              'uploader' : BASE_URL+'/3rdparty/uploadify/uploadify.php',
+              'folder' : BASE_URL+'/3rdparty/uploads/videos',
+              'auto' : false,
+              'onUploadSuccess' : function(file, data, response) {
+                  var src = data;
+                  $('#{field[index]}_value').val(src);
+                  //$('#{field[index]}_image').attr('src', src);
+              }
+
+
+          });
+      });
+  </script>
+
+
+
+
+
+
+
+
+  {? elseif($field['type'] == 'select_fix'): ?}
     <div class="form-group clearfix">
         <label for="{field[index]}">{field[label]}</label>
         <select class="form-control" id="{field[index]}" name="{field[index]}" >
@@ -147,7 +222,7 @@
 
 
   <div class="form-group">
-  <button type="submit" class="btn btn-primary">Cập nhật</button>
+  <button <?php if($field['type'] == 'upload'){ echo "id='uploadfile'";} ?> type="submit" class="btn btn-primary">Cập nhật</button>
   <a href="{url /admin}_{controller.module}/index">Quay lại</a>
   </div>
 </form>

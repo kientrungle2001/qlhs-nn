@@ -56,6 +56,45 @@ $editFieldSettings = $controller->editFieldSettings;
         </select>
     </div>
 
+    {? elseif($field['type'] == 'upvideo'): ?}
+
+    <link rel="stylesheet" href="/3rdparty/uploadify/uploadify.css" type="text/css"/>
+
+    <div class="form-group clearfix">
+        <b>{field[label]}</b><br><br>
+        <!--<img id="{field[index]}_image" src="" height="80px" width="auto">-->
+
+        <input id="{field[index]}_value" name="{field[index]}" value="{row[url]}" type="hidden">
+        <input type="file" name="{field[index]}" id="{field[index]}"  multiple="true" />
+        <a href="javascript:$('#{field[index]}').uploadify('upload')">Upload Files</a>
+
+    </div>
+
+    <script type="text/javascript">
+        <?php $timestamp = time();?>
+        $(function() {
+            $('#{field[index]}').uploadify({
+                'formData'     : {
+                    'timestamp' : '<?php echo $timestamp;?>',
+                    'token'     : '<?php echo md5('unique_salt' . $timestamp);?>'
+                },
+                'swf'      : BASE_URL+'/3rdparty/uploadify/uploadify.swf',
+                'uploader' : BASE_URL+'/3rdparty/uploadify/uploadify.php',
+                'folder' : BASE_URL+'/3rdparty/uploads/videos',
+                'auto' : false,
+                'onUploadSuccess' : function(file, data, response) {
+                    var src = data;
+                    $('#{field[index]}_value').val(src);
+                    //$('#{field[index]}_image').attr('src', src);
+                }
+
+
+            });
+        });
+    </script>
+
+
+
     {? elseif($field['type'] == 'select_fix'): ?}
     <div class="form-group clearfix">
         <label for="{field[index]}">{field[label]}</label>
@@ -81,7 +120,7 @@ $editFieldSettings = $controller->editFieldSettings;
             {each $parents as $parent}
             <?php
             $selected = '';
-            if($parent['id'] == $row['id']) { $selected = 'selected'; }?>
+            if($parent['id'] == $row[$field['curentfield']]) { $selected = 'selected'; }?>
             <option value="{parent[id]}" {selected}><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $parent['lever']); ?>
             <?php echo $parent[$field['show_value']]; ?>
             </option>

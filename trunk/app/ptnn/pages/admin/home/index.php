@@ -16,7 +16,10 @@
 		<html.css src="<?php echo BASE_URL?>/3rdparty/bootstrap3/switch/dist/css/bootstrap3/bootstrap-switch.min.css" />
 		<html.js src="<?php echo BASE_URL?>/3rdparty/bootstrap3/switch/dist/js/bootstrap-switch.min.js" />
         <html.js src="<?php echo BASE_URL?>/3rdparty/tinymce/js/tinymce/tinymce.min.js" />
-	</home.head>
+        <script src="/3rdparty/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>
+
+
+    </home.head>
 	<home.menu layout="admin/home/menu" />
 		<home.left id="left" layout="admin/home/left" />
 		<home.right id="right" layout="admin/home/right" />
