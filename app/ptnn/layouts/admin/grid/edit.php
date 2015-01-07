@@ -179,7 +179,7 @@ $editFieldSettings = $controller->editFieldSettings;
 
 
   {? elseif($field['type'] == 'status'): ?}
-  <div class="form-group"><?php 
+  <div class="form-group clearfix"><?php 
 		$selected0 = ''; $selected1 = ''; 
 		$selectedField = 'selected'.$row['status'];
 		$$selectedField = 'selected';
