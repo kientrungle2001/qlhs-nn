@@ -10,7 +10,7 @@
 				<h4>Quản trị hệ thống luyện viết văn miêu tả và phát triển ngôn ngữ</h4>
 			</div>
 			<div class="col-xs-2">
-				<div class="margin-top-10"><span class="header-title">Xin chào : <?=pzk_session('adminUser')?> </span> <a href="/admin_login/logout"><b>(Thoát)</b></a></div>
+				<div class="margin-top-10"><span><b>Xin chào :</b> <?=pzk_session('adminUser')?> </span> <a href="/admin_login/logout"><b>(Thoát)</b></a></div>
 			</div>
 		</div>
 	</div>
