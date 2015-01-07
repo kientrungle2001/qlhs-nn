@@ -11,15 +11,22 @@
     <?php
     $categories = $data->getCateByParent();
     $video = _db()->useCB()->select('url')->from('video')->where(array('category_id', pzk_request()->getSegment(3)))->result_one();
-    if($video) {
-
+    if(1 || $video) {
+        //$name = explode('.', $video['url']);
+        //$name = $name[0];
+		$name = 'Wildlife';
+		$time = time();
+		$username = pzk_session('username');
+		if(!$username) $username = 'guest';
+		$token = md5($time.$username . 'securekey');
     ?>
     <div style="height: 500px; border: 1px solid red;" class="item slider">
-
+		<embed type="application/x-mplayer2" name="MediaPlayer" src="/home/video?id=1&token={token}&time={time}" width="600px" height="400px" />
         <video id="example_video_1" class="video-js removeurl vjs-default-skin"
-               controls preload="auto" width="100%" height="100%"
-              >
-            <source src="<?php echo $video['url']; ?>" type='video/mp4' />
+               controls preload="auto" width="100%" height="100%">
+            <source src="/3rdparty/uploads/videos/Wildlife.wmv" type='video/wmv' />
+            <source src="/3rdparty/uploads/videos/<?php echo $name.'.webm'; ?>" type='video/webm' />
+            <source src="/3rdparty/uploads/videos/<?php echo $name.'.ogv'; ?>" type='video/ogg' />
 
             <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
         </video>
