@@ -70,19 +70,18 @@ $editFieldSettings = $controller->editFieldSettings;
     <div class="form-group clearfix">
         <label for="{field[index]}">{field[label]}</label>
         <select class="form-control" id="{field[index]}" name="{field[index]}" >
-            <option value="0">----</option>
+            <option value="0">Danh mục gốc</option>
             <?php
 
             $parents = _db()->select('*')->from($field['table'])->result();
             $parents = buildArr($parents, 'parent', 0);
-
 
             ?>
 
             {each $parents as $parent}
             <?php
             $selected = '';
-            if($parent['id'] == $item['parent']) { $selected = 'selected'; }?>
+            if($parent['id'] == $row['id']) { $selected = 'selected'; }?>
             <option value="{parent[id]}" {selected}><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $parent['lever']); ?>
             <?php echo $parent[$field['show_value']]; ?>
             </option>
