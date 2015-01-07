@@ -84,7 +84,7 @@
 		if ($this->scriptable === true || $this->scriptable === 'true') {
 			
 			if(@$this->scriptTo) {
-				$element = pzk_store_element($this->scriptTo);
+				$element = pzk_element($this->scriptTo);
 				if($element) {
 					$element->append(pzk_parse('<html.js src="'.BASE_URL.'/js/'.implode('/', $this->fullNames).'.js" />'));
 				}
