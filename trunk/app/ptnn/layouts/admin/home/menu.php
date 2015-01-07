@@ -24,24 +24,6 @@
     $items = buildTree($allmenu);
     showAdminMenu($items);
     ?>
-        <!--
-        <li><a href="/admin_questions/index">Câu hỏi</a></li>
-		<li><a href="/admin_category/index">Danh mục</a></li>
-		<li><a href="/admin_questions/index">Câu hỏi</a></li>
-        <li><a href="/admin_questiontype/index">Dạng câu hỏi</a></li>
-		    <li><a href="/admin_mob/index">Add mob</a></li>
-            <li><a href="/admin_adminlevel/index">Add level</a></li>
-            <li><a href="/admin_menu/index">Add menu</a></li>
-            <li><a href="/admin_levelaction/index">Add level action</a></li>
-		<li><a href="/admin_usertype/index">Nhóm người dùng</a></li>
-		<li><a href="/admin_usertypecategorypermission/index">Hạn ngạch</a></li>
-		<li><a href="/admin_game/index">Trò chơi</a></li>
-		<li><a href="/admin_news/index">Tin Tức</a></li>
-		<li><a href="/admin_banner/index">Quản lý banner</a></li>
-		<li><a href="/admin_upload/index">upload</a></li>
-		<li><a href="/admin_examination/index" style="border-right: none">Đề thi</a></li>
-		-->
-
 
     <style>
         #menu {
@@ -76,7 +58,7 @@
             -moz-border-radius: 0 0 10px 10px;
             -webkit-border-radius: 0 0 10px 10px;
             left: -999em;
-            margin: 50px 0 0;
+            margin: 35px 0 0;
             position: absolute;
             width: 160px;
             z-index: 9999;
@@ -92,12 +74,12 @@
 
         #menu ul li a:hover,
         #menu ul li:hover > a {
-            background: #DFF807;
+            background: #428BCA;
         }
 
         #menu li ul a:hover,
         #menu ul li li:hover > a  {
-            background: #DFF807;
+            background: #428BCA;
         }
 
 
