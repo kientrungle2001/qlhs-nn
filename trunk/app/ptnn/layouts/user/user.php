@@ -47,7 +47,7 @@
 <ul>
   <li> <a href="/user/profileuser"><?php echo "Xin chào: ". $data->getName();     ?></a>
   <ul>
-    <li><a href="#">Tài khoản hiện có :<?php echo $data->getAmount(); ?>vnđ</a></li>
+    <li><a href="#">Tài khoản hiện có :<?php if( $data->getAmount()==0) echo 0; else echo $data->getAmount(); ?>vnđ</a></li>
     <li><a href="/user/editinfor">Sửa thông tin cá nhân</a></li>
     <li><a href="/user/payment">Nạp tiền</a></li>
      <li><a href="/user/logout">Thoát</a></li>
