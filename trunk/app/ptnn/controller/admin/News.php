@@ -1,8 +1,8 @@
 ﻿<?php
 class PzkAdminNewsController extends PzkGridAdminController {
 	public $table = 'news';
-	public $addFields = 'title, parent, content,brief,alias,begindate,enddate';
-	public $editFields = 'title, parent, content,brief,alias,begindate,enddate';
+	public $addFields = 'title, parent,titlenew, content,brief,alias,begindate,enddate';
+	public $editFields = 'title, parent, titlenew,content,brief,alias,begindate,enddate';
 	public $sortFields = array(
 		'id asc' => 'ID tăng',
 		'id desc' => 'ID giảm',

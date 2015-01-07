@@ -25,6 +25,10 @@ class PzkNewsController extends PzkController {
 			$left->append($page);
 			$this->page->display();
 		}
+	public function newsPostAction()
+	{
+		_db()->useCB()->select('*')->from('news')->result();
+	}
 	public function oldnewsAction()
 		{
 		$this->layout();

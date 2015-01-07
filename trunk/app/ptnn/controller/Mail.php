@@ -20,8 +20,9 @@ class PzkMailController extends PzkController {
 		{
 			$mailtemplate = pzk_parse(pzk_app()->getPageUri('mail/mailtemplate/register'));
 			$mail = pzk_mailer();
+			$mail->CharSet = "UTF-8";
 			$mail->AddAddress($email);
-			$mail->Subject = 'Cam on ban da dang ky nhan tin qua email';
+			$mail->Subject = 'Cảm ơn bạn đã đăng ký nhận tin qua Email';
 			$mail->Body    = $mailtemplate->getContent();
 			//$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
