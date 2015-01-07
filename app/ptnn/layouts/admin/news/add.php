@@ -8,7 +8,7 @@ $row = pzk_validator()->getEditingData();
   <input type="hidden" name="id" value="" />
   <div class="form-group">
     <label for="title">Tên tin tức</label>
-    <input type="text" class="form-control" id="title" name="title" placeholder="Tên tin tức" value="{row[title]}">
+    <input type="text" class="form-control" id="titlenew" name="titlenew" placeholder="Tên tin tức" value="{row[titlenew]}">
   </div>
   <div class="form-group">
     <label for="brief">Miêu tả</label>

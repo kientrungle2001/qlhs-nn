@@ -166,8 +166,6 @@ class PzkAdminNewletterController extends PzkGridAdminController {
 	}
 	public function sendMail($email="",$title="",$content="") 
 		{
-			
-			
 			$mail = pzk_mailer();
 			$mail->CharSet = "UTF-8";
 			$mail->AddAddress($email);
@@ -196,14 +194,7 @@ class PzkAdminNewletterController extends PzkGridAdminController {
 	}
 	public function sendAction()
 		{
-						$this->layout();
-						
-						
-						
-						
-						
-						
-						
+						$this->layout();			
 		}
 	
 	
