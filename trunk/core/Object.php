@@ -54,13 +54,25 @@
 	 */
 	public function css() {
 		if ($this->cssLink != false) {
-			if($page = pzk_page())
-				$page->addObjCss($this->cssLink);
+			if($this->scriptTo) {
+				$elem = pzk_element($this->scriptTo);
+				$elem->append('<html.css src="'.BASE_REQUEST.'/default/skin/'.pzk_app()->getName().'/css/'.$this->cssLink.'.css" />');
+			} else {
+				if($page = pzk_page())
+					$page->addObjCss($this->cssLink);
+			}
+			
 		}
 		if ($this->cssExternalLink != false) {
-			if($page = pzk_page()) {
-				$page->addExternalCss($this->cssExternalLink);
+			if($this->scriptTo) {
+				$elem = pzk_element($this->scriptTo);
+				$elem->append('<html.css src="'.$this->cssExternalLink.'" />');
+			} else {
+				if($page = pzk_page()) {
+					$page->addExternalCss($this->cssExternalLink);
+				}	
 			}
+			
 		}
 
 	}
