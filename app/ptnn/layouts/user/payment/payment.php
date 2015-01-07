@@ -1,5 +1,3 @@
-<script language="javascript" src="../3rdparty/Validate/lib/jquery.js"></script>
-<script src="../3rdparty/Validate/dist/jquery.validate.js"></script>
 
   <link rel="stylesheet" media="screen" href="screen.css">
   <style>
@@ -42,7 +40,7 @@
     require(BASE_DIR.'/3rdparty/nganluong/config.php');
     $inputs = array(
     'receiver'    => RECEIVER,
-    'order_code'  => 'username'.pzk_session('username').'DH-'.date('His-dmY'),
+    'order_code'  => 'username : '.pzk_session('username').'DH : '.date('His-dmY'),
     'return_url'  => 'http://ptnn.vn/user/payment',
     'cancel_url'  => 'http://ptnn.vn/user/payment',
     'language'    => 'vn'
@@ -55,6 +53,7 @@
     {
       if ($result['result_code'] == '00') 
       {
+        $token_key = $result['token'];
         $link_checkout = $result['link_checkout'];
         $link_checkout = str_replace('micro_checkout.php?token=', 'index.php?portal=checkout&page=micro_checkout&token_code=', $link_checkout);
         $link_checkout .='&payment_option=nganluong';
@@ -80,17 +79,45 @@
      
       <label for="">Hình thức nạp tiền</label>
       <br>
-      <input type="radio" name="payment_option" class="payment_option" value="nganluong">Nạp tiền qua cổng thanh toán Ngân Lượng<br>
+      <input type="radio" id="payment_nganluong" name="payment_option" class="payment_option" value="nganluong" checked="checked">Nạp tiền qua cổng thanh toán Ngân Lượng<br>
      
-      <input type="radio" name="payment_option" class="payment_option" value="theocaonextnobels">Nạp tiền dùng thẻ của Nextnobels<br>
+      <input type="radio" id="payment_nextnobels" name="payment_option" class="payment_option" value="theocaonextnobels">Nạp tiền dùng thẻ của Nextnobels<br>
     
     <label for="">&nbsp;</label>
+
     
-      <button type="submit" name="btn_payment" id="btn_payment" >Thanh toán</button>
-   <script language="javascript" src="/3rdparty/nganluong/include/nganluong.apps.mcflow.js"></script>
+      <button type="button" name="btt_nganluong" id="btt_nganluong" >Nạp tiền</button>
+      <button type="button" name="btn_payment" id="btn_payment" >Nạp tiền</button>
+<script language="javascript" src="/3rdparty/nganluong/include/nganluong.apps.mcflow.js"></script>
 <script language="javascript">
-  var mc_flow = new NGANLUONG.apps.MCFlow({trigger:'btn_payment',url:'<?php echo @$link_checkout;?>'});
-  dump(mc_flow);
+
+//var mc_flow = new NGANLUONG.apps.MCFlow({trigger:'btn_payment',url:'<?php echo @$link_checkout;?>'});
+ var mc_flow = new NGANLUONG.apps.MCFlow({trigger:'btt_nganluong',url:'<?php echo @$link_checkout;?>'});
+    $('#btn_payment').hide();
+    $('input:radio[name=payment_option]').click(function()
+    {
+       //alert('hihi');
+      //var mc_flow = new NGANLUONG.apps.MCFlow({trigger:'btn_payment',url:'<?php echo @$link_checkout;?>'});
+      if($('input:radio[name=payment_option]:checked').val() != "nganluong")
+      {
+
+        $('#btn_payment').show();
+         $('#btt_nganluong').hide();
+       
+      }
+      else
+      {
+         $('#btn_payment').hide();
+         $('#btt_nganluong').show();
+        
+      }
+    }); 
+    $('#btt_nganluong').click(function(){
+      // gửi lên hệ thống
+      $.ajax({url:'http://ptnn.vn/user/PostPaymentNL',data:{username: '<?php echo pzk_session('username'); ?>', code: '<?php echo $token_key;  ?>'}, success:function(resp){alert(resp);}});
+      
+
+    });
   
 </script>
   </form>

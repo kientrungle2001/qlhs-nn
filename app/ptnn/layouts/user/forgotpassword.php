@@ -73,7 +73,7 @@
       <label for="captcha">Mã bảo mật:</label>
       
       <input type="captcha" name="captcha" id="captcha" value="">
-      <img src="http://ptnn.vn/3rdparty/captcha/random_image.php" />
+      <img src="<?php echo "http://".$_SERVER["SERVER_NAME"]."/3rdparty/captcha/random_image.php";  ?>" />
       
       <br>
     <label for="">&nbsp;</label>

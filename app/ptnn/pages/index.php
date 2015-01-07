@@ -15,7 +15,7 @@
 	<core.db.list table="categories" layout="home/menu"/>
 		<home.left id="left" layout="home/left"/>
 		<home.right id="right" layout="home/right">
-			<mail.mail  layout="mail/mail" />
+			
 		</home.right>
 	<home.footer layout="home/footer"/>
 </page>

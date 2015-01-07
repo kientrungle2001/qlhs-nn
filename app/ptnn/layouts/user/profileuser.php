@@ -80,7 +80,7 @@ $items=_db()->useCB()->select('count(*) as invi')->from('invitation')->where(arr
           </tr>
           <tr>
             <td >
-              <a href="/user/editavata">Thay đổi avatar</a>
+              <a href="/user/editavatar">Thay đổi avatar</a>
             </td>
           </tr>
           <tr>

@@ -152,7 +152,8 @@ class PzkUserController extends PzkController {
 			$wallets->setData($rowWallets);
 			$wallets->save();
 			pzk_session('login', true);
-			pzk_session('username',$items->getUsername());
+			//pzk_session('username',$items->getUsername());
+			pzk_session($items->getUsername(),true);
 			pzk_session('userId',$items->getId());
 			pzk_session('name',$items->getName());
 			$this->render('user/registersuccess');
@@ -189,7 +190,7 @@ class PzkUserController extends PzkController {
 	// Xử lý đăng nhập
 	public function loginPostAction()
 	{
-		if($_SERVER['HTTP_REFERER']!="http://ptnn.vn/User/loginPost")
+		if($_SERVER['HTTP_REFERER']!="http://nextnobels.vn/User/loginPost")
 		{
 			pzk_session('referer_url',$_SERVER['HTTP_REFERER']);
 		}
@@ -258,8 +259,10 @@ class PzkUserController extends PzkController {
 	// Đăng xuất 
 	public function logoutAction(){
 		pzk_session('login',false);
+
 		pzk_session('username',false);
 		pzk_session('userId',false);
+
 		header('location:/home');
 	}
 	
@@ -566,18 +569,22 @@ class PzkUserController extends PzkController {
 		$this->page->display();
 			
 	}
-	public function editavataAction()
+	public function editavatarAction()
 	{
-		$this->render('user/editavata');		
-	
+		//$this->render('user/editavatar');		
+		$message="";
+		$editavatar = pzk_parse(pzk_app()->getPageUri('user/editavatar'));
+		$editavatar->setMessage($message);
+		$this->render($editavatar);	
+		
 	}
 
-	public function editavataPostAction()
+	public function editavatarPostAction()
 	{
 		$error="";
-		$target_dir = "C:/wamp/www/qlhs/3rdparty/uploads/images/";
+		$target_dir =BASE_DIR."/uploads/avatar/";
 		$basename= basename($_FILES["fileToUpload"]["name"]);
-		$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+		$target_file = $target_dir .$basename;
 		$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 		$size =$_FILES["fileToUpload"]["size"];
 		$check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
@@ -587,12 +594,9 @@ class PzkUserController extends PzkController {
 			{
 				if($imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg"|| $imageFileType == "gif"|| $imageFileType == "JPG" || $imageFileType == "PNG" || $imageFileType == "JPEG" || $imageFileType == "GIF")
 				{
-					// Kiểm tra nếu tên file ảnh đã có trong thư mục thì đổi tên
-					if(file_exists($target_file))
-					{
-						$add=md5(rand(0,200000));
-   						$target_file=$target_dir .$add.basename($_FILES["fileToUpload"]["name"]);
-					}
+					// Đổi tên file ảnh trùng tên username
+					$basename=pzk_session('username').'.'.$imageFileType;
+					$target_file=$target_dir .$basename;
 					if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file))
 					{
 						// Upload thành công
@@ -601,13 +605,15 @@ class PzkUserController extends PzkController {
 						$userId= pzk_session('userId');
 						$editdate=date("Y-m-d H:i:s");
 						//$avata=$target_file;
-						$avata='http://'.$_SERVER['SERVER_NAME'].'/3rdparty/uploads/images/'.$basename;
+						$avatar=BASE_URL.'/uploads/avatar/'.$basename;
 						$user=_db()->getEntity('user.user');
 						$user->loadWhere(array('username',$username));
-						$user->update(array('avata'=>$avata,'modified'=>$editdate,'modifiedId'=>$userId));
-						//_db()->useCB()->update('user')->set(array('avata'=>$avata,'modified'=>$editdate,'modifiedId'=>$userId))->where(array('username',$username))->result();
-						$this->render('user/editavata');		
-					}
+						$user->update(array('avatar'=>$avatar,'modified'=>$editdate,'modifiedId'=>$userId));
+						$message="Bạn đã thay đổi avatar thành công";
+						$editavatar = pzk_parse(pzk_app()->getPageUri('user/editavatar'));
+						$editavatar->setMessage($message);
+						$this->render($editavatar);		
+					}else $error="Upload không thành công";
 				}
 				else
 				{
@@ -622,11 +628,153 @@ class PzkUserController extends PzkController {
 		else
 		{
 			$error="Bạn chỉ được phép upload file ảnh JPG, JPEG, PNG, GIF";
+			// hiển thị 
+			pzk_notifier_add_message($error, 'danger');
+			$editavatar = pzk_parse(pzk_app()->getPageUri('user/editavatar'));
+			$editavatar->setMessage("");
+			$this->render($editavatar);	
 		}
-		// hiển thị thành công
-		pzk_notifier_add_message($error, 'danger');
-		$this->render('user/editavata');
+		
 	}
+	public function SearchAction()
+	{
+		$this->layout();		
+		$this->append('user/profileuser', 'right');
+		$this->append('user/search', 'left');
+		$this->page->display();
+	
+	}
+	public function ResultsearchAction()
+	{
+		$this->layout();		
+		$this->append('user/resultsearch', 'left');
+		$this->page->display();
+	
+	}
+	public function searchPostAction()
+	{
+		$request=pzk_element('request');
+		$searchfriend=$request->get('searchfriend');
+		pzk_session('searchfriend', $searchfriend);
+
+		$this->redirect('searchResult');
+	}
+	public function searchResultAction() {
+		$searchfriend = pzk_session('searchfriend');
+		//$items_name=_db()->useCB()->select('user.*')->from('user')->where(array('or',array('like','email',$searchfriend),array('like','name',$searchfriend),array('like','username',$searchfriend)))->result();
+		$this->layout();
+		$pageSearch = pzk_parse(pzk_app()->getPageUri('user/resultsearch'));
+		$pageSearch->setTxtsearch($searchfriend);	
+		$this->append('user/profileuser', 'right');
+		$this->append('user/search', 'left');
+		$this->append($pageSearch, 'left');
+		$this->page->display();
+	}
+	public function invitationAction()
+	{
+		$this->layout();		
+		$this->append('user/profileuser', 'right');
+		$this->append('user/invitation', 'left');
+		$this->page->display();
+	
+	}
+
+	public function invitationPostAction()
+	{
+		$request=pzk_element('request');
+		$txtinvitation=$request->get('invitation');
+		$userIdInvitation=$request->get('userid');
+		$user=_db()->getEntity('user.user');
+		$user->loadWhere(array('id',$userIdInvitation));
+		$usernameInvitation=$user->getUsername();
+		$invitation=_db()->getEntity('user.invitation');
+		// kiểm tra nếu đã gửi lời mời kết bạn thì không insert được nữa
+		$invitation->loadWhere(array('and',array('username',pzk_session('username')),array('userinvitation',$usernameInvitation)));
+		
+		if($invitation->getId())
+		{
+			//$showinvitation = pzk_parse(pzk_app()->getPageUri('user/showinvitation'));
+			$message="false";
+			//$showinvitation->setMessage($message);
+		}
+		else
+		{
+			$rowInvitation=array('username'=>pzk_session('username'),'userinvitation'=>$usernameInvitation,'invitation'=>$txtinvitation);
+			$invitation->setData($rowInvitation);
+			$invitation->save();
+			$message="ok";
+		}	
+
+		$this->layout();
+		$showinvitation = pzk_parse(pzk_app()->getPageUri('user/showinvitation'));
+		$showinvitation->setUsername($usernameInvitation);
+		$showinvitation->setMessage($message);
+		$this->append('user/profileuser', 'right');
+		$this->append($showinvitation, 'left');
+		$this->page->display();
+	
+	}
+	public function listinvitationAction()
+	{
+		$this->layout();		
+		$this->append('user/profileuser', 'right');
+		$this->append('user/listinvitation', 'left');
+		$this->page->display();
+	
+	}
+	public function friendlistAction()
+	{
+		$this->layout();		
+		$this->append('user/profileuser', 'right');
+		$this->append('user/friendlist', 'left');
+		$this->page->display();
+	
+	}
+
+	public function denyAction()
+	{
+		$request=pzk_element('request');
+		$usersendinvi=$request->get('userinvitation');
+		$invitation=_db()->getEntity('user.invitation');
+		$invitation->loadWhere(array('and',array('userinvitation',pzk_session('username')),array('username',$usersendinvi)));
+		$invitation->delete();
+		$this->redirect('listinvitation');
+	
+	}
+
+	public function agreeAction()
+	{
+		$request=pzk_element('request');
+		$usersendinvi=$request->get('userinvitation');
+		$invitation=_db()->getEntity('user.invitation');
+		$invitation->loadWhere(array('and',array('userinvitation',pzk_session('username')),array('username',$usersendinvi)));
+		$invitation->delete();
+		$rowfriend=array('username'=>pzk_session('username'),'userfriend'=>$usersendinvi);
+		$friend=_db()->getEntity('user.friend');
+		$friend->setData($rowfriend);
+		$friend->save();
+		$this->redirect('listinvitation');
+	}
+	public function denyfriendAction()
+	{
+		$request=pzk_element('request');
+		$userfriend=$request->get('userfriend');
+		$friend=_db()->getEntity('user.friend');
+		$friend->loadWhere(array('userfriend',$userfriend));
+		$friend->delete();
+		$this->redirect('friendlist');
+	
+	}
+	public function profilefriendAction()
+	{
+		$this->layout();		
+		$this->append('user/profileuser', 'right');
+		$this->append('user/profilefriend', 'left');
+		$this->page->display();
+	
+	}
+
+
 
 	public function paymentAction()
 	{
@@ -907,15 +1055,41 @@ class PzkUserController extends PzkController {
 			}
 		} else echo $arr_result;
 	}
+	public function PostPaymentNLAction()
+	{
+		$request=pzk_element('request');
+		$request->get('username');
+		$request->get('code');
+		echo $request->get('code');
+	}
 	public function confirmpaymentAction()
 	{
-
+		require(BASE_DIR.'/3rdparty/nganluong/include/nganluong.microcheckout.class.php');
+    	require(BASE_DIR.'/3rdparty/nganluong/include/lib/nusoap.php');
+   	 	require(BASE_DIR.'/3rdparty/nganluong/config.php');
+		// Nạp tiền bằng popup Ngân Lượng
 		$request=pzk_element('request');
-		// Thanh toán bằng tài khoản Ngân Lượng
-		$username=$request->get('order_code');
-		$price=$request->get('price');
-		$transaction_info=$request->get('transaction_info');
-		$datetime= date("Y-m-d H:i:s");
+		$token=$request->get('token');
+
+		$obj = new NL_MicroCheckout(MERCHANT_ID, MERCHANT_PASS, URL_WS);
+	
+		if ($obj->checkReturnUrlAuto()) {
+			$inputs = array(
+							'token'	=> $obj->getTokenCode(),//$token_code,
+		);
+		$result = $obj->getExpressCheckout($inputs);
+		if ($result != false) {
+			if ($result['result_code'] != '00') {
+				die('Mã lỗi '.$result['result_code'].' ('.$result['result_description'].') ');
+			}
+		} else {
+			die('Lỗi kết nối tới cổng thanh toán Ngân Lượng');
+		}
+	} else {
+		die('Tham số truyền không đúng');
+	}
+		//$datetime= date("Y-m-d H:i:s");
+
 		// Kiểm tra thông tin trả về từ trang thanh toán
 		
 			//update database
@@ -955,22 +1129,7 @@ class PzkUserController extends PzkController {
 			
 	}
 
-    public function lessonAction() {
+ 
 
-        $this->initPage();
-        $this->append('user/lesson', 'left');
-
-        $this->display();
-
-    }
-
-    public function detailLessonAction() {
-
-        $this->initPage();
-        $this->append('user/detailLesson', 'left');
-
-        $this->display();
-
-    }
 
 }

@@ -235,7 +235,7 @@
                             </div>        
                             <div style="width:100%;float:left;height:auto;">                                       
                                     <label style="width:150px;" for="captcha">Nhập mã bảo mật:</label>
-                                    <img src="http://ptnn.vn/3rdparty/captcha/random_image.php" /> 
+                                    <img src="<?php echo "http://".$_SERVER["SERVER_NAME"]."/3rdparty/captcha/random_image.php";  ?> " /> 
                                     <input  type="captcha" name="captcha" id="captcha" value="">
                                         
                                     <p align="center"> <button id="registerButton" type="submit">Đăng Ký</button> <p>
