@@ -75,7 +75,7 @@ class PzkAdminMenuController extends PzkGridAdminController {
             'label' => 'Menu cha',
             'table' => 'admin_menu',
             'show_value' => 'name',
-            'curentfield' =>'id'
+            'curentfield' =>'parent'
         ),
         array(
             'index' => 'admin_controller',
