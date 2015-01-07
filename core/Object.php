@@ -56,7 +56,7 @@
 		if ($this->cssLink != false) {
 			if($this->scriptTo) {
 				$elem = pzk_element($this->scriptTo);
-				$elem->append('<html.css src="'.BASE_REQUEST.'/default/skin/'.pzk_app()->getName().'/css/'.$this->cssLink.'.css" />');
+				$elem->append('<html.css src="'.BASE_REQUEST.'/default/skin/'.pzk_app()->name.'/css/'.$this->cssLink.'.css" />');
 			} else {
 				if($page = pzk_page())
 					$page->addObjCss($this->cssLink);
