@@ -27,16 +27,6 @@ class PzkAdminNewsController extends PzkGridAdminController {
             'label' => 'Tên tin tức'
         ),
 
-        array(
-            'index' => 'brief',
-            'type' => 'text',
-            'label' => 'Mô tả'
-        ),
-		array(
-            'index' => 'content',
-            'type' => 'text',
-            'label' => 'Nội dung'
-        ),
 		array(
             'index' => 'alias',
             'type' => 'text',

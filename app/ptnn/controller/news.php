@@ -1,51 +1,19 @@
 <?php
 class PzkNewsController extends PzkController {
+	public $masterPage='index';
+	public $masterPosition='left';
 	
 	
-	public function layout()
-		{
-			$this->page = pzk_parse($this->getApp()->getPageUri('index'));
-		}
 	public function shownewsAction()
 		{	
-		$this->layout();
-		$pageUri = $this->getApp()->getPageUri('news/shownews');
-		$page = PzkParser::parse($pageUri);	
-		$left = pzk_element('left');
-		$left->append($page);
-		$this->page->display();
+		$this->initPage()->append('news/shownews')->display();
 		}
 	
 	public function newsAction()
 		{
-			$this->layout();
-			$pageUri = $this->getApp()->getPageUri('/news/news');
-			$page = PzkParser::parse($pageUri); 
-			$left = pzk_element('left');
-			$left->append($page);
-			$this->page->display();
+			$this->initPage()->append('news/news')->display();
+			
 		}
-	public function newsPostAction()
-	{
-		_db()->useCB()->select('*')->from('news')->result();
-	}
-	public function oldnewsAction()
-		{
-		$this->layout();
-		$pageUri = $this->getApp()->getPageUri('news/oldnews');
-		$page = PzkParser::parse($pageUri);	
-		$left = pzk_element('left');
-		$left->append($page);
-		$this->page->display();
-		}
-	public function hotnewsAction()
-		{
-		$this->layout();
-		$pageUri = $this->getApp()->getPageUri('news/hotnews');
-		$page = PzkParser::parse($pageUri);	
-		$left = pzk_element('left');
-		$left->append($page);
-		$this->page->display();
-		}
+
 }
 ?>
