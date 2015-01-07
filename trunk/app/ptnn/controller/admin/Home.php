@@ -1,5 +1,16 @@
 <?php
 class PzkAdminHomeController extends PzkController {
+	/*nguyenson*/
+	function __construct(){
+		
+		$admin = pzk_session('adminUser') ;
+		
+		if(!$admin){
+			
+			 $this->redirect('admin_login/index');
+		}
+	}
+	
 	public function indexAction() {
 		$pageUri = pzk_app()->getPageUri('admin/home/index');
 		$page = pzk_parse($pageUri);
