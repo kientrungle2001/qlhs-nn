@@ -1,2 +1,2 @@
-	<news.shownews layout="news/shownews" />
+	<news.shownews layout="news/shownews"  />
 	

@@ -1,3 +1,3 @@
 
-	<news.news  layout="news/news" />
+	<news.news  layout="news/news" cssLink="news" />
 	
