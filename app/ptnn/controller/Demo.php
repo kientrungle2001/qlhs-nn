@@ -96,6 +96,8 @@ class PzkDemoController extends PzkController {
 		var_dump($items);
 		}
 
+
+
 		// delete
 		if(0) {
 		_db()->delete()->from('news')->where('id=4')->result();
