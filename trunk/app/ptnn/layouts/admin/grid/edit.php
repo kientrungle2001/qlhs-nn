@@ -37,6 +37,7 @@ $editFieldSettings = $controller->editFieldSettings;
     <div class="form-group clearfix">
         <label for="{field[index]}">{field[label]}</label>
         <select class="form-control" id="{field[index]}" name="{field[index]}" >
+            <option value="">Chọn controller</option>
             <?php
             $arrcontroller = glob(BASE_DIR.'/app/ptnn/controller/admin/*.php');
 
