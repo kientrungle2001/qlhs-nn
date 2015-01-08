@@ -5,7 +5,6 @@
 	$nlists=$data->getNewsList($id);
 	$lists = $nlists[0];
 ?>
- 
 <p><a href="/news/news">Tin tức</a>
 <?php if ($nlists[2]){ ?> 
 >> <a href="/news/shownews?id=<?php echo $nlists[2]['id'];?>">
