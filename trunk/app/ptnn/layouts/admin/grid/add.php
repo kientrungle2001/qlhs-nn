@@ -136,12 +136,6 @@
   </script>
 
 
-
-
-
-
-
-
   {? elseif($field['type'] == 'select_fix'): ?}
     <div class="form-group clearfix">
         <label for="{field[index]}">{field[label]}</label>

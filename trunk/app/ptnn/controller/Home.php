@@ -31,22 +31,56 @@
 		}
 		
 		public function videoAction() {
-			$username = pzk_session('username');
-			if (pzk_request('token') == md5( pzk_request('time') . $username . 'securekey' ) ) {
-				$file = BASE_DIR . '/3rdparty/uploads/videos/Wildlife.wmv';
-				header('Content-Description: File Transfer');
-				header('Content-Type: application/octet-stream');
-				header('Content-Disposition: attachment; filename='.basename($file));
-				header('Content-Transfer-Encoding: binary');
-				header('Expires: 0');
-				header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-				header('Pragma: public');
-				header('Content-Length: ' . filesize($file));
-				ob_clean();
-				flush();
-				readfile($file);
-				exit;
-			}
+
+
+      $file = BASE_DIR.'/3rdparty/uploads/videos/test.txt';
+            $file2 = BASE_DIR.'/3rdparty/uploads/videos/test_encrypted.txt';
+            $handle = fopen($file, "rb");
+            $initial_contents = fread($handle, filesize($file));
+            fclose($handle);
+      if($initial_contents){
+              $td = mcrypt_module_open('tripledes', '', 'ecb', '');
+              $iv = mcrypt_create_iv (mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
+              mcrypt_generic_init($td, '123456', $iv);
+              $encrypted_data = mcrypt_generic($td, $initial_contents);
+
+              $encrypted_file = @fopen($file2,'wb');
+              $ok_encrypt = @fwrite($encrypted_file,$encrypted_data);
+
+
+              @fclose($encrypted_file);
+
+                }
 		}
-	}
+        public function deVideoAction() {
+
+            $file = BASE_DIR.'/3rdparty/uploads/videos/test_encrypted.txt';
+            $file2 = BASE_DIR.'/3rdparty/uploads/videos/test_decrypted.txt';
+
+            $handle = fopen($file, "rb");
+            $initial_contents = fread($handle, filesize($file));
+            fclose($handle);
+
+            if($initial_contents){
+
+            $td = mcrypt_module_open('tripledes', '', 'ecb', '');
+            $iv = mcrypt_create_iv (mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
+
+            mcrypt_generic_init($td, '123456', $iv);
+
+            $encrypted_data = $initial_contents;
+
+                $p_t = mdecrypt_generic($td, $encrypted_data);
+
+                $newfile = @fopen($file2,'wb');
+                $ok_decrypt = @fwrite($newfile,$p_t);
+
+                @fclose($newfile);
+                mcrypt_generic_deinit($td);
+                mcrypt_module_close($td);
+
+        }
+    }
+
+    }
  ?>
