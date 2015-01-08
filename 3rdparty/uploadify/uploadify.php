@@ -21,9 +21,29 @@ if (!empty($_FILES) && $_POST['token'] == $verifyToken) {
 	// Validate the file type
 	$fileTypes = array('jpg','jpeg','gif','png', 'mp4'); // File extensions
 	$fileParts = pathinfo($_FILES['Filedata']['name']);
-	
+
 	if (in_array($fileParts['extension'],$fileTypes)) {
+
 		move_uploaded_file($tempFile,$targetFile);
+
+        $file = $targetFile;
+        $handle = fopen($file, "rb");
+        $initial_contents = fread($handle, filesize($file));
+        fclose($handle);
+        if($initial_contents){
+            $td = mcrypt_module_open('tripledes', '', 'ecb', '');
+            $iv = mcrypt_create_iv (mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
+            mcrypt_generic_init($td, '123456', $iv);
+            $encrypted_data = mcrypt_generic($td, $initial_contents);
+
+            $encrypted_file = @fopen($file,'wb');
+            $ok_encrypt = @fwrite($encrypted_file,$encrypted_data);
+
+
+            @fclose($encrypted_file);
+
+        }
+
 
         echo str_replace($_SERVER['DOCUMENT_ROOT'],'',$targetFile);
 	} //else {
