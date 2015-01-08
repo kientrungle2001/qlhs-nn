@@ -1,20 +1,14 @@
 ﻿<?php
 class PzkMailController extends PzkController {
+	public $masterPage='index';
+	public $masterPosition='right';
 	
 	
-	public function layout()
-		{
-			$this->page = pzk_parse($this->getApp()->getPageUri('index'));
-		}
 	
 	 public function mailAction()
 		{
-			$this->layout();
-			$pageUri = $this->getApp()->getPageUri('/mail/mail');
-			$page = PzkParser::parse($pageUri); 
-			$left = pzk_element('right');
-			$left->append($page);
-			$this->page->display();
+			$this->initPage()->append('/mail/mail')->display();
+			
 		}
 	public function sendMail($email="") 
 		{
@@ -40,19 +34,15 @@ class PzkMailController extends PzkController {
 				if($testEmail)
 					{
 						$error="Email đã tồn tại trên hệ thống";
-						$this->layout();
-						 pzk_notifier_add_message($error, 'danger');
-						$left = pzk_element('left');
-						$this->page->display();
+						pzk_notifier_add_message($error, 'danger');
+						$this->initPage()->display();
 						
 					} else
 					if($testEmail2)
 					{
 						$error="Email đã tồn tại trên hệ thống"."<br>"."Vui lòng đăng nhập để đăng ký";
-						$this->layout();
 						pzk_notifier_add_message($error, 'danger');
-						$left = pzk_element('left');
-						$this->page->display();
+						$this->initPage()->display();
 						
 					}
 			
@@ -65,47 +55,28 @@ class PzkMailController extends PzkController {
 						$entity->setData($addLesson);
 						$entity->save();
 						$this->sendMail($email);
-						$this->layout();
-						$pageUri = $this->getApp()->getPageUri('mail/showregister');
-						$page = PzkParser::parse($pageUri);	
-						$left = pzk_element('left');
-						$left->append($page);
-						$this->page->display();
-					
+						$this->initPage()->append('mail/showregister')->display();
 			}
 	}
 	public function showregisterAction()
 		{	
-		$this->layout();
-		$pageUri = $this->getApp()->getPageUri('mail/showregister');
-		$page = PzkParser::parse($pageUri);	
-		$left = pzk_element('left');
-		$left->append($page);
-		$this->page->display();
+		$this->initPage()->append('mail/showregister')->display();
+		
+		
 		}
 	public function registerAction()
 	{
-		$this->layout();
-		$pageUri = $this->getApp()->getPageUri('mail/register');
-		$page = PzkParser::parse($pageUri);	
-		$left = pzk_element('left');
-		$left->append($page);
-		$this->page->display();
+		$this->initPage()->append('mail/register')->display();
+		
+		
 	}
 	public function unregAction()
 	{
-		$this->layout();
-		$pageUri = $this->getApp()->getPageUri('mail/unreg');
-		$page = PzkParser::parse($pageUri);	
-		$left = pzk_element('left');
-		$left->append($page);
-		$this->page->display();
+		$this->initPage()->append('mail/unreg')->display();
 	}
 	public function unregPostAction()
 	{
-		$email=pzk_request('email')
-		$del=_db()->useCB()->delete()->from('mail')
-            ->where('mail'=$email)->result();
+		
 	}
 	
 	
