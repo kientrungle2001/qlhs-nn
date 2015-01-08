@@ -35,6 +35,16 @@
 	 */
 	public $cssExternalLink = false;
 	
+	/**
+	 * Js lien quan den object, js nay se duoc cache lai
+	 */
+	public $jsLink = false;
+
+	/**
+	 * Js nay khong can cache lai
+	 */
+	public $jsExternalLink = false;
+	
 	public static $selectors = array();
 
 	/**
@@ -94,6 +104,28 @@
 					$page->addObjJs($this->tagName);
 				}
 			}
+		}
+		
+		if ($this->jsLink != false) {
+			if($this->scriptTo) {
+				$elem = pzk_element($this->scriptTo);
+				$elem->append(pzk_parse('<html.js src="'.BASE_REQUEST.'/default/skin/'.pzk_app()->name.'/js/'.$this->jsLink.'.js" />'));
+			} else {
+				if($page = pzk_page())
+					$page->addObjCss($this->cssLink);
+			}
+			
+		}
+		if ($this->jsExternalLink != false) {
+			if($this->scriptTo) {
+				$elem = pzk_element($this->scriptTo);
+				$elem->append(pzk_parse('<html.js src="'.$this->jsExternalLink.'" />'));
+			} else {
+				if($page = pzk_page()) {
+					$page->addExternalCss($this->jsExternalLink);
+				}	
+			}
+			
 		}
 	}
 	/**
