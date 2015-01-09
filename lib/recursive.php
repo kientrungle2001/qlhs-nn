@@ -63,7 +63,11 @@ function showAdminMenu($array = array()){
     echo '<ul class="drop">';
         foreach ($array as $item)
         {
-            echo '<li>';
+        	$class_action = "";
+        	if( pzk_session(MENU) === $item['admin_controller']){
+        		$class_action = " class = 'action'";
+        	}
+            echo '<li'.$class_action.'>';
             if($item['admin_controller'] == '0'){
                 echo '<a href="javarscript:void(0);">';
             }else {
