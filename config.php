@@ -53,3 +53,7 @@ define('PZK_DEFAULT_APP', $app);
 
 // che do cache
 define('PZK_CACHE', true);
+
+
+// MENU
+define('MENU', 'MENU');
