@@ -42,9 +42,11 @@ ul.drop li a{
 	color: #fff;
 	border-right: 1px solid #fff;
 }
-ul.drop li a:hover{
-	background: #DFF807;
+
+#menu ul li.action > a {
+    background: #428BCA;
 }
+
 /*Main*/
 #main{
 	clear: both;
