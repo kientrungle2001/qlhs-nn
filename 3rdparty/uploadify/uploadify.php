@@ -19,13 +19,13 @@ if (!empty($_FILES) && $_POST['token'] == $verifyToken) {
 
 	$targetFile = rtrim($targetPath,'/') . '/' . $renamed;
 	// Validate the file type
-	$fileTypes = array('jpg','jpeg','gif','png', 'mp4'); // File extensions
+	$fileTypes = array('mp4'); // File extensions
 	$fileParts = pathinfo($_FILES['Filedata']['name']);
 
 	if (in_array($fileParts['extension'],$fileTypes)) {
 
 		move_uploaded_file($tempFile,$targetFile);
-
+        //ma hoa file
         $file = $targetFile;
         $handle = fopen($file, "rb");
         $initial_contents = fread($handle, filesize($file));
@@ -44,7 +44,7 @@ if (!empty($_FILES) && $_POST['token'] == $verifyToken) {
 
         }
 
-
+        //duong dan file video
         echo str_replace($_SERVER['DOCUMENT_ROOT'],'',$targetFile);
 	} //else {
 		//echo 'Invalid file type.';

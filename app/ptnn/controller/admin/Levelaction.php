@@ -9,7 +9,27 @@ class PzkAdminLevelactionController extends PzkGridAdminController {
 
 
     );
-    public $searchFields = array('admin_level');
+    public $filterFileds = array(
+        array(
+            'index' => 'admin_level',
+            'type' => 'text',
+            'label' => 'tên quyền'
+        ),
+        array(
+            'index' => 'admin_action',
+            'type' => 'select',
+            'table' => 'admin_menu',
+            'show_value' => 'admin_controller',
+            'show_name' => 'name',
+        ),
+        array(
+            'index'=>'status',
+            'type' => 'status',
+            'label' => 'status'
+        )
+
+    );
+
     public $listFieldSettings = array(
         array(
             'index' => 'admin_level',

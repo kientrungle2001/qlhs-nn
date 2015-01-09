@@ -19,7 +19,8 @@
 	$data->pageNum = pzk_request('page');
 	$items = $data->getItems($keyword, array('name'));
 	$countItems = $data->getCountItems($keyword, array('name'));
-	$pages = ceil($countItems / $data->pageSize);	
+	$pages = ceil($countItems / $data->pageSize);
+
 	$categories = _db()->select('*')->from('categories')->result();
     $questionTypes = _db()->select('*')->from('questiontype')->result();
 	$cats = array();

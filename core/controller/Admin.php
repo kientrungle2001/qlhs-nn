@@ -28,8 +28,18 @@ class PzkAdminController extends PzkBackendController {
 	}
 	public function changeOrderByAction() {
 		pzk_session($this->table.'OrderBy', pzk_request('orderBy'));
+
 		$this->redirect('index');
 	}
+    public function changeSelectAction() {
+        pzk_session($this->table.'Select', pzk_request('select'));
+
+        $this->redirect('index');
+    }
+    public function SetChangeStatusAction() {
+        pzk_session($this->table.'Status', pzk_request('status'));
+        $this->redirect('index');
+    }
 	public function changeCategoryIdAction() {
 		pzk_session($this->table.'CategoryId', pzk_request('categoryId'));
 		$this->redirect('index');
