@@ -7,7 +7,7 @@
 <form id="{controller.module}AddForm" role="form" enctype="multipart/form-data" method="post" action="{url /admin}_{controller.module}/addPost">
   <input type="hidden" name="id" value="" />
   {each $addFieldSettings as $field}
-  {? if ($field['type'] == 'text' || $field['type'] =='file' || $field['type'] == 'date' || $field['type'] == 'email' || $field['type'] == 'password') : ?}
+  {? if ($field['type'] == 'text' || $field['type'] == 'date' || $field['type'] == 'email' || $field['type'] == 'password') : ?}
   <div class="form-group clearfix">
     <label for="{field[index]}">{field[label]}</label>
     <input type="{field[type]}" class="form-control" id="{field[index]}" name="{field[index]}" placeholder="{field[label]}" value="{? if ($field['type'] != 'password') { echo $row[$field['index']]; } ?}">

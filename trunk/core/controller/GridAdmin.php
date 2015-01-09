@@ -5,6 +5,7 @@ class PzkGridAdminController extends PzkAdminController {
 	public $customModule = 'grid';
 	public $table = false;
     public $childTable = false;
+    public $filterFileds = false;
 	public $listFieldSettings = array();
 	public $addLabel = 'Thêm bản ghi';
 	public $addFieldSettings = array();

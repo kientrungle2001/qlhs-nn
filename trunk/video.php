@@ -61,7 +61,7 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
 
         }
     }
-    //en decript
+    //doc file
         $fp = @fopen($file2, 'rb');
         $size = filesize($file2); // File size
         $length = $size; // Content length

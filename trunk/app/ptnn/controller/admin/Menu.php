@@ -3,11 +3,13 @@ class PzkAdminMenuController extends PzkGridAdminController {
     public $addFields = 'name, status, parent, admin_controller';
     public $editFields = 'name, status, parent, admin_controller';
     public $table = 'admin_menu';
+    public $filterStatus = true;
+
     public $sortFields = array(
         'id asc' => 'ID tăng',
         'id desc' => 'ID giảm',
-        'name asc' => 'ID tăng',
-        'name desc' => 'ID giảm',
+        'name asc' => 'Name tăng',
+        'name desc' => 'Name giảm',
     );
     public $searchFields = array('name');
     public $listFieldSettings = array(

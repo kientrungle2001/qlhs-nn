@@ -15,6 +15,8 @@ class PzkCoreDbList extends PzkObject {
 	public $orderBy = 'id asc';
 	public $groupBy = false;
 	public $having = false;
+    public $status = 1;
+
 	/**
 	Dieu kien theo parent
 	*/
@@ -44,6 +46,7 @@ class PzkCoreDbList extends PzkObject {
 	public function getItems ($keyword = NULL, $fields = array()) {
 		$query = _db()->useCB()->select($this->fields)->from($this->table)
 				->where($this->conditions)
+                //->where($this->status)
 				->orderBy($this->orderBy)
 				->limit($this->pageSize, $this->pageNum)
 				->groupBy($this->groupBy)
@@ -55,6 +58,7 @@ class PzkCoreDbList extends PzkObject {
 			}
 			$query->where($conds);
 		}
+        //echo $query->getQuery();
         $this->prepareQuery($query);
 		return $query->result();
 	}
