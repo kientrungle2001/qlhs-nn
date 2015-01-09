@@ -9,6 +9,8 @@ class PzkAdminHomeController extends PzkController {
 			
 			 $this->redirect('admin_login/index');
 		}
+		
+		$menu =  pzk_session(MENU, 'admin_home');
 	}
 	
 	public function indexAction() {
