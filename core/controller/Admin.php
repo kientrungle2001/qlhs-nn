@@ -13,6 +13,9 @@ class PzkAdminController extends PzkBackendController {
 		if(!$this->table) {
 			$this->table = $this->module;
 		}
+		
+		$controller_name = pzk_request('controller');
+		$menu =  pzk_session(MENU, $controller_name);
 
 	}
 	public function changeStatusAction() {
