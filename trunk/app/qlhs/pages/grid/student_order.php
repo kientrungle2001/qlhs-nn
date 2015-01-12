@@ -11,9 +11,13 @@
 	<dg.dataGridItem field="noNum" width="40">Số</dg.dataGridItem>
 	<dg.dataGridItem field="status" width="80">Trạng thái</dg.dataGridItem>
 	<layout.toolbar id="dg_toolbar">
-		<hform id="dg_search">
-			<layout.toolbarItem action="$dg.detail({url: '{url /order/detail}', 'gridField': 'id', 'action': 'view', 'renderRegion': '#order-detail'});" icon="sum" />
+		<hform id="dg_search" onsubmit="searchOrder(); return false;">
+			<strong>Tên học sinh: </strong><form.textField name="name" id="searchName" />
+			<strong> SĐT: </strong><form.textField name="phone"  id="searchPhone"/>
+			<input type="submit" style="display: none;" value="Tìm" />
+			<layout.toolbarItem action="if(window.viewMode == true) $dg.detail({url: '{url /order/detail}', 'gridField': 'id', 'action': 'view', 'renderRegion': '#order-detail'});" icon="sum" />
 			<layout.toolbarItem action="$dg.del()" icon="remove" />
+			<a id="changeMode" href="javascript:window.viewMode = !window.viewMode; if(window.viewMode) {jQuery('#changeMode').text('Chế độ xem');} else {jQuery('#changeMode').text('Chế độ chọn');}">Chế độ xem</a>
 		</hform>
 	</layout.toolbar>
 	<wdw.dialog gridId="dg" width="700px" height="auto" title="Hóa đơn">
@@ -42,4 +46,15 @@
 	</wdw.dialog>
 </dg.dataGrid>
 <div id="order-detail"></div>
+<script>
+function searchOrder() {
+	pzk.elements.dg.search({
+		'fields': {
+			'name' : '#searchName', 
+			'phone': '#searchPhone'
+		}
+	});
+}
+window.viewMode = true;
+</script>
 </div>
