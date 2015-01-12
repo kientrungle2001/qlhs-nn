@@ -385,36 +385,6 @@ function pzk_parse($xml) {
 	return PzkParser::parse($xml);
 }
 
-/**
- * Return menubar element
- *
- * @return PzkMenubar
- */
-
-function pzk_route() {
-	return pzk_store_element('route');
-}
-
-function pzk_router($name) {
-	return pzk_model("route/$name");
-}
-
-function pzk_rule($name) {
-	return pzk_controller("rules/$name");
-}
-
-function pzk_user($key = NULL) {
-	if ($key == NULL) return pzk_store_session('user');
-	if (is_string($key)) {
-		$user = pzk_store_session('user');
-		return @$user[$key];	
-	} else if (is_array($key)) {
-		pzk_store_session('user', $key);
-	} else if (is_bool($key) && $key === false) {
-		pzk_store_session('user', false);
-	}
-}
-
 function pzk_pclass($selector) {
 	$pss = pzk_store_element('pss'); 
 	if ($pss) {
