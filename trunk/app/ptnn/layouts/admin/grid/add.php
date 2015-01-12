@@ -17,11 +17,15 @@
         <label for="{field[index]}">{field[label]}</label>
         <select class="form-control" id="{field[index]}" name="{field[index]}" >
             <?php
-            $table = $field['table'];
-            $data = _db()->useCB()->select('*')->from($table)->where(array('status', 1))->result();
+            $parents = _db()->select('*')->from($field['table'])->result();
+            $parents = buildArr($parents, 'parent', 0);
             ?>
-            {each $data as $val }
-            <option value="{val[field[level]]}">{val[field[level]]}</option>
+            <option value="0">&nbsp;&nbsp;&nbsp;&nbsp;Danh mục gốc</option>
+            {each $parents as $parent}
+
+            <option value="<?php echo $parent[$field['show_value']]; ?>" ><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $parent['lever']); ?>
+                <?php echo $parent[$field['show_name']]; ?>
+            </option>
             {/each}
 
         </select>
@@ -119,30 +123,6 @@
         </select>
     </div>
 
-
-    {? elseif($field['type'] == 'parent'): ?}
-    <div class="form-group clearfix">
-        <label for="{field[index]}">{field[label]}</label>
-        <select class="form-control" id="{field[index]}" name="{field[index]}" >
-            <?php
-            $parentId = $data->getParentId();
-            $parents = _db()->select('*')->from($field['table'])->result();
-            $parents = buildArr($parents, 'parent', 0);
-            $row = pzk_validator()->getEditingData();
-
-            ?>
-            <option value="0">Danh mục gốc</option>
-            {each $parents as $parent}
-            <?php
-            $selected = '';
-            if($parent['id'] == $parentId) { $selected = 'selected'; }?>
-            <option value="{parent[id]}" {selected}><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $parent['lever']); ?>
-                <?php echo $parent[$field['show_value']]; ?>
-            </option>
-            {/each}
-
-        </select>
-    </div>
 
     {? elseif($field['type'] == 'tinymce'): ?}
     <div class="form-group clearfix">
