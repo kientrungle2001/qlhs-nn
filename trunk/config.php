@@ -31,26 +31,6 @@ define('REQUEST_MODE', true);
 // them include path
 set_include_path(get_include_path() . BASE_DIR . ';');
 
-// ung dung mac dinh
-$hosts = array(
-	'iweb.vn' => 'test',
-	'www.iweb.vn' => 'test',
-	//'test.vn' => 'test'
-	'qlhs.vn' => 'qlhs',
-	'www.qlhs.vn' => 'qlhs',
-	'phongthuy.vn' => 'phongthuy',
-	'www.phongthuy.vn' => 'phongthuy',
-	'ptnn.vn' => 'ptnn'
-);
-$app = 'test';
-foreach($hosts as $host => $a) {
-	if($_SERVER['HTTP_HOST'] == $host) {
-		$app = $a;
-		break;
-	}
-}
-define('PZK_DEFAULT_APP', $app);
-
 // che do cache
 define('PZK_CACHE', true);
 
