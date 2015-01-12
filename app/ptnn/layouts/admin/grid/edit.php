@@ -22,7 +22,7 @@ $editFieldSettings = $controller->editFieldSettings;
     <div class="form-group clearfix">
         <label for="{field[index]}">{field[label]}</label>
         <select class="form-control" id="{field[index]}" name="{field[index]}" >
-            <option value="0">Danh mục gốc</option>
+            <option value="0">&nbsp;&nbsp;&nbsp;&nbsp;Danh mục gốc</option>
             <?php
             $parents = _db()->select('*')->from($field['table'])->result();
             $parents = buildArr($parents, 'parent', 0);
