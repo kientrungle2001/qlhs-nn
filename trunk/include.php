@@ -46,7 +46,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline, array $errcontex
     }
     throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
 });
-require_once 'core/URI.php';
+require_once 'lib/condition.php';
 require_once 'core/Object.php';
 require_once 'core/Object/LightWeight.php';
 # require_once 'core/Object/Smarty.php';
