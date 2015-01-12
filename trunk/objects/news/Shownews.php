@@ -16,5 +16,16 @@ class PzkNewsShownews extends PzkObject
 		$lists=_db()->useCB()->select('*')->from('news')->where(array('parent', $parentid['parent']))->result();
 		return(array($lists,$parentid,$parent));
 	}
+	public function getVisitor($ip,$id){
+		$datevisit=date("Y-m-d 00:00:00");
+		$test=_db()->useCB()->select('id')->from('news_visitor')->where(array('newsId', $id))->where(array('ip', $ip))->where(array('visited', $datevisit))->result_one();
+		if(!$test){
+			$addVisitor=array('newsId'=>$id,'ip'=>$ip,'visited'=>$datevisit);
+			$entity = _db()->useCb()->getEntity('table')->setTable('news_visitor');
+			$entity->setData($addVisitor);
+			$entity->save();
+		}
+	}
+	
 }
  ?>

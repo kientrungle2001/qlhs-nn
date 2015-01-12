@@ -1,0 +1,1 @@
+<news.comments  layout="news/comments" />
