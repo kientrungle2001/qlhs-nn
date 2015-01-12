@@ -22,7 +22,8 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
         $tempFile = $_FILES['Filedata']['tmp_name'];
         $targetPath = $_SERVER['DOCUMENT_ROOT'] . $targetFolder;
 
-        $ext = end(explode('.', $_FILES['Filedata']['name']));
+        $tam = explode('.', $_FILES['Filedata']['name']);
+        $ext = end($tam);
         $renamed = md5(rand(0,200000)).'.'."$ext";
 
         $targetFile = rtrim($targetPath,'/') . '/' . $renamed;
