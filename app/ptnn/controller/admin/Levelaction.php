@@ -57,7 +57,7 @@ class PzkAdminLevelactionController extends PzkGridAdminController {
     public $addFieldSettings = array(
         array(
             'index' => 'admin_level_id',
-            'type' => 'select',
+            'type' => 'selectInput',
             'label' => 'Nhóm người dùng',
             'table'=>'admin_level',
             'show_value' => 'id',
@@ -67,7 +67,7 @@ class PzkAdminLevelactionController extends PzkGridAdminController {
         ),
         array(
             'index' => 'admin_action',
-            'type' => 'select',
+            'type' => 'selectInput',
             'label' => 'tên menu',
             'table' => 'admin_menu',
             'show_value' => 'admin_controller',
@@ -98,7 +98,7 @@ class PzkAdminLevelactionController extends PzkGridAdminController {
     public $editFieldSettings = array(
         array(
             'index' => 'admin_level_id',
-            'type' => 'select',
+            'type' => 'selectInput',
             'label' => 'Nhóm người dùng',
             'table'=>'admin_level',
             'show_value' => 'id',
@@ -109,7 +109,7 @@ class PzkAdminLevelactionController extends PzkGridAdminController {
 
         array(
             'index' => 'admin_action',
-            'type' => 'select',
+            'type' => 'selectInput',
             'label' => 'ten controller',
             'table' => 'admin_menu',
             'show_value' => 'admin_controller',

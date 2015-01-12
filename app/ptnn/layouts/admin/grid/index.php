@@ -50,14 +50,18 @@ if(pzk_request('controller') =='admin_menu') {
   <div class="container-fluid">
 
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="navbar-collapse-1">
+    <div class="collapse fixfilter navbar-collapse" id="navbar-collapse-1">
 
         <?php if($controller->filterFileds) {
             $fileds = $controller->filterFileds;
             foreach($fileds as $field) {
             if($field['type'] == 'text') {
         ?>
-
+            <style>
+                .fixfilter .navbar-form{
+                    padding: 10px 2px;
+                }
+            </style>
 
             <form class="navbar-form navbar-left" role="search" action="{url /admin}_{controller.module}/searchPost">
                 <div class="form-group">

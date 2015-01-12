@@ -12,7 +12,7 @@
     <label for="{field[index]}">{field[label]}</label>
     <input type="{field[type]}" class="form-control" id="{field[index]}" name="{field[index]}" placeholder="{field[label]}" value="{? if ($field['type'] != 'password') { echo $row[$field['index']]; } ?}">
   </div>
-    {? elseif($field['type'] == 'category'): ?}
+    {? elseif($field['type'] == 'select'): ?}
     <div class="form-group clearfix">
         <label for="{field[index]}">{field[label]}</label>
         <select class="form-control" id="{field[index]}" name="{field[index]}" >
@@ -21,13 +21,13 @@
             $data = _db()->useCB()->select('*')->from($table)->where(array('status', 1))->result();
             ?>
             {each $data as $val }
-            <option value="{val[level]}">{val[level]}</option>
+            <option value="{val[field[level]]}">{val[field[level]]}</option>
             {/each}
 
         </select>
     </div>
 
-    {? elseif($field['type'] == 'select'): ?}
+    {? elseif($field['type'] == 'selectInput'): ?}
     <div class="form-group clearfix">
         <label for="{field[index]}">{field[label]}</label>
         <select class="form-control" id="{field[index]}" name="{field[index]}" >
@@ -68,44 +68,14 @@
         </select>
     </div>
 
-    {? elseif($field['type'] == 'upload'): ?}
-
-    <div class="form-group clearfix">
-        <label for="{field[index]}">{field[label]}</label>
-        <!--input type="file" name="{field[index]}" id="{field[index]}" /-->
-        <?php
-
-        $uploadify = pzk_parse('<form.uploadify name="'.$field['index'].'" scriptTo="holder" />');
-        $scriptHolder->display();
-        $uploadify->display();?>
-
-
-
-    </div>
-    <!--script>
-
-        <?php $timestamp = time();?>
-        setTimeout(function() {
-            $('#{field[index]}').uploadify({
-                'formData'     : {
-                    'timestamp' : '<?php echo $timestamp;?>',
-                    'token'     : '<?php echo md5('unique_salt' . $timestamp);?>'
-                },
-                'debug'    : true,
-                'swf'      : '/3rdparty/uploadify/uploadify.swf',
-                'uploader' : '/3rdparty/uploadify/uploadify.php'
-                //'folder': '/3rdparty/uploads/videos'
-            });
-        }, 300);
-
-    </script-->
-
-  {? elseif($field['type'] == 'upvideo'): ?}
+  {? elseif($field['type'] == 'upload'): ?}
 
   <link rel="stylesheet" href="/3rdparty/uploadify/uploadify.css" type="text/css"/>
   <div class="form-group clearfix">
       <b>{field[label]}</b><br><br>
-      <!--<img id="{field[index]}_image" src="" height="80px" width="auto">-->
+      <?php if($field['uploadtype'] == 'image') { ?>
+      <img id="{field[index]}_image" src="" height="80px" width="auto">
+      <?php } ?>
       <input id="{field[index]}_value" name="{field[index]}" value="" type="hidden">
      <input type="file" name="{field[index]}" id="{field[index]}"  multiple="true" />
       <a href="javascript:$('#{field[index]}').uploadify('upload')">Upload Files</a>
@@ -118,7 +88,8 @@
           $('#{field[index]}').uploadify({
               'formData'     : {
                   'timestamp' : '<?php echo $timestamp;?>',
-                  'token'     : '<?php echo md5('unique_salt' . $timestamp);?>'
+                  'token'     : '<?php echo md5('ptnn' . $timestamp);?>',
+                  'uploadtype' : '<?php echo $field['uploadtype']; ?>'
               },
               'swf'      : BASE_URL+'/3rdparty/uploadify/uploadify.swf',
               'uploader' : BASE_URL+'/3rdparty/uploadify/uploadify.php',
@@ -127,7 +98,9 @@
               'onUploadSuccess' : function(file, data, response) {
                   var src = data;
                   $('#{field[index]}_value').val(src);
-                  //$('#{field[index]}_image').attr('src', src);
+                  <?php if($field['uploadtype'] == 'image') { ?>
+                  $('#{field[index]}_image').attr('src', src);
+                  <?php } ?>
               }
 
 
