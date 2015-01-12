@@ -43,7 +43,13 @@ else
 <form role="form" method="post" action="/news/commentsPost">
   <input type="hidden" name="id" value="" />
   <div class="form-group">
-    <input type="text" style="height:100px;" class="form-control" id="comments" name="comments" placeholder="bạn phải đăng nhập để gửi bình luận, nếu bạn chưa đăng nhập vui lòng đăng nhập" >
+    <input type="text" style="height:100px;" class="form-control" id="comments" name="comments" placeholder="
+	<?php if(pzk_session('login')){
+	echo"Đăng bình luận";
+	}else{
+	echo "Bạn phải đăng nhập để gửi bình luận, nếu bạn chưa đăng nhập vui lòng đăng nhập";	
+	}
+	?>" >
 	<button type="submit" class="btn btn-primary" >Bình luận</button>
   </div>
   </form>

@@ -14,7 +14,7 @@
 				<img src="<?php echo BASE_URL.'/3rdparty/Filemanager/source/10269461_773590456011613_5268887879935957415_n.jpg' ; ?>"alt="" width="80px" height="80px"> 
 			</div>
 			<div>
-			<strong ><a href="/news/shownews?id={title[id]} "> {title[title]}</a></strong>
+			<strong > {title[title]}</strong>
 			<?php $titles2= $data->getSubnews($title['id']); ?>
 				<ul>
 					{each $titles2 as $title2}
