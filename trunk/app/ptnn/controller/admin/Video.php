@@ -6,8 +6,8 @@ class PzkAdminVideoController extends PzkGridAdminController {
     public $sortFields = array(
         'id asc' => 'ID tăng',
         'id desc' => 'ID giảm',
-        'name asc' => 'ID tăng',
-        'name desc' => 'ID giảm',
+        'name asc' => 'Name tăng',
+        'name desc' => 'Name giảm',
     );
     public $searchFields = array('name');
     public $listFieldSettings = array(
@@ -33,7 +33,8 @@ class PzkAdminVideoController extends PzkGridAdminController {
         ),
         array(
             'index' => 'url',
-            'type' => 'upvideo',
+            'type' => 'upload',
+            'uploadtype'=>'video',
             'label' => 'Chọn Video',
         ),
 
@@ -68,7 +69,8 @@ class PzkAdminVideoController extends PzkGridAdminController {
         ),
         array(
             'index' => 'url',
-            'type' => 'upvideo',
+            'type' => 'upload',
+            'uploadtype'=>'video',
             'label' => 'Chọn Video',
         ),
 
