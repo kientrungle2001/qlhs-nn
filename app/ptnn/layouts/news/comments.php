@@ -12,8 +12,8 @@ else
 {
 	$username="Khách";
 }
-$count = $data->getCountComment($newsid);
-$pages = ceil($count / 5);	
+//$count = $data->getCountComment($newsid);
+//$pages = ceil($count / 5);	
 
 ?>
 <div class="comments-wrapper">
@@ -28,8 +28,8 @@ $pages = ceil($count / 5);
 			<div class="comments" style="width:800px; height:auto; border:1px solid red; float:left;">
 			<?php $allcomments=$data->getComments($newsid); ?>
 			{each $allcomments as $allcomment}
-					<div class="avatar" style="width:50px; height:50px; float:left; margin:10px; border: 1px solid red;">
-					<img src="{allcomment['avatar']}">avatar</img>
+					<div class="avatar"  style="width:50px; height:50px;float:left; margin:10px; ">
+					<img src="{allcomment[avatar]}" width=50; height=50;></img>
 					</div>
 					<div class="user-comments"style="width:600px; height:auto;">
 						<div class="user-id"><a href="/user/profilefriend?id={allcomment[userId]}"style=" float:left;">{allcomment[name]}</a>
@@ -40,22 +40,10 @@ $pages = ceil($count / 5);
 					{/each}
 			</div>
 		</div>
-		
-		<strong>Trang: </strong>
-		<?php for ($page = 0; $page < $pages; $page++) { 
-			if($page == 5) {
-				$btn = 'btn-primary';
-			} else {
-				$btn = 'btn-default';
-			}
-		?>
-		<a class="btn {btn}" href="{url /news/shownews}?id={newsid}&page={page}">{? echo ($page + 1)?}</a>
-		<?php } ?>
-		
 <form role="form" method="post" action="/news/commentsPost">
   <input type="hidden" name="id" value="" />
   <div class="form-group">
-    <input type="text" style="height:100px;" class="form-control" id="comments" name="comments" placeholder="bạn phải đăng nhập để gửi bình luận" >
+    <input type="text" style="height:100px;" class="form-control" id="comments" name="comments" placeholder="bạn phải đăng nhập để gửi bình luận, nếu bạn chưa đăng nhập vui lòng đăng nhập" >
 	<button type="submit" class="btn btn-primary" >Bình luận</button>
   </div>
   </form>
