@@ -192,10 +192,19 @@ class PzkSessionStore extends PzkStore {
 	}
 
 	public function get($key, $timeout = null) {
+		if(!isset($_SESSION[$key])) return null;
+		$created = $_SESSION[$key.'_timestart'];
+		$time = time();
+		if($timeout && $time - $created > $timeout) {
+			unset($_SESSION[$key.'_timestart']);
+			unset($_SESSION[$key]);
+			return null;
+		}
 		return @$_SESSION[$key];
 	}
 
 	public function set($key, $value) {
+		$_SESSION[$key.'_timestart'] = time();
 		return $_SESSION[$key] = $value;
 	}
 }
