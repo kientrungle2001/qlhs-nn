@@ -50,60 +50,55 @@
 	}
 	$categoryTree = buildArr($categories,'parent',0);
 ?>
-<nav class="navbar navbar-default" role="navigation">
-  <div class="container-fluid">
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="navbar-collapse-1">
-      <form class="navbar-form navbar-left" role="search" action="{url /admin_questions/searchPost}">
-        <div class="form-group">
-          <input type="text" name="keyword" class="form-control" placeholder="Từ khóa" value="{keyword}">
-        </div>
-        <button type="submit" class="btn btn-default">Tìm</button>
-      </form>
-	  <form class="navbar-form navbar-right" role="sort">
-        <div class="form-group">
-			<select class="form-control" id="type" name="type" placeholder="Loại" value="{item[type]}" onchange="window.location='{url /admin_questions/changeType}?type=' + this.value;">
-				<option value="">Tất cả</option>
+<div class="well">
+<form role="search" action="{url /admin_questions/searchPost}">
+	<div class="row">
+		<div class="form-group col-xs-2">
+			<label for="keyword">Tên câu hỏi</label><br>
+        	<input class="form-control input-sm" type="text" name="keyword" id="keyword"  placeholder="Câu hỏi" value="{keyword}" />
+       	</div>
+        <div class="form-group col-xs-2">
+        	<label for="type">Loại câu hỏi</label><br>
+			<select class="form-control input-sm" id="type" name="type" placeholder="Loại" value="{item[type]}" onchange="window.location='{url /admin_questions/changeType}?type=' + this.value;">
+				<option value="">-- Tất cả --</option>
 				<option value="tracnghiem">Trắc nghiệm</option>
 				<option value="dientu">Điền từ</option>
 			</select>
 			<script type="text/javascript">
-			$('#type').val('{type}');
-		  </script>
+				$('#type').val('{type}');
+  			</script>
 		</div>
-		<div class="form-group">
-          <select id="categoryId" name="categoryId" class="form-control" placeholder="Danh mục" onchange="window.location='{url /admin_questions/changeCategoryId}?categoryId=' + this.value;">
+		
+		<div class="form-group col-xs-4">
+			<label for="categoryId">Dạng bài tập</label><br>
+          	<select id="categoryId" name="categoryId" class="form-control input-sm" placeholder="Danh mục" onchange="window.location='{url /admin_questions/changeCategoryId}?categoryId=' + this.value;">
 			<option value="">Tất cả</option>
 			{each $categoryTree as $cat}
-			<option value="{cat[id]}"><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $cat['lever']);?>{cat[name]}</option>
+				<option value="{cat[id]}"><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $cat['lever']);?>{cat[name]}</option>
 			{/each}
-		  </select>
-		  <script type="text/javascript">
-			$('#categoryId').val('{categoryId}');
-		  </script>
+ 		 	</select>
+  			<script type="text/javascript">
+				$('#categoryId').val('{categoryId}');
+  			</script>
         </div>
-		<div class="form-group">
-          <select id="orderBy" name="orderBy" class="form-control" placeholder="Sắp xếp theo" onchange="window.location='{url /admin_questions/changeOrderBy}?orderBy=' + this.value;">
-			<option value="id asc">ID ^</option>
-			<option value="id desc">ID v</option>
-			<option value="name asc">Tên ^</option>
-			<option value="name desc">Tên v</option>
-		  </select>
-		  <script type="text/javascript">
-			$('#orderBy').val('{orderBy}');
-		  </script>
+        
+        <div class="form-group col-xs-2">
+        	<label>&nbsp;</label> <br>
+        	<button type="submit" class="btn btn-primary btn-sm" value="1"><span class="glyphicon glyphicon-search"></span> Search</button>
         </div>
-      </form>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
+        <div class="form-group col-xs-2">
+        	<label>&nbsp;</label> <br>
+        	<button type="submit" class="btn btn-default btn-sm" value="0"><span class="glyphicon glyphicon-refresh"></span>Reset</button>
+        </div>
+	</div>
+</form>
+</div>
 <table class="table">
 	<tr>
 		<th>#</th>
 		<th>Tên</th>
-		<th>Danh mục</th>
-		<th>Loại</th>
+		<th>Dạng bài tập</th>
+		<th>Loại bài tập</th>
 		<th colspan="2">Hành động</th>
 	</tr>
 	{each $items as $item}
@@ -136,15 +131,17 @@
 			$('#pageSize').val('{pageSize}');
 		  </script>
 		<strong>Trang: </strong>
-		<?php for ($page = 0; $page < $pages; $page++) { 
-			if($page == $data->pageNum) {
-				$btn = 'btn-primary';
-			} else {
-				$btn = 'btn-default';
-			}
-		?>
+		<?php 
+			for ($page = 0; $page < $pages; $page++):?>
+				<?php 
+				if($page == $data->pageNum) {
+					$btn = 'btn-primary';
+				} else {
+					$btn = 'btn-default';
+				}
+				?>
 		<a class="btn {btn}" href="{url /admin_questions/index}?page={page}">{? echo ($page + 1)?}</a>
-		<?php } ?>
+		<?php endfor; ?>
 		</form>
 		</td>
 	</tr>
