@@ -7,7 +7,7 @@ $row = pzk_validator()->getEditingData();
 <form role="form" method="post" action="{url /admin_category/addPost}">
   <input type="hidden" name="id" value="" />
   <div class="form-group col-xs-12">
-    <label class="col-xs-2" for="name">Tên danh mục</label>
+    <label class="col-xs-2" for="name">Tên dạng bài tập</label>
     <div class="col-xs-8">
     	<input type="text" class="form-control" id="name" name="name" placeholder="Tên danh mục" value="{row[name]}">
     </div>
