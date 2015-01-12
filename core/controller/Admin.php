@@ -31,15 +31,13 @@ class PzkAdminController extends PzkBackendController {
 
 		$this->redirect('index');
 	}
-    public function changeSelectAction() {
-        pzk_session($this->table.'Select', pzk_request('select'));
+    public function filterAction() {
+        $type = pzk_request('type');
+        pzk_session($this->table.$type.pzk_request('index'), pzk_request($type));
 
         $this->redirect('index');
     }
-    public function SetChangeStatusAction() {
-        pzk_session($this->table.'Status', pzk_request('status'));
-        $this->redirect('index');
-    }
+
 	public function changeCategoryIdAction() {
 		pzk_session($this->table.'CategoryId', pzk_request('categoryId'));
 		$this->redirect('index');

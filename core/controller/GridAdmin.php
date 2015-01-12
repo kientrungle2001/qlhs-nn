@@ -4,8 +4,11 @@ class PzkGridAdminController extends PzkAdminController {
 	public $masterPosition = 'left';
 	public $customModule = 'grid';
 	public $table = false;
+    public $joins = false;
+    public $selectFields = '*';
     public $childTable = false;
-    public $filterFileds = false;
+    public $filterFields = false;
+    public $menuLinks = false;
 	public $listFieldSettings = array();
 	public $addLabel = 'Thêm bản ghi';
 	public $addFieldSettings = array();

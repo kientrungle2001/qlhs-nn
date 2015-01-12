@@ -9,7 +9,7 @@ class PzkAdminLevelactionController extends PzkGridAdminController {
 
 
     );
-    public $filterFileds = array(
+    public $filterFields = array(
         array(
             'index' => 'admin_level',
             'type' => 'text',
@@ -28,6 +28,17 @@ class PzkAdminLevelactionController extends PzkGridAdminController {
             'label' => 'status'
         )
 
+    );
+
+    public $linkRightMenu = array(
+        array(
+            'name' => 'demo',
+            'href' => '/admin_levelaction/index'
+        ),
+        array(
+            'name' => 'demo2',
+            'href' => '/admin_levelaction/index'
+        ),
     );
 
     public $listFieldSettings = array(
