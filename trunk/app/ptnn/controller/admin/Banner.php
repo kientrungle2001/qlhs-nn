@@ -44,8 +44,9 @@ class PzkAdminBannerController extends PzkGridAdminController {
         ),
 		array(
             'index' => 'url',
-            'type' => 'text',
-            'label' => 'URL'
+            'type' => 'upload',
+            'uploadtype'=>'image',
+            'label' => 'Chọn ảnh',
         ),
         array(
             'index' => 'code',
@@ -77,16 +78,19 @@ class PzkAdminBannerController extends PzkGridAdminController {
             'type' => 'text',
             'label' => 'Ngày tạo'
         ),
-		array(
-            'index' => 'url',
-            'type' => 'text',
-            'label' => 'URL'
-        ),
+		
         array(
             'index' => 'code',
             'type' => 'text',
             'label' => 'Code'
         ),
+		array(
+            'index' => 'url',
+            'type' => 'upload',
+            'uploadtype'=>'image',
+            'label' => 'Chọn ảnh',
+        ),
+
 		array(
 			'index' => 'status',
 			'type' => 'status',
