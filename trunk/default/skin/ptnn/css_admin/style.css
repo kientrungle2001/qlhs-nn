@@ -11,7 +11,6 @@ body{
     float: left;
     width: 100%;
 	height: 150px;
-	background: #86F9EB;
 	text-align: center;
 }
 
@@ -55,7 +54,7 @@ ul.drop li a{
 }
 /*Left*/
 #left{
-	width: 64.9%;
+	width: 75.9%;
 	float: left;
 	min-height: 800px;
 	border-right: 1px dotted #ccc;
@@ -80,7 +79,7 @@ table{
 /*Right*/
 #right{
 	/*clear: both;*/
-	width: 33%;
+	width: 22%;
 	min-height: 800px;
 	float: left;
 	margin-left:2%;
@@ -123,3 +122,4 @@ color: white;
 
 .color_delete{color:#BD1501}
 .text-center{text-align:center}
+.error{color: #BD1501; width: 100%;}
