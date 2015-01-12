@@ -8,7 +8,7 @@ class PzkNewsComments extends PzkObject
 	
 	public function getComments($newsid)
 	{
-		$allcomments=_db()->useCB()->select("comment.*, user.avatar,user.name ")->from("comment")->join('user', 'comment.userId=user.id')->where(array('newsId',$newsid))->orderBy('id desc')->result();
+		$allcomments=_db()->useCB()->select("comment.*, user.avatar,user.name")->from("comment")->join('user', 'comment.userId=user.id')->where(array('newsId',$newsid))->orderBy('id desc')->result();
 		return($allcomments);
 	}
 	public function getCountComment($newsid)

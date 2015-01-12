@@ -18,7 +18,7 @@
 			<?php $titles2= $data->getSubnews($title['id']); ?>
 				<ul>
 					{each $titles2 as $title2}
-					<li align="left"><a href="/news/shownews?id={title2[id]} "> {title2[title]} </a></li>
+					<li style="color:green;"; align="left"><a href="/news/shownews?id={title2[id]} "> {title2[title]} </a> (<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> {title2[views]}           <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> {title2[comments]})</li>
 					{/each}
 				</ul>
 			</div>

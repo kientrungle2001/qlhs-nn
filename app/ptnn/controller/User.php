@@ -178,7 +178,8 @@ class PzkUserController extends PzkController {
 	{
 		if(pzk_session('login'))
 		{
-			
+			$ip="192.168.1.2";
+			pzk_session('ipdress','hellosss');
 		}
 		else
 		{

@@ -67,10 +67,7 @@ class PzkMailController extends PzkController {
 	{
 		$this->initPage()->append('mail/unreg')->display();
 	}
-	public function unregPostAction()
-	{
-		
-	}
+	
 	
 	
 	

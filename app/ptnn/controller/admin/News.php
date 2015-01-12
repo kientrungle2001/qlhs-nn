@@ -193,5 +193,11 @@ class PzkAdminNewsController extends PzkGridAdminController {
 			)
 		)
 	);
+	
+function newAction(){
+	
+	
+	
+}
 
 }
