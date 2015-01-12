@@ -28,24 +28,7 @@ class PzkAdminBannerController extends PzkGridAdminController {
             'type' => 'text',
             'label' => 'URL'
         ),
-        array(
-            'index' => 'code',
-            'type' => 'text',
-            'label' => 'Code'
-        ),
-		array(
-			'index' => 'status',
-			'type' => 'status',
-			'label' => 'Trạng thái',
-			'options' => array(
-				'0' => 'Không hoạt động',
-				'1' => 'Hoạt động'
-			),
-			'actions' => array(
-				'0' => 'mở',
-				'1' => 'dừng'
-			)
-		)
+        
     );
     public $addLabel = 'Thêm menu';
     public $addFieldSettings = array(
