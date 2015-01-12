@@ -190,6 +190,6 @@ $editFieldSettings = $controller->editFieldSettings;
   {? endif ?}
   {/each}
   
-  <button type="submit" class="btn btn-primary">Cập nhật</button>
-  <a href="{url /admin}_{controller.module}/index">Quay lại</a>
+  <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-saved"></span> Cập nhật</button>
+  <a class="btn btn-default" href="{url /admin}_{controller.module}/index"><span class="glyphicon glyphicon-refresh"></span> Quay lại</a>
 </form>
