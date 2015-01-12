@@ -22,16 +22,46 @@ $editFieldSettings = $controller->editFieldSettings;
     <div class="form-group clearfix">
         <label for="{field[index]}">{field[label]}</label>
         <select class="form-control" id="{field[index]}" name="{field[index]}" >
+            <option value="0">Danh mục gốc</option>
+            <?php
+            $parents = _db()->select('*')->from($field['table'])->result();
+            $parents = buildArr($parents, 'parent', 0);
+            ?>
+            {each $parents as $parent}
+            <?php
+            $selected = '';
+            if($parent[$field['show_value']] == $row[$field['index']]) { $selected = 'selected'; }?>
+            <option value="<?php echo $parent[$filed['show_value']]; ?>" {selected}><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $parent['lever']); ?>
+            <?php echo $parent[$field['show_name']]; ?>
+            </option>
+            {/each}
+
+        </select>
+    </div>
+
+    {? elseif($field['type'] == 'selectInput'): ?}
+    <div class="form-group clearfix">
+        <label for="{field[index]}">{field[label]}</label>
+        <select class="form-control" id="{field[index]}" name="{field[index]}" >
             <?php
             $table = $field['table'];
             $data = _db()->useCB()->select('*')->from($table)->where(array('status', 1))->result();
             ?>
             {each $data as $val }
-            <option <?php if($row[$field['index']] == $val[$field['show_value']]) { echo 'selected'; } ?> value="{val[field['show_value']]}">{val[field['show_value']]}</option>
+            <option <?php if($row[$field['index']] == $val[$field['show_value']]) { echo 'selected'; } ?> value="<?php echo $val[$field['show_value']]; ?>"><?php echo $val[$field['show_name']]; ?></option>
             {/each}
 
         </select>
+        <input id="{field[hidden]}" type="hidden" value="<?php echo $row[$field['hidden']]; ?>" name="{field[hidden]}"/>
     </div>
+    <script>
+        $('#{field[index]}').change(function() {
+            var optionSelected = $(this).find("option:selected");
+            var textSelected   = optionSelected.text();
+            $('#{field[hidden]}').val(textSelected);
+        });
+    </script>
+
 
     {? elseif($field['type'] == 'admin_controller'): ?}
     <div class="form-group clearfix">
@@ -112,45 +142,6 @@ $editFieldSettings = $controller->editFieldSettings;
         </select>
     </div>
 
-    {? elseif($field['type'] == 'parent'): ?}
-    <div class="form-group clearfix">
-        <label for="{field[index]}">{field[label]}</label>
-        <select class="form-control" id="{field[index]}" name="{field[index]}" >
-            <option value="0">Danh mục gốc</option>
-            <?php
-
-            $parents = _db()->select('*')->from($field['table'])->result();
-            $parents = buildArr($parents, 'parent', 0);
-
-            ?>
-
-            {each $parents as $parent}
-            <?php
-            $selected = '';
-            if($parent['id'] == $row[$field['curentfield']]) { $selected = 'selected'; }?>
-            <option value="{parent[id]}" {selected}><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $parent['lever']); ?>
-            <?php echo $parent[$field['show_value']]; ?>
-            </option>
-            {/each}
-
-        </select>
-    </div>
-
-    {? elseif($field['type'] == 'selectInput'): ?}
-    <div class="form-group clearfix">
-        <label for="{field[index]}">{field[label]}</label>
-        <select class="form-control" id="{field[index]}" name="{field[index]}" >
-            <?php
-            $table = $field['table'];
-            $data = _db()->useCB()->select('*')->from($table)->where(array('status', 1))->result();
-            ?>
-            {each $data as $val }
-            <option <?php if($row[$field['index']] == $val[$field['show_value']]) { echo 'selected'; } ?> value="<?php echo $val[$field['show_value']]; ?>"><?php echo $val[$field['show_name']]; ?></option>
-            {/each}
-
-        </select>
-        <input id="{field[hidden]}" type="hidden" value="<?php echo $row[$field['hidden']]; ?>" name="{field[hidden]}"/>
-    </div>
 
     {? elseif($field['type'] == 'tinymce'): ?}
     <div class="form-group clearfix">

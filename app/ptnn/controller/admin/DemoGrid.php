@@ -77,10 +77,15 @@ class pzkAdminDemoGridController extends pzkGridAdminController {
             'label' => 'Tên người dùng'
         ),
         array(
+            'index' => 'password',
+            'type' => 'password',
+            'label' => 'Tên người dùng'
+        ),
+        array(
             'index' => 'usertype_id',
             'type' => 'select',
-            'label' => 'tên menu',
-            'table' => 'admin_type',
+            'label' => 'tên quyền',
+            'table' => 'admin_level',
             'show_value' => 'id',
             'show_name' => 'level',
         ),
@@ -105,7 +110,11 @@ class pzkAdminDemoGridController extends pzkGridAdminController {
                 'required' => true,
                 'minlength' => 2,
                 'maxlength' => 50
-            )
+            ),
+            'password' =>
+                array(
+                    'minlength' => 4,
+                )
 
         ),
         'messages' => array(
@@ -113,7 +122,11 @@ class pzkAdminDemoGridController extends pzkGridAdminController {
                 'required' => 'Tên nhóm không được để trống',
                 'minlength' => 'Tên nhóm phải dài 2 ký tự trở lên',
                 'maxlength' => 'Tên nhóm chỉ dài tối đa 50 ký tự'
-            )
+            ),
+            'password' =>
+                array(
+                    'minlength' => 'Mật khẩu dài tối thiểu 4 ký tự',
+                )
 
         )
     );
@@ -127,12 +140,17 @@ class pzkAdminDemoGridController extends pzkGridAdminController {
             'label' => 'Tên người dùng'
         ),
         array(
+            'index' => 'password',
+            'type' => 'password',
+            'label' => 'Tên người dùng'
+        ),
+        array(
             'index' => 'usertype_id',
             'type' => 'select',
-            'label' => 'tên menu',
-            'table' => 'admin_type',
+            'label' => 'tên quyền',
+            'table' => 'admin_level',
             'show_value' => 'id',
-            'show_name' => 'level',
+            'show_name' => 'level'
         ),
 
         array(
@@ -156,7 +174,11 @@ class pzkAdminDemoGridController extends pzkGridAdminController {
                 'required' => true,
                 'minlength' => 2,
                 'maxlength' => 50
-            )
+            ),
+            'password' =>
+                array(
+                    'minlength' => 4,
+                    )
 
         ),
         'messages' => array(
@@ -164,11 +186,55 @@ class pzkAdminDemoGridController extends pzkGridAdminController {
                 'required' => 'Tên nhóm không được để trống',
                 'minlength' => 'Tên nhóm phải dài 2 ký tự trở lên',
                 'maxlength' => 'Tên nhóm chỉ dài tối đa 50 ký tự'
-            )
+            ),
+            'password' =>
+                array(
+                    'minlength' => 'Mật khẩu dài tối thiểu 4 ký tự',
+                )
 
         )
     );
 
+    public function editPostAction() {
+        $row = $this->getEditData();
+        if($this->validateEditData($row)) {
+            $password = trim(pzk_request('password'));
+            if($password) {
+                $row['password'] = md5($password);
+                $this->edit($row);
+                pzk_notifier()->addMessage('Cập nhật thành công');
+                $this->redirect('index');
+            }
+            else {
+                $this->edit($row);
+                pzk_notifier()->addMessage('Cập nhật thành công');
+                $this->redirect('index');
+            }
+        } else {
+            pzk_validator()->setEditingData($row);
+            $this->redirect('edit/' . pzk_request('id'));
+        }
+    }
+    public function addPostAction() {
+        $row = $this->getAddData();
+        if($this->validateAddData($row)) {
+            $password = trim(pzk_request('password'));
+            if($password) {
+                $row['password'] = md5($password);
+
+                $this->add($row);
+
+                pzk_notifier()->addMessage('Cập nhật thành công');
+                $this->redirect('index');
+            } else {
+                pzk_validator()->setEditingData($row);
+                $this->redirect('add');
+            }
+        } else {
+            pzk_validator()->setEditingData($row);
+            $this->redirect('add');
+        }
+    }
 
 }
 

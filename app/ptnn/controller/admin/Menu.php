@@ -40,10 +40,11 @@ class PzkAdminMenuController extends PzkGridAdminController {
 
         array(
             'index' => 'parent',
-            'type' => 'parent',
+            'type' => 'select',
             'label' => 'Menu cha',
             'table' => 'admin_menu',
-            'show_value' => 'name'
+            'show_value' => 'id',
+            'show_name' => 'name'
         ),
         array(
             'index' => 'admin_controller',
@@ -73,11 +74,11 @@ class PzkAdminMenuController extends PzkGridAdminController {
 
         array(
             'index' => 'parent',
-            'type' => 'parent',
+            'type' => 'select',
             'label' => 'Menu cha',
             'table' => 'admin_menu',
-            'show_value' => 'name',
-            'curentfield' =>'parent'
+            'show_value' => 'id',
+            'show_name' =>'name'
         ),
         array(
             'index' => 'admin_controller',
