@@ -58,11 +58,14 @@ class PzkCoreDbList extends PzkObject {
 			}
 			$query->where($conds);
 		}
-        //echo $query->getQuery();
         $this->prepareQuery($query);
+        //echo $query->getQuery();
 		return $query->result();
 	}
 
+    public function addFilter($index, $condition) {
+        $this->conditions .= " and {$index} like '%{$condition}%'";
+    }
 
 	
 	public function getCountItems($keyword = NULL, $fields = array()) {

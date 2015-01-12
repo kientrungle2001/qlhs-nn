@@ -6,24 +6,22 @@ $orderBy = pzk_session($controller->table.'OrderBy');
 if($orderBy) {
 	$data->orderBy = $orderBy;
 }
+
+//joins
+if($controller->joins) {
+    $data->joins = $controller->joins;
+}
+//select fields
+if($controller->selectFields) {
+    $data->fields = $controller->selectFields;
+}
 //filter
-if($controller->filterFileds) {
-    $fileds = $controller->filterFileds;
+if($controller->filterFields) {
+    $fileds = $controller->filterFields;
     foreach($fileds as $val) {
-        if($val['type'] == 'status') {
-            $status = pzk_session($controller->table.'Status');
-            if($status) {
-                if($status ==1) {
-                    $data->conditions .= " and status like '%1%'";
-                }else {
-                    $data->conditions .= " and status like '%0%'";
-                }
-            }
-        }elseif($val['type']=='select') {
-            $select = pzk_session($controller->table.'Select');
-            if($select) {
-                $data->conditions .= " and {$val['index']} like '%$select%'";
-            }
+        $condition = pzk_session($controller->table.$val['type'].$val['index']);
+        if(isset($condition)) {
+            $data->addFilter($val['index'], $condition);
         }
     }
 }
@@ -52,8 +50,8 @@ if(pzk_request('controller') =='admin_menu') {
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse fixfilter navbar-collapse" id="navbar-collapse-1">
 
-        <?php if($controller->filterFileds) {
-            $fileds = $controller->filterFileds;
+        <?php if($controller->filterFields) {
+            $fileds = $controller->filterFields;
             foreach($fileds as $field) {
             if($field['type'] == 'text') {
         ?>
@@ -73,13 +71,14 @@ if(pzk_request('controller') =='admin_menu') {
             <?php } elseif($field['type'] == 'status') { ?>
             <form class="navbar-form navbar-right" role="{field[index]}">
                 <div class="form-group">
-                    <select id="{field[index]}" name="{field[index]}" class="form-control" placeholder="Lọc theo status" onchange="window.location='{url /admin}_{controller.module}/SetChangeStatus?status=' + this.value;">
+                    <select id="{field[index]}" name="{field[index]}" class="form-control" placeholder="Lọc theo status" onchange="window.location='{url /admin}_{controller.module}/filter?type={field[type]}&index={field[index]}&{field[type]}=' + this.value;">
                         <option value="">Tất cả</option>
-                        <option value="2">Chưa kích hoạt</option>
+                        <option value="0">Chưa kích hoạt</option>
                         <option value="1">kích hoạt</option>
 
                     </select>
                     <script type="text/javascript">
+                        <?php $status = pzk_session($controller->table.$field['type'].$field['index']); ?>
                         $('#{field[index]}').val('{status}');
                     </script>
                 </div>
@@ -87,18 +86,25 @@ if(pzk_request('controller') =='admin_menu') {
             <?php } elseif($field['type'] == 'select') { ?>
             <form class="navbar-form navbar-right" role="{field[index]}">
                 <div class="form-group">
-                    <select id="{field[index]}" name="{field[index]}" class="form-control" placeholder="Lọc theo status" onchange="window.location='{url /admin}_{controller.module}/ChangeSelect?select=' + this.value;">
+                    <select id="{field[index]}" name="{field[index]}" class="form-control" placeholder="Lọc theo status" onchange="window.location='{url /admin}_{controller.module}/filter?type={field[type]}&index={field[index]}&select=' + this.value;">
                         <option value="">Tất cả</option>
                         <?php
-                        $table = $field['table'];
-                        $dataselect = _db()->useCB()->select('*')->from($table)->where(array('status', 1))->result();
+                        $parents = _db()->select('*')->from($field['table'])->result();
+                        $parents = buildArr($parents, 'parent', 0);
+
                         ?>
-                        {each $dataselect as $val}
-                        <option value="<?php echo $val[$field['show_value']]; ?>"><?php echo $val[$field['show_name']]; ?></option>
+                        <option value="0">Danh mục gốc</option>
+                        {each $parents as $parent}
+                        <option value="<?php echo $parent[$field['show_value']]; ?>" ><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $parent['lever']); ?>
+                        <?php echo $parent[$field['show_name']]; ?>
+                        </option>
                         {/each}
+
+
 
                     </select>
                     <script type="text/javascript">
+                        <?php $select = pzk_session($controller->table.$field['type'].$field['index']); ?>
                         $('#{field[index]}').val('{select}');
                     </script>
                 </div>
