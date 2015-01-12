@@ -31,7 +31,7 @@ $editFieldSettings = $controller->editFieldSettings;
             <?php
             $selected = '';
             if($parent[$field['show_value']] == $row[$field['index']]) { $selected = 'selected'; }?>
-            <option value="<?php echo $parent[$filed['show_value']]; ?>" {selected}><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $parent['lever']); ?>
+            <option value="<?php echo $parent[$field['show_value']]; ?>" {selected}><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $parent['lever']); ?>
             <?php echo $parent[$field['show_name']]; ?>
             </option>
             {/each}
