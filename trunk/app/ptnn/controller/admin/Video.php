@@ -40,10 +40,11 @@ class PzkAdminVideoController extends PzkGridAdminController {
 
         array(
             'index' => 'category_id',
-            'type' => 'parent',
+            'type' => 'select',
             'label' => 'Menu cha',
             'table' => 'categories',
-            'show_value' => 'name'
+            'show_name' => 'name',
+            'show_value' =>'id'
 
         ),
 
@@ -77,11 +78,11 @@ class PzkAdminVideoController extends PzkGridAdminController {
 
         array(
             'index' => 'category_id',
-            'type' => 'parent',
+            'type' => 'select',
             'label' => 'Menu cha',
             'table' => 'categories',
-            'show_value' => 'name',
-            'curentfield' =>'category_id'
+            'show_name' => 'name',
+            'show_value' =>'id'
         ),
         array(
             'index' => 'status',
