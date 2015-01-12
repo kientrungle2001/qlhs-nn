@@ -367,7 +367,7 @@
 	 * Parse selector tra ve 1 mang cac dieu kien loc
 	 *
 	 * @param $selector
-	 * @return mang kieu kien
+	 * @return mang dieu kien
 	 */
 	function parseSelector($selector) {
 		if (isset(self::$selectors[$selector])) return self::$selectors[$selector];
