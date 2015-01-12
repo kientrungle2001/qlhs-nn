@@ -17,5 +17,6 @@ class PzkNewsNews extends PzkObject
 		return($titles2);
 	}
 	
+	
 }
  ?>
