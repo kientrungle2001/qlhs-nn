@@ -1,132 +1,106 @@
-﻿<?php
+﻿
+<?php
 $summary = $data->getSummary();
+$summaryAll = $data->getSummaryAll();
+$summaryTeacher2 = array();
 ?>
-<?php foreach($summary as $teacherName => $teacherData) { ?>
-<h2>Báo cáo doanh thu theo giáo viên {teacherName}</h2>
-<table border="1px" style="width: 1024px; border: 1px solid black; border-collapse: collapse;">
-	<tr>
-		<td>Kỳ</td>
-		<?php foreach($teacherData as $periodName => $periodData) { ?>
-		<td colspan="<?php echo count(array_keys($periodData))+1?>">{periodName}</td>
-		<?php } ?>
-		<td rowspan="2">Tổng kết</td>
-	</tr>
-	<tr>
-		<td>Lớp</td>
-		<?php foreach($teacherData as $periodName => $periodData) { ?>
-			<?php foreach($periodData as $className => $classData) { ?>
-				<td>{className}</td>
-			<?php } ?>
-			<td>Tổng kỳ</td>
-		<?php } ?>
-		<!--td>Tổng kết</td-->
-	</tr>
-	<tr>
-		<td>Số buổi dạy</td>
+<?php foreach($summaryAll['teachers'] as $teacher):?>
+<?php 
+$classes = $summaryAll['summary'][$teacher['id']]['classes'];
+$summaryTable = array();
+
+foreach($classes as $class) 
+{ 
+if($class['teacher2Id']) {
+	$teacher2 = _db()->select('name')->from('teacher')->where('id='.$class['teacher2Id'])->result_one();
+	$teacher2 = $teacher2['name'];	
+} else {
+	$teacher2 = 'Nobody';
+}
+
+?>
+<?php 
+	$periods = $summaryAll['summary'][$teacher['id']]['periods'][$class['id']];
+	$stat = $summaryAll['summary'][$teacher['id']]['stat'][$class['id']];
+?>
+{each $periods as $period}
+	<?php $stdStats = $stat[$period['id']]; $tonghocphi = 0; $tongdatt = 0;
+	
+	?>
+	{each $stdStats as $stdStat}
 		<?php 
-		$total = 0;
-		foreach($teacherData as $periodName => $periodData) { 
-			$subTotal = 0;?>
-			<?php foreach($periodData as $className => $classData) { 
-				$subTotal += $classData['countStudyDate'];
-				?>
-				<td>{classData[countStudyDate]}</td>
-			<?php } 
-			$total += $subTotal;
-			?>
-			<td>{subTotal}</td>
-		<?php } ?>
-		<td>{total}</td>
-	</tr>
-	<tr>
-		<td>Số học sinh</td>
-		<?php 
-		$total = 0;
-		foreach($teacherData as $periodName => $periodData) { 
-			$subTotal = 0;
+			$tonghocphi += $stdStat['hocphi'];
+			if(isset($stdStat['orderId'])){
+				$tongdatt+= $stdStat['hocphi'];
+			}
+			$summaryTeacher2[$teacher['name']][$period['name']][$teacher2]['tong'] = 
+				@$summaryTeacher2[$teacher['name']][$period['name']][$teacher2]['tong']
+				+ $stdStat['hocphi'];
+			if(isset($stdStat['orderId'])){
+				$summaryTeacher2[$teacher['name']][$period['name']][$teacher2]['tongdatt'] = 
+				@$summaryTeacher2[$teacher['name']][$period['name']][$teacher2]['tongdatt']
+				+ $stdStat['hocphi'];
+			}
 		?>
-			<?php foreach($periodData as $className => $classData) { 
-				$subTotal += $classData['countStudent'];
-			?>
-				<td>{classData[countStudent]}</td>
-			<?php } 
-			$total += $subTotal;
-			?>
-			<td>{subTotal}</td>
-		<?php } ?>
-		<td>{total}</td>
-	</tr>
-	<tr>
-		<td>Số lần HS đi học</td>
+	{/each}
+	<?php 
+		$summaryTable[$teacher['name']][$period['name']][$class['name']]['tong'] = $tonghocphi;
+		$summaryTable[$teacher['name']][$period['name']][$class['name']]['tongdatt'] = $tongdatt;
+		$summaryTable[$teacher['name']][$period['name']][$class['name']]['teacher2'] = $teacher2;
+	?>
+{/each}
+<?php
+}
+?>
+<?php endforeach;?>
+<?php foreach($summaryTable as $teacherName => $period):?>
+	<h2>{teacherName}</h2>
+	<?php foreach($period as $periodName => $class):?>
+	<h3>{periodName}</h3>
+	<table border="1" cellspacing="0" cellpadding="5" style="border-collapse: collapse;">
+		<tr>
+			<th>Tên lớp - GV2</th>
+			<th>Tổng cộng</th>
+			<th>Tổng đã thanh toán</th>
+		</tr>
 		<?php 
-		$total = 0;
-		foreach($teacherData as $periodName => $periodData) { 
-			$subTotal = 0;
+		$sum = 0;
+		$sumdatt = 0;
+		foreach($class as $className => $classStat):
+			$sum += $classStat['tong'];
+			$sumdatt += $classStat['tongdatt'];
 		?>
-			<?php foreach($periodData as $className => $classData) { 
-				$subTotal += $classData['statusCount'];
-			?>
-				<td>{classData[statusCount]}</td>
-			<?php } 
-				$total += $subTotal;
-			?>
-			<td>{subTotal}</td>
-		<?php } ?>
-		<td>{total}</td>
-	</tr>
-	<tr>
-		<td>Doanh thu</td>
-		<?php 
-		$total = 0;
-		foreach($teacherData as $periodName => $periodData) { 
-			$subTotal = 0;
-		?>
-			<?php foreach($periodData as $className => $classData) { 
-				$subTotal += $classData['classTotal'];
-				?>
-				<td>{? echo product_price( $classData['classTotal'] ) ?}</td>
-			<?php }
-			$total += $subTotal;
-			?>
-			<td>{? echo product_price($subTotal) ?}</td>
-		<?php } ?>
-		<td>{? echo product_price($total) ?}</td>
-	</tr>
-	<tr>
-		<td>Trả lương</td>
-		<?php 
-		$total = 0;
-		foreach($teacherData as $periodName => $periodData) { 
-		$subTotal = 0;
-		?>
-			<?php foreach($periodData as $className => $classData) { 
-			$subTotal += $classData['teacherTotal'];
-			?>
-				<td>{? echo product_price($classData['teacherTotal']) ?}</td>
-			<?php } 
-			$total += $subTotal;
-			?>
-			<td>{? echo product_price($subTotal) ?}</td>
-		<?php } ?>
-		<td>{? echo product_price($total) ?}</td>
-	</tr>
-	<tr>
-		<td>Doanh thu trung tâm</td>
-		<?php 
-		$total = 0;
-		foreach($teacherData as $periodName => $periodData) { 
-		$subTotal = 0;
-		?>
-			<?php foreach($periodData as $className => $classData) { 
-			$subTotal += $classData['centerTotal'];
-			?>
-				<td>{? echo product_price( $classData['centerTotal']) ?}</td>
-			<?php } 
-			$total += $subTotal;
-			?>
-			<td>{? echo product_price($subTotal) ?}</td>
-		<?php } ?>
-		<td>{? echo product_price($total) ?}</td>
-	</tr>
-</table>
-<?php } ?>
+		<tr>
+			<td>{className} - {classStat[teacher2]}</td>
+			<td>{? echo product_price($classStat['tong']); ?}</td>
+			<td>{? echo product_price($classStat['tongdatt']); ?}</td>
+		</tr>
+		<?php endforeach;?>
+		<tr>
+			<td>Tổng cộng</td>
+			<td>{? echo product_price($sum); ?}</td>
+			<td>{? echo product_price($sumdatt); ?}</td>
+		</tr>
+	</table>
+	
+	<?php 
+		$teacherSummary = $summaryTeacher2[$teacherName][$periodName];
+	?>
+	<br />
+		<table border="1" cellspacing="0" cellpadding="5" style="border-collapse: collapse;">
+		<tr>
+			<th>Giáo viên 2</th>
+			<th>Tổng</th>
+			<th>Tổng đã thanh toán</th>
+		</tr>
+		
+		<?php foreach($teacherSummary as $teacherName => $teacherSummaryDetail):?>
+		<tr>
+		<td>{teacherName}</td><td>{? echo product_price($teacherSummaryDetail['tong']); ?}</td><td>{? echo product_price($teacherSummaryDetail['tongdatt']); ?}</td>
+		</tr>
+		<?php endforeach;?>
+		
+		</table>
+	<?php endforeach;?>
+	
+<?php endforeach;?>
