@@ -185,8 +185,8 @@ if(pzk_request('controller') =='admin_menu') {
 		<td><input id="switch-{field[index]}-{item[id]}" type="checkbox" {if $item['status']}checked="checked"{/if} data-size="mini" /><script type="text/javascript">jQuery('#switch-{field[index]}-{item[id]}').bootstrapSwitch({onSwitchChange: function(evt,state) { {event changeStatus}({id: {item[id]}, status: state}); }})</script></td>
 		{? endif ?}
 		{/each}
-		<td><a href="{url /admin}_{controller.module}/edit/{item[id]}" class="btn btn-primary btn-xs">Sửa</a></td>
-		<td><a href="{url /admin}_{controller.module}/del/{item[id]}">Xóa</td>
+		<td><a href="{url /admin}_{controller.module}/edit/{item[id]}" class="text-center"><span class="glyphicon glyphicon-edit"></span> Sửa</a></td>
+		<td><a class="color_delete text-center" href="{url /admin}_{controller.module}/del/{item[id]}"><span class="glyphicon glyphicon-remove"></span> Xóa</td>
 	</tr>
 	{/each}
 	<tr>
@@ -215,7 +215,7 @@ if(pzk_request('controller') =='admin_menu') {
 		</td>
 	</tr>
 	<tr>
-		<td colspan="8"><a class="btn btn-default" href="{url /admin}_{controller.module}/add">{controller.addLabel}</a></td>
+		<td colspan="8"><a class="btn btn-primary pull-right" href="{url /admin}_{controller.module}/add"><span class="glyphicon glyphicon-plus"></span> {controller.addLabel}</a></td>
 	</tr>
 </table>
 <?php } ?>

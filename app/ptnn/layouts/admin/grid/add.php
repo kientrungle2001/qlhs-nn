@@ -4,9 +4,36 @@
 	$row = pzk_validator()->getEditingData();
     $scriptHolder = pzk_parse('<div id="holder" />');
 ?>
+
+
 <form id="{controller.module}AddForm" role="form" enctype="multipart/form-data" method="post" action="{url /admin}_{controller.module}/addPost">
   <input type="hidden" name="id" value="" />
-  {each $addFieldSettings as $field}
+
+
+    <div class="form-group clearfix">
+        <ul class="nav nav-tabs" role="tablist" id="myTab">
+            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
+            <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="home">sdf1</div>
+            <div role="tabpanel" class="tab-pane" id="profile">sf2</div>
+            <div role="tabpanel" class="tab-pane" id="messages">sfd3</div>
+            <div role="tabpanel" class="tab-pane" id="settings">sf4</div>
+        </div>
+
+        <script>
+            $(function () {
+                $('#myTab a:last').tab('show')
+            })
+        </script>
+    </div>
+
+
+    {each $addFieldSettings as $field}
   {? if ($field['type'] == 'text' || $field['type'] == 'date' || $field['type'] == 'email' || $field['type'] == 'password') : ?}
   <div class="form-group clearfix">
     <label for="{field[index]}">{field[label]}</label>
@@ -168,8 +195,9 @@
 
 
 
+
   <div class="form-group">
-  <button <?php if($field['type'] == 'upload'){ echo "id='uploadfile'";} ?> type="submit" class="btn btn-primary">Cập nhật</button>
-  <a href="{url /admin}_{controller.module}/index">Quay lại</a>
+  <button <?php if($field['type'] == 'upload'){ echo "id='uploadfile'";} ?> type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-saved"></span> Cập nhật</button>
+  <a class="btn btn-default" href="{url /admin}_{controller.module}/index"><span class="glyphicon glyphicon-refresh"></span> Quay lại</a>
   </div>
 </form>
