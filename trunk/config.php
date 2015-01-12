@@ -14,26 +14,24 @@ define('BASE_DIR', SYSTEM_DIR);
 // duong dan goc
 define('BASE_URL', "http://{$_SERVER['HTTP_HOST']}");
 
+// che do rewrite
 define('REWRITE_MODE', true);
 
-if(REWRITE_MODE) {
 // diem khoi chay
-	define('ROUTE_START_INDEX', 1);
+if(REWRITE_MODE) {	
 	define('BASE_REQUEST', "http://{$_SERVER['HTTP_HOST']}");
 } else {
-	define('ROUTE_START_INDEX', 2);
 	define('BASE_REQUEST', "http://{$_SERVER['HTTP_HOST']}/index.php");
 }
 
-// che do request | url than thien
-define('REQUEST_MODE', true);
+// che do seo | url than thien
+define('SEO_MODE', false);
 
 // them include path
 set_include_path(get_include_path() . BASE_DIR . ';');
 
 // che do cache
 define('PZK_CACHE', true);
-
 
 // MENU
 define('MENU', 'MENU');
