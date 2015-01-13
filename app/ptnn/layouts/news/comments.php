@@ -16,6 +16,11 @@ else
 //$pages = ceil($count / 5);	
 
 ?>
+<style>
+.user-id p{padding-top:0px; margin:0px}
+span.comment_date{font-weight:none; font-size:12px;}
+</style>
+
 <div class="comments-wrapper">
 		<div class="Showcomments" align="center" style="margin:20px; float:left;">
 			<div style="clear:both;"></div>
@@ -28,16 +33,19 @@ else
 			<div class="comments" style="width:800px; height:auto; border:1px solid red; float:left;">
 			<?php $allcomments=$data->getComments($newsid); ?>
 			{each $allcomments as $allcomment}
-					<div class="avatar"  style="width:50px; height:50px;float:left; margin:10px; ">
-					<img src="{allcomment[avatar]}" width=50; height=50;></img>
+				<div class=" col-xs-12">
+					<div class="avatar col-xs-2"  style="width:50px; height:50px;float:left; margin:10px; ">
+						<img src="{allcomment[avatar]}" width=50; height=50;></img>
 					</div>
-					<div class="user-comments"style="width:600px; height:auto;">
-						<div class="user-id"><a href="/user/profileusercontent?member={allcomment[username]}"style=" float:left;">{allcomment[name]}</a><span>on {allcomment[created]} says: </span>
-						<p style="float:left;"><?php echo $allcomment['comment'];?></p>
+					<div class="user-comments col-xs-10"style="width:600px; height:auto;">
+						<div class="user-id" style="float:left;">
+							<p><a href="/user/profileusercontent?member={allcomment[username]}">{allcomment[name]}</a></p>
+							<p><span class="comment_date">on {allcomment[created]} says: </span></p>
+							<p><?php echo $allcomment['comment'];?></p>
 						</div>
-						<div style="clear:both;"></div>
 					</div>
-					{/each}
+				</div>
+			{/each}
 			</div>
 		</div>
 <form role="form" method="post" action="/news/commentsPost">
