@@ -61,6 +61,24 @@ class PzkAdminController extends PzkBackendController {
 		}
 		$this->redirect('index');
 	}
+    public function searchFilterAction() {
+        $action	=	pzk_request('submit_action');
+        if($action != 0){
+            pzk_session($this->table.'Keyword', pzk_request('keyword'));
+        }else{
+            pzk_session($this->table.'Keyword', '');
+            $setting = pzk_controller();
+            $fileds = $setting->filterFields;
+            if(isset($fileds)) {
+                foreach($fileds as $val) {
+                    pzk_session($setting->table.$val['type'].$val['index'],'');
+
+                }
+            }
+
+        }
+        $this->redirect('index');
+    }
 	public function indexAction() {
 		$this->initPage()
 		->append('admin/'.pzk_or($this->customModule, $this->module).'/index')

@@ -13,11 +13,12 @@ class PzkAdminLevelactionController extends PzkGridAdminController {
         array(
             'index' => 'admin_level',
             'type' => 'text',
-            'label' => 'tên quyền'
+            'label' => 'Tên quyền'
         ),
         array(
             'index' => 'admin_action',
             'type' => 'select',
+            'label' => 'Tên menu',
             'table' => 'admin_menu',
             'show_value' => 'admin_controller',
             'show_name' => 'name',
@@ -25,10 +26,12 @@ class PzkAdminLevelactionController extends PzkGridAdminController {
         array(
             'index'=>'status',
             'type' => 'status',
-            'label' => 'status'
+            'label' => 'Trạng thái'
         )
 
     );
+
+    public $searchFields = array('admin_level');
 
     public $linkRightMenu = array(
         array(
