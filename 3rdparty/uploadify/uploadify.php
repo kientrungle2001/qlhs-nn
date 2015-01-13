@@ -13,7 +13,7 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
             $fileTypes = array('mp4'); // File extensions
         }elseif($_POST['uploadtype'] =='image') {
             $targetFolder = '/3rdparty/uploads/images'; // Relative to the root
-            $fileTypes = array('jpg','jpeg','png'); // File extensions
+            $fileTypes = array('jpg','jpeg','png','gif'); // File extensions
         }elseif($_POST['uploadtype'] =='file') {
             $targetFolder = '/3rdparty/uploads/files'; // Relative to the root
             $fileTypes = array('jpg','jpeg','png'); // File extensions
