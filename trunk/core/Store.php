@@ -14,7 +14,7 @@ class PzkStore {
 	 * Ham khai bao kho du lieu
 	 * @param $type: loai kho du lieu luu tru
 	 */
-	public function PzkStore($type = 'php') {
+	public function __construct($type = 'php') {
 		$storage = 'Pzk' . strtoupper($type[0]) . substr($type, 1) . 'Store';
 		$this->storage = new $storage();
 	}
@@ -102,7 +102,7 @@ class PzkStore {
  *
  */
 class PzkPhpStore extends PzkStore {
-	public function PzkPhpStore() {
+	public function __construct() {
 		$this->storage = array();
 	}
 	public function get($key, $timeout = null) {
@@ -119,7 +119,7 @@ class PzkPhpStore extends PzkStore {
  *
  */
 class PzkMemcacheStore extends PzkStore {
-	public function PzkMemcacheStore() {
+	public function __construct() {
 
 		$memcache = new Memcache();
 		$memcache->connect('localhost', 11211) or die ("Could not connect");
@@ -145,6 +145,9 @@ class PzkMemcacheStore extends PzkStore {
 class PzkFilecacheStore extends PzkStore {
 	public $dir = 'cache';
 	public $nocache = false;
+	public function __construct() {
+		
+	}
 	public function get($key, $timeout = null) {
 		if (!@$key) return false;
 		$fileName = $this->dir . '/' . md5($key) . '.txt';
@@ -187,8 +190,7 @@ class PzkFilecacheStore extends PzkStore {
  *
  */
 class PzkSessionStore extends PzkStore {
-	public function PzkSessionStore() {
-		//session_start();
+	public function __construct() {
 	}
 
 	public function get($key, $timeout = null) {
@@ -211,6 +213,9 @@ class PzkSessionStore extends PzkStore {
 
 class PzkFileVarStore extends PzkFilecacheStore {
 	public $nocache = true;
+	public function __construct() {
+		
+	}
 	public function get($key, $timeout = null) {
 		$value = parent::get($key, $timeout);
 		if ($value !== NULL)
@@ -223,17 +228,35 @@ class PzkFileVarStore extends PzkFilecacheStore {
 	}
 }
 
+class PzkFileVarSessionStore extends PzkFileVarStore {
+	public $dir = 'cache/session';
+	public function __construct() {
+		@mkdir('cache', 0777);
+		@mkdir('cache/session', 0777);
+	}
+	public function get($key, $timeout = null) {
+		$key = session_id().$key;
+		$value = parent::get($key, $timeout);
+		return $value;
+	}
+
+	public function set($key, $value) {
+		$key = session_id().$key;
+		return parent::set($key, $value);
+	}
+}
+
 /**
  * Luu tru bang database
  *
  */
 class PzkDatabaseStore extends PzkStore {
 	public function PzkDatabaseStore() {
-		$this->storage = pzk_db();
+		$this->storage = _db();
 	}
 
 	public function get($key, $timeout = null) {
-		return @$this->storage->select('id, key, value')->from('store');
+		return @$this->storage->select('id, mkey, mvalue')->from('mstore');
 	}
 
 	public function set($key, $value) {
@@ -254,8 +277,8 @@ class PzkMongoStore extends PzkStore {
 /**
 @desc: ham lay gia tri trong cac store theo kieu key, value
 @param $key: viet duoi dang store.key
-@example: 	_pzk('session.abc123') se tra ve gia tri tuong ung voi key = abc123 luu trong session
-_pzk('session.abc123', 'cai gi do') se gan gia tri 'cai gi do' cho key = abc123 luu trong session
+@example: 	pzk_store('session.abc123') se tra ve gia tri tuong ung voi key = abc123 luu trong session
+pzk_store('session.abc123', 'cai gi do') se gan gia tri 'cai gi do' cho key = abc123 luu trong session
 */
 function pzk_store($key, $value = NULL, $timeout = NULL) {
 
