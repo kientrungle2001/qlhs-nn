@@ -16,6 +16,7 @@ class PzkGridAdminController extends PzkAdminController {
 	public $addFieldSettings = array();
 	public $editFieldSettings = array();
 	public $searchFields = array();
+    public $labelSearch = false;
 	public $filterFieldSettings = array();
 	public $sortFields = array();
 	public $events = array(

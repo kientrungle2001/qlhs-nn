@@ -9,12 +9,12 @@ class PzkAdminLevelactionController extends PzkGridAdminController {
 
 
     );
+
+    public $searchFields = array('admin_level');
+    public $labelSearch ='Tên quyền';
+
     public $filterFields = array(
-        array(
-            'index' => 'admin_level',
-            'type' => 'text',
-            'label' => 'Tên quyền'
-        ),
+
         array(
             'index' => 'admin_action',
             'type' => 'select',
@@ -30,8 +30,6 @@ class PzkAdminLevelactionController extends PzkGridAdminController {
         )
 
     );
-
-    public $searchFields = array('admin_level');
 
     public $linkRightMenu = array(
         array(
