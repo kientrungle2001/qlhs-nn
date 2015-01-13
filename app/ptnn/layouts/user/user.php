@@ -39,16 +39,16 @@
 <div id="user" style="padding-right: 50px;padding-button: 50px;">
 <?php
     if(pzk_session('login')){
-
+    $ip=$data->getRealIPAddress();
     $data->loadData();
    ?>
 
 <div class="menu">
 <ul>
-  <li> <a href="/user/profileuser"><?php echo "Xin chào: ". $data->getName();     ?></a>
+  <li> <a href="/user/profileusercontent?member=<?php echo  pzk_session('username');  ?>"><?php echo "Xin chào: ". $data->getName();     ?></a>
   <ul>
     <li><a href="#">Tài khoản hiện có :<?php if( $data->getAmount()==0) echo 0; else echo $data->getAmount(); ?>vnđ</a></li>
-    <li><a href="/user/editinfor">Sửa thông tin cá nhân</a></li>
+    <li><a href="/user/profileusercontent?member=<?php echo  pzk_session('username');  ?>">Vào trang cá nhân</a></li>
     <li><a href="/user/payment">Nạp tiền</a></li>
      <li><a href="/user/logout">Thoát</a></li>
   </ul>
