@@ -1,6 +1,6 @@
 {\rtf1\ansi\ansicpg1252\deff0\deftab709{\fonttbl{\f0\fnil\fcharset163 Times New Roman;}{\f1\fnil\fcharset0 Times New Roman;}}
 {\colortbl ;\red0\green0\blue255;}
-{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\nowidctlpar\lang1066\kerning1\f0\fs24 C\'e1c kh\'e1i ni\u7879?m s\u7917?d\u7909?ng trong h\u7879?th\u7889?ng\par
+{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\nowidctlpar\lang1066\kerning1\f0\fs24 C\'e1c kh\'e1i ni\u7879?m s\u7917?\lang1033\f1  \lang1066\f0 d\u7909?ng trong h\u7879?\lang1033\f1  \lang1066\f0 th\u7889?ng\par
 Controller\par
 Parser\par
 Object\par
@@ -14,7 +14,7 @@ Entity\par
 \'d0\u7875?\lang1033\f1  \lang1066\f0 gom nh\'f3m l\u7841?i c\'f3 th\u7875? cho v\'e0o trong th\'fd m\u7909?c(package)\par
 Ex: controller \i Banner, News\i0  trong th\'fd m\u7909?c \i admin\i0\par
 C\'e1c th\'fd m\u7909?c(package) vi\u7871?t d\u7841?ng ch\u7919?th\'fd\u7901?ng\par
-Khi ch\u7841?y tr\'ean url, \'f0\u7875?ch\u7841?y \'f0\u7871?n controller \'f0\'f3 ta ph\'e2n c\'e1ch th\'fd m\u7909?c b\u7857?ng d\u7845?u _\par
+Khi ch\u7841?y tr\'ean url, \'f0\u7875?\lang1033\f1  \lang1066\f0 ch\u7841?y \'f0\u7871?n controller \'f0\'f3 ta ph\'e2n c\'e1ch th\'fd m\u7909?c b\u7857?ng d\u7845?u _\par
 Ex: \i{\field{\*\fldinst{HYPERLINK "http://ptnn.vn/admin_banner/index"}}{\fldrslt{\ul\cf1 http://ptnn.vn/admin_banner/index}}}\i0\f0\fs24\par
 \b T\u7841?o 1 controller th\'f4ng th\'fd\u7901?ng\b0 :\par
 class PzkTestController extends PzkController \{\par
@@ -124,7 +124,7 @@ Ex 3:\par
 \i $userRegister->setUsername('abc123');\i0\par
 \i $this->append($userRegister);\i0\par
 \b public function display()\b0\par
-Hi\u7875?n th\u7883?b\u7889?c\u7909?c\par
+Hi\u7875?n th\u7883?\lang1033\f1  \lang1066\f0 b\u7889?c\u7909?c\par
 \i $this->display();\i0\par
 \b public function render($page)\b0\par
 Hi\u7875?n th\u7883?\'f0\u7889?i t\'fd\u7907?ng trong b\u7889?c\u7909?c chung\par
@@ -200,6 +200,8 @@ Thu\u7897?c t\'ednh cssExternalLink gi\u7919? nguy\'ean \u273?\u432?\u7901?ng d\
 T\u432?\u417?ng t\u7921? cho file js \u273?i k\'e8m v\u7899?i \u273?\u7889?i t\u432?\u7907?ng\par
 \b G\u7885?i model t\u7915? \u273?\u7889?i t\u432?\u7907?ng\b0 :\par
 G\u7885?i h\'e0m $this->getModel($modelName);\par
+\b Th\'eam con cho \u273?\u7889?i t\u432?\u7907?ng:\b0\par
+$obj->append($obj2);\par
 \b L\u7845?y con c\u7911?a \u273?\u7889?i t\u432?\u7907?ng b\u7857?ng selector\b0 :\par
 $children = $this->getChildren($selector);\par
 Selector c\'f3 ki\u7875?u: [field=value]\par
@@ -251,6 +253,7 @@ Memcache: pzk_store('memcache.var1'); -> pzk_memcache('var1');\par
 Filecache: pzk_filecache('var1'); l\u432?u value d\u7841?ng string\par
 FileVar: pzk_filevar('var1'); l\u432?u value \u273?\u432?\u7907?c d\u7841?ng m\u7843?ng\par
 FileVarSession: L\u432?u session d\u7841?ng file\par
+C\'e1c store \u273?\u432?\u7907?c khai b\'e1o trong /system/full.php\par
 \b\fs40 Database\b0\fs24\par
 \b\fs32 Select\b0\fs24\par
 \b\fs28 Th\'f4ng th\u432?\u7901?ng\b0\par
@@ -291,8 +294,35 @@ _db()->useCB()->delete()->from('user')->where(array('id', 1))->result();\par
 \b\fs40 Entity\b0\fs24\par
 Entity l\'e0 m\u7897?t d\u7841?ng model n\'ean ta c\'f3 th\u7875? g\u7885?i:\par
 $entity = pzk_loader()->createModel('entity.user.user');\par
+Ho\u7863?c d\'f9ng: $entity = _db()->getEntity('user.user');\par
 \b\fs32 Khai b\'e1o:\b0\fs24\par
 M\u7895?i m\u7897?t entity khi khai b\'e1o k\u7871? th\u7915?a l\u7899?p PzkEntityModel, v\'e0 khai b\'e1o $table \u273?\u7841?i di\u7879?n cho b\u7843?ng d\u7919? li\u7879?u mysql\par
+\b Load d\u7919? li\u7879?u:\b0\par
+$entity->load($id);\par
+$entity->loadWhere(array('username', 'admin'));\par
+\b Thay \u273?\u7893?i v\'e0 l\u432?u d\u7919? li\u7879?u:\b0\par
+$entity->setAddress('s\u7889? 6 ng\'f5 115 Nguy\u7877?n Khang');\par
+$entity->save();\par
+\b C\u7853?p nh\u7853?t d\u7919? li\u7879?u:\b0\par
+$entity->update(array('address' => 's\u7889? 6 ng\'f5 115 Nguy\u7877?n Khang'));\par
+\b T\u7841?o m\u7899?i d\u7919? li\u7879?u:\b0\par
+$entity = _db()->getEntity('user.user');\par
+$entity->setData($user);\par
+$entity->save();\par
+echo $entity->getId();\par
+\b Table Entity\b0\par
+L\'e0 m\u7897?t entity d\'f9ng chung\par
+$entity = _db()->getEntity('table');\par
+$entity->setTable('user');\par
+....\par
+$entity->save();\par
+....\par
+Thay v\'ec m\u7895?i entity m\u7897?t b\u7843?ng th\'ec d\'f9ng chung 1 entity nh\u432?ng set b\u7843?ng cho entity \u273?\'f3\par
+\b Query tr\u7843? v\u7873? danh s\'e1ch c\'e1c entity\b0\par
+$entities = _db()->select('*')->from('user')->limit(10,1)->result(\b 'user.user'\b0 );\par
+foreach($entities as $entity) \{\par
+\tab echo $entity->getAddress();\par
+\}\par
 \par
 }
  
