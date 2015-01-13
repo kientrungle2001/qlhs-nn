@@ -2,14 +2,23 @@
 /**
  * View object
  *
- */class PzkObject {	public $children;	public $layout = 'empty';	public $scriptable = false;
-	public $scriptTo = 'head';	public $cacheable = false;
-	public $userable = false;	public $role = false;	public $cacher = 'filecache';
+ */
+class PzkObject {
+	public $children;
+	public $layout = 'empty';
+	public $scriptable = false;
+	public $scriptTo = 'head';
+	public $cacheable = false;
+
+	public $userable = false;
+	public $role = false;
+	public $cacher = 'filecache';
 
 	/**
 	 * cac tham so dung de cache, viet cach nhau boi dau phay
 	 */
-	public $cacheParams = 'id';
+
+	public $cacheParams = 'id';
 
 	/**
 	 * Cac tham so dung de cho ham toArray, viet cach nhau boi dau phay
@@ -23,7 +32,8 @@
 
 	/**
 	 * Id lon nhat cua element
-	 */	public static $maxId = 0;
+	 */
+	public static $maxId = 0;
 
 	/**
 	 * Css lien quan den object, css nay se duoc cache lai
@@ -51,8 +61,14 @@
 	 * Ham khoi tao mot object voi cac attribute cua no truyen
 	 * dang mang
 	 * @param $attrs la cac thuoc tinh cua doi tuong
-	 */	public function __construct($attrs) {
-		foreach($attrs as $key => $value) $this->$key = $value;		$this->children = array();		if (!@$this->id) {			$this->id = 'uniqueId' . self::$maxId;			self::$maxId++;		}
+	 */
+	public function __construct($attrs) {
+		foreach($attrs as $key => $value) $this->$key = $value;
+		$this->children = array();
+		if (!@$this->id) {
+			$this->id = 'uniqueId' . self::$maxId;
+			self::$maxId++;
+		}
 
 		$this->css();
 		$this->javascript();
@@ -127,29 +143,51 @@
 			}
 			
 		}
-	}
+	}
+
 	/**
 	 * Ham nay chay khi doi tuong vua duoc khoi tao,
 	 * cac doi tuong con cua no chua duoc khoi tao
-	 */	public function init() {	}
+	 */
+	public function init() {
+	}
+
 	/**
 	 * Ham nay dung de hien thi doi tuong
-	 */	public function display() {
-		$this->script();		$this->html();
-			}
+	 */
+	public function display() {
+		$this->script();
+		$this->html();
+		
+	}
+
 	/**
 	 * Ham nay tao 1 instance javascript cho doi tuong hien thi
-	 */	public function script() {		if ($this->scriptable === true || $this->scriptable === 'true') {
+	 */
+	public function script() {
+		if ($this->scriptable === true || $this->scriptable === 'true') {
 			$page = pzk_page();
-			if ($page) {				$page->addJsInst($this->toArray());
-			}		}	}
+			if ($page) {
+				$page->addJsInst($this->toArray());
+			}
+		}
+	}
+
 	/**
 	 * Ham nay tra ve html cua doi tuong can hien thi
 	 * Neu request no cache hoac cau hinh cua doi tuong
 	 * co cacheable = false thi se ko cache
 	 * nguoc lai thi se cache
-	 */	public function html() {		if (!@$_REQUEST['noCache'] && ($this->cacheable === true
-		|| $this->cacheable === 'true')) {			$this->cache();		} else {			echo $this->getContent();		}		return true;	}
+	 */
+	public function html() {
+		if (!@$_REQUEST['noCache'] && ($this->cacheable === true
+		|| $this->cacheable === 'true')) {
+			$this->cache();
+		} else {
+			echo $this->getContent();
+		}
+		return true;
+	}
 
 	/**
 	 *	Ham cache lai noi dung hien thi
@@ -165,18 +203,35 @@
 		}
 		echo $content;
 	}
-	/**
+
+	/**
 	 *	Tra ve html cua doi tuong can hien thi
 	 * 	truong hop nay la truong hop khi khong co cache
-	 */	public function getContent() {
-		return PzkParser::parseLayout($this->layout, $this, true);	}
+	 */
+	public function getContent() {
+		return PzkParser::parseLayout($this->layout, $this, true);
+	}
+
 	/**
 	 * 	Tao key cho doi tuong can hien thi (de cache)
-	 */	public function hash() {		$cacheParams = explode(',',$this->cacheParams);		$hash ='';		foreach($cacheParams as $param) {			$param = trim($param);			$hash .= @$this->$param;		}		return md5($hash);	}
+	 */
+	public function hash() {
+		$cacheParams = explode(',',$this->cacheParams);
+		$hash ='';
+		foreach($cacheParams as $param) {
+			$param = trim($param);
+			$hash .= @$this->$param;
+		}
+		return md5($hash);
+	}
+
 	/**
 	 *	Append mot child object 
-	 */	public function append($obj) {
-		$obj->pzkParentId = @$this->id;		$this->children[] = $obj;	}
+	 */
+	public function append($obj) {
+		$obj->pzkParentId = @$this->id;
+		$this->children[] = $obj;
+	}
 	
 	/**
 	 * Prepend mot child object
@@ -362,12 +417,13 @@
 			}
 		}
 		return true;
-	}	
+	}
+	
 	/**
 	 * Parse selector tra ve 1 mang cac dieu kien loc
 	 *
 	 * @param $selector
-	 * @return mang dieu kien
+	 * @return mang kieu kien
 	 */
 	function parseSelector($selector) {
 		if (isset(self::$selectors[$selector])) return self::$selectors[$selector];
@@ -396,7 +452,9 @@
 
 	/**
 	 * Ham nay chay khi tat ca cac child object cua no da duoc khoi tao
-	 */	public function finish() {	}
+	 */
+	public function finish() {
+	}
 	
 	/**
 	 * Ham nay tra ve array mo ta doi tuong dua theo arrayParams
@@ -499,4 +557,5 @@
 		}
 		$str = "(function(data){ {$str} })";
 		return $str;
-	}}
+	}
+}
