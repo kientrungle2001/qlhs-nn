@@ -9,7 +9,7 @@ class pzkAdminDemoGridController extends pzkGridAdminController {
         )
     );
     //select table
-    public $selectFields = 'admin.*, admin_level.level,admin_level.status as v';
+    public $selectFields = 'admin.*, admin_level.level';
     public $listFieldSettings = array(
         array(
             'index' => 'name',
@@ -69,6 +69,9 @@ class pzkAdminDemoGridController extends pzkGridAdminController {
     );
     //add table
     public $addFields = 'name, usertype_id, password, status';
+    public $addLabel = 'Thêm quyền';
+
+    //add theo dang tab
     public $setAddTabs = array(
         array(
             'name' => 'tab1',
@@ -114,7 +117,7 @@ class pzkAdminDemoGridController extends pzkGridAdminController {
         )
 
     );
-    public $addLabel = 'Thêm quyền';
+    //add theo dang binh thuong
     public $addFieldSettings = array(
         array(
             'index' => 'name',
@@ -178,6 +181,7 @@ class pzkAdminDemoGridController extends pzkGridAdminController {
 
     //edit table
     public $editFields = 'name, usertype_id, password, status';
+    //edit theo dang tab
     public $setEditTabs = array(
         array(
             'name' => 'tab1',
@@ -223,6 +227,7 @@ class pzkAdminDemoGridController extends pzkGridAdminController {
         )
 
     );
+    //edit theo dang binh thuong
     public $editFieldSettings = array(
         array(
             'index' => 'name',
