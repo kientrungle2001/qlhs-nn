@@ -67,6 +67,7 @@ class PzkAdminController extends PzkBackendController {
             pzk_session($this->table.'Keyword', pzk_request('keyword'));
         }else{
             pzk_session($this->table.'Keyword', '');
+            pzk_session($this->table.'OrderBy', '');
             $setting = pzk_controller();
             $fileds = $setting->filterFields;
             if(isset($fileds)) {

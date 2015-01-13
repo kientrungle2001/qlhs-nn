@@ -2,6 +2,9 @@
 
 $controller = pzk_controller();
 $sortFields = $controller->sortFields;
+$filedFilters = $controller->filterFields;
+$searchFields = $controller->searchFields;
+$labelSearch = $controller->labelSearch;
 $listFieldSettings = $controller->listFieldSettings;
 $orderBy = pzk_session($controller->table.'OrderBy');
 if($orderBy) {
@@ -44,22 +47,21 @@ if(pzk_request('controller') =='admin_menu') {
 }
 
 ?>
+<!-- search, filter, sort -->
   <div class="well">
+      <?php if($sortFields or $filedFilters or $searchFields) ?>
       <form role="search" action="{url /admin}_{controller.module}/searchFilter">
           <div class="row">
-        <?php if($controller->filterFields) {
-            $fileds = $controller->filterFields;
-            foreach($fileds as $field) {
-            if($field['type'] == 'text') {
-        ?>
-
-                <div class="form-group col-xs-2">
-                    <label>{field[label]}</label><br>
-                    <input type="<?php echo $field['type'] ?>" name="keyword" class="form-control" placeholder="<?php echo $field['label']; ?>" value="{keyword}">
-                </div>
-
-
-                <?php } elseif($field['type'] == 'status') { ?>
+           <?php if($searchFields) {
+           ?>
+              <div class="form-group col-xs-2">
+                  <label>Tìm theo  </label><br>
+                  <input type="text" name="keyword" class="form-control" placeholder="<?php if($labelSearch){ echo $labelSearch; } ?>" value="{keyword}">
+              </div>
+            <?Php } ?>
+        <?php if($filedFilters) {
+            foreach($filedFilters as $field) {
+                if($field['type'] == 'status') { ?>
                 <div style="width: 19%" class="form-group col-xs-3">
                     <label>{field[label]}</label><br>
                     <select id="{field[index]}" name="{field[index]}" class="form-control" placeholder="Lọc theo status" onchange="window.location='{url /admin}_{controller.module}/filter?type={field[type]}&index={field[index]}&{field[type]}=' + this.value;">
@@ -101,6 +103,8 @@ if(pzk_request('controller') =='admin_menu') {
                  <?php } ?>
 
         <?php  } } ?>
+
+              <?php if($sortFields) { ?>
               <div class="form-group col-xs-2">
                   <label>Sắp xếp</label><br>
                   <select id="orderBy" name="orderBy" class="form-control" placeholder="Sắp xếp theo" onchange="window.location='{url /admin}_{controller.module}/changeOrderBy?orderBy=' + this.value;">
@@ -112,13 +116,14 @@ if(pzk_request('controller') =='admin_menu') {
                       $('#orderBy').val('{orderBy}');
                   </script>
               </div>
-
+                <?php } ?>
+              <?php if($searchFields) { ?>
               <div style="width: 12%;" class="form-group col-xs-2">
                   <label>&nbsp;</label><br>
                   <button type="submit" value="1" name="submit_action" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-search"></span> Tìm kiếm</button>
               </div>
-
-              <div class="form-group col-xs-1">
+                <?php } ?>
+              <div  class="form-group col-xs-1">
                   <label>&nbsp;</label><br>
                   <button type="submit" value="0" name="submit_action" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-refresh"></span> Reset</button>
               </div>
@@ -127,7 +132,8 @@ if(pzk_request('controller') =='admin_menu') {
       </form>
 
 
-  </div><!-- /.navbar-collapse -->
+  </div><!-- end well -->
+<!-- end search, filter, sort -->
 
 <?Php if(isset($arrmenu)) { ?>
 
