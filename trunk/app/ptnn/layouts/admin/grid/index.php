@@ -44,46 +44,24 @@ if(pzk_request('controller') =='admin_menu') {
 }
 
 ?>
-<nav class="navbar navbar-default" role="navigation">
-  <div class="container-fluid">
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse fixfilter navbar-collapse" id="navbar-collapse-1">
-
+  <div class="well">
+      <form role="search" action="{url /admin}_{controller.module}/searchFilter">
+          <div class="row">
         <?php if($controller->filterFields) {
             $fileds = $controller->filterFields;
             foreach($fileds as $field) {
             if($field['type'] == 'text') {
         ?>
-            <style>
-                .fixfilter .navbar-form{
-                    padding: 10px 2px;
-                }
-            </style>
 
-            <form class="navbar-form navbar-left" role="search" action="{url /admin}_{controller.module}/searchPost">
-                <div class="form-group">
-                    <input type="<?php echo $field['type'] ?>" name="keyword" class="form-control" placeholder="Từ khóa" value="{keyword}">
+                <div class="form-group col-xs-2">
+                    <label>{field[label]}</label><br>
+                    <input type="<?php echo $field['type'] ?>" name="keyword" class="form-control" placeholder="<?php echo $field['label']; ?>" value="{keyword}">
                 </div>
-                <button type="submit" class="btn btn-default">Tìm kiếm</button>
-            </form>
 
-            <form class="navbar-form navbar-right" role="sort">
-                <div class="form-group">
-                    <select id="orderBy" name="orderBy" class="form-control" placeholder="Sắp xếp theo" onchange="window.location='{url /admin}_{controller.module}/changeOrderBy?orderBy=' + this.value;">
-                        <?php foreach ($sortFields as $value => $label){ ?>
-                            <option value="{value}">{label}</option>
-                        <?php } ?>
-                    </select>
-                    <script type="text/javascript">
-                        $('#orderBy').val('{orderBy}');
-                    </script>
-                </div>
-            </form>
 
-            <?php } elseif($field['type'] == 'status') { ?>
-            <form class="navbar-form navbar-right" role="{field[index]}">
-                <div class="form-group">
+                <?php } elseif($field['type'] == 'status') { ?>
+                <div style="width: 19%" class="form-group col-xs-3">
+                    <label>{field[label]}</label><br>
                     <select id="{field[index]}" name="{field[index]}" class="form-control" placeholder="Lọc theo status" onchange="window.location='{url /admin}_{controller.module}/filter?type={field[type]}&index={field[index]}&{field[type]}=' + this.value;">
                         <option value="">Tất cả</option>
                         <option value="0">Chưa kích hoạt</option>
@@ -95,47 +73,61 @@ if(pzk_request('controller') =='admin_menu') {
                         $('#{field[index]}').val('{status}');
                     </script>
                 </div>
-            </form>
-            <?php } elseif($field['type'] == 'select') { ?>
-            <form class="navbar-form navbar-right" role="{field[index]}">
-                <div class="form-group">
-                    <select id="{field[index]}" name="{field[index]}" class="form-control" placeholder="Lọc theo status" onchange="window.location='{url /admin}_{controller.module}/filter?type={field[type]}&index={field[index]}&select=' + this.value;">
-                        <option value=""> -- Tất cả</option>
-                        <?php
-                        $parents = _db()->select('*')->from($field['table'])->result();
-                        $parents = buildArr($parents, 'parent', 0);
+                <?php } elseif($field['type'] == 'select') { ?>
+                    <div  class="form-group col-xs-3">
+                        <label>{field[label]}</label><br>
+                        <select id="{field[index]}" name="{field[index]}" class="form-control" placeholder="Lọc theo status" onchange="window.location='{url /admin}_{controller.module}/filter?type={field[type]}&index={field[index]}&select=' + this.value;">
+                            <option value=""> -- Tất cả</option>
+                            <?php
+                            $parents = _db()->select('*')->from($field['table'])->result();
+                            $parents = buildArr($parents, 'parent', 0);
 
-                        ?>
-                        <option value="0"> -- Danh mục gốc</option>
-                        {each $parents as $parent}
-                        <option value="<?php echo $parent[$field['show_value']]; ?>" ><?php echo str_repeat('--', $parent['lever']); ?>
-                        <?php echo $parent[$field['show_name']]; ?>
-                        </option>
-                        {/each}
+                            ?>
+                            {each $parents as $parent}
+                            <option value="<?php echo $parent[$field['show_value']]; ?>" ><?php echo str_repeat('--', $parent['lever']); ?>
+                                <?php echo $parent[$field['show_name']]; ?>
+                            </option>
+                            {/each}
 
 
 
-                    </select>
-                    <script type="text/javascript">
-                        <?php $select = pzk_session($controller->table.$field['type'].$field['index']); ?>
-                        $('#{field[index]}').val('{select}');
-                    </script>
-                </div>
-            </form>
+                        </select>
+                        <script type="text/javascript">
+                            <?php $select = pzk_session($controller->table.$field['type'].$field['index']); ?>
+                            $('#{field[index]}').val('{select}');
+                        </script>
+                    </div>
 
-
-            <?php } ?>
-
+                 <?php } ?>
 
         <?php  } } ?>
+              <div class="form-group col-xs-2">
+                  <label>Sắp xếp</label><br>
+                  <select id="orderBy" name="orderBy" class="form-control" placeholder="Sắp xếp theo" onchange="window.location='{url /admin}_{controller.module}/changeOrderBy?orderBy=' + this.value;">
+                      <?php foreach ($sortFields as $value => $label){ ?>
+                          <option value="{value}">{label}</option>
+                      <?php } ?>
+                  </select>
+                  <script type="text/javascript">
+                      $('#orderBy').val('{orderBy}');
+                  </script>
+              </div>
+
+              <div style="width: 12%;" class="form-group col-xs-2">
+                  <label>&nbsp;</label><br>
+                  <button type="submit" value="1" name="submit_action" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-search"></span> Tìm kiếm</button>
+              </div>
+
+              <div class="form-group col-xs-1">
+                  <label>&nbsp;</label><br>
+                  <button type="submit" value="0" name="submit_action" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-refresh"></span> Reset</button>
+              </div>
+
+            </div>
+      </form>
 
 
-
-
-
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
+  </div><!-- /.navbar-collapse -->
 
 <?Php if(isset($arrmenu)) { ?>
 
