@@ -167,9 +167,12 @@ if(pzk_request('controller') =='admin_menu') {
 
 <?php } else { ?>
 
+
 <table class="table">
 	<tr>
-		<th>#</th>
+		<th><input type="checkbox" id="selecctall"/>
+        </th>
+        <th>#</th>
 		{each $listFieldSettings as $field}
 		<th>{field[label]}</th>
 		{/each}
@@ -178,7 +181,8 @@ if(pzk_request('controller') =='admin_menu') {
 	{each $items as $item}
 
 	<tr>
-		<td>{item[id]}</td>
+		<td><input class="grid_checkbox" type="checkbox" name="grid_check[]" value="{item[id]}"></td>
+        <td>{item[id]}</td>
 		{each $listFieldSettings as $field}
 
 		{? if ($field['type'] == 'text') : ?}
@@ -222,3 +226,20 @@ if(pzk_request('controller') =='admin_menu') {
 	</tr>
 </table>
 <?php } ?>
+
+<script>
+    $(document).ready(function() {
+        $('#selecctall').click(function(event) {
+            if(this.checked) {
+                $('.grid_checkbox').each(function() {
+                    this.checked = true;
+                });
+            }else{
+                $('.grid_checkbox').each(function() {
+                    this.checked = false;
+                });
+            }
+        });
+
+    });
+</script>
