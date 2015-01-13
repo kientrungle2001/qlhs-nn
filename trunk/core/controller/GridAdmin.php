@@ -7,6 +7,8 @@ class PzkGridAdminController extends PzkAdminController {
     public $joins = false;
     public $selectFields = '*';
     public $childTable = false;
+    public $setAddTabs = false;
+    public $setEditTabs = false;
     public $filterFields = false;
     public $menuLinks = false;
 	public $listFieldSettings = array();

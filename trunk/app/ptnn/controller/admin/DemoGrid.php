@@ -69,6 +69,51 @@ class pzkAdminDemoGridController extends pzkGridAdminController {
     );
     //add table
     public $addFields = 'name, usertype_id, password, status';
+    public $setAddTabs = array(
+        array(
+            'name' => 'tab1',
+            'listFields' => array(
+                array(
+                    'index' => 'name',
+                    'type' => 'text',
+                    'label' => 'Tên người dùng'
+                ),
+                array(
+                    'index' => 'password',
+                    'type' => 'password',
+                    'label' => 'Password'
+                ),
+            )
+        ),
+        array(
+            'name' => 'tab2',
+            'listFields' => array(
+                array(
+                    'index' => 'usertype_id',
+                    'type' => 'select',
+                    'label' => 'tên quyền',
+                    'table' => 'admin_level',
+                    'show_value' => 'id',
+                    'show_name' => 'level',
+                ),
+
+                array(
+                    'index' => 'status',
+                    'type' => 'status',
+                    'label' => 'Trạng thái',
+                    'options' => array(
+                        '0' => 'Không hoạt động',
+                        '1' => 'Hoạt động'
+                    ),
+                    'actions' => array(
+                        '0' => 'mở',
+                        '1' => 'dừng'
+                    )
+                )
+            )
+        )
+
+    );
     public $addLabel = 'Thêm quyền';
     public $addFieldSettings = array(
         array(
@@ -133,6 +178,51 @@ class pzkAdminDemoGridController extends pzkGridAdminController {
 
     //edit table
     public $editFields = 'name, usertype_id, password, status';
+    public $setEditTabs = array(
+        array(
+            'name' => 'tab1',
+            'listFields' => array(
+                array(
+                    'index' => 'name',
+                    'type' => 'text',
+                    'label' => 'Tên người dùng'
+                ),
+                array(
+                    'index' => 'password',
+                    'type' => 'password',
+                    'label' => 'Password'
+                ),
+            )
+        ),
+        array(
+            'name' => 'tab2',
+            'listFields' => array(
+                array(
+                    'index' => 'usertype_id',
+                    'type' => 'select',
+                    'label' => 'tên quyền',
+                    'table' => 'admin_level',
+                    'show_value' => 'id',
+                    'show_name' => 'level',
+                ),
+
+                array(
+                    'index' => 'status',
+                    'type' => 'status',
+                    'label' => 'Trạng thái',
+                    'options' => array(
+                        '0' => 'Không hoạt động',
+                        '1' => 'Hoạt động'
+                    ),
+                    'actions' => array(
+                        '0' => 'mở',
+                        '1' => 'dừng'
+                    )
+                )
+            )
+        )
+
+    );
     public $editFieldSettings = array(
         array(
             'index' => 'name',
