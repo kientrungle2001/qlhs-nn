@@ -4,7 +4,7 @@ $controller = pzk_controller();
 $sortFields = $controller->sortFields;
 $filedFilters = $controller->filterFields;
 $searchFields = $controller->searchFields;
-$labelSearch = $controller->labelSearch;
+$Searchlabels = $controller->Searchlabels;
 $listFieldSettings = $controller->listFieldSettings;
 $orderBy = pzk_session($controller->table.'OrderBy');
 if($orderBy) {
@@ -25,7 +25,7 @@ if($controller->filterFields) {
     foreach($fileds as $val) {
         $condition = pzk_session($controller->table.$val['type'].$val['index']);
         if(isset($condition)) {
-            $data->addFilter($val['index'], $condition);
+            $data->addFilter($controller->table.'.'.$val['index'], $condition);
         }
     }
 }
@@ -56,7 +56,7 @@ if(pzk_request('controller') =='admin_menu') {
            ?>
               <div class="form-group col-xs-2">
                   <label>Tìm theo  </label><br>
-                  <input type="text" name="keyword" class="form-control" placeholder="<?php if($labelSearch){ echo $labelSearch; } ?>" value="{keyword}">
+                  <input type="text" name="keyword" class="form-control" placeholder="<?php if($Searchlabels){ echo $Searchlabels; } ?>" value="{keyword}">
               </div>
             <?Php } ?>
         <?php if($filedFilters) {

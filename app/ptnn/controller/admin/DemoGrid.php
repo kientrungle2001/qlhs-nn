@@ -9,7 +9,7 @@ class pzkAdminDemoGridController extends pzkGridAdminController {
         )
     );
     //select table
-    public $selectFields = 'admin.*, admin_level.level';
+    public $selectFields = 'admin.*, admin_level.level,admin_level.status as v';
     public $listFieldSettings = array(
         array(
             'index' => 'name',
@@ -29,16 +29,16 @@ class pzkAdminDemoGridController extends pzkGridAdminController {
         )
 
     );
+    //search fields co type la text
+    public $searchFields = array('name');
+    public $Searchlabels = 'Tên';
     //filter
     public $filterFields = array(
-        array(
-            'index' => 'name',
-            'type' => 'text',
-            'label' => 'tên user'
-        ),
+
         array(
             'index' => 'usertype_id',
             'type' => 'select',
+            'label' => 'Tên quyền',
             'table' => 'admin_level',
             'show_value' => 'id',
             'show_name' => 'level',
