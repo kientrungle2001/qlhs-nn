@@ -1,7 +1,9 @@
 
-<?php  
+<?php 
+	$ip=$data->getRealIPAddress();
+
 	$id=pzk_request('id');
-	$ip=$_SERVER['REMOTE_ADDR'];
+	//$ip=$_SERVER['REMOTE_ADDR'];
 	$ip=$data->getVisitor($ip,$id);
 	$news=$data->getNewsContent($id);
 	$nlists=$data->getNewsList($id);

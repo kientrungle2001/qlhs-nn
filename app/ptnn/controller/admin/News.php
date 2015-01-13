@@ -32,7 +32,7 @@ class PzkAdminNewsController extends PzkGridAdminController {
 		
 
 	);
-    public $addLabel = 'Thêm menu';
+    public $addLabel = 'Thêm';
     public $addFieldSettings = array(
         array(
             'index' => 'title',

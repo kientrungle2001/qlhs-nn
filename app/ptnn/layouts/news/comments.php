@@ -32,7 +32,7 @@ else
 					<img src="{allcomment[avatar]}" width=50; height=50;></img>
 					</div>
 					<div class="user-comments"style="width:600px; height:auto;">
-						<div class="user-id"><a href="/user/profilefriend?id={allcomment[userId]}"style=" float:left;">{allcomment[name]}</a><span>on {allcomment[created]} says: </span>
+						<div class="user-id"><a href="/user/profileusercontent?member={allcomment[username]}"style=" float:left;">{allcomment[name]}</a><span>on {allcomment[created]} says: </span>
 						<p style="float:left;"><?php echo $allcomment['comment'];?></p>
 						</div>
 						<div style="clear:both;"></div>
@@ -47,7 +47,7 @@ else
 	<?php if(pzk_session('login')){
 	echo"Đăng bình luận";
 	}else{
-	echo "Bạn phải đăng nhập để gửi bình luận, nếu bạn chưa đăng nhập vui lòng đăng nhập";	
+	echo "Bạn chưa đăng nhập, đăng nhập để gửi bình luận";	
 	}
 	?>" >
 	<button type="submit" class="btn btn-primary" >Bình luận</button>
