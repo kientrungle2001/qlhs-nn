@@ -1,8 +1,8 @@
 ﻿<?php
 class PzkAdminNewsController extends PzkGridAdminController {
 	public $table = 'news';
-	public $addFields = 'title, parent,title, content,brief,alias,begindate,enddate';
-	public $editFields = 'title, parent, title,content,brief,alias,begindate,enddate';
+	public $addFields = 'title, parent,title,img, content,brief,alias,begindate,enddate';
+	public $editFields = 'title, parent, title,img,content,brief,alias,begindate,enddate';
 	public $sortFields = array(
 		'id asc' => 'ID tăng',
 		'id desc' => 'ID giảm',
@@ -38,6 +38,12 @@ class PzkAdminNewsController extends PzkGridAdminController {
             'index' => 'title',
             'type' => 'text',
             'label' => 'Tên tin tức',
+        ),
+		array(
+            'index' => 'img',
+            'type' => 'upload',
+            'uploadtype'=>'image',
+            'label' => 'Chọn ảnh ',
         ),
 		array(
             'index' => 'brief',
@@ -107,6 +113,12 @@ class PzkAdminNewsController extends PzkGridAdminController {
             'index' => 'alias',
             'type' => 'text',
             'label' => 'Alias'
+        ),
+		array(
+            'index' => 'img',
+            'type' => 'upload',
+            'uploadtype'=>'image',
+            'label' => 'Chọn ảnh ',
         ),
 		array(
             'index' => 'begindate',
