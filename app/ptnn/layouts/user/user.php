@@ -40,6 +40,7 @@
 <?php
     if(pzk_session('login')){
     $ip=$data->getRealIPAddress();
+    pzk_session('userIp',$ip);
     $data->loadData();
    ?>
 
