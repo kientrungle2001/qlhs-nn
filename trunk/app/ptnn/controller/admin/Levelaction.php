@@ -11,7 +11,7 @@ class PzkAdminLevelactionController extends PzkGridAdminController {
     );
 
     public $searchFields = array('admin_level');
-    public $labelSearch ='Tên quyền';
+    public $Searchlabels ='Tên quyền';
 
     public $filterFields = array(
 
