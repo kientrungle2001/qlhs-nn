@@ -7,10 +7,10 @@
 	<core.rewrite.host name="vietthaibinh.com.vn" app="travel" />
 	<core.rewrite.host name="phongthuy.vn" app="phongthuy" />
 	<core.rewrite.host name="phongthuyhoangtra.vn" app="phongthuy" />
-	<core.rewrite.host name="cms.vn" app="cms" />
+	<core.rewrite.host name="ptdd.vn" app="ptdd" />
 	<core.storage name="filecache" timeout="9000" />
 	<core.storage name="fileVar" timeout="9000" />
-	<core.storage name="session" timeout="9000" />
+	<core.storage name="session" store="fileVarSession" timeout="9000" />
 	<!--core.storage name="memcache" timeout="900" /-->
 	<core.language id="language" />
 </core.system>

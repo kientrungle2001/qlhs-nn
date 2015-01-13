@@ -4,10 +4,9 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>{prop title}</title>
 		<script type="text/javascript">
-		BASE_URL = '<?php echo BASE_URL ?>';
+			BASE_URL = '<?php echo BASE_URL ?>';
 		</script>
 		<script type="text/javascript" src="<?php echo BASE_URL ?>/public/<?php echo pzk_app()->name . '_' . pzk_or(@$_REQUEST['page'], 'index') ?>.js"></script>
-		
 		<link rel="stylesheet" href="<?php echo BASE_URL ?>/public/<?php echo pzk_app()->name . '_' . pzk_or(@$_REQUEST['page'], 'index') ?>.css"/>
 	</head>
 	<body>

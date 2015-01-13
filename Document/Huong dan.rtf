@@ -234,7 +234,7 @@ G\u7885?i t\u7915? m\u7897?t object: $this->getModel($model);\par
 G\u7885?i t\u7915? m\u7897?t controller: $this->getModel($model);\par
 \par
 \b\fs40 Store\b0\fs24\par
-C\'e1c lo\u7841?i store: \b php\b0 , \b memcache\b0 , \b filecache\b0 , fileVar, \b session\b0 , database, mongo\par
+C\'e1c lo\u7841?i store: \b php\b0 , \b memcache\b0 , \b filecache\b0 , \b fileVar\b0 ,\b fileVarSession\b0 , \b session\b0 , database, mongo\par
 Kh\u7903?i t\u7841?o m\u7863?c \u273?\u7883?nh 2 store: php, element\par
 Get, set d\u7919? li\u7879?u t\u7915? store:\par
 pzk_store('php.var1', 'abc');\par
@@ -246,9 +246,9 @@ C\'e1c lo\u7841?i kh\'e1c vi\u7871?t t\u432?\u417?ng t\u7921?:\par
 Session: pzk_store('session.var1') -> pzk_session('var1')\par
 Memcache: pzk_store('memcache.var1'); -> pzk_memcache('var1');\par
 Filecache: pzk_filecache('var1'); l\u432?u value d\u7841?ng string\par
-Filevar: pzk_filevar('var1'); l\u432?u value \u273?\u432?\u7907?c d\u7841?ng m\u7843?ng\par
-\par
-\fs40 Database\fs24\par
+FileVar: pzk_filevar('var1'); l\u432?u value \u273?\u432?\u7907?c d\u7841?ng m\u7843?ng\par
+FileVarSession: L\u432?u session d\u7841?ng file\par
+\b\fs40 Database\b0\fs24\par
 \b\fs32 Select\b0\fs24\par
 \b\fs28 Th\'f4ng th\u432?\u7901?ng\b0\par
 \fs24 $items = _db()->select('*')->from('news')->where('categoryId=1')->orderBy('created desc')->result();\par
@@ -268,12 +268,18 @@ C\'e1c \u273?i\u7873?u ki\u7879?n: 'column', 'string', 'equal', 'and', 'or',  'l
 c\'e1ch d\'f9ng: array('\u273?i\u7873?u ki\u7879?n', 'tham s\u7889? 1', 'tham s\u7889? 2',...)\par
 Vd: array('equal', 'id', '1')\par
 array('or', array('equal', 'id', '1'), array('equal', 'id', '2'), array('equal', 'id', '3'));\par
+v\u7899?i \u273?i\u7873?u ki\u7879?n equal ta k c\u7847?n vi\u7871?t 'equal' c\u361?ng \u273?\u432?\u7907?c: array('equal', 'id', '1') <=> array('id', '1')\par
 \b\fs28 C\'f3 cache\par
 \b0\fs24 _db()->useCache($timeout)....\fs28\par
 \b\fs32 Insert\b0\fs28\par
 Th\'f4ng th\u432?\u7901?ng\par
-\par
-C\'f3 tr\u432?\u7901?ng m\u7903? r\u7897?ng params\fs24\par
+\fs24 $user = array('username'=>'tendangnhap','phone'=>'0169892024','email'=>'tendangnhap@gmail.com');\par
+_db()->insert('user')->fields('username,phone,email')->values(array($user))->result();\fs28\par
+C\'f3 tr\u432?\u7901?ng m\u7903? r\u7897?ng params\par
+\fs24 $user = array('username'=>'tendangnhap','phone'=>'0169892024','email'=>'tendangnhap@gmail.com', \b 'note1' => 'S\u7903? th\'edch: B\'f3ng b\'e0n, c\u7847?u l\'f4ng', 'note2' => 'Phim \u7843?nh: ', 'note3' => '\'c2m nh\u7841?c: '\b0 );\par
+$userParamed = _db()->\b buildInsertData\b0 ('user', $user);\par
+_db()->insert('user')->fields('username,phone,email,\b params\b0 ')->values(array($userParamed))->result();\par
+H\'e0m buildInsertData nh\u7853?n 2 tham s\u7889?: $table, $data\par
 \fs32 Update\par
 \fs28 Th\'f4ng th\u432?\u7901?ng\par
 C\'f3 tr\u432?\u7901?ng m\u7903? r\u7897?ng params\fs24\par
