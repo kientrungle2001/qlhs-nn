@@ -232,6 +232,9 @@ G\u7885?i model t\u7915? b\u7845?t c\u7913? \u273?\'e2u: s\u7917? d\u7909?ng: pz
 Ho\u7863?c t\u7841?o model: pzk_loader()->createModel($model);\par
 G\u7885?i t\u7915? m\u7897?t object: $this->getModel($model);\par
 G\u7885?i t\u7915? m\u7897?t controller: $this->getModel($model);\par
+C\'e1c model \u273?\u432?\u7907?c \u273?\u7863?t theo g\'f3i: ng\u259?n c\'e1ch nhau b\u7903?i d\u7845?u ch\u7845?m(.):\par
+Ex: $model = pzk_loader()->createModel('user.authorize');\par
+$model->login($username, $password);\par
 \par
 \b\fs40 Store\b0\fs24\par
 C\'e1c lo\u7841?i store: \b php\b0 , \b memcache\b0 , \b filecache\b0 , \b fileVar\b0 ,\b fileVarSession\b0 , \b session\b0 , database, mongo\par
@@ -272,18 +275,24 @@ v\u7899?i \u273?i\u7873?u ki\u7879?n equal ta k c\u7847?n vi\u7871?t 'equal' c\u
 \b\fs28 C\'f3 cache\par
 \b0\fs24 _db()->useCache($timeout)....\fs28\par
 \b\fs32 Insert\b0\fs28\par
-Th\'f4ng th\u432?\u7901?ng\par
+\b Th\'f4ng th\u432?\u7901?ng\b0\par
 \fs24 $user = array('username'=>'tendangnhap','phone'=>'0169892024','email'=>'tendangnhap@gmail.com');\par
-_db()->insert('user')->fields('username,phone,email')->values(array($user))->result();\fs28\par
-C\'f3 tr\u432?\u7901?ng m\u7903? r\u7897?ng params\par
+$insertId = _db()->insert('user')->fields('username,phone,email')->values(array($user))->result();\fs28\par
+\b C\'f3 tr\u432?\u7901?ng m\u7903? r\u7897?ng params\b0\par
 \fs24 $user = array('username'=>'tendangnhap','phone'=>'0169892024','email'=>'tendangnhap@gmail.com', \b 'note1' => 'S\u7903? th\'edch: B\'f3ng b\'e0n, c\u7847?u l\'f4ng', 'note2' => 'Phim \u7843?nh: ', 'note3' => '\'c2m nh\u7841?c: '\b0 );\par
 $userParamed = _db()->\b buildInsertData\b0 ('user', $user);\par
-_db()->insert('user')->fields('username,phone,email,\b params\b0 ')->values(array($userParamed))->result();\par
-H\'e0m buildInsertData nh\u7853?n 2 tham s\u7889?: $table, $data\par
-\fs32 Update\par
-\fs28 Th\'f4ng th\u432?\u7901?ng\par
-C\'f3 tr\u432?\u7901?ng m\u7903? r\u7897?ng params\fs24\par
-\fs32 Delete\fs24\par
+$insertId = _db()->insert('user')->fields('username,phone,email,\b params\b0 ')->values(array($userParamed))->result();\par
+H\'e0m buildInsertData nh\u7853?n 2 tham s\u7889?: $table, $data, tr\u7843? v\u7873? m\u7843?ng c\'f3 ch\u7913?a params l\u432?u c\'e1c d\u7919? li\u7879?u ch\u432?a c\'f3 trong c\'e1c tr\u432?\u7901?ng c\u7911?a b\u7843?ng $table\par
+\b\fs32 Update\b0\fs24\par
+_db()->useCB()->update('user')->set($userParamed)->where(array('id', 1))->result();\par
+\b\fs32 Delete\b0\fs24\par
+_db()->useCB()->delete()->from('user')->where(array('id', 1))->result();\par
+\par
+\b\fs40 Entity\b0\fs24\par
+Entity l\'e0 m\u7897?t d\u7841?ng model n\'ean ta c\'f3 th\u7875? g\u7885?i:\par
+$entity = pzk_loader()->createModel('entity.user.user');\par
+\b\fs32 Khai b\'e1o:\b0\fs24\par
+M\u7895?i m\u7897?t entity khi khai b\'e1o k\u7871? th\u7915?a l\u7899?p PzkEntityModel, v\'e0 khai b\'e1o $table \u273?\u7841?i di\u7879?n cho b\u7843?ng d\u7919? li\u7879?u mysql\par
 \par
 }
  
