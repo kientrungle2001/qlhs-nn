@@ -32,7 +32,7 @@ else
 					<img src="{allcomment[avatar]}" width=50; height=50;></img>
 					</div>
 					<div class="user-comments"style="width:600px; height:auto;">
-						<div class="user-id"><a href="/user/profilefriend?id={allcomment[userId]}"style=" float:left;">{allcomment[name]}</a>
+						<div class="user-id"><a href="/user/profilefriend?id={allcomment[userId]}"style=" float:left;">{allcomment[name]}</a><span>on {allcomment[created]} says: </span>
 						<p style="float:left;"><?php echo $allcomment['comment'];?></p>
 						</div>
 						<div style="clear:both;"></div>

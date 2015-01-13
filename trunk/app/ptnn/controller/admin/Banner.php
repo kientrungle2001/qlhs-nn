@@ -39,7 +39,7 @@ class PzkAdminBannerController extends PzkGridAdminController {
         ),
         array(
             'index' => 'ngaytao',
-            'type' => 'text',
+            'type' => 'date',
             'label' => 'Ngày tạo'
         ),
 		array(
@@ -47,11 +47,6 @@ class PzkAdminBannerController extends PzkGridAdminController {
             'type' => 'upload',
             'uploadtype'=>'image',
             'label' => 'Chọn ảnh',
-        ),
-        array(
-            'index' => 'code',
-            'type' => 'text',
-            'label' => 'Code'
         ),
 		array(
 			'index' => 'status',
@@ -75,15 +70,10 @@ class PzkAdminBannerController extends PzkGridAdminController {
         ),
         array(
             'index' => 'ngaytao',
-            'type' => 'text',
+            'type' => 'date',
             'label' => 'Ngày tạo'
         ),
 		
-        array(
-            'index' => 'code',
-            'type' => 'text',
-            'label' => 'Code'
-        ),
 		array(
             'index' => 'url',
             'type' => 'upload',
