@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 $controller = pzk_controller();
 $sortFields = $controller->sortFields;
 $listFieldSettings = $controller->listFieldSettings;
@@ -39,8 +40,7 @@ $countItems = $data->getCountItems($keyword, $controller->searchFields);
 
 $pages = ceil($countItems / $data->pageSize);
 if(pzk_request('controller') =='admin_menu') {
-    $datamenu = _db()->select('*')->from('admin_menu')->result();
-    $arrmenu = buildArr($datamenu,'parent',0);
+    $arrmenu = buildArr($items,'parent',0);
 }
 
 ?>
@@ -68,6 +68,19 @@ if(pzk_request('controller') =='admin_menu') {
                 <button type="submit" class="btn btn-default">Tìm kiếm</button>
             </form>
 
+            <form class="navbar-form navbar-right" role="sort">
+                <div class="form-group">
+                    <select id="orderBy" name="orderBy" class="form-control" placeholder="Sắp xếp theo" onchange="window.location='{url /admin}_{controller.module}/changeOrderBy?orderBy=' + this.value;">
+                        <?php foreach ($sortFields as $value => $label){ ?>
+                            <option value="{value}">{label}</option>
+                        <?php } ?>
+                    </select>
+                    <script type="text/javascript">
+                        $('#orderBy').val('{orderBy}');
+                    </script>
+                </div>
+            </form>
+
             <?php } elseif($field['type'] == 'status') { ?>
             <form class="navbar-form navbar-right" role="{field[index]}">
                 <div class="form-group">
@@ -87,15 +100,15 @@ if(pzk_request('controller') =='admin_menu') {
             <form class="navbar-form navbar-right" role="{field[index]}">
                 <div class="form-group">
                     <select id="{field[index]}" name="{field[index]}" class="form-control" placeholder="Lọc theo status" onchange="window.location='{url /admin}_{controller.module}/filter?type={field[type]}&index={field[index]}&select=' + this.value;">
-                        <option value="">Tất cả</option>
+                        <option value=""> -- Tất cả</option>
                         <?php
                         $parents = _db()->select('*')->from($field['table'])->result();
                         $parents = buildArr($parents, 'parent', 0);
 
                         ?>
-                        <option value="0">Danh mục gốc</option>
+                        <option value="0"> -- Danh mục gốc</option>
                         {each $parents as $parent}
-                        <option value="<?php echo $parent[$field['show_value']]; ?>" ><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $parent['lever']); ?>
+                        <option value="<?php echo $parent[$field['show_value']]; ?>" ><?php echo str_repeat('--', $parent['lever']); ?>
                         <?php echo $parent[$field['show_name']]; ?>
                         </option>
                         {/each}
@@ -116,18 +129,7 @@ if(pzk_request('controller') =='admin_menu') {
 
         <?php  } } ?>
 
-	  <form class="navbar-form navbar-right" role="sort">
-        <div class="form-group">
-          <select id="orderBy" name="orderBy" class="form-control" placeholder="Sắp xếp theo" onchange="window.location='{url /admin}_{controller.module}/changeOrderBy?orderBy=' + this.value;">
-			<?php foreach ($sortFields as $value => $label){ ?>
-			<option value="{value}">{label}</option>
-			<?php } ?>
-		  </select>
-		  <script type="text/javascript">
-			$('#orderBy').val('{orderBy}');
-		  </script>
-        </div>
-      </form>
+
 
 
 
@@ -155,11 +157,13 @@ if(pzk_request('controller') =='admin_menu') {
 
             </td>
             <td id="status-{item[id]}"><?php if($item['status']) { ?><input id="switch-state-{item[id]}" type="checkbox" checked data-size="mini" /><?php } else { ?><input id="switch-state-{item[id]}" type="checkbox" data-size="mini" /><?php } ?><script type="text/javascript">jQuery('#switch-state-{item[id]}').bootstrapSwitch({onSwitchChange: function(evt,state) { <?php echo $data->onEvent('changeStatus')?>({id: {item[id]}, status: state}); }})</script></td>
-            <td><a href="{url /admin_menu/del}/{item[id]}">Xóa</td>
+
+            <td><a href="{url /admin}_{controller.module}/edit/{item[id]}" class="text-center"><span class="glyphicon glyphicon-edit"></span> Sửa</a></td>
+            <td><a class="color_delete text-center" href="{url /admin}_{controller.module}/del/{item[id]}"><span class="glyphicon glyphicon-remove"></span> Xóa</td>
         </tr>
         {/each}
         <tr>
-            <td colspan="5"><a href="{url /admin_menu/add}">Thêm danh mục</a></td>
+            <td colspan="5"><a class="btn btn-primary pull-right" href="{url /admin_menu/add}"><span class="glyphicon glyphicon-plus"></span> Thêm danh mục</a></td>
         </tr>
     </table>
 
@@ -174,6 +178,7 @@ if(pzk_request('controller') =='admin_menu') {
 		<th colspan="2">Hành động</th>
 	</tr>
 	{each $items as $item}
+
 	<tr>
 		<td>{item[id]}</td>
 		{each $listFieldSettings as $field}
