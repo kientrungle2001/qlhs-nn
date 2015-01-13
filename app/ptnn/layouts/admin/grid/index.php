@@ -219,15 +219,20 @@ if(pzk_request('controller') =='admin_menu') {
 		<a class="btn {btn}" href="{url /admin}_{controller.module}/index?page={page}">{? echo ($page + 1)?}</a>
 		<?php } ?>
 		</form>
+
 		</td>
 	</tr>
 	<tr>
-		<td colspan="8"><a class="btn btn-primary pull-right" href="{url /admin}_{controller.module}/add"><span class="glyphicon glyphicon-plus"></span> {controller.addLabel}</a></td>
+		<td colspan="8">
+            <div id="griddelete" style="margin-left: 10px;" class="btn pull-right btn-danger" ><span class="glyphicon glyphicon-remove"></span> Xóa tất</div>
+            <a class="btn btn-primary pull-right" href="{url /admin}_{controller.module}/add"><span class="glyphicon glyphicon-plus"></span> {controller.addLabel}</a>
+        </td>
 	</tr>
 </table>
 <?php } ?>
 
 <script>
+
     $(document).ready(function() {
         $('#selecctall').click(function(event) {
             if(this.checked) {
@@ -241,5 +246,15 @@ if(pzk_request('controller') =='admin_menu') {
             }
         });
 
+        $('#griddelete').click(function(){
+            var allVals = [];
+            $('.grid_checkbox :checked').each(function() {
+                allVals.push($(this).val());
+            });
+            allVals = JSON.stringify(allVals);
+            alert(allVals);
+        });
+
     });
+
 </script>
