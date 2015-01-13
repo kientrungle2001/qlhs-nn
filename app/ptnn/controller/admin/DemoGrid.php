@@ -1,6 +1,7 @@
 <?php
 class pzkAdminDemoGridController extends pzkGridAdminController {
     public $table = 'admin';
+    //joins to many table
     public $joins = array(
         array(
             'table' => 'admin_level',
@@ -10,6 +11,7 @@ class pzkAdminDemoGridController extends pzkGridAdminController {
     );
     //select table
     public $selectFields = 'admin.*, admin_level.level';
+    //show fields on page index
     public $listFieldSettings = array(
         array(
             'index' => 'name',
@@ -32,7 +34,7 @@ class pzkAdminDemoGridController extends pzkGridAdminController {
     //search fields co type la text
     public $searchFields = array('name');
     public $Searchlabels = 'Tên';
-    //filter
+    //filter cho cac truong co type la select
     public $filterFields = array(
 
         array(
