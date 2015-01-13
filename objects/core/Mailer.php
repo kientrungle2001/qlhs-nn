@@ -57,6 +57,7 @@ class PzkCoreMailer extends PzkObjectLightWeight {
 		$mail->From = $this->from;
 		$mail->FromName = $this->fromName;
 		$mail->isHTML(true);
+		$mail->CharSet = "UTF-8";
 		return $mail;
 	}
 }
