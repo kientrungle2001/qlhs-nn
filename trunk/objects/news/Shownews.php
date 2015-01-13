@@ -26,7 +26,7 @@ class PzkNewsShownews extends PzkObject
 			$entity->save();
 		}
 	}
-	function getRemoteIPAddress(){
+	public function getRemoteIPAddress(){
 		$ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
 		return $ip;
 		echo $ip;
@@ -35,7 +35,7 @@ class PzkNewsShownews extends PzkObject
 /* If your visitor comes from proxy server you have use another function
 to get a real IP address: */
 
-	function getRealIPAddress(){  
+	public function getRealIPAddress(){  
 		if(!empty($_SERVER['HTTP_CLIENT_IP'])){
         //check ip from share internet
 			$ip = $_SERVER['HTTP_CLIENT_IP'];
