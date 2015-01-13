@@ -59,10 +59,14 @@
        	</div>
         <div class="form-group col-xs-2">
         	<label for="type">Loại câu hỏi</label><br>
-			<select class="form-control input-sm" id="type" name="type" placeholder="Loại" value="{item[type]}" onchange="window.location='{url /admin_questions/changeType}?type=' + this.value;">
+			<select class="form-control input-sm" id="type" name="type" value="{item[type]}" onchange="window.location='{url /admin_questions/changeType}?type=' + this.value;">
 				<option value="">-- Tất cả --</option>
-				<option value="tracnghiem">Trắc nghiệm</option>
-				<option value="dientu">Điền từ</option>
+				<?php $question_types = $data->getQuestionType();?>
+				<?php if(isset($question_types)):?>
+					<?php foreach($question_types as $key	=>$value):?>
+						<option value="<?=$value['id']?>"><?=$value['name']?></option>
+					<?php endforeach;?>
+				<?php endif;?>
 			</select>
 			<script type="text/javascript">
 				$('#type').val('{type}');
@@ -84,11 +88,11 @@
         
         <div class="form-group col-xs-2">
         	<label>&nbsp;</label> <br>
-        	<button type="submit" class="btn btn-primary btn-sm" value="1"><span class="glyphicon glyphicon-search"></span> Search</button>
+        	<button type="submit" name ="submit_action" class="btn btn-primary btn-sm" value="1"><span class="glyphicon glyphicon-search"></span> Search</button>
         </div>
         <div class="form-group col-xs-2">
         	<label>&nbsp;</label> <br>
-        	<button type="submit" class="btn btn-default btn-sm" value="0"><span class="glyphicon glyphicon-refresh"></span>Reset</button>
+        	<button type="submit" name =submit_action class="btn btn-default btn-sm" value="0"><span class="glyphicon glyphicon-refresh"></span>Reset</button>
         </div>
 	</div>
 </form>
