@@ -39,9 +39,9 @@
 <div id="user" style="padding-right: 50px;padding-button: 50px;">
 <?php
     if(pzk_session('login')){
-    $ip=$data->getRealIPAddress();
-    pzk_session('userIp',$ip);
+
     $data->loadData();
+    
    ?>
 
 <div class="menu">
