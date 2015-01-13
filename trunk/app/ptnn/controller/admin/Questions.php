@@ -51,11 +51,23 @@ class PzkAdminQuestionsController extends PzkAdminController {
 		)
 	);
 	
-	function QuestionsAction(){
+	function indexAction(){
 		
 		$data = array();
 		
-		$data['questiontype'] = '';
+		$admin_question = pzk_model('AdminQuestion');
+		
+		$data = $admin_question->get_question_type();
+		
+		$this->initPage()->append('admin/'.pzk_or($this->customModule, $this->module).'/index') 
+						 ->append('admin/'.pzk_or($this->customModule, $this->module).'/menu', 'right');
+		$this->fireEvent('index.after', $this);
+		
+		$question_type	= pzk_element('question');
+		
+		$question_type->setQuestionType($data);
+		
+		$this->display();
 		
 	}
 }
