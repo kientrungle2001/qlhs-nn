@@ -93,7 +93,7 @@
                     </div>
 
                     {? elseif($field['type'] == 'upload'): ?}
-
+                    <script src="/3rdparty/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>
                     <link rel="stylesheet" href="/3rdparty/uploadify/uploadify.css" type="text/css"/>
                     <div class="form-group clearfix">
                         <b>{field[label]}</b><br><br>
@@ -108,7 +108,7 @@
 
                     <script type="text/javascript">
                         <?php $timestamp = time();?>
-                        $(function() {
+                        setTimeout(function() {
                             $('#{field[index]}').uploadify({
                                 'formData'     : {
                                     'timestamp' : '<?php echo $timestamp;?>',
@@ -129,7 +129,7 @@
 
 
                             });
-                        });
+                        },100);
                     </script>
 
 
@@ -262,8 +262,8 @@
     </div>
 
   {? elseif($field['type'] == 'upload'): ?}
-
-  <link rel="stylesheet" href="/3rdparty/uploadify/uploadify.css" type="text/css"/>
+   <script src="/3rdparty/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="/3rdparty/uploadify/uploadify.css" type="text/css"/>
   <div class="form-group clearfix">
       <b>{field[label]}</b><br><br>
       <?php if($field['uploadtype'] == 'image') { ?>
@@ -277,7 +277,7 @@
 
   <script type="text/javascript">
       <?php $timestamp = time();?>
-      $(function() {
+      setTimeout(function() {
           $('#{field[index]}').uploadify({
               'formData'     : {
                   'timestamp' : '<?php echo $timestamp;?>',
@@ -298,7 +298,7 @@
 
 
           });
-      });
+      }, 100);
   </script>
 
 

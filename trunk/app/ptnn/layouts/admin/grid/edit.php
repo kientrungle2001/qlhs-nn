@@ -1,7 +1,7 @@
-<?php 
+<?php
 $controller = pzk_controller();
 
-$item = $data->getItem(); 
+$item = $data->getItem();
 $row = pzk_validator()->getEditingData();
 if($row) {
 	$item = array_merge($item, $row);
@@ -106,7 +106,7 @@ $setEditTabs = $controller->setEditTabs;
                            </div>
 
                            {? elseif($field['type'] == 'upload'): ?}
-
+                           <script src="/3rdparty/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>
                            <link rel="stylesheet" href="/3rdparty/uploadify/uploadify.css" type="text/css"/>
 
                            <div class="form-group clearfix">
@@ -124,7 +124,7 @@ $setEditTabs = $controller->setEditTabs;
 
                            <script type="text/javascript">
                                <?php $timestamp = time();?>
-                               $(function() {
+                               setTimeout(function() {
                                    $('#{field[index]}').uploadify({
                                        'formData'     : {
                                            'timestamp' : '<?php echo $timestamp;?>',
@@ -145,7 +145,7 @@ $setEditTabs = $controller->setEditTabs;
 
 
                                    });
-                               });
+                               }, 100);
                            </script>
 
 
@@ -293,7 +293,7 @@ $setEditTabs = $controller->setEditTabs;
     </div>
 
     {? elseif($field['type'] == 'upload'): ?}
-
+       <script src="/3rdparty/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>
     <link rel="stylesheet" href="/3rdparty/uploadify/uploadify.css" type="text/css"/>
 
     <div class="form-group clearfix">
@@ -311,7 +311,7 @@ $setEditTabs = $controller->setEditTabs;
 
     <script type="text/javascript">
         <?php $timestamp = time();?>
-        $(function() {
+        setTimeout(function() {
             $('#{field[index]}').uploadify({
                 'formData'     : {
                     'timestamp' : '<?php echo $timestamp;?>',
@@ -332,7 +332,7 @@ $setEditTabs = $controller->setEditTabs;
 
 
             });
-        });
+        },100);
     </script>
 
 
@@ -381,8 +381,8 @@ $setEditTabs = $controller->setEditTabs;
 
 
   {? elseif($field['type'] == 'status'): ?}
-  <div class="form-group clearfix"><?php 
-		$selected0 = ''; $selected1 = ''; 
+  <div class="form-group clearfix"><?php
+		$selected0 = ''; $selected1 = '';
 		$selectedField = 'selected'.$row['status'];
 		$$selectedField = 'selected';
 		?>
