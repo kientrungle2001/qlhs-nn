@@ -199,10 +199,8 @@ class PzkAdminController extends PzkBackendController {
         if(pzk_request('ids')) {
             $arrIds = json_decode(pzk_request('ids'));
             if(count($arrIds) >0) {
-                foreach($arrIds as $val) {
                     _db()->useCB()->delete()->from($this->table)
-                    ->where(array('id', $val))->result();
-                }
+                    ->where(array('in', 'id', $arrIds))->result();
 
                 echo 1;
             }
