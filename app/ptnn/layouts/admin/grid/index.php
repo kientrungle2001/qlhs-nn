@@ -224,7 +224,7 @@ if(pzk_request('controller') =='admin_menu') {
 	</tr>
 	<tr>
 		<td colspan="8">
-            <div id="griddelete" style="margin-left: 10px;" class="btn pull-right btn-danger" ><span class="glyphicon glyphicon-remove"></span> Xóa tất</div>
+            <div  id="griddelete" style="margin-left: 10px;" class="btn pull-right btn-danger" ><span class="glyphicon glyphicon-remove"></span> Xóa tất</div>
             <a class="btn btn-primary pull-right" href="{url /admin}_{controller.module}/add"><span class="glyphicon glyphicon-plus"></span> {controller.addLabel}</a>
         </td>
 	</tr>
@@ -248,11 +248,25 @@ if(pzk_request('controller') =='admin_menu') {
 
         $('#griddelete').click(function(){
             var allVals = [];
-            $('.grid_checkbox :checked').each(function() {
+            $('.grid_checkbox:checked').each(function() {
                 allVals.push($(this).val());
             });
-            allVals = JSON.stringify(allVals);
-            alert(allVals);
+            if(allVals.length > 0){
+                alert('Bạn có thật sự muốn xóa !');
+                $.ajax({
+                    type: "POST",
+                    url: "{url /admin}_{controller.module}/delAll",
+                    data:{ids:JSON.stringify(allVals)},
+                    success: function(data) {
+                        if(data ==1) {
+                            window.location.href = '{url /admin}_{controller.module}/index';
+                        }
+
+                    }
+                });
+            }
+
+            return false;
         });
 
     });
