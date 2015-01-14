@@ -21,7 +21,7 @@
 
         </ul>
 
-        <div class="tab-content">
+        <div style="margin-top: 10px;" class="tab-content">
             <?php
             $i=1;
             foreach($setAddTabs as $val) { ?>
