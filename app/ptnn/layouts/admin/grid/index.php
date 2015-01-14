@@ -230,19 +230,22 @@ if($listSettingType =='parent') {
             $('.grid_checkbox:checked').each(function() {
                 allVals.push($(this).val());
             });
-            if(allVals.length > 0){
-                alert('Bạn có thật sự muốn xóa !');
-                $.ajax({
-                    type: "POST",
-                    url: "{url /admin}_{controller.module}/delAll",
-                    data:{ids:JSON.stringify(allVals)},
-                    success: function(data) {
-                        if(data ==1) {
-                            window.location.href = '{url /admin}_{controller.module}/index';
-                        }
 
-                    }
-                });
+            if(allVals.length > 0){
+                var r = confirm("Bạn có muốn xóa không?");
+                if (r == true) {
+                    $.ajax({
+                        type: "POST",
+                        url: "{url /admin}_{controller.module}/delAll",
+                        data:{ids:JSON.stringify(allVals)},
+                        success: function(data) {
+                            if(data ==1) {
+                                window.location.href = '{url /admin}_{controller.module}/index';
+                            }
+
+                        }
+                    });
+                }
             }
 
             return false;
