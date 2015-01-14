@@ -5,6 +5,7 @@ $sortFields = $controller->sortFields;
 $filedFilters = $controller->filterFields;
 $searchFields = $controller->searchFields;
 $Searchlabels = $controller->Searchlabels;
+$listSettingType = $controller->listSettingType;
 $listFieldSettings = $controller->listFieldSettings;
 $orderBy = pzk_session($controller->table.'OrderBy');
 if($orderBy) {
@@ -42,8 +43,10 @@ $items = $data->getItems($keyword, $controller->searchFields);
 $countItems = $data->getCountItems($keyword, $controller->searchFields);
 
 $pages = ceil($countItems / $data->pageSize);
-if(pzk_request('controller') =='admin_menu') {
-    $arrmenu = buildArr($items,'parent',0);
+
+//build data parent
+if($listSettingType =='parent') {
+    $items = buildArr($items,'parent',0);
 }
 
 ?>
@@ -135,39 +138,8 @@ if(pzk_request('controller') =='admin_menu') {
   </div><!-- end well -->
 <!-- end search, filter, sort -->
 
-<?Php if(isset($arrmenu)) { ?>
 
-    <table class="table">
-        <tr>
-            <th>#</th>
-            <th>Tên danh mục</th>
-            <th>Trạng thái</th>
-            <th colspan="2">Hành động</th>
-        </tr>
-        {each $arrmenu as $item}
-        <?php
-        $tab = '&nbsp;&nbsp;&nbsp;&nbsp;';
-        $cate = str_repeat($tab, $item['lever']).$item['name'];
-        ?>
-        <tr>
-            <td>{item[id]}</td>
-            <td><a href="{url /admin_menu/edit}/{item[id]}">{cate}</a>
-
-            </td>
-            <td id="status-{item[id]}"><?php if($item['status']) { ?><input id="switch-state-{item[id]}" type="checkbox" checked data-size="mini" /><?php } else { ?><input id="switch-state-{item[id]}" type="checkbox" data-size="mini" /><?php } ?><script type="text/javascript">jQuery('#switch-state-{item[id]}').bootstrapSwitch({onSwitchChange: function(evt,state) { <?php echo $data->onEvent('changeStatus')?>({id: {item[id]}, status: state}); }})</script></td>
-
-            <td><a href="{url /admin}_{controller.module}/edit/{item[id]}" class="text-center"><span class="glyphicon glyphicon-edit"></span> Sửa</a></td>
-            <td><a class="color_delete text-center" href="{url /admin}_{controller.module}/del/{item[id]}"><span class="glyphicon glyphicon-remove"></span> Xóa</td>
-        </tr>
-        {/each}
-        <tr>
-            <td colspan="5"><a class="btn btn-primary pull-right" href="{url /admin_menu/add}"><span class="glyphicon glyphicon-plus"></span> Thêm danh mục</a></td>
-        </tr>
-    </table>
-
-<?php } else { ?>
-
-
+<!-- Show data -->
 <table class="table">
 	<tr>
 		<th><input type="checkbox" id="selecctall"/>
@@ -187,6 +159,13 @@ if(pzk_request('controller') =='admin_menu') {
 
 		{? if ($field['type'] == 'text') : ?}
 		<td>{? echo $item[$field['index']] ?}</td>
+
+        {? elseif ($field['type'] == 'parent') : ?}
+        <?php
+        $tab = '&nbsp;&nbsp;&nbsp;&nbsp;';
+        $cate = str_repeat($tab, $item['lever']).$item[$field['index']];
+        ?>
+        <td>{cate}</td>
 
 		{? elseif($field['type'] == 'status'): ?}
 		<td><input id="switch-{field[index]}-{item[id]}" type="checkbox" {if $item['status']}checked="checked"{/if} data-size="mini" /><script type="text/javascript">jQuery('#switch-{field[index]}-{item[id]}').bootstrapSwitch({onSwitchChange: function(evt,state) { {event changeStatus}({id: {item[id]}, status: state}); }})</script></td>
@@ -229,8 +208,8 @@ if(pzk_request('controller') =='admin_menu') {
         </td>
 	</tr>
 </table>
-<?php } ?>
 
+<!-- js check all--->
 <script>
 
     $(document).ready(function() {

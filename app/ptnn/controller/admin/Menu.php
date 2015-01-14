@@ -12,22 +12,20 @@ class PzkAdminMenuController extends PzkGridAdminController {
         'name desc' => 'Name giảm',
     );
     public $searchFields = array('name');
+    public $Searchlabels = 'Tên menu';
+
+    public $listSettingType = 'parent';
     public $listFieldSettings = array(
         array(
             'index' => 'name',
-            'type' => 'text',
-            'label' => 'tên menu'
+            'type' => 'parent',
+            'label' => 'Tên menu'
         ),
 
         array(
-            'index' => 'admin_controller',
-            'type' => 'text',
-            'lable' => 'controller'
-        ),
-        array(
             'index' => 'status',
             'type' => 'status',
-            'lable' => 'status'
+            'label' => 'Trạng thái'
         )
     );
     public $addLabel = 'Thêm menu';
