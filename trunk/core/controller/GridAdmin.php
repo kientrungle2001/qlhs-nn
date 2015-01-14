@@ -11,6 +11,7 @@ class PzkGridAdminController extends PzkAdminController {
     public $setEditTabs = false;
     public $filterFields = false;
     public $menuLinks = false;
+    public $listSettingType = false;
 	public $listFieldSettings = array();
 	public $addLabel = 'Thêm bản ghi';
 	public $addFieldSettings = array();
