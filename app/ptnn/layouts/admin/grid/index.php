@@ -246,6 +246,8 @@ if($listSettingType =='parent') {
                         }
                     });
                 }
+            }else {
+                alert('Bạn hãy chọn bảng ghi muốn xóa!');
             }
 
             return false;
