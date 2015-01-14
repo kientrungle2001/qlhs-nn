@@ -195,6 +195,24 @@ class PzkAdminController extends PzkBackendController {
 		pzk_notifier()->addMessage('Xóa thành công');
 		$this->redirect('index');
 	}
+    public function delAllAction() {
+        if(pzk_request('ids')) {
+            $arrIds = json_decode(pzk_request('ids'));
+            if(count($arrIds) >0) {
+                foreach($arrIds as $val) {
+                    _db()->useCB()->delete()->from($this->table)
+                    ->where(array('id', $val))->result();
+                }
+
+                echo 1;
+            }
+
+        }else {
+            die();
+        }
+
+
+    }
 	public function uploadAction() {
 		$this->initPage()
 			->append('admin/'.pzk_or($this->customModule, $this->module).'/upload')
