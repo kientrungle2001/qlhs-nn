@@ -27,6 +27,14 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 		$this->options['joins'][$table] = array('conds' => $this->buildCondition($conds), 'type' => $type);
 		return $this;
 	}
+	
+	public function leftJoin($table, $conds) {
+		return $this->join($table, $conds, 'left');
+	}
+	
+	public function rightJoin($table, $conds) {
+		return $this->join($table, $conds, 'right');
+	}
 
 	/**
 	 * Kết nối tới cơ sở dữ liệu
