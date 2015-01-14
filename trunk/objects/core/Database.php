@@ -147,6 +147,10 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
         $this->options['conds'] = pzk_or(@$this->options['conds'], 1) . ' AND ' . $condsStr;
         return $this;
     }
+	
+	public function equal($col, $val) {
+		return $this->where(array($col, $val));
+	}
     
     /**
      * Sử dụng condition builder
@@ -619,6 +623,83 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 		$entity = $this->getEntity('table')->setTable($table);
 		return $entity;
 	}
+	
+	public function __call($name, $arguments) {
+
+		//Getting and setting with $this->property($optional);
+
+		if (property_exists(get_class($this), $name)) {
+
+
+			//Always set the value if a parameter is passed
+			if (count($arguments) == 1) {
+				/* set */
+				$this->$name = $arguments[0];
+			} else if (count($arguments) > 1) {
+				throw new \Exception("Setter for $name only accepts one parameter.");
+			}
+
+			//Always return the value (Even on the set)
+			return $this->$name;
+		}
+
+		//If it doesn't chech if its a normal old type setter ot getter
+		//Getting and setting with $this->getProperty($optional);
+		//Getting and setting with $this->setProperty($optional);
+		$prefix5 = substr($name, 0, 5);
+		$property5 = strtolower($name[5]) . substr($name, 6);
+		$prefix4 = substr($name, 0, 4);
+		$property4 = strtolower($name[4]) . substr($name, 5);
+		$prefix3 = substr($name, 0, 3);
+		$property3 = strtolower($name[3]) . substr($name, 4);
+		$prefix2 = substr($name, 0, 2);
+		$property2 = strtolower($name[2]) . substr($name, 3);
+		switch ($prefix5) {
+			case 'where':
+				return $this->where(array($property5, $arguments[0]));
+				break;
+			case 'equal':
+				return $this->where(array('equal', $property5, $arguments[0]));
+				break;
+			case 'nlike':
+				return $this->where(array('notlike', $property5, $arguments[0]));
+				break;
+			case 'notin':
+				return $this->where(array('notin', $property5, $arguments[0]));
+				break;
+			case 'isnull':
+				return $this->where(array('isnull', $property5, $arguments[0]));
+				break;
+			case 'nnull':
+				return $this->where(array('isnotnull', $property5, $arguments[0]));
+				break;
+		}
+		switch ($prefix4) {
+			case 'like':
+				return $this->where(array('like', $property4, $arguments[0]));
+				break;
+		}
+		switch ($prefix3) {
+			case 'gte':
+				return $this->where(array('gte', $property3, $arguments[0]));
+				break;
+			case 'lte':
+				return $this->where(array('lte', $property3, $arguments[0]));
+				break;
+		}
+		switch ($prefix2) {
+			case 'gt':
+				return $this->where(array('gt', $property3, $arguments[0]));
+				break;
+			case 'lt':
+				return $this->where(array('lt', $property3, $arguments[0]));
+				break;
+			case 'in':
+				return $this->where(array('in', $property3, $arguments[0]));
+				break;
+		}
+		return parent::__call($name, $arguments);
+	}
 
 }
 
@@ -627,7 +708,11 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
  * @return PzkCoreDatabase
  */
 function _db() {
-    return pzk_store_element('db')->clear();
+    $db = pzk_store_element('db')->clear();
+	$db->select('*');
+	if(@$db->useCBable)
+		$db->useCB();
+	return $db;
 }
 
 /**
