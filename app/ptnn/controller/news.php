@@ -11,10 +11,12 @@ class PzkNewsController extends PzkController {
 		$view=_db()->useCB()->select("id")->from("news_visitor")->where(array('newsId',$newsid))->result();
 		$count=count($view);
 		_db()->useCB()->update('news')->set(array('views' => $count))->where(array('id',$newsid))->result();
+		
 		$allcomments=_db()->useCB()->select("comment")->from("comment")->where(array('newsId',$newsid))->result();
 		$count2=count($allcomments);
 		_db()->useCB()->update('news')->set(array('comments' => $count2))->where(array('id',$newsid))->result();
-
+		
+		
 		}
 	
 	public function newsAction()
@@ -52,6 +54,30 @@ class PzkNewsController extends PzkController {
 			
 
 		}
+		public function likecommentAction()
+		{
+			
+				if(pzk_session('login')==false)
+			{
+				echo "Bạn cần phải đăng nhập để like comment";
+			}
+			else
+			{
+			$userid=pzk_request('userid');
+			$newsid=pzk_request('newsid');
+			$datelike=pzk_request('datelike');
+			$commentid=pzk_request('commentid');
+			$alllike=_db()->useCB()->select("commentId")->from("comment_like")->where(array('commentId',$commentid))->result();				
+			$count3=count($alllike);
+			_db()->useCB()->update('comment')->set(array('likecomment' => $count3))->where(array('id',$commentid))->result();
+			echo $count3;
+			$addLikeComments=array('newsId'=>$newsid,'userId'=>$userid,'timelike'=>$datelike,'commentId'=>$commentid);
+							$entity = _db()->getEntity('table')->setTable('comment_like');
+							$entity->setData($addLikeComments);
+							$entity->save();
+			}
+		}
+		
 		
 		
 

@@ -1,7 +1,7 @@
 ﻿<?php
 $comments=pzk_request('comments');
 $newsid=pzk_request('id');
-$ip=$_SERVER['REMOTE_ADDR'];
+$ip=$data->getRealIPAddress();
 pzk_session('newsid',$newsid);
 if (pzk_session('login')){
 	$username= pzk_session('username');
@@ -19,6 +19,7 @@ else
 <style>
 .user-id p{padding-top:0px; margin:0px}
 span.comment_date{font-weight:none; font-size:12px;}
+
 </style>
 
 <div class="comments-wrapper">
@@ -39,15 +40,64 @@ span.comment_date{font-weight:none; font-size:12px;}
 					</div>
 					<div class="user-comments col-xs-10"style="width:600px; height:auto;">
 						<div class="user-id" style="float:left;">
-							<p><a href="/user/profileusercontent?member={allcomment[username]}">{allcomment[name]}</a></p>
-							<p><span class="comment_date">on {allcomment[created]} says: </span></p>
-							<p><?php echo $allcomment['comment'];?></p>
+							<p class="comment-name" align="left"><a href="/user/profileusercontent?member={allcomment[username]}">{allcomment[name]}</a></p>
+							<button type="button" class="btn btn-default btn-xs" id="like-comment"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>Like</button> {allcomment[likecomment]}
+							<p align="left"><span class="comment_date">on {allcomment[created]} says: </span></p>
+							<p>{allcomment[comment]}</p>
+							
 						</div>
 					</div>
 				</div>
 			{/each}
 			</div>
 		</div>
+							<?php
+								$userid=$data->getInfo($username);
+								$newsid=pzk_request('id');
+								$datelike=date("Y-m-d");
+								$commentids=$data->getComments($newsid);
+								foreach( $commentids as $commentid){
+								
+								$id=$commentid['id'];
+								}
+								
+				
+								
+							?>
+							<script>
+								
+								$('#like-comment').click(function() {
+									
+									
+									var userid='<?php echo $userid['id']; ?>';
+									var newsid= '<?php echo $newsid; ?>';
+									var datelike= '<?php echo $datelike; ?>';
+									var commentid= '<?php echo $id ?>';
+									
+									$.ajax({
+										url:'../news/likecomment',
+										data:{
+											userid: userid,
+											newsid:newsid,
+											datelike:datelike,
+											commentid:commentid
+										}, 
+										success:function(result){
+										
+											
+											if(result !=""){
+												alert(result);
+											}else{
+
+												$('#like-comment').before(<button type="button" class="btn btn-default btn-xs" id="like-comment"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>Like</button> +userId+)
+											}
+     
+										}
+									});
+
+        
+								});
+							</script>
 <form role="form" method="post" action="/news/commentsPost">
   <input type="hidden" name="id" value="" />
   <div class="form-group">

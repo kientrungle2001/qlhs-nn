@@ -21,5 +21,17 @@ class PzkNewsComments extends PzkObject
 		$info=_db()->useCB()->select("*")->from("user")->where(array('username',$username))->result_one();
 		return($info);
 	}
+	public function getRealIPAddress(){  
+		if(!empty($_SERVER['HTTP_CLIENT_IP'])){
+        //check ip from share internet
+			$ip = $_SERVER['HTTP_CLIENT_IP'];
+		}else if(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+        //to check ip is pass from proxy
+			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		}else{
+			$ip = $_SERVER['REMOTE_ADDR'];
+		}
+		return $ip;
+}
 }
  ?>
