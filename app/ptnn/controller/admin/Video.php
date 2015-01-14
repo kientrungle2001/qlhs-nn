@@ -17,11 +17,10 @@ class PzkAdminVideoController extends PzkGridAdminController {
             'label' => 'tên video'
         ),
 
-
         array(
             'index' => 'status',
             'type' => 'status',
-            'lable' => 'status'
+            'label' => 'Trạng thái'
         )
     );
     public $addLabel = 'Thêm menu';
