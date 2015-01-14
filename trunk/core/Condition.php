@@ -1,89 +1,51 @@
 <?php
-// test 1
-function assertEquals($var1, $var2) {
-	if($var1 === $var2) {
-		echo 'OK. Passed.<br />';
-	} else {
-		echo 'Wrong!<br />';
-	}
+function AE($col, $val) {
+	return array('equal', $col, $val);
 }
-$operations = array('column', 'string', 'equal', 'and', 'or', 'like', 'notlike');
-
-function buildCondition($cond) {
-	global $operations;
-	if(is_array($cond)) {
-		$op = $cond[0];
-		if(in_array($op, $operations)) {
-			$func = 'mf_'.$op;
-			array_shift($cond);
-			return call_user_func_array($func, $cond);
-		} else {
-			if(count($cond)>=2) {
-				return call_user_func_array('mf_equal', $cond);
-			}
-		}
-	} else {
-		return $cond;
-	}
+function AC($table, $col = NULL) {
+	if($col) return array('column', $table, $col);
+	return array('column', $table);
 }
-
-function mf_column($col, $col2 = null) {
-	if(!$col2)
-		return '`' . @mysql_real_escape_string($col) . '`';
-	return '`' . @mysql_real_escape_string($col) . '`.`' . @mysql_real_escape_string($col2) . '`';
+function AStr($str) {
+	return array('string', $str);
 }
-function mf_string($str) {
-	return '\'' . @mysql_real_escape_string($str) . '\'';
-}
-function mf_equal($exp1, $exp2) {
-	if(is_string($exp1)) {
-		$exp1 = array('column', $exp1);
-	}
-	if(is_string($exp2)) {
-		$exp2 = array('string', $exp2);
-	}
-	return buildCondition($exp1) .'=' . buildCondition($exp2);
-}
-
-function mf_like($exp1, $exp2) {
-	if(is_string($exp1)) {
-		$exp1 = array('column', $exp1);
-	}
-	if(is_string($exp2)) {
-		$exp2 = array('string', $exp2);
-	}
-	return buildCondition($exp1) .' like ' . buildCondition($exp2);
-}
-
-function mf_notlike($exp1, $exp2) {
-	if(is_string($exp1)) {
-		$exp1 = array('column', $exp1);
-	}
-	if(is_string($exp2)) {
-		$exp2 = array('string', $exp2);
-	}
-	return buildCondition($exp1) .' not like ' . buildCondition($exp2);
-}
-
-function mf_exp($op) {
+function AA() {
 	$args = func_get_args();
-	$op = $args[0];
-	array_shift($args);
-	$conds = array();
-	foreach($args as $exp) {
-		$conds[] = buildCondition($exp);
-	}
-	return implode(' '.$op.' ', $conds);
+	array_unshift($args,'and');
+	return $args;
 }
-
-function mf_and() {
+function AO() {
 	$args = func_get_args();
-	array_unshift($args, 'and');
-	return call_user_func_array('mf_exp', $args);
+	array_unshift($args,'or');
+	return $args;
 }
-
-function mf_or() {
-	$args = func_get_args();
-	array_unshift($args, 'or');
-	return call_user_func_array('mf_exp', $args);
+function AL ($col, $str){
+	return array('like', $col, $str);
+}
+function ANL ($col, $str) {
+	return array('notlike', $col, $str);
+}
+function AI($col, $arr) {
+	return array('in', $col, $arr);
+}
+function ANI($col, $arr) {
+	return array('notin', $col, $arr);
+}
+function ANULL($col) {
+	return array('isnull', $col);
+}
+function ANNULL($col) {
+	return array('isnotnull', $col);
+}
+function AGE($col, $val) {
+	return array('gte', $col, $str);
+}
+function ALE($col, $val) {
+	return array('lte', $col, $str);
+}
+function AGT($col, $val) {
+	return array('gt', $col, $str);
+}
+function ALT($col, $val) {
+	return array('lt', $col, $str);
 }

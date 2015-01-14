@@ -80,7 +80,13 @@
                 mcrypt_module_close($td);
 
         }
+		
+		
     }
-
-    }
+	
+	public function testAction() {
+		$item = _db()->from('user')->whereId('97')->result_one();
+		debug($item);
+	}
+}
  ?>

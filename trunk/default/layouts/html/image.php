@@ -1,0 +1,1 @@
+<img src="/default/skin/<?php echo pzk_app()->name; ?>/images/{prop src}" style="width: 100%;" />
