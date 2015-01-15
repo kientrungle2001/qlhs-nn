@@ -323,8 +323,6 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 					return $data;
 				}
 			}
-            if (@$_REQUEST['showSQL'])
-                echo $query . '<br />';
             $result = mysql_query($query, $this->connId);
             if (mysql_errno()) {
                 $message = 'Invalid query: ' . mysql_error() . "\n";
@@ -368,20 +366,14 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
             $fields = $this->options['fields'];
             $values = implode(',', $vals);
             $query = "insert into $table($fields) values $values";
-            if (@$_REQUEST['showQuery'])
-                echo $query . '<br />';
             $result = mysql_query($query, $this->connId);
-            if ($errors = mysql_error()) {
-                @file_put_contents(BASE_DIR . '/test/'.$_SERVER['HTTP_HOST'].'_error.sql', $query . "\r\nError: " . $errors, FILE_APPEND | LOCK_EX);
+            if (mysql_errno()) {
+                $message = 'Invalid query: ' . mysql_error() . "\n";
+                $message .= 'Whole query: ' . $query;
+                die($message);
             }
             if ($result) {
 				$insertId = mysql_insert_id();
-				$version = @file_get_contents(BASE_DIR . '/test/'.$_SERVER['HTTP_HOST'].'_sql_data_version.txt');
-				$newVersion = $version + 1;
-				mysql_query('insert into sync_table(line_data, v) values(\''.mysql_real_escape_string($query).'\', \''.$newVersion.'\')');
-				$query .= ' # ' . mb_detect_encoding($query);
-				@file_put_contents(BASE_DIR . '/test/'.$_SERVER['HTTP_HOST'].'.sql', $query . "\r\n", FILE_APPEND | LOCK_EX);
-				@file_put_contents(BASE_DIR . '/test/'.$_SERVER['HTTP_HOST'].'_sql_data_version.txt', $newVersion);
                 return $insertId;
             }
             return 0;
@@ -395,29 +387,21 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
             }
             $values = implode(',', $vals);
             $query = "update {$this->options['table']} set $values where {$this->options['conds']}";
-            if (@$_REQUEST['showQuery'])
-                echo($query . '<br />');
             $result = mysql_query($query, $this->connId);
-			if($result) {
-				$version = @file_get_contents(BASE_DIR . '/test/'.$_SERVER['HTTP_HOST'].'_sql_data_version.txt');
-				$newVersion = $version + 1;
-				mysql_query('insert into sync_table(line_data, v) values(\''.mysql_real_escape_string($query).'\', \''.$newVersion.'\')');
-				$query .= ' # ' . mb_detect_encoding($query);
-				@file_put_contents(BASE_DIR . '/test/'.$_SERVER['HTTP_HOST'].'_sql_data_version.txt', $newVersion);
-				@file_put_contents(BASE_DIR . '/test/'.$_SERVER['HTTP_HOST'].'.sql', $query . "\r\n", FILE_APPEND | LOCK_EX);
-			}
+            if (mysql_errno()) {
+                $message = 'Invalid query: ' . mysql_error() . "\n";
+                $message .= 'Whole query: ' . $query;
+                die($message);
+            }
 			return $result;
         } else if (@$this->options['action'] == 'delete') {
             $query = "delete from {$this->options['table']} where {$this->options['conds']}";
             $result = mysql_query($query, $this->connId);
-			if($result) {
-				$version = @file_get_contents(BASE_DIR . '/test/'.$_SERVER['HTTP_HOST'].'_sql_data_version.txt');
-				$newVersion = $version + 1;
-				mysql_query('insert into sync_table(line_data, v) values(\''.mysql_real_escape_string($query).'\', \''.$newVersion.'\')');
-				$query .= ' # ' . mb_detect_encoding($query);
-				@file_put_contents(BASE_DIR . '/test/'.$_SERVER['HTTP_HOST'].'.sql', $query . "\r\n", FILE_APPEND | LOCK_EX);
-				@file_put_contents(BASE_DIR . '/test/'.$_SERVER['HTTP_HOST'].'_sql_data_version.txt', $newVersion);
-			}
+            if (mysql_errno()) {
+                $message = 'Invalid query: ' . mysql_error() . "\n";
+                $message .= 'Whole query: ' . $query;
+                die($message);
+            }
 			return $result;
         }
         return $this;
@@ -460,46 +444,6 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 			return $rows[0];
 		}
 		return NULL;
-	}
-	
-	/**
-	 * Xóa cây
-	 * @param string $table bảng
-	 * @param int $id id của cây
-	 */
-	public function treeDelete($table, $id) {
-		$children = $this->clear()->select('id')->from($table)->where('parentId=' . $id)->result();
-		foreach($children as $row) {
-			$this->treeDelete($table, $row['id']);
-		}
-		$this->clear()->delete()->from($table)->where('id=' . $id)->result();
-	}
-	
-	/**
-	 * Lấy parent
-	 * @param string $table
-	 * @param int $id
-	 * @param mixed $conditions
-	 * @return array
-	 */
-	public function getParent($table, $id, $conditions = false) {
-		$item = $this->clear()->select('*')->from($table)->where('id=' . $id)->result_one();
-		if(!$item) return NULL;
-		$itemWithCondition = $this->clear()->select('*')->from($table)->where('id=' . $id . ' and ' . pzk_or($conditions, '1'))->result_one();
-		if($itemWithCondition) return $itemWithCondition;
-		if(!$item['parentId']) return NULL;
-		return $this->getParent($table, $item['parentId'], $conditions);
-	}
-	
-	/**
-	 * Trả về các con theo parentId và điều kiện
-	 * @param unknown $table
-	 * @param unknown $parentId
-	 * @param mixed $conditions
-	 * @return array
-	 */
-	public function getChildren($table, $parentId, $conditions = false) {
-		return $this->clear()->useCB()->select('*')->from($table)->where('parentId=' . $parentId . ' and ' . pzk_or($conditions, '1'))->result();
 	}
 	
 	/**
@@ -718,8 +662,7 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 function _db() {
     $db = pzk_store_element('db')->clear();
 	$db->select('*');
-	if(@$db->useCBable)
-		$db->useCB();
+	$db->useCB();
 	return $db;
 }
 
