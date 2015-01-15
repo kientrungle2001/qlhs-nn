@@ -28,7 +28,7 @@ span.comment_date{font-weight:none; font-size:12px;}
 				<div style="float:left;"><h4>Ý kiến thành viên</h4></div> 
 				<div style="float:right;">
 				<?php $count=$data->getCountComment($newsid); ?>
-				<h4> <?php echo $count." "; ?> Bình luận</h4>
+				<h4> {count} Bình luận</h4>
 				</div>
 			
 			<div class="comments" style="width:800px; height:auto; border:1px solid red; float:left;">
@@ -41,7 +41,7 @@ span.comment_date{font-weight:none; font-size:12px;}
 					<div class="user-comments col-xs-10"style="width:600px; height:auto;">
 						<div class="user-id" style="float:left;">
 							<p class="comment-name" align="left"><a href="/user/profileusercontent?member={allcomment[username]}">{allcomment[name]}</a></p>
-							<button type="button" class="btn btn-default btn-xs" id="like-comment"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>Like</button> {allcomment[likecomment]}
+							<button type="button" class="btn btn-default btn-xs like-comment" value="<?=$allcomment['id']?>"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>Thích</button><span id="<?=$allcomment['id']?>"> {allcomment[likecomment]}</span>
 							<p align="left"><span class="comment_date">on {allcomment[created]} says: </span></p>
 							<p>{allcomment[comment]}</p>
 							
@@ -55,24 +55,16 @@ span.comment_date{font-weight:none; font-size:12px;}
 								$userid=$data->getInfo($username);
 								$newsid=pzk_request('id');
 								$datelike=date("Y-m-d");
-								$commentids=$data->getComments($newsid);
-								foreach( $commentids as $commentid){
-								
-								$id=$commentid['id'];
-								}
-								
-				
-								
 							?>
 							<script>
 								
-								$('#like-comment').click(function() {
+								$('.like-comment').click(function() {
 									
 									
 									var userid='<?php echo $userid['id']; ?>';
 									var newsid= '<?php echo $newsid; ?>';
 									var datelike= '<?php echo $datelike; ?>';
-									var commentid= '<?php echo $id ?>';
+									var commentid= $(this).val();
 									
 									$.ajax({
 										url:'../news/likecomment',
@@ -86,10 +78,10 @@ span.comment_date{font-weight:none; font-size:12px;}
 										
 											
 											if(result !=""){
-												alert(result);
+												
+												$('#'+commentid+'').html(result);
 											}else{
-
-												$('#like-comment').before(<button type="button" class="btn btn-default btn-xs" id="like-comment"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>Like</button> +userId+)
+												
 											}
      
 										}
