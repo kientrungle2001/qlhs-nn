@@ -188,60 +188,8 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 	public function buildCondition($conds) {
 		$builder = pzk_element('conditionBuilder');
 		if($builder) {
-			if(@$this->options['useConditionBuilder'])
-				return $builder->build($conds);
+			return $builder->build($conds);
 		}
-		$condsStr = '';
-        $condsArr = array();
-        if (is_array($conds)) {
-            if (!isset($conds[0])) {
-                $conds = array($conds);
-            }
-            foreach ($conds as $cond) {
-                // xet moi dieu kien key la truong can loc
-                if (is_array($cond)) {
-                    foreach ($cond as $key => $val) {
-                        // neu val la mang
-                        if (is_array($val)) {
-                            // neu la mang co chi so
-                            if (isset($val[0])) {
-                                $condsArr[] = '`' . $key . '` in (\'' . implode('\',\'', $val) . '\')';
-                            } else if (isset($val['comparator']) || isset($val['cp'])) {
-                                // neu la mang co comparator dang {cp: '=', value: ''}
-                                $cp = isset($val['comparator']) ? $val['comparator'] : $val['cp'];
-                                if (@$val['value'] !== '') {
-                                    if (@$val['value'] == 'NULL') {
-                                        $condsArr[] = '`' . $key . '` ' . $cp
-                                                . ' ' . @mysql_real_escape_string($val['value']);
-                                    } else {
-										if($cp == 'is null' || $cp == 'is not null') {
-											$condsArr[] = '`' . $key . '` ' . $cp;
-										} else {
-											$likeComp = ($cp == 'like' || $cp == 'not like' ? '%' : '');
-											$condsArr[] = '`' . $key . '` ' . $cp
-													. ' \'' . $likeComp . @mysql_real_escape_string($val['value']) . $likeComp . '\'';
-										}
-									}
-                                }
-                            }
-                        } else {
-                            // neu khong thi la so sanh bang
-                            if ($val !== '') {
-								$condsArr[] = '`' . $key . '`=\'' . @mysql_real_escape_string($val) . '\'';
-							}
-						}
-                    }
-                } else {
-                    $condsArr[] = $cond;
-                }
-            }
-            $condsStr = implode(' AND ', $condsArr);
-        } else {
-            $condsStr = $conds;
-        }
-        if (!$condsStr)
-            $condsStr = 1;
-		return $condsStr;
 	}
 	
 	
