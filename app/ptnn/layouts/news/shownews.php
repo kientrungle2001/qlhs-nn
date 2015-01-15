@@ -1,3 +1,8 @@
+<head>
+<script type="text/javascript">var switchTo5x=true;</script>
+<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+<script type="text/javascript" src="http://s.sharethis.com/loader.js"></script>
+</head>
 
 <?php 
 	$ip=$data->getRealIPAddress();
@@ -16,7 +21,7 @@
 <?php }
 ?>
  >>   
-<a href="/news/shownews?id=<?php echo $news['id']?>"><?php echo $news['title']?></a>
+<a href="/news/shownews?id={news[id]}">{news[title]}</a>
 </p>
 
 <div id="shownews-wrapper">
@@ -27,15 +32,8 @@
 	  </div>
 	  <div class="shownews-brief"><h6><strong>{news[brief]}<strong></h6></div>
       <div class="shownews-content" style="margin-bottom:20px;">{news[content]}</div>
-	 <iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fptnn.vn%2Fnews%2Fshownews&amp;width&amp;layout=button_count&amp;action=like&amp;show_faces=true&amp;share=false&amp;height=21&amp;appId=826319910759457" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:21px;" allowTransparency="true"></iframe><g:plusone></g:plusone>
-	
-
+	 <iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fptnn.vn%2Fnews%2Fshownews&amp;width&amp;layout=button_count&amp;action=like&amp;show_faces=true&amp;share=false&amp;height=21&amp;appId=826319910759457" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:21px;" allowTransparency="true"></iframe>
    </div>
-	<!-- Go to www.addthis.com/dashboard to generate a new set of sharing buttons -->
-<a align="right" href="https://api.addthis.com/oexchange/0.8/forward/facebook/offer?url=http%3A%2F%2Fptnn.vn&pubid=ra-54b62333391ca3f3&ct=1&title=Ph%E1%BA%A7n%20m%E1%BB%81m%20ph%C3%A1t%20tri%E1%BB%83n%20ng%C3%B4n%20ng%E1%BB%AF%20v%C3%A0%20luy%E1%BB%87n%20vi%E1%BA%BFt%20v%C4%83n&pco=tbxnj-1.0" target="_blank"><img src="https://cache.addthiscdn.com/icons/v2/thumbs/32x32/facebook.png" border="0" alt="Facebook"/></a>
-<a align="right" href="https://api.addthis.com/oexchange/0.8/forward/twitter/offer?url=http%3A%2F%2Fptnn.vn&pubid=ra-54b62333391ca3f3&ct=1&title=Ph%E1%BA%A7n%20m%E1%BB%81m%20ph%C3%A1t%20tri%E1%BB%83n%20ng%C3%B4n%20ng%E1%BB%AF%20v%C3%A0%20luy%E1%BB%87n%20vi%E1%BA%BFt%20v%C4%83n&pco=tbxnj-1.0" target="_blank"><img src="https://cache.addthiscdn.com/icons/v2/thumbs/32x32/twitter.png" border="0" alt="Twitter"/></a>
-<a align="right" href="https://api.addthis.com/oexchange/0.8/forward/google_plusone_share/offer?url=http%3A%2F%2Fptnn.vn&pubid=ra-54b62333391ca3f3&ct=1&title=Ph%E1%BA%A7n%20m%E1%BB%81m%20ph%C3%A1t%20tri%E1%BB%83n%20ng%C3%B4n%20ng%E1%BB%AF%20v%C3%A0%20luy%E1%BB%87n%20vi%E1%BA%BFt%20v%C4%83n&pco=tbxnj-1.0" target="_blank"><img src="https://cache.addthiscdn.com/icons/v2/thumbs/32x32/google_plusone_share.png" border="0" alt="Google+"/></a>
-
 	<div class="comments">
 		{children all}
 	</div>
@@ -54,3 +52,8 @@
   </div>
   <div id="profilefriend_right"></div>
 </div>
+<script type="text/javascript">stLight.options({publisher: "51c0dbe4-459b-4618-825a-81abb5e257ed", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+<script>
+var options={ "publisher": "51c0dbe4-459b-4618-825a-81abb5e257ed", "position": "left", "ad": { "visible": false, "openDelay": 5, "closeDelay": 0}, "chicklets": { "items": ["facebook", "googleplus", "twitter", "email"]}};
+var st_hover_widget = new sharethis.widgets.hoverbuttons(options);
+</script>

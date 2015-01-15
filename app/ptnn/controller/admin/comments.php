@@ -23,6 +23,11 @@ class PzkAdminCommentsController extends PzkGridAdminController {
             'label' => 'Bình luận'
         ),
 		array(
+            'index' => 'likecomment',
+            'type' => 'text',
+            'label' => 'Số lượt thích'
+        ),
+		array(
             'index' => 'ip',
             'type' => 'text',
             'label' => 'Địa chỉ IP'
