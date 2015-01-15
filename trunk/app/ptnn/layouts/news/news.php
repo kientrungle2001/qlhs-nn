@@ -7,6 +7,7 @@
        <div class="title">
 <?php 
 		$news= $data->getNews();
+		
  ?>
 		{each $news as $title}
         <div style="clear: both;">  
