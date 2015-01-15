@@ -67,16 +67,20 @@ class PzkNewsController extends PzkController {
 			$newsid=pzk_request('newsid');
 			$datelike=pzk_request('datelike');
 			$commentid=pzk_request('commentid');
-			$alllike=_db()->useCB()->select("commentId")->from("comment_like")->where(array('commentId',$commentid))->result();				
-			$count3=count($alllike);
-			_db()->useCB()->update('comment')->set(array('likecomment' => $count3))->where(array('id',$commentid))->result();
-			
-			$addLikeComments=array('newsId'=>$newsid,'userId'=>$userid,'timelike'=>$datelike,'commentId'=>$commentid);
-							$entity = _db()->getEntity('table')->setTable('comment_like');
-							$entity->setData($addLikeComments);
-							$entity->save();
-							
-			echo $count3;
+			$testlike=_db()->useCB()->select('id')->from('comment_like')->where(array('newsId', $newsid))->where(array('userId', $userid))->where(array('timelike', $datelike))->where(array('commentId', $commentid))->result_one();
+			if(!$testlike){
+				
+				$alllike=_db()->useCB()->select("commentId")->from("comment_like")->where(array('commentId',$commentid))->result();				
+				$count3=count($alllike);
+				_db()->useCB()->update('comment')->set(array('likecomment' => $count3))->where(array('id',$commentid))->result();
+				
+				$addLikeComments=array('newsId'=>$newsid,'userId'=>$userid,'timelike'=>$datelike,'commentId'=>$commentid);
+								$entity = _db()->getEntity('table')->setTable('comment_like');
+								$entity->setData($addLikeComments);
+								$entity->save();
+								
+				echo $count3;
+				}
 			}
 		}
 		
