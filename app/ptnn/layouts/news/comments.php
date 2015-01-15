@@ -43,8 +43,7 @@ span.comment_date{font-weight:none; font-size:12px;}
 							<p class="comment-name" align="left"><a href="/user/profileusercontent?member={allcomment[username]}">{allcomment[name]}</a></p>
 							<p align="left"><span class="comment_date">on {allcomment[created]} says: </span></p>
 							<p>{allcomment[comment]}</p>
-							<button type="button" class="btn btn-default btn-xs like-comment" value="<?=$allcomment['id']?>"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>Thích</button><span id="<?=$allcomment['id']?>"> {allcomment[likecomment]}</span>
-							
+							<button type="button" class="btn btn-default btn-xs like-comment" value="<?=$allcomment['id']?>"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>Like</button><span id="<?=$allcomment['id']?>"> {allcomment[likecomment]}</span>
 						</div>
 					</div>
 				</div>
