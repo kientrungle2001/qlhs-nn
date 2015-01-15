@@ -1,6 +1,6 @@
 <html>
 <head>
-
+    <meta charset="utf-8">
     <link type="text/css" rel="stylesheet" href="/3rdparty/bootstrap3/css/bootstrap.min.css" />
     <link type="text/css" rel="stylesheet" href="/3rdparty/bootstrap3/css/bootstrap-theme.min.css" />
     <script type="text/javascript" src="/3rdparty/bootstrap3/js/bootstrap.min.js"></script>
