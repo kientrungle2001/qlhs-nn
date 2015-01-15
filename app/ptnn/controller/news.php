@@ -59,7 +59,7 @@ class PzkNewsController extends PzkController {
 			
 				if(pzk_session('login')==false)
 			{
-				echo "Bạn cần phải đăng nhập để like comment";
+				echo "Bạn chưa đăng nhập";
 			}
 			else
 			{
@@ -70,11 +70,13 @@ class PzkNewsController extends PzkController {
 			$alllike=_db()->useCB()->select("commentId")->from("comment_like")->where(array('commentId',$commentid))->result();				
 			$count3=count($alllike);
 			_db()->useCB()->update('comment')->set(array('likecomment' => $count3))->where(array('id',$commentid))->result();
-			echo $count3;
+			
 			$addLikeComments=array('newsId'=>$newsid,'userId'=>$userid,'timelike'=>$datelike,'commentId'=>$commentid);
 							$entity = _db()->getEntity('table')->setTable('comment_like');
 							$entity->setData($addLikeComments);
 							$entity->save();
+							
+			echo $count3;
 			}
 		}
 		
