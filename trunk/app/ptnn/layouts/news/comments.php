@@ -36,14 +36,14 @@ span.comment_date{font-weight:none; font-size:12px;}
 			{each $allcomments as $allcomment}
 				<div class=" col-xs-12">
 					<div class="avatar col-xs-2"  style="width:50px; height:50px;float:left; margin:10px; ">
-						<img src="{allcomment[avatar]}" width=50; height=50;></img>
+						<img src="{allcomment[avatar]}" class="useravatar" width=50; height=50;></img>
 					</div>
 					<div class="user-comments col-xs-10"style="width:600px; height:auto;">
 						<div class="user-id" style="float:left;">
 							<p class="comment-name" align="left"><a href="/user/profileusercontent?member={allcomment[username]}">{allcomment[name]}</a></p>
-							<button type="button" class="btn btn-default btn-xs like-comment" value="<?=$allcomment['id']?>"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>Thích</button><span id="<?=$allcomment['id']?>"> {allcomment[likecomment]}</span>
 							<p align="left"><span class="comment_date">on {allcomment[created]} says: </span></p>
 							<p>{allcomment[comment]}</p>
+							<button type="button" class="btn btn-default btn-xs like-comment" value="<?=$allcomment['id']?>"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>Thích</button><span id="<?=$allcomment['id']?>"> {allcomment[likecomment]}</span>
 							
 						</div>
 					</div>
@@ -100,8 +100,9 @@ span.comment_date{font-weight:none; font-size:12px;}
 	echo "Bạn chưa đăng nhập, đăng nhập để gửi bình luận";	
 	}
 	?>" >
-	<button type="submit" class="btn btn-primary" >Bình luận</button>
+	<button type="submit" class="btn btn-primary comment-button">Bình luận</button>
   </div>
+  
   </form>
 
 </div>
