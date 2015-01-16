@@ -82,14 +82,18 @@ if($listSettingType =='parent') {
                     <div  class="form-group col-xs-3">
                         <label>{field[label]}</label><br>
                         <select id="{field[index]}" name="{field[index]}" class="form-control" placeholder="Lọc theo status" onchange="window.location='{url /admin}_{controller.module}/filter?type={field[type]}&index={field[index]}&select=' + this.value;">
-                            <option value=""> -- Tất cả</option>
+
                             <?php
                             $parents = _db()->select('*')->from($field['table'])->result();
-                            $parents = buildArr($parents, 'parent', 0);
-
+                            if(isset($parents[0]['parent'])) {
+                                $parents = buildArr($parents, 'parent', 0);
+                                echo "<option >--Tất cả</option>";
+                            }else {
+                                echo "<option >Tất cả</option>";
+                            }
                             ?>
                             {each $parents as $parent}
-                            <option value="<?php echo $parent[$field['show_value']]; ?>" ><?php echo str_repeat('--', $parent['lever']); ?>
+                            <option value="<?php echo $parent[$field['show_value']]; ?>" ><?php if(isset($parent['parent'])){ echo str_repeat('--', $parent['lever']); } ?>
                                 <?php echo $parent[$field['show_name']]; ?>
                             </option>
                             {/each}
