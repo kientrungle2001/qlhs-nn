@@ -39,7 +39,11 @@ class PzkEntityModel {
 	public function save() {
 		$data = _db()->buildInsertData($this->table, $this->data);
 		if(!isset($this->data['id'])) {
-			$id = _db()->insert($this->table)->fields(implode(',', array_keys($data)))->values(array($data))->result();
+			$keys = array_keys($data);
+			foreach($keys as &$key) {
+				$key = "`$key`";
+			}
+			$id = _db()->insert($this->table)->fields(implode(',', $keys))->values(array($data))->result();
 			if($id) $this->data['id'] = $id;
 		} else {
 			_db()->update($this->table)->set($data)->where('id=' . $this->data['id'])->result();
