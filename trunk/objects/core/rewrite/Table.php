@@ -4,13 +4,16 @@ class PzkCoreRewriteTable extends PzkObjectLightweight{
 	public $field = 'alias';
 	public $routeField = 'code';
 	public $action = '';
+	public static $matched = false;
 	public function init() {
+		if(self::$matched) return true;
 		$request = pzk_element('request');
 		$route = preg_replace('/^[\/]/', '', $request->route);
 		if($route) {
-			$item = _db()->useCache(900)->useCB()->select('*')->from($this->table)->where(array($this->field, $route))->result_one();
+			$item = _db()->useCB()->select('*')->from($this->table)->where(array($this->field, $route))->result_one();
 			
 			if($item) {
+				self::$matched = true;
 				if($this->table == 'catalog_category') {
 					if($item['parentId'] == 3) {
 						if(1 && strpos($item['title'], 'Thiết kế phong thủy') === false) {
