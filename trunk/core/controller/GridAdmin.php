@@ -37,10 +37,12 @@ class PzkGridAdminController extends PzkAdminController {
 	
 	public function onChangeStatusAction() {
 		$id = pzk_request('id');
+		$field = pzk_request('field');
+		if(!$field) $field = 'status';
 		$entity = _db()->getTableEntity($this->table)->load($id);
-		$status = 1 - $entity->getStatus();
-		$entity->update(array('status' => $status));
-		if($entity->getStatus() == '1') {
+		$status = 1 - @$entity->data[$field];
+		$entity->update(array($field => $status));
+		if($entity->data[$field] == '1') {
 			//jQuery('#status-' . $id)->html('Hoạt động')->display();
 		} else {
 			//jQuery('#status-' . $id)->html('Không hoạt động')->display();
