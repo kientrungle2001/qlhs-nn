@@ -14,6 +14,7 @@ if(isset($_SESSION['username'])) {
 }else {
     $username = 'ongkien';
 }
+//check token
 if ($token == md5( $time . $username . 'onghuu' ) ) {
 
     $dbc = mysqli_connect('localhost', 'root','','ptnn');
@@ -28,6 +29,7 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
 
     list($url) = mysqli_fetch_array($result, MYSQLI_NUM);
 
+    //name file video
     $nametmp = basename($url);
     ///var_dump($nametmp);die();
     $file = __DIR__. $url;
@@ -36,6 +38,7 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
 
     $file2 = __DIR__.'/tmp/'.$nametmp;
 
+    //khong ton tai file2 trong thuc muc tmp
     if(!file_exists($file2)) {
         $handle = fopen($file, "rb");
         $initial_contents = fread($handle, filesize($file));

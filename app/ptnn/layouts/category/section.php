@@ -17,7 +17,7 @@
     <?php
     $categories = $data->getCateByParent();
     $video = _db()->useCB()->select('url,id')->from('video')->where(array('category_id', pzk_request()->getSegment(3)))->result_one();
-    if(1 || $video) {
+    if($video) {
 
 		$time = time();
 		$username = pzk_session('username');
