@@ -240,6 +240,7 @@ class PzkAdminController extends PzkBackendController {
 		$entity->setData($row);
 		$entity->save();
 	}
+
     public function doUpload($filename, $dir, $allowed, $row) {
         if(isset($_FILES[$filename])) {
             if(!empty($_FILES[$filename]['name'])){

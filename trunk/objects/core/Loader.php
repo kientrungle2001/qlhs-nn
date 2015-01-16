@@ -77,6 +77,13 @@ class PzkCoreLoader extends PzkObjectLightWeight{
 	public function importObject($uri) {
 		require_once BASE_DIR . '/objects/' . $uri . '.php';
 	}
+    /**
+     * Import một 3rdparty
+     * @param string $uri đường dẫn dạng core/db/List
+     */
+    public function import3rdparty($uri) {
+        require_once BASE_DIR . '/3rdparty/' . $uri . '.php';
+    }
 
 }
 

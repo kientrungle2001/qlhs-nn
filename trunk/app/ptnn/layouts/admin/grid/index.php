@@ -203,7 +203,18 @@ if($listSettingType =='parent') {
 	</tr>
 	<tr>
 		<td colspan="8">
-            <div  id="griddelete" style="margin-left: 10px;" class="btn pull-right btn-danger" ><span class="glyphicon glyphicon-remove"></span> Xóa tất</div>
+            <div  id="griddelete" style="margin-left: 10px;" class="btn pull-right btn-danger" >
+                <span class="glyphicon glyphicon-remove"></span> Xóa tất
+            </div>
+            <?php
+            $time = time();
+            $username = pzk_session('username');
+            if(!$username) $username = 'ongkien';
+            $token = md5($time.$username . 'onghuu');
+            ?>
+            <a href="/export.php?token={token}&time={time}" style="margin-left: 10px;" class="btn pull-right btn-success" >
+                <span class="glyphicon glyphicon-export"></span> Export
+            </a>
             <a class="btn btn-primary pull-right" href="{url /admin}_{controller.module}/add"><span class="glyphicon glyphicon-plus"></span> {controller.addLabel}</a>
         </td>
 	</tr>
