@@ -28,8 +28,8 @@ if (1 or $token == md5( $time . $username . 'onghuu' ) ) {
     } else {
         mysqli_set_charset($dbc, 'utf-8');
     }
-
     $path = __DIR__."/tmp/test.xls";
+
 
     $objPHPExcel = PHPExcel_IOFactory::load($path);
     foreach ($objPHPExcel->getWorksheetIterator() as $worksheet) {
@@ -38,21 +38,7 @@ if (1 or $token == md5( $time . $username . 'onghuu' ) ) {
         $highestColumn      = $worksheet->getHighestColumn(); // e.g 'F'
         $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
         $nrColumns = ord($highestColumn) - 64;
-        echo "<br>The worksheet ".$worksheetTitle." has ";
-        echo $nrColumns . ' columns (A-' . $highestColumn . ') ';
-        echo ' and ' . $highestRow . ' row.';
-        echo '<br>Data: <table border="1"><tr>';
-        for ($row = 1; $row <= $highestRow; ++ $row) {
-            echo '<tr>';
-            for ($col = 0; $col < $highestColumnIndex; ++ $col) {
-                $cell = $worksheet->getCellByColumnAndRow($col, $row);
-                $val = $cell->getValue();
-                $dataType = PHPExcel_Cell_DataType::dataTypeForValue($val);
-                echo '<td>' . $val . '<br>(Typ ' . $dataType . ')</td>';
-            }
-            echo '</tr>';
-        }
-        echo '</table>';
+
     }
 
     for ($row = 2; $row <= $highestRow; ++ $row) {
@@ -61,11 +47,9 @@ if (1 or $token == md5( $time . $username . 'onghuu' ) ) {
             $cell = $worksheet->getCellByColumnAndRow($col, $row);
             $val[] = $cell->getValue();
         }
-
-        $sql="INSERT INTO admin(name, age, home)
-        VALUES ('".$val[1] . "','" . $val[2] . "','" . $val[3]. "')";
-        echo $sql."\n";
-        mysql_query($sql);
+        $sql="INSERT INTO test(level, username)
+        VALUES ('".$val[0] . "','" . $val[1] . "')";
+        mysqli_query($dbc, $sql);
     }
 }
 ?>
