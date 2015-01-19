@@ -2,8 +2,6 @@
 	$item = $data->getItem(); 
 	$question_types = $data->getQuestionType();
 	
-	$obj_question 	= get_value_question_tyle($question_types, $item['type']);
-	
 	$categories = _db()->select('*')->from('categories')->result(); 
 	$categories = buildArr($categories,'parent',0);
 	$categoryIds = explode(',', $item['categoryIds']);
@@ -24,36 +22,31 @@
 	    	<label for="type">Loại câu hỏi</label>
 	    </div>
 	    <div class="col-xs-10">
-		    <select class="form-control" id="type" name="type">
+		    <select id="type" name="type" class="form-control input-sm">
 				<?php if(isset($question_types)):?>
 					<?php foreach($question_types as $key	=>$value):?>
-						
-						<option value="<?=$value['question_type']?>" class="padding-left-10"> <?=$value['name']?></option>
-							
+						<option value="<?=$value['question_type']?>"  class="padding-left-10"> <?=$value['name']?></option>
 					<?php endforeach;?>
 				<?php endif;?>
 			</select>
 		</div>
-	
+		<script type="text/javascript">
+			$('#type'). val('{item[type]}');
+		</script>
  	</div>
-  	<script>
-		$('#type').val('<?=$obj_question["name"] ?>}');
-	</script>
+  	
     <div class="form-group col-xs-12">
     	<div class="col-xs-2">
         	<label for="level">Độ khó</label>
         </div>
         <div class="col-xs-10">
-        <select class="form-control" id="level" name="level" placeholder="Loại" value="{item[level]}">
-            <option value="">-- Chọn mức độ câu hỏi --</option>
-            <option <?php if($item['level'] ==1) { echo 'selected="selected"'; } ?> value="1">Dễ</option>
-            <option <?php if($item['level'] ==2) { echo 'selected="selected"'; } ?> value="2">Bình thường</option>
-            <option <?php if($item['level'] ==3) { echo 'selected="selected"'; } ?> value="3">Khó</option>
-        </select>
+	        <select class="form-control input-sm" id="level" name="level" >
+	            <option value="">-- Chọn mức độ câu hỏi --</option>
+	            <option <?php if($item['level'] ==1) { echo 'selected="selected"'; } ?> value="1">Dễ</option>
+	            <option <?php if($item['level'] ==2) { echo 'selected="selected"'; } ?> value="2">Bình thường</option>
+	            <option <?php if($item['level'] ==3) { echo 'selected="selected"'; } ?> value="3">Khó</option>
+	        </select>
         </div>
-        <script>
-            $('#level').val('{item[level]}');
-        </script>
     </div>
 
   	<div class="form-group col-xs-12">
