@@ -10,7 +10,7 @@ $questionTypes = _db()->select('*')->from('questiontype')->result();
 	    	<label for="name">Tên câu hỏi</label>
 	    </div>
 	    <div class="col-xs-10">
-	    	<input type="text" class="form-control" id="name" name="name" placeholder="Tên câu hỏi" value="{_REQUEST[name]}">
+	    	<input type="text" class="form-control" id="name" name="name" placeholder="Tên câu hỏi" />
 	    </div>
  	</div>
  	<div class="form-group col-xs-12">
@@ -18,11 +18,16 @@ $questionTypes = _db()->select('*')->from('questiontype')->result();
 	    	<label for="type">Loại câu hỏi</label>
 	    </div>
 	    <div class="col-xs-10">
-		    <select class="form-control" id="type" name="type" placeholder="Loại" value="{item[type]}">
-		        <option value="">-- Chọn loại câu hỏi --</option>
-				{each $questionTypes as $val }
-		        <option value="{val[id]}">{val[name]}</option>
-		        {/each}
+		    <select class="form-control" id="type" name="type">
+		        <option value="">-- Loại câu hỏi --</option>
+				<?php $question_types = $data->getQuestionType();?>
+				<?php if(isset($question_types)):?>
+					<?php foreach($question_types as $key	=>$value):?>
+						
+						<option value="<?=$value['question_type']?>" class="padding-left-10"> <?=$value['name']?></option>
+							
+					<?php endforeach;?>
+				<?php endif;?>
 			</select>
 		</div>
   	</div>

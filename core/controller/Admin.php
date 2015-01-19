@@ -46,13 +46,17 @@ class PzkAdminController extends PzkBackendController {
 		pzk_session($this->table.'Type', pzk_request('type'));
 		$this->redirect('index');
 	}
+	public function changeCategoryTypeAction() {
+		pzk_session($this->table.'category_type', pzk_request('category_type'));
+		$this->redirect('index');
+	}
 	public function changePageSizeAction() {
 		pzk_session($this->table.'PageSize', pzk_request('pageSize'));
 		$this->redirect('index');
 	}
 	public function searchPostAction() {
 		$action	=	pzk_request('submit_action');
-		if($action != 0){
+		if($action != ACTION_RESET){
 			pzk_session($this->table.'Keyword', pzk_request('keyword'));
 		}else{
 			pzk_session($this->table.'Keyword', '');

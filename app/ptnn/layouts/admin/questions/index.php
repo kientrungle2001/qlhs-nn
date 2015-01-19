@@ -3,6 +3,7 @@
 	$orderBy = pzk_session('questionsOrderBy');
 	$categoryId = pzk_session('questionsCategoryId');
 	$type = pzk_session('questionsType');
+	
 	if($categoryId) {
 		$data->conditions .= " and categoryIds like '%,$categoryId,%'";
 	}
@@ -27,7 +28,7 @@
 	foreach($categories as $cat) {
 		$cats[$cat['id']] = $cat;
 	}
-    function getQuestionTypeName($questionTypes, $questionTypeId) {
+    /* function getQuestionTypeName($questionTypes, $questionTypeId) {
         $rs = '';
         foreach($questionTypes as $type) {
             if($type['id'] == $questionTypeId){
@@ -36,7 +37,7 @@
         }
         return $rs;
 
-    }
+    } */
 	function getCategoriesName($item, $categories) {
 		$rs = array();
 		$catIds = explode(',', $item['categoryIds']);
@@ -49,6 +50,8 @@
 		return implode(', ', $rs);
 	}
 	$categoryTree = buildArr($categories,'parent',0);
+	
+	$question_types = $data->getQuestionType();
 ?>
 <div class="well">
 <form role="search" action="{url /admin_questions/searchPost}">
@@ -59,12 +62,14 @@
        	</div>
         <div class="form-group col-xs-2">
         	<label for="type">Loại câu hỏi</label><br>
-			<select class="form-control input-sm" id="type" name="type" value="{item[type]}" onchange="window.location='{url /admin_questions/changeType}?type=' + this.value;">
+        	
+			<select class="form-control input-sm" id="type" name="type" onchange="window.location='{url /admin_questions/changeType}?type=' + this.value;">
 				<option value="">-- Tất cả --</option>
-				<?php $question_types = $data->getQuestionType();?>
 				<?php if(isset($question_types)):?>
 					<?php foreach($question_types as $key	=>$value):?>
-						<option value="<?=$value['id']?>"><?=$value['name']?></option>
+						
+						<option value="<?=$value['question_type']?>" class="padding-left-10"> <?=$value['name']?></option>
+								
 					<?php endforeach;?>
 				<?php endif;?>
 			</select>
@@ -76,7 +81,7 @@
 		<div class="form-group col-xs-4">
 			<label for="categoryId">Dạng bài tập</label><br>
           	<select id="categoryId" name="categoryId" class="form-control input-sm" placeholder="Danh mục" onchange="window.location='{url /admin_questions/changeCategoryId}?categoryId=' + this.value;">
-			<option value="">Tất cả</option>
+			<option value="">-- Tất cả --</option>
 			{each $categoryTree as $cat}
 				<option value="{cat[id]}"><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $cat['lever']);?>{cat[name]}</option>
 			{/each}
@@ -88,40 +93,50 @@
         
         <div class="form-group col-xs-2">
         	<label>&nbsp;</label> <br>
-        	<button type="submit" name ="submit_action" class="btn btn-primary btn-sm" value="1"><span class="glyphicon glyphicon-search"></span> Search</button>
+        	<button type="submit" name ="submit_action" class="btn btn-primary btn-sm" value="<?=ACTION_SEARCH?>"><span class="glyphicon glyphicon-search"></span> Search</button>
         </div>
         <div class="form-group col-xs-2">
         	<label>&nbsp;</label> <br>
-        	<button type="submit" name =submit_action class="btn btn-default btn-sm" value="0"><span class="glyphicon glyphicon-refresh"></span>Reset</button>
+        	<button type="submit" name =submit_action class="btn btn-default btn-sm" value="<?=ACTION_RESET?>"><span class="glyphicon glyphicon-refresh"></span>Reset</button>
         </div>
 	</div>
 </form>
 </div>
-<table class="table">
-	<tr>
-		<th>#</th>
-		<th>Tên</th>
-		<th>Dạng bài tập</th>
-		<th>Loại bài tập</th>
-		<th colspan="2">Hành động</th>
-	</tr>
-	{each $items as $item}
-	<?php 
-	$catNames = getCategoriesName($item, $cats);
-    $questionTypeName = getQuestionTypeName($questionTypes, $item['type']);
-	?>
-	<tr>
-		<td>{item[id]}</td>
-		<td><a href="{url /admin_questions/detail}/{item[id]}">{item[name]}</a></td>
-		<td>{catNames}</td>
-		<td>{questionTypeName}</td>
-		<td><a class="btn btn-default" href="{url /admin_questions/edit}/{item[id]}">Sửa</a></td>
-		<td><a href="{url /admin_questions/del}/{item[id]}">Xóa</td>
-	</tr>
-	{/each}
-	<tr>
-		<td colspan="6">
-		<form class="form-inline" role="form">
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		Danh sách câu hỏi  <a class="btn btn-primary btn-xs pull-right" role="button" href="{url /admin_questions/add}"><span class="glyphicon glyphicon-circle-arrow-right"></span> Thêm câu hỏi</a>
+	</div>
+	<table class="table">
+		<tr>
+			<th>#</th>
+			<th>Tên</th>
+			<th>Dạng bài tập</th>
+			<th>Loại câu hỏi</th>
+			<th colspan="2">Action</th>
+		</tr>
+		{each $items as $item}
+		<?php 
+		$catNames = getCategoriesName($item, $cats);
+	    /* $questionTypeName = getQuestionTypeName($questionTypes, $item['type']); */
+		?>
+		<tr>
+			<td>{item[id]}</td>
+			<td><a href="{url /admin_questions/detail}/{item[id]}">{item[name]}</a></td>
+			<td>{catNames}</td>
+			<td><?php $obj_question = get_value_question_tyle($question_types, $item['type']); echo $obj_question['name']?></td>
+			<td width="7%">
+				<a href="{url /admin_questions/edit}/{item[id]}"  class="text-center" title="Sửa"><span class="glyphicon glyphicon-edit"></span></a>
+				<a class="color_delete text-center" onclick="return confirm_delete('Do you want delete this record?')" title="Xóa" href="{url /admin_questions/del}/{item[id]}"><span class="glyphicon glyphicon-remove"></span></a>
+			</td>
+		</tr>
+		{/each}
+	</table>
+</div>
+
+
+<div class="clearfix pull-right">
+	<form class="form-inline" role="form">
 		<strong>Số mục: </strong>
 		<select id="pageSize" name="pageSize" class="form-control" placeholder="Số mục / trang" onchange="window.location='{url /admin_questions/changePageSize}?pageSize=' + this.value;">
 			<option value="10">10</option>
@@ -146,10 +161,5 @@
 				?>
 		<a class="btn {btn}" href="{url /admin_questions/index}?page={page}">{? echo ($page + 1)?}</a>
 		<?php endfor; ?>
-		</form>
-		</td>
-	</tr>
-	<tr>
-		<td colspan="6"><a class="btn btn-default" href="{url /admin_questions/add}">Thêm câu hỏi</a></td>
-	</tr>
-</table>
+	</form>
+</div>

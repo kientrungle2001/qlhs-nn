@@ -33,5 +33,17 @@ set_include_path(get_include_path() . BASE_DIR . ';');
 // che do cache
 define('PZK_CACHE', true);
 
-// MENU
+//	MENU
 define('MENU', 'MENU');
+
+//	SEARCH
+define('ACTION_SEARCH', '1');
+
+define('ACTION_RESET', '0');
+
+//	QUESTION TYPE
+
+define('QUESTION_WORDS',	'Dạng về từ');
+define('QUESTION_PHRASE',	'Dạng về câu');
+define('QUESTION_PASSAGE',	'Dạng bài về đoạn văn');
+define('QUESTION_CITATION',	'Dạng bài về bài văn');

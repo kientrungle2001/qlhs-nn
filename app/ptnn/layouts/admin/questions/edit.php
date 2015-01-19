@@ -1,18 +1,22 @@
 <?php 
 	$item = $data->getItem(); 
+	$question_types = $data->getQuestionType();
+	
+	$obj_question 	= get_value_question_tyle($question_types, $item['type']);
+	
 	$categories = _db()->select('*')->from('categories')->result(); 
 	$categories = buildArr($categories,'parent',0);
 	$categoryIds = explode(',', $item['categoryIds']);
-    $questionTypes = _db()->select('*')->from('questiontype')->result();
+    /* $questionTypes = _db()->select('*')->from('questiontype')->result(); */
 ?>
 <form id="questionsEditForm" role="form" method="post" action="{url /admin_questions/editAllCatePost}">
   	<input type="hidden" name="id" value="{item[id]}" />
   	<div class="form-group col-xs-12">
   		<div class="col-xs-2">
-	    	<label for="name">Tên</label>
+	    	<label for="name">Câu hỏi</label>
 	    </div>
 	    <div class="col-xs-10">
-	    	<input type="text" class="form-control" id="name" name="name" placeholder="Tên câu hỏi" value="{item[name]}">
+	    	<textarea id="name" class="form-control" rows="2" name="name" aria-required="true" aria-invalid="false"><?=$item["name"];?></textarea>
 	    </div>
   	</div>
   	<div class="form-group col-xs-12">
@@ -20,21 +24,24 @@
 	    	<label for="type">Loại câu hỏi</label>
 	    </div>
 	    <div class="col-xs-10">
-		    <select class="form-control" id="type" name="type" placeholder="Loại" value="{item[type]}">
-		        <option value="">-- Chọn loại câu hỏi --</option>
-		        {each $questionTypes as $val}
-				<option <?php if($item['type'] == $val['id']) { echo 'selected="selected"'; } ?> value="{val[id]}">{val[name]}</option>
-		        {/each}
+		    <select class="form-control" id="type" name="type">
+				<?php if(isset($question_types)):?>
+					<?php foreach($question_types as $key	=>$value):?>
+						
+						<option value="<?=$value['question_type']?>" class="padding-left-10"> <?=$value['name']?></option>
+							
+					<?php endforeach;?>
+				<?php endif;?>
 			</select>
 		</div>
 	
  	</div>
   	<script>
-		$('#type').val('{item[type]}');
+		$('#type').val('<?=$obj_question["name"] ?>}');
 	</script>
     <div class="form-group col-xs-12">
     	<div class="col-xs-2">
-        	<label for="level">Mức độ câu hỏi</label>
+        	<label for="level">Độ khó</label>
         </div>
         <div class="col-xs-10">
         <select class="form-control" id="level" name="level" placeholder="Loại" value="{item[level]}">
@@ -45,7 +52,7 @@
         </select>
         </div>
         <script>
-            $('#type').val('{item[type]}');
+            $('#level').val('{item[level]}');
         </script>
     </div>
 
