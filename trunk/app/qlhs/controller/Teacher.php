@@ -3,7 +3,7 @@ require_once dirname(__FILE__) . '/Base.php';
 class PzkTeacherController extends PzkBaseController {
 	public $grid = 'teacher';
 	public function loginAction() {
-		$page = pzk_parse($this->getApp()->getPageUri('login'));
+		$page = $this->parse('login');
 		pzk_element('loginForm')->action = BASE_REQUEST . '/teacher/loginPost';
 		$page->display();
 	}
