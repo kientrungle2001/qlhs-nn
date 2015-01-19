@@ -18,9 +18,13 @@ if(isset($_SESSION['username'])) {
 }
 
 
-
 if ($token == md5( $time . $username . 'onghuu' ) ) {
+
+    $type = $_POST['type'];
+
     require_once __DIR__ . '/3rdparty/phpexcel/PHPExcel.php';
+    $objPHPExcel = new PHPExcel();
+    $currenttime = date("m-d-Y");
     //connect database
     $dbc = mysqli_connect('localhost', 'root','','ptnn');
     if(!$dbc) {
@@ -29,17 +33,31 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
         mysqli_set_charset($dbc, 'utf-8');
     }
 
-    $currenttime=date("m-d-Y");
-    $inputFileName = __DIR__.'/tmp/test';
-    //query
-    $q = "SELECT usertype_id,name FROM admin";
-
-    if(1) {
-        $objPHPExcel = new PHPExcel();
-        $inputFileName = __DIR__.'/tmp/test';
-        if (!file_exists($inputFileName.".xlsx")) {
-            exit("Test file was not found..\n");
+    $fields = $_POST['exportFields'];
+    $headings = explode(',', $fields);
+    $arrJoin = array();
+    foreach($headings as $field) {
+        $tam = explode('.', $field);
+        if($tam[1]) {
+            $arrJoin[] = $tam[1];
         }
+    }
+    if(!empty($arrJoin)) {
+        $headings = $arrJoin;
+    }
+    //query
+    $q = substr(base64_decode($_POST['q']),0,-6);
+    /*$result = mysqli_query($dbc,$q);
+    $finfo = mysqli_fetch_fields($result);
+    $arrtitle = array();
+    foreach($finfo as $val) {
+        $arrtitle[] = $val->name;
+    }
+    echo '<pre>'; var_dump($arrtitle);
+    die();*/
+    $result = mysqli_query($dbc,$q);
+
+    if($type == 'pdf') {
         //require library 3rdparty(dmopdf, mpdf, tcpdf)
         $rendererName = PHPExcel_Settings::PDF_RENDERER_DOMPDF;
         $rendererLibrary = 'dompdf';
@@ -52,15 +70,11 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
                 'not work'
             );
         }
-        //load file excel
-        //$objPHPExcel = PHPExcel_IOFactory::load($inputFileName.".xlsx");
-
-        $headings = array('usertype_id', 'Name');
 
         if ( $result = mysqli_query($dbc,$q) or die(mysql_error())) {
             // Create a new PHPExcel object
             $objPHPExcel = new PHPExcel();
-            $objPHPExcel->getActiveSheet()->setTitle('List of Users');
+            $objPHPExcel->getActiveSheet()->setTitle('Data');
 
             $rowNumber = 1;
             $col = 'A';
@@ -81,11 +95,7 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
                 $rowNumber++;
             }
         }
-        //$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-        //$objWriter->save($inputFileName.'huu.xlsx');
 
-        // Freeze pane so that the heading line won't scroll
-        //$objPHPExcel->getActiveSheet()->freezePane('A2');
         //http headers, redirect output to client browers
         header('Content-Type: application/pdf');
         header('Content-Disposition: attachment;filename="table.pdf"');
@@ -95,7 +105,7 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
         $objWriter->save('php://output');
             exit();
     }
-    if(1 == 0 ) {
+    elseif($type == 'csv' ) {
         $result = mysqli_query($dbc, $q);
 
         if ($result = mysqli_query($dbc, $q) or die(mysql_error())) {
@@ -103,7 +113,6 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
             $objPHPExcel->getActiveSheet()->setTitle('CYImport'.$currenttime.'');
 
             $rowNumber = 1;
-            $headings = array('usertype_id', 'Name');
 
             $objPHPExcel->getActiveSheet()->fromArray(array($headings),NULL,'A'.$rowNumber);
             $rowNumber++;
@@ -131,13 +140,11 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
 
             $objWriter->save('php://output');
             exit();
-    }else {
+    }elseif($type == 'excel') {
 
+            $result = mysqli_query($dbc, $q);
 
-
-            $headings = array('usertype_id', 'Name');
-
-            if ( $result = mysqli_query($dbc,$q) or die(mysql_error())) {
+            if ($result or die(mysql_error())) {
                 // Create a new PHPExcel object
                 $objPHPExcel = new PHPExcel();
                 $objPHPExcel->getActiveSheet()->setTitle('List of Users');

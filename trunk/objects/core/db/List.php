@@ -16,6 +16,7 @@ class PzkCoreDbList extends PzkObject {
 	public $groupBy = false;
 	public $having = false;
     public $status = 1;
+    public $exportFields = false;
 
 	/**
 	Dieu kien theo parent
@@ -62,6 +63,27 @@ class PzkCoreDbList extends PzkObject {
         //echo $query->getQuery();
 		return $query->result();
 	}
+
+
+
+    public function stringQuery ($keyword = NULL, $fields = array()) {
+        $select = implode(',', $this->exportFields);
+        $query = _db()->useCB()->select($select)->from($this->table)
+            ->where($this->conditions)
+            ->orderBy($this->orderBy)
+            ->limit($this->pageSize, $this->pageNum)
+            ->groupBy($this->groupBy)
+            ->having($this->having);
+        if($keyword && count($fields)) {
+            $conds = array('or');
+            foreach($fields as $field) {
+                $conds[] = array('like', $field, "%$keyword%");
+            }
+            $query->where($conds);
+        }
+        $this->prepareQuery($query);
+        return $query->getQuery();
+    }
 
     public function addFilter($index, $condition) {
         $this->conditions .= " and {$index} like '%{$condition}%'";
