@@ -85,6 +85,9 @@ class PzkTableController extends PzkController {
         $rows = @$_REQUEST['rows'] ? @$_REQUEST['rows'] : 50;
         $page = @$_REQUEST['page'] ? @$_REQUEST['page'] : 1;
         $total = _db()->select($fields . ', count(*) as val')->from($table);
+		if(empty($conds)) {
+			$conds = 1;
+		}
 		$total->where($defaultConds)
                         ->where($conds);
 		
