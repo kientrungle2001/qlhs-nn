@@ -7,7 +7,15 @@ $searchFields = $controller->searchFields;
 $Searchlabels = $controller->Searchlabels;
 $listSettingType = $controller->listSettingType;
 $listFieldSettings = $controller->listFieldSettings;
+$exportFields = $controller->exportFields;
+$exportTypes = $controller->exportTypes;
 $orderBy = pzk_session($controller->table.'OrderBy');
+
+if($exportFields) {
+    $data->exportFields = $exportFields;
+}
+
+
 if($orderBy) {
 	$data->orderBy = $orderBy;
 }
@@ -39,6 +47,10 @@ $data->pageNum = pzk_request('page');
 
 $keyword = pzk_session($controller->table.'Keyword');
 $items = $data->getItems($keyword, $controller->searchFields);
+
+if($exportFields) {
+    $query = $data->stringQuery($keyword, $controller->searchFields);
+}
 
 $countItems = $data->getCountItems($keyword, $controller->searchFields);
 
@@ -211,14 +223,28 @@ if($listSettingType =='parent') {
                 <span class="glyphicon glyphicon-remove"></span> Xóa tất
             </div>
             <?php
+            if($exportTypes && $exportFields) {
             $time = time();
             $username = pzk_session('username');
             if(!$username) $username = 'ongkien';
             $token = md5($time.$username . 'onghuu');
             ?>
-            <a href="/export.php?token={token}&time={time}" style="margin-left: 10px;" class="btn pull-right btn-success" >
-                <span class="glyphicon glyphicon-export"></span> Export
-            </a>
+            <form style="width: 27%;" class="col-md-4 pull-right" action="/export.php?token={token}&time={time}" method="post">
+                <input type="hidden" name="q" value="<?php echo base64_encode($query.'onghuu'); ?>" />
+                <input type="hidden" name="exportFields" value="<?php echo implode(',', $exportFields); ?>"/>
+                <select style="border: 1px solid #ccc;" class="btn" name="type" id="exportdata">
+                    {each $exportTypes as $val}
+                    <option value="{val}">Export {val}</option>
+                    {/each}
+                </select>
+                <div class="btn pull-right btn-success ">
+                    <span class="glyphicon glyphicon-export"></span>
+                    <input style="background: none; border: none;"  type="submit" value="Export"/>
+                </div>
+
+            </form>
+            <?php } ?>
+
             <a href="/import.php?token={token}&time={time}" style="margin-left: 10px;" class="btn pull-right btn-success" >
                 <span class="glyphicon glyphicon-import"></span> Import
             </a>
@@ -270,6 +296,8 @@ if($listSettingType =='parent') {
 
             return false;
         });
+
+
 
     });
 

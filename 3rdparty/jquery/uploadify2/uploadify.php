@@ -27,17 +27,21 @@ define('BASE_DIR', dirname(dirname(dirname(dirname(__FILE__)))));
 if (!empty($_FILES)) {
 	$tempFile = $_FILES['Filedata']['tmp_name'];
 	$targetPath = BASE_DIR . '/uploads/';
-	$targetFile =  str_replace('//','/',$targetPath) . $_FILES['Filedata']['name'];
-	
+
+    $ext = end(explode('.', $_FILES['Filedata']['name']));
+    $renamed = md5(rand(0,200000)).'.'."$ext";
+
+	$targetFile =  str_replace('//','/',$targetPath) . $renamed;
+
 	// $fileTypes  = str_replace('*.','',$_REQUEST['fileext']);
 	// $fileTypes  = str_replace(';','|',$fileTypes);
 	// $typesArray = split('\|',$fileTypes);
 	// $fileParts  = pathinfo($_FILES['Filedata']['name']);
-	
+
 	// if (in_array($fileParts['extension'],$typesArray)) {
 		// Uncomment the following line if you want to make the directory if it doesn't exist
 		// mkdir(str_replace('//','/',$targetPath), 0755, true);
-		
+
 		move_uploaded_file($tempFile,$targetFile);
 		echo str_replace(BASE_DIR,'',$targetFile);
 	// } else {
