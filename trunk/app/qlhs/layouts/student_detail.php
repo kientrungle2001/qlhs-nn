@@ -181,15 +181,16 @@ $(document).ready(function(e) {
 		<div title="{period[name]}">
 			<h3>{period[name]}</h3>
 			<div class="left-handside">
-			<?php $all_amounts = $class_periods[$period['id']];
+			<?php $all_amounts = @$class_periods[$period['id']];
 			$total_amounts = 0;
+			if(!$all_amounts) $all_amounts = array();
 			foreach($all_amounts as $each_amount) {
 				$total_amounts += $each_amount;
 			}
 			
 			?>
 			Tổng cộng: <?php echo product_price($total_amounts);?> &nbsp;
-<a href="<?php echo BASE_URL; ?>/index.php/order/create?multiple=1&prices={? echo implode(',', $classPrices) ?}&classIds={? echo implode(',', $classIds) ?}&studentId={student[id]}&periodId={period[id]}&discounts={? echo implode(',', $class_period_discounts[$period['id']]) ?}&musters={? echo implode(',', $class_period_mustertotals[$period['id']]) ?}&amounts={? echo implode(',', $class_periods[$period['id']]) ?}&discount_reasons={? echo implode(',', $class_discount_reasons[$period['id']]) ?}" target="_blank">Tạo hóa đơn</a></div><div class="right-handside"></div><div class="clear"></div>
+<a href="<?php echo BASE_URL; ?>/index.php/order/create?multiple=1&prices={? echo @implode(',', @$classPrices) ?}&classIds={? echo @implode(',', @$classIds) ?}&studentId={student[id]}&periodId={period[id]}&discounts={? echo @implode(',', @$class_period_discounts[$period['id']]) ?}&musters={? echo @implode(',', @$class_period_mustertotals[$period['id']]) ?}&amounts={? echo @implode(',', @$class_periods[$period['id']]) ?}&discount_reasons={? echo @implode(',', @$class_discount_reasons[$period['id']]) ?}" target="_blank">Tạo hóa đơn</a></div><div class="right-handside"></div><div class="clear"></div>
 		</div>
 	<?php } ?>
 	</div>
