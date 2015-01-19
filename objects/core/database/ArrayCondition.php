@@ -5,6 +5,13 @@ class PzkCoreDatabaseArrayCondition extends PzkObject {
 		'isnull', 'isnotnull', 'gte', 'lte', 'gt', 'lt', 'sql');
 	public function build($cond) {
 		if(is_array($cond)) {
+			if(!isset($cond[0])) {
+				$rs = array('and');
+				foreach($cond as $key => $val) {
+					$rs[] = array($key, $val);
+				}
+				return $this->build($rs);
+			}
 			$op = $cond[0];
 			if(in_array($op, self::$operations)) {
 				$func = 'mf_'.$op;
@@ -31,11 +38,11 @@ class PzkCoreDatabaseArrayCondition extends PzkObject {
 
 	function mf_column($col, $col2 = null) {
 		if(!$col2)
-			return '`' . @mysql_real_escape_string($col) . '`';
-		return '`' . @mysql_real_escape_string($col) . '`.`' . @mysql_real_escape_string($col2) . '`';
+			return '`' . @mysql_escape_string($col) . '`';
+		return '`' . @mysql_escape_string($col) . '`.`' . @mysql_escape_string($col2) . '`';
 	}
 	function mf_string($str) {
-		return '\'' . @mysql_real_escape_string($str) . '\'';
+		return '\'' . @mysql_escape_string($str) . '\'';
 	}
 	function mf_equal($exp1, $exp2) {
 		if(is_string($exp1)) {
