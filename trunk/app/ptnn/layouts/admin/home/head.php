@@ -1,4 +1,6 @@
+	<script type="text/javascript" src="<?php echo BASE_URL ?>/default/skin/ptnn/js_admin/main.js"></script>
 	<link rel="stylesheet" href="<?php echo BASE_URL ?>/default/skin/ptnn/css_admin/style.css" />
+	
     {children all}<!--lay tat ca cac con cua hear cho vao layout-->
     <div id="header">
         <div class="row margin-top-10">

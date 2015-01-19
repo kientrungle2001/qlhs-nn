@@ -59,10 +59,9 @@
         echo '</ul>';
     }
 
-function showAdminMenu($array = array()){
-    echo '<ul class="drop">';
-        foreach ($array as $item)
-        {
+	function showAdminMenu($array = array()){
+    	echo '<ul class="drop">';
+        foreach ($array as $item){
         	$class_action = "";
         	if( pzk_session(MENU) === $item['admin_controller']){
         		$class_action = " class = 'action'";
@@ -98,11 +97,27 @@ function showAdminMenu($array = array()){
         return $array_themes;
     }
 
-	function debug($data = array())
-	{
+	function debug($data = array()){
 		if($data){
 			echo "<pre/>";
 			print_r($data);
 		}
+	}
+	
+	function get_value_question_tyle($data = array(), $question_key){
+		
+		if(is_array($data)){
+			
+			foreach($data as $key	=> $value){
+				
+				if($question_key == $value['question_type']){
+					
+					return $value;
+					
+					break;
+				}
+			}
+		}
+		return false;
 	}
  ?>

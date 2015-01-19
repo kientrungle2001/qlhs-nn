@@ -1,1 +1,1 @@
-<core.db.list table="questiontype" layout="admin/questiontype/index" />
+<core.db.list table="questiontype" id="questiontype" layout="admin/questiontype/index" />
