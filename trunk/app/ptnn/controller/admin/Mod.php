@@ -190,6 +190,9 @@ class PzkAdminModController extends PzkGridAdminController {
 
         )
     );
+    //export data
+    public $exportFields = array('admin.id', 'admin.name', 'admin_level.level');
+    public $exportTypes = array('pdf', 'excel', 'csv');
 
     public function editPostAction() {
         $row = $this->getEditData();

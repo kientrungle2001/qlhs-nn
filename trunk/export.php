@@ -56,8 +56,7 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
     echo '<pre>'; var_dump($arrtitle);
     die();*/
     $result = mysqli_query($dbc,$q);
-
-    if($result){
+    if(empty($result)){
         die();
     }
 
@@ -144,13 +143,11 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
 
             $objWriter->save('php://output');
             exit();
-    }elseif($type == 'excel') {
-
-            $result = mysqli_query($dbc, $q);
+    }elseif($type == 'excel' ) {
+            $result = mysqli_query($dbc,$q);
 
             if ($result or die(mysql_error())) {
                 // Create a new PHPExcel object
-                $objPHPExcel = new PHPExcel();
                 $objPHPExcel->getActiveSheet()->setTitle('List of Users');
 
                 $rowNumber = 1;
