@@ -80,8 +80,7 @@ class PzkDtableController extends PzkTableController {
 			
 		),
 		'tuition_fee' => array(
-			'table' => '`tuition_fee` as t
-						join `classes` as c on t.classId = c.id',
+			'table' => '`tuition_fee` as t join `classes` as c on t.classId = c.id',
 			'fields' => 't.*, c.name as className'
 		),
 	);
@@ -116,6 +115,9 @@ class PzkDtableController extends PzkTableController {
 			'none' => 0
 		),
 		'teacher_class' => array(
+			'none' => 0
+		),
+		'tuition_fee' => array(
 			'none' => 0
 		),
 		'student_order' => array(
