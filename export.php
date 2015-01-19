@@ -57,6 +57,10 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
     die();*/
     $result = mysqli_query($dbc,$q);
 
+    if($result){
+        die();
+    }
+
     if($type == 'pdf') {
         //require library 3rdparty(dmopdf, mpdf, tcpdf)
         $rendererName = PHPExcel_Settings::PDF_RENDERER_DOMPDF;
@@ -131,7 +135,7 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
             $objWriter->setEnclosure('');
             $objWriter->setLineEnding("\r\n");
             $objWriter->setSheetIndex(0);
-            $objWriter->save('blah '.$currenttime.'.csv');
+
 
 
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
