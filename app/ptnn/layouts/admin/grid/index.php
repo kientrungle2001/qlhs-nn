@@ -229,17 +229,17 @@ if($listSettingType =='parent') {
             if(!$username) $username = 'ongkien';
             $token = md5($time.$username . 'onghuu');
             ?>
-            <form style="width: 27%;" class="col-md-4 pull-right" action="/export.php?token={token}&time={time}" method="post">
+            <form id="fromexport" style="width: 27%;" class="col-md-4 pull-right" action="/export.php?token={token}&time={time}" method="post">
                 <input type="hidden" name="q" value="<?php echo base64_encode($query.'onghuu'); ?>" />
                 <input type="hidden" name="exportFields" value="<?php echo implode(',', $exportFields); ?>"/>
-                <select style="border: 1px solid #ccc;" class="btn" name="type" id="exportdata">
+                <select style="border: 1px solid #ccc;" class="btn" name="type">
                     {each $exportTypes as $val}
                     <option value="{val}">Export {val}</option>
                     {/each}
                 </select>
-                <div class="btn pull-right btn-success ">
+                <div id="exportdata" class="btn pull-right btn-success ">
                     <span class="glyphicon glyphicon-export"></span>
-                    <input style="background: none; border: none;"  type="submit" value="Export"/>
+                    Export
                 </div>
 
             </form>
@@ -297,7 +297,13 @@ if($listSettingType =='parent') {
             return false;
         });
 
-
+        $('#exportdata').click(function() {
+            var r = confirm("Bạn có muốn export không?");
+            if (r == true) {
+            $('#fromexport').submit();
+            }
+            return false;
+        });
 
     });
 
