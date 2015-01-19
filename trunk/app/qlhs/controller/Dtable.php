@@ -78,7 +78,12 @@ class PzkDtableController extends PzkTableController {
 		),
 		'general_order' => array(
 			
-		)
+		),
+		'tuition_fee' => array(
+			'table' => '`tuition_fee` as t
+						join `classes` as c on t.classId = c.id',
+			'fields' => 't.*, c.name as className'
+		),
 	);
 	
 	public $inserts = array(
@@ -99,7 +104,8 @@ class PzkDtableController extends PzkTableController {
 		'profile_controller_permission' => array('type', 'controller', 'action', 'status'),
 		'profile_profile' => array('username', 'password', 'type', 'fullName'),
 		'profile_type' => array('name'),
-		'class_student_period_mark' => array('classId', 'studentId', 'periodId', 'marks', 'note')
+		'class_student_period_mark' => array('classId', 'studentId', 'periodId', 'marks', 'note'),
+		'tuition_fee' => array('classId', 'startDate', 'endDate', 'amount', 'status')
 	);
 	
 	public $filters = array(
