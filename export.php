@@ -1,11 +1,16 @@
 <?php
-session_start();
-function decrypt($encrypted_string, $encryption_key) {
-    $iv_size = mcrypt_get_iv_size(MCRYPT_BLOWFISH, MCRYPT_MODE_ECB);
-    $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
-    $decrypted_string = mcrypt_decrypt(MCRYPT_BLOWFISH, $encryption_key, $encrypted_string, MCRYPT_MODE_ECB, $iv);
-    return $decrypted_string;
-}
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+
+// cac ham xu ly thong thuong
+mb_language('uni');
+mb_internal_encoding('UTF-8');
+require_once 'config.php';
+require_once 'include.php';
+
+$sys = pzk_parse('system/full');
+
+$app = $sys->getApp();
+
 if(isset($_GET['token'])){
     $token = $_GET['token'];
 }else {
@@ -16,15 +21,16 @@ if(isset($_GET['time'])){
 }else{
     die();
 }
-
-if(isset($_SESSION['username'])) {
-    $username = $_SESSION['username'];
+$username = pzk_session('adminUser');
+if(isset($username)) {
+    $username = $username;
 }else {
-    $username = 'ongkien';
+    die();
 }
 
 
 if ($token == md5( $time . $username . 'onghuu' ) ) {
+
     //connect database
     $dbc = mysqli_connect('localhost', 'root','','ptnn');
     if(!$dbc) {
@@ -32,9 +38,10 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
     } else {
         mysqli_set_charset($dbc, 'utf-8');
     }
+
     //query
     $q = mysqli_real_escape_string($dbc, $_POST['q']);
-    $q = decrypt(base64_decode($q), 'onghuu');
+    $q = decrypt(base64_decode($q),'onghuu');
     /*$result = mysqli_query($dbc,$q);
     $finfo = mysqli_fetch_fields($result);
     $arrtitle = array();
@@ -44,8 +51,9 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
     echo '<pre>'; var_dump($arrtitle);
     die();*/
     //$q = mysqli_real_escape_string($dbc, $q);
-    //echo $q; die();
-    $result = mysqli_query($dbc,$q);
+    $result = mysqli_query($dbc, trim($q));
+    mysqli_close($dbc);
+
     if(empty($result)){
         die();
     }
@@ -83,7 +91,7 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
             );
         }
 
-        if ( $result = mysqli_query($dbc,$q) or die(mysql_error())) {
+        if ( $result or die(mysql_error())) {
             // Create a new PHPExcel object
             $objPHPExcel = new PHPExcel();
             $objPHPExcel->getActiveSheet()->setTitle('Data');
@@ -118,9 +126,7 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
             exit();
     }
     elseif($type == 'csv' ) {
-        $result = mysqli_query($dbc, $q);
-
-        if ($result = mysqli_query($dbc, $q) or die(mysql_error())) {
+        if ($result or die(mysql_error())) {
             $objPHPExcel = new PHPExcel();
             $objPHPExcel->getActiveSheet()->setTitle('CYImport'.$currenttime.'');
 
