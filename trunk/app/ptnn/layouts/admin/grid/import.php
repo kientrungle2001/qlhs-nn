@@ -9,7 +9,7 @@ $token = md5($time.$username . 'onghuu');
 <form enctype="multipart/form-data" method="post" action="/import.php?token={token}&time={time}">
     <div class="form-group clearfix">
         <label for="{field[index]}">Chọn file</label>
-        <input type="file"/>
+        <input name="file" type="file"/>
     </div>
     <div class="form-group">
         <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-saved"></span> Cập nhật</button>

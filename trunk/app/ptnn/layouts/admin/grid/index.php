@@ -225,7 +225,7 @@ if($listSettingType =='parent') {
             <?php
             if($exportTypes && $exportFields) {
             $time = time();
-            $username = pzk_session('username');
+            $username = pzk_session('adminUser');
             if(!$username) $username = 'ongkien';
             $token = md5($time.$username . 'onghuu');
             ?>
@@ -244,6 +244,7 @@ if($listSettingType =='parent') {
 
             </form>
             <?php } ?>
+
 
             <a class="btn btn-primary pull-right" href="{url /admin}_{controller.module}/add"><span class="glyphicon glyphicon-plus"></span> {controller.addLabel}</a>
         </td>

@@ -11,17 +11,39 @@ if(isset($_GET['time'])){
     die();
 }
 
-if(isset($_SESSION['username'])) {
-    $username = $_SESSION['username'];
+if(isset($_SESSION['adminUser'])) {
+    $username = $_SESSION['adminUser'];
 }else {
-    $username = 'ongkien';
+    die();
 }
 
 
 
 if ($token == md5( $time . $username . 'onghuu' ) ) {
 
+    if(isset($_FILES[$filename])) {
+        if(!empty($_FILES[$filename]['name'])){
+            // Kiem tra xem file upload co nam trong dinh dang cho phep
+            if(in_array(strtolower($_FILES[$filename]['type']), $allowed)) {
+                // Neu co trong dinh dang cho phep, tach lay phan mo rong
+                $ext = end(explode('.', $_FILES[$filename]['name']));
+                $renamed = md5(rand(0,200000)).'.'."$ext";
 
+                move_uploaded_file($_FILES[$filename]['tmp_name'], $dir.$renamed);
+
+            } else {
+                // FIle upload khong thuoc dinh dang cho phep
+                $errors = "File upload không thuộc định dạng cho phép!";
+                $this->redirect('index');
+            }
+        }
+
+    }
+
+    // Xoa file da duoc upload va ton tai trong thu muc tam
+    if(isset($_FILES[$filename]['tmp_name']) && is_file($_FILES[$filename]['tmp_name']) && file_exists($_FILES[$filename]['tmp_name'])) {
+        unlink($_FILES[$filename]['tmp_name']);
+    }
     //$path = __DIR__."/tmp/test.xls";
     if(!file_exists($path)) {
         die();
