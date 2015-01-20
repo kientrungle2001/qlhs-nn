@@ -23,7 +23,7 @@ span.comment_date{font-weight:none; font-size:12px;}
 </style>
 
 <div class="comments-wrapper">
-		<div class="Showcomments" align="center" style="margin:20px; float:left;">
+		<div class="Showcomments" align="center" style="margin:20px; float:left; line-height: 1.42857143;color: #555;background-color: #fff;background-image: none;border: 1px solid #ccc;border-radius: 4px;">
 			<div style="clear:both;"></div>
 				<div style="float:left;"><h4>Ý kiến thành viên</h4></div> 
 				<div style="float:right;">
@@ -31,10 +31,10 @@ span.comment_date{font-weight:none; font-size:12px;}
 				<h4> {count} Bình luận</h4>
 				</div>
 			
-			<div class="comments" style="width:800px; height:auto; border:1px solid red; float:left;">
+			<div class="comments" style="width:800px; height:auto;  float:left;">
 			<?php $allcomments=$data->getComments($newsid); ?>
 			{each $allcomments as $allcomment}
-				<div class=" col-xs-12">
+				<div class=" col-xs-12" style="margin-top:20px;">
 					<div class="avatar col-xs-2"  style="width:50px; height:50px;float:left; margin:10px; ">
 						<img src="{allcomment[avatar]}" class="useravatar" width=50; height=50;></img>
 					</div>

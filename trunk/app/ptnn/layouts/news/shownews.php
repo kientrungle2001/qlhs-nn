@@ -24,7 +24,7 @@
 <a href="/news/shownews?id={news[id]}">{news[title]}</a>
 </p>
 
-<div id="shownews-wrapper">
+<div id="shownews-wrapper" style="width:95%; ">
   <div id="shownews-left">
     <div class="shownews-container">
       <div class="shownews-title">

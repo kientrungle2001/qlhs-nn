@@ -91,6 +91,16 @@ class PzkAdminNewletterController extends PzkGridAdminController {
 			)
 		)
     );
+	public $menuLinks = array(
+        array(
+            'name' => 'Gửi thư cho người đăng ký',
+            'href' => '/admin_newletter/send'
+        ),
+		array(
+            'name' => 'Gửi thư cho toàn bộ thành viên',
+            'href' => '/admin_newletter/sendall'
+        )
+    );
 	   public $sendFieldSettings = array(
         array(
             'index' => 'mail',
