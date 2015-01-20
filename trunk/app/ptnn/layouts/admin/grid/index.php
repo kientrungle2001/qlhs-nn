@@ -245,9 +245,6 @@ if($listSettingType =='parent') {
             </form>
             <?php } ?>
 
-            <a href="/import.php?token={token}&time={time}" style="margin-left: 10px;" class="btn pull-right btn-success" >
-                <span class="glyphicon glyphicon-import"></span> Import
-            </a>
             <a class="btn btn-primary pull-right" href="{url /admin}_{controller.module}/add"><span class="glyphicon glyphicon-plus"></span> {controller.addLabel}</a>
         </td>
 	</tr>
