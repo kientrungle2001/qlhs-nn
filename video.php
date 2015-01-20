@@ -1,5 +1,15 @@
 <?php
-session_start();
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+
+// cac ham xu ly thong thuong
+mb_language('uni');
+mb_internal_encoding('UTF-8');
+require_once 'config.php';
+require_once 'include.php';
+
+$sys = pzk_parse('system/full');
+
+$app = $sys->getApp();
 
 if($_GET['id'] && is_numeric($_GET['id'])) {
     $id = $_GET['id'];
@@ -9,15 +19,20 @@ if($_GET['id'] && is_numeric($_GET['id'])) {
 
 $token = $_GET['token'];
 $time = $_GET['time'];
-if(isset($_SESSION['username'])) {
-    $username = $_SESSION['username'];
+$username = pzk_session('username');
+if(isset($username)) {
+    $username = pzk_session('username');
 }else {
     $username = 'ongkien';
 }
 //check token
 if ($token == md5( $time . $username . 'onghuu' ) ) {
-
-    $dbc = mysqli_connect('localhost', 'root','','ptnn');
+    $host = _db()->host;
+    $user = _db()->user;
+    $password = _db()->password;
+    $db = _db()->dbName;
+    //connect database
+    $dbc = mysqli_connect($host, $user,$password,$db);
     if(!$dbc) {
         trigger_error("Could not connect to DB: " . mysqli_connect_error());
     } else {

@@ -1,5 +1,16 @@
 <?php
-session_start();
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+
+// cac ham xu ly thong thuong
+mb_language('uni');
+mb_internal_encoding('UTF-8');
+require_once 'config.php';
+require_once 'include.php';
+
+$sys = pzk_parse('system/full');
+
+$app = $sys->getApp();
+
 if(isset($_GET['token'])){
     $token = $_GET['token'];
 }else {
@@ -10,9 +21,9 @@ if(isset($_GET['time'])){
 }else{
     die();
 }
-
-if(isset($_SESSION['adminUser'])) {
-    $username = $_SESSION['adminUser'];
+$username = pzk_session('adminUser');
+if(isset($username)) {
+    $username = pzk_session('adminUser');
 }else {
     die();
 }
@@ -51,7 +62,13 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
 
     require_once __DIR__ . '/3rdparty/phpexcel/PHPExcel.php';
 
-    $dbc = mysqli_connect('localhost', 'root','','ptnn');
+    $host = _db()->host;
+    $user = _db()->user;
+    $password = _db()->password;
+    $db = _db()->dbName;
+    //connect database
+    $dbc = mysqli_connect($host, $user,$password,$db);
+
     if(!$dbc) {
         trigger_error("Could not connect to DB: " . mysqli_connect_error());
     } else {

@@ -30,9 +30,12 @@ if(isset($username)) {
 
 
 if ($token == md5( $time . $username . 'onghuu' ) ) {
-
+    $host = _db()->host;
+    $user = _db()->user;
+    $password = _db()->password;
+    $db = _db()->dbName;
     //connect database
-    $dbc = mysqli_connect('localhost', 'root','','ptnn');
+    $dbc = mysqli_connect($host, $user,$password,$db);
     if(!$dbc) {
         trigger_error("Could not connect to DB: " . mysqli_connect_error());
     } else {

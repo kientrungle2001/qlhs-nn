@@ -1,7 +1,7 @@
 <?php
 $controller = pzk_controller();
 $time = time();
-$username = pzk_session('username');
+$username = pzk_session('adminUser');
 if(!$username) $username = 'ongkien';
 $token = md5($time.$username . 'onghuu');
 ?>
