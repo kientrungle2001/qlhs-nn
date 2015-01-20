@@ -23,7 +23,7 @@ if(isset($_GET['time'])){
 }
 $username = pzk_session('adminUser');
 if(isset($username)) {
-    $username = $username;
+    $username = pzk_session('adminUser');
 }else {
     die();
 }
