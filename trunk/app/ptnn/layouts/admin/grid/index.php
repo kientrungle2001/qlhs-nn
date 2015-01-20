@@ -230,7 +230,7 @@ if($listSettingType =='parent') {
             $token = md5($time.$username . 'onghuu');
             ?>
             <form id="fromexport" style="width: 27%;" class="col-md-4 pull-right" action="/export.php?token={token}&time={time}" method="post">
-                <input type="hidden" name="q" value="<?php echo base64_encode($query.'onghuu'); ?>" />
+                <input type="hidden" name="q" value="<?php echo base64_encode(encrypt($query, 'onghuu')); ?>" />
                 <input type="hidden" name="exportFields" value="<?php echo implode(',', $exportFields); ?>"/>
                 <select style="border: 1px solid #ccc;" class="btn" name="type">
                     {each $exportTypes as $val}

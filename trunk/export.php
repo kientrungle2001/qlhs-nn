@@ -1,5 +1,11 @@
 <?php
 session_start();
+function decrypt($encrypted_string, $encryption_key) {
+    $iv_size = mcrypt_get_iv_size(MCRYPT_BLOWFISH, MCRYPT_MODE_ECB);
+    $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
+    $decrypted_string = mcrypt_decrypt(MCRYPT_BLOWFISH, $encryption_key, $encrypted_string, MCRYPT_MODE_ECB, $iv);
+    return $decrypted_string;
+}
 if(isset($_GET['token'])){
     $token = $_GET['token'];
 }else {
@@ -46,7 +52,8 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
         $headings = $arrJoin;
     }
     //query
-    $q = substr(base64_decode($_POST['q']),0,-6);
+    $q = mysqli_real_escape_string($dbc, $_POST['q']);
+    $q = decrypt(base64_decode($q), 'onghuu');
     /*$result = mysqli_query($dbc,$q);
     $finfo = mysqli_fetch_fields($result);
     $arrtitle = array();
@@ -55,6 +62,8 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
     }
     echo '<pre>'; var_dump($arrtitle);
     die();*/
+    //$q = mysqli_real_escape_string($dbc, $q);
+    //echo $q; die();
     $result = mysqli_query($dbc,$q);
     if(empty($result)){
         die();
