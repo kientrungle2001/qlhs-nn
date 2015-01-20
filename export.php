@@ -143,53 +143,51 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
 
             $objWriter->save('php://output');
             exit();
-    }elseif($type == 'excel' ) {
-            $result = mysqli_query($dbc,$q);
-
-            if ($result or die(mysql_error())) {
-                // Create a new PHPExcel object
-                $objPHPExcel->getActiveSheet()->setTitle('List of Users');
-
-                $rowNumber = 1;
-                $col = 'A';
-                foreach($headings as $heading) {
-                    //set value col in file excel
-                    $objPHPExcel->getActiveSheet()->setCellValue($col.$rowNumber,$heading);
-                    $col++;
-                }
-
-                // Loop through the result set
-                $rowNumber = 2;
-                while ($row = mysqli_fetch_row($result)) {
-                    $col = 'A';
-                    foreach($row as $cell) {
-                        $objPHPExcel->getActiveSheet()->setCellValue($col.$rowNumber,$cell);
-                        $col++;
-                    }
-                    $rowNumber++;
-                }
-
-                // Freeze pane so that the heading line won't scroll
-                $objPHPExcel->getActiveSheet()->freezePane('A2');
-
-                // Save as an Excel BIFF (xls) file
-                //excel 2007
-                //$objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);//Excel5,PDF
-                //header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-                //header('Content-Disposition: attachment;filename="userList.xlsx"');
-                //excel 2003
-                $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');//Excel5,PDF
-                header('Content-Type: application/vnd.ms-excel');
-                header('Content-Disposition: attachment;filename="userList.xls"');
-                header('Cache-Control: max-age=0');
-                if($objWriter) {
-                    $objWriter->save('php://output');
-                }
-                exit();
-        }
-
         }
     }
+    elseif($type == 'excel' ) {
 
+        if ($result or die(mysql_error())) {
+            // Create a new PHPExcel object
+            $objPHPExcel->getActiveSheet()->setTitle('data');
+
+            $rowNumber = 1;
+            $col = 'A';
+            foreach($headings as $heading) {
+                //set value col in file excel
+                $objPHPExcel->getActiveSheet()->setCellValue($col.$rowNumber,$heading);
+                $col++;
+            }
+
+            // Loop through the result set
+            $rowNumber = 2;
+            while ($row = mysqli_fetch_row($result)) {
+                $col = 'A';
+                foreach($row as $cell) {
+                    $objPHPExcel->getActiveSheet()->setCellValue($col.$rowNumber,$cell);
+                    $col++;
+                }
+                $rowNumber++;
+            }
+
+            // Freeze pane so that the heading line won't scroll
+            $objPHPExcel->getActiveSheet()->freezePane('A2');
+
+            // Save as an Excel BIFF (xls) file
+            //excel 2007
+            //$objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);//Excel5,PDF
+            //header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            //header('Content-Disposition: attachment;filename="userList.xlsx"');
+            //excel 2003
+            $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');//Excel5,PDF
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="userList.xls"');
+            header('Cache-Control: max-age=0');
+            if($objWriter) {
+                $objWriter->save('php://output');
+            }
+            exit();
+        }
+    }
 }
 ?>
