@@ -25,31 +25,12 @@ if(isset($_SESSION['username'])) {
 
 
 if ($token == md5( $time . $username . 'onghuu' ) ) {
-
-    $type = $_POST['type'];
-
-    require_once __DIR__ . '/3rdparty/phpexcel/PHPExcel.php';
-    $objPHPExcel = new PHPExcel();
-    $currenttime = date("m-d-Y");
     //connect database
     $dbc = mysqli_connect('localhost', 'root','','ptnn');
     if(!$dbc) {
         trigger_error("Could not connect to DB: " . mysqli_connect_error());
     } else {
         mysqli_set_charset($dbc, 'utf-8');
-    }
-
-    $fields = $_POST['exportFields'];
-    $headings = explode(',', $fields);
-    $arrJoin = array();
-    foreach($headings as $field) {
-        $tam = explode('.', $field);
-        if($tam[1]) {
-            $arrJoin[] = $tam[1];
-        }
-    }
-    if(!empty($arrJoin)) {
-        $headings = $arrJoin;
     }
     //query
     $q = mysqli_real_escape_string($dbc, $_POST['q']);
@@ -68,6 +49,25 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
     if(empty($result)){
         die();
     }
+
+    require_once __DIR__ . '/3rdparty/phpexcel/PHPExcel.php';
+    $objPHPExcel = new PHPExcel();
+    $currenttime = date("m-d-Y");
+
+    $fields = $_POST['exportFields'];
+    $headings = explode(',', $fields);
+    $arrJoin = array();
+    foreach($headings as $field) {
+        $tam = explode('.', $field);
+        if($tam[1]) {
+            $arrJoin[] = $tam[1];
+        }
+    }
+    if(!empty($arrJoin)) {
+        $headings = $arrJoin;
+    }
+
+    $type = $_POST['type'];
 
     if($type == 'pdf') {
         //require library 3rdparty(dmopdf, mpdf, tcpdf)

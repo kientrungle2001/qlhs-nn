@@ -19,7 +19,14 @@ if(isset($_SESSION['username'])) {
 
 
 
-if (1 or $token == md5( $time . $username . 'onghuu' ) ) {
+if ($token == md5( $time . $username . 'onghuu' ) ) {
+
+
+    //$path = __DIR__."/tmp/test.xls";
+    if(!file_exists($path)) {
+        die();
+    }
+
     require_once __DIR__ . '/3rdparty/phpexcel/PHPExcel.php';
 
     $dbc = mysqli_connect('localhost', 'root','','ptnn');
@@ -28,8 +35,6 @@ if (1 or $token == md5( $time . $username . 'onghuu' ) ) {
     } else {
         mysqli_set_charset($dbc, 'utf-8');
     }
-    $path = __DIR__."/tmp/test.xls";
-
 
     $objPHPExcel = PHPExcel_IOFactory::load($path);
     foreach ($objPHPExcel->getWorksheetIterator() as $worksheet) {
