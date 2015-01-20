@@ -190,6 +190,15 @@ class PzkAdminModController extends PzkGridAdminController {
 
         )
     );
+    //add link menu
+    //add menu links
+    public $menuLinks = array(
+        array(
+            'name' => 'Import',
+            'href' => '/admin_mod/import'
+        ),
+
+    );
     //export data
     public $exportFields = array('admin.id', 'admin.name', 'admin_level.level');
     public $exportTypes = array('pdf', 'excel', 'csv');

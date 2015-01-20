@@ -156,6 +156,12 @@ class PzkAdminController extends PzkBackendController {
 		$entity->update($row);
 		$entity->save();
 	}
+    public function importAction() {
+        $this->initPage();
+        $this->append('admin/'.pzk_or($this->customModule, $this->module).'/import')
+            ->append('admin/'.pzk_or($this->customModule, $this->module).'/menu', 'right');
+        $this->display();
+    }
 	public function editAction() {
 		$module = pzk_parse(pzk_app()->getPageUri('admin/'.pzk_or($this->customModule, $this->module).'/edit'));
 		$module->setItemId(pzk_request()->getSegment(3));

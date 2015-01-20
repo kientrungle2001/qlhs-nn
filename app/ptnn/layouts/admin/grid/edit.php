@@ -40,16 +40,22 @@ $setEditTabs = $controller->setEditTabs;
                            <div class="form-group clearfix">
                                <label for="{field[index]}">{field[label]}</label>
                                <select class="form-control" id="{field[index]}" name="{field[index]}" >
-                                   <option value="0">&nbsp;&nbsp;&nbsp;&nbsp;Danh mục gốc</option>
+
                                    <?php
                                    $parents = _db()->select('*')->from($field['table'])->result();
-                                   $parents = buildArr($parents, 'parent', 0);
+                                   if(isset($parents[0]['parent'])) {
+                                       $parents = buildArr($parents, 'parent', 0);
+                                       echo "<option value='0'>&nbsp;&nbsp;&nbsp;&nbsp;Danh mục gốc</option>";
+                                   }else{
+                                       echo "<option value='0'>Danh mục gốc</option>";
+                                   }
                                    ?>
                                    {each $parents as $parent}
                                    <?php
                                    $selected = '';
                                    if($parent[$field['show_value']] == $row[$field['index']]) { $selected = 'selected'; }?>
-                                   <option value="<?php echo $parent[$field['show_value']]; ?>" {selected}><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $parent['lever']); ?>
+                                   <option value="<?php echo $parent[$field['show_value']]; ?>" {selected}>
+                                   <?php if(isset($parent['parent'])){ echo str_repeat('--', $parent['lever']); } ?>
                                    <?php echo $parent[$field['show_name']]; ?>
                                    </option>
                                    {/each}
@@ -227,16 +233,22 @@ $setEditTabs = $controller->setEditTabs;
     <div class="form-group clearfix">
         <label for="{field[index]}">{field[label]}</label>
         <select class="form-control" id="{field[index]}" name="{field[index]}" >
-            <option value="0">&nbsp;&nbsp;&nbsp;&nbsp;Danh mục gốc</option>
+
             <?php
             $parents = _db()->select('*')->from($field['table'])->result();
-            $parents = buildArr($parents, 'parent', 0);
+            if(isset($parents[0]['parent'])) {
+                $parents = buildArr($parents, 'parent', 0);
+                echo "<option value='0'>&nbsp;&nbsp;&nbsp;&nbsp;Danh mục gốc</option>";
+            }else{
+                echo "<option value='0'>Danh mục gốc</option>";
+            }
             ?>
             {each $parents as $parent}
             <?php
             $selected = '';
             if($parent[$field['show_value']] == $row[$field['index']]) { $selected = 'selected'; }?>
-            <option value="<?php echo $parent[$field['show_value']]; ?>" {selected}><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $parent['lever']); ?>
+            <option value="<?php echo $parent[$field['show_value']]; ?>" {selected}>
+            <?php if(isset($parent['parent'])){ echo str_repeat('--', $parent['lever']); } ?>
             <?php echo $parent[$field['show_name']]; ?>
             </option>
             {/each}
