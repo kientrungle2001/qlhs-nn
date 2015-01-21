@@ -169,8 +169,7 @@
 				width="310px" height="350px" singleSelect="false" noClickRow="true"  rownumbers="false" pageSize="50">
 				<dg.dataGridItem field="id" width="80">Id</dg.dataGridItem>
 				<dg.dataGridItem field="className" width="120">Tên lớp</dg.dataGridItem>
-				<dg.dataGridItem field="startDate" width="180">Ngày bắt đầu</dg.dataGridItem>
-				<dg.dataGridItem field="endDate" width="180">Ngày kết thúc</dg.dataGridItem>
+				<dg.dataGridItem field="periodName" width="180">Kỳ thanh toán</dg.dataGridItem>
 				<dg.dataGridItem field="amount" width="120">Số tiền</dg.dataGridItem>
 				<!--dg.dataGridItem field="studyTime" width="160">Giờ học</dg.dataGridItem>
 				<dg.dataGridItem field="status" width="100">Trạng thái</dg.dataGridItem-->
@@ -197,10 +196,11 @@
 											name as label from `classes` where 1 order by name ASC"
 										layout="category-select-list"></form.combobox>
 						</frm.formItem>
-						
-						<frm.formItem name="startDate" type="date" required="false" label="Ngày bắt đầu">
-						</frm.formItem>
-						<frm.formItem name="endDate" type="date" required="false" label="Ngày kết thúc">
+						<frm.formItem type="user-defined" name="periodId" required="false" label="Kỳ thanh toán">
+							<form.combobox name="periodId"
+									sql="select id as value, 
+											name as label from `payment_period` where 1 order by name ASC"
+										layout="category-select-list"></form.combobox>
 						</frm.formItem>
 						<frm.formItem name="amount" required="false" label="Học phí">
 						</frm.formItem>

@@ -47,7 +47,7 @@
 				<layout.toolbarItem action="$dg.add()" icon="add" />
 				<layout.toolbarItem action="$dg.edit()" icon="edit" />
 				<layout.toolbarItem action="$dg.del()" icon="remove" />
-				<layout.toolbarItem action="$dg.detail({url: '{url /student/detail}', 'gridField': 'id', 'action': 'render', 'renderRegion': '#student-detail'});" icon="sum" />
+				<layout.toolbarItem action="$dg.detail({url: '{url /student/detail}', 'gridField': 'id', 'action': 'render', 'renderRegion': '#student-detail'}); $dg.detail(function(row) { selectClass(row); });" icon="sum" />
 			</hform>
 		</layout.toolbar>
 		<wdw.dialog gridId="dg" width="700px" height="auto" title="Học sinh">
@@ -108,6 +108,24 @@
 					'notlikeperiodId': '#searchnotlikePeriod' 
 				}
 			});
+		}
+		function selectClass(student) {
+			var currentClassNames = student.currentClassNames;
+			jQuery('#cmbClass3 option').each(function(index, elem){
+				if(currentClassNames.indexOf(jQuery(elem).text().trim()) != -1) {
+					jQuery(elem).show();
+				} else {
+					jQuery(elem).hide();
+				}
+			});
+			jQuery('#cmbClass4 option').each(function(index, elem){
+				if(currentClassNames.indexOf(jQuery(elem).text().trim()) != -1) {
+					jQuery(elem).show();
+				} else {
+					jQuery(elem).hide();
+				}
+			});
+			
 		}
 	</script>
 </div>

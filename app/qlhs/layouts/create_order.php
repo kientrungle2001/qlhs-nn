@@ -10,12 +10,16 @@ if(!$data->multiple) {
 } else {
 	$reason = 'Nộp tiền ';
 	$classes = $data->getClass();
-	foreach($classes as $index => $class) {
+	foreach($classes as $index => &$class) {
 		if($class['subjectId']) {
 			$subject = _db()->select('*')->from('subject')->where('id='. $class['subjectId'])->result_one();
 			$classes[$index]['subject'] = $subject;
 		}
 		$reason .= 'lớp ' . $class['name'] . ' môn ' . $subject['name'] . ', ';
+		$tuition_fee = _db()->useCB()->select('*')->from('tuition_fee')->where(array('and', array('classId', $class['id']), array('periodId', $period['id'])))->result_one();
+		if($tuition_fee) {
+			$class['amount'] = $tuition_fee['amount'];
+		}
 	}
 	$reason .= $period['name'];
 	$amounts = explode(',', $data->amounts);

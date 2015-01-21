@@ -30,6 +30,7 @@
 							name as label from `payment_period` where 1 order by id desc"
 						layout="category-select-list"></form.combobox>
 		</frm.formItem>
+		<frm.formItem type="password" label="Mật khẩu" name="password" />
 		<frm.formItem type="user-defined" name="send" required="false" label="">
 			<input type="submit" value="Xem báo cáo" />
 		</frm.formItem>
