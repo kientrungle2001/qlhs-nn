@@ -74,7 +74,7 @@ class PzkCoreDatabaseSchema extends PzkObjectLightWeight {
 	}
 	public function rename($field, $newField) {
 		$sql = 'ALTER TABLE '.$this->options['table'].' RENAME `'.$field.'` to `'.$newField.'`';
-		return $this->addCommand($command);
+		return $this->addCommand($sql);
 	}
 	public function addCommand($command) {
 		if(!isset($this->options['commands'])) $this->options['commands'] = array();
