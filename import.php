@@ -28,36 +28,39 @@ if(isset($username)) {
     die();
 }
 
-
+$controller = pzk_controller();
 
 if ($token == md5( $time . $username . 'onghuu' ) ) {
+    $importFields = $_POST['importFields'];
 
-    if(isset($_FILES[$filename])) {
-        if(!empty($_FILES[$filename]['name'])){
-            // Kiem tra xem file upload co nam trong dinh dang cho phep
-            if(in_array(strtolower($_FILES[$filename]['type']), $allowed)) {
-                // Neu co trong dinh dang cho phep, tach lay phan mo rong
-                $ext = end(explode('.', $_FILES[$filename]['name']));
-                $renamed = md5(rand(0,200000)).'.'."$ext";
+    $allowed = array('csv','xlsx','xls');
+    $dir = __DIR__."/tmp/";
 
-                move_uploaded_file($_FILES[$filename]['tmp_name'], $dir.$renamed);
+    if(!empty($_FILES['file']['name'])){
+        $fileParts = pathinfo($_FILES['file']['name']);
+        // Kiem tra xem file upload co nam trong dinh dang cho phep
+        if(in_array($fileParts['extension'], $allowed)) {
+            // Neu co trong dinh dang cho phep, tach lay phan mo rong
+            $tam = explode('.', $_FILES['file']['name']);
+            $ext = end($tam);
+            $renamed = md5(rand(0,200000)).'.'."$ext";
 
-            } else {
-                // FIle upload khong thuoc dinh dang cho phep
-                $errors = "File upload không thuộc định dạng cho phép!";
-                $this->redirect('index');
-            }
+            move_uploaded_file($_FILES['file']['tmp_name'], $dir.$renamed);
+        } else {
+            // FIle upload khong thuoc dinh dang cho phep
+           die("File upload không thuộc định dạng cho phép!");
         }
-
     }
+
 
     // Xoa file da duoc upload va ton tai trong thu muc tam
-    if(isset($_FILES[$filename]['tmp_name']) && is_file($_FILES[$filename]['tmp_name']) && file_exists($_FILES[$filename]['tmp_name'])) {
-        unlink($_FILES[$filename]['tmp_name']);
-    }
+    //if(isset($_FILES[$filename]['tmp_name']) && is_file($_FILES[$filename]['tmp_name']) && file_exists($_FILES[$filename]['tmp_name'])) {
+       // unlink($_FILES[$filename]['tmp_name']);
+    //}
     //$path = __DIR__."/tmp/test.xls";
+    $path = $dir.$renamed;
     if(!file_exists($path)) {
-        die();
+        die('file not exist');
     }
 
     require_once __DIR__ . '/3rdparty/phpexcel/PHPExcel.php';
@@ -76,24 +79,42 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
     }
 
     $objPHPExcel = PHPExcel_IOFactory::load($path);
-    foreach ($objPHPExcel->getWorksheetIterator() as $worksheet) {
-        $worksheetTitle     = $worksheet->getTitle();
-        $highestRow         = $worksheet->getHighestRow(); // e.g. 10
-        $highestColumn      = $worksheet->getHighestColumn(); // e.g 'F'
-        $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
-        $nrColumns = ord($highestColumn) - 64;
+
+    $sheet = $objPHPExcel->getSheet(0);
+    $highestRow = $sheet->getHighestRow();
+    $highestColumn = $sheet->getHighestColumn();
+
+//  Loop through each row of the worksheet in turn
+    for ($row = 1; $row <= $highestRow; $row++){
+        //  Read a row of data into an array
+        $rowData = $sheet->toArray('A' . $row . ':' . $highestColumn . $row,
+            NULL,
+            TRUE,
+            FALSE);
 
     }
-
-    for ($row = 2; $row <= $highestRow; ++ $row) {
-        $val=array();
-        for ($col = 0; $col < $highestColumnIndex; ++ $col) {
-            $cell = $worksheet->getCellByColumnAndRow($col, $row);
-            $val[] = $cell->getValue();
+    $bang = mysqli_real_escape_string($dbc, $_POST['table']);
+    $cols = mysqli_real_escape_string($dbc, $importFields);
+    $list = '';
+    unset($rowData[0]);
+    if(!empty($rowData)) {
+        foreach($rowData as $item) {
+            for($i=0; $i < count($item); $i++) {
+                $list .= ','."'".mysqli_real_escape_string($dbc,$item[$i])."'";
+            }
+            $list = substr($list,1);
+            $sql = "INSERT INTO test($cols)  VALUES ($list)";
+            mysqli_query($dbc, $sql);
+            $list ='';
         }
-        $sql="INSERT INTO test(level, username)
-        VALUES ('".$val[0] . "','" . $val[1] . "')";
-        mysqli_query($dbc, $sql);
     }
+
+
+    if(file_exists($path)) {
+        unlink($path);
+    }
+    $url ="/admin_".$_POST['module']."/import";
+    header("location: $url");
+    exit;
 }
 ?>
