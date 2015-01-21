@@ -314,7 +314,7 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
             $fields = $this->options['fields'];
             $values = implode(',', $vals);
             $query = "insert into $table($fields) values $values";
-            $result = mysqli_query($query, $this->connId);
+            $result = mysqli_query($this->connId, $query);
             if (mysqli_errno($this->connId)) {
                 $message = 'Invalid query: ' . mysqli_error($this->connId) . "\n";
                 $message .= 'Whole query: ' . $query;
