@@ -41,12 +41,12 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 	 */
     public function connect() {
         if (!@$this->connId) {
-            $this->connId = @mysql_connect(@$this->host, @$this->user, @$this->password, true) or die('Cant connect');
+            $this->connId = @mysqli_connect(@$this->host, @$this->user, @$this->password, @$this->dbName) or die('Cant connect');
 
-			//mysql_query("SET character_set_results=utf8", $this->connId);
-            mysql_select_db(@$this->dbName, $this->connId) or die('Cant select db: ' . @$this->dbName);
-            //mysql_query('set names utf-8', $this->connId);
-            mysql_set_charset('utf8', $this->connId);
+			//mysqli_query("SET character_set_results=utf8", $this->connId);
+            //mysqli_select_db(@$this->dbName, $this->connId) or die('Cant select db: ' . @$this->dbName);
+            //mysqli_query('set names utf-8', $this->connId);
+            mysqli_set_charset($this->connId, 'utf8');
         }
     }
 
@@ -247,7 +247,7 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
      */
     public function result($entity = false) {
         $this->connect();
-        //mysql_query('set names utf-8', $this->connId);
+        //mysqli_query('set names utf-8', $this->connId);
         $rslt = array();
         if (@$this->options['action'] == 'select') {
             $query = 'select ' . $this->options['fields']
@@ -271,13 +271,13 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 					return $data;
 				}
 			}
-            $result = mysql_query($query, $this->connId);
-            if (mysql_errno()) {
-                $message = 'Invalid query: ' . mysql_error() . "\n";
+            $result = mysqli_query($this->connId, $query);
+            if (mysqli_errno($this->connId)) {
+                $message = 'Invalid query: ' . mysqli_error($this->connId) . "\n";
                 $message .= 'Whole query: ' . $query;
                 die($message);
             }
-            while ($row = mysql_fetch_assoc($result)) {
+            while ($row = mysqli_fetch_assoc($result)) {
 				if(@$row['params']) {
 					$params = json_decode($row['params'], true);
 					$row = array_merge($row, $params);
@@ -306,7 +306,7 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
                 foreach ($columns as $col) {
 					$col = trim($col);
                     $col = str_replace('`', '', $col);
-                    $colVals[] = "'" . @mysql_real_escape_string(@$value[$col]) . "'";
+                    $colVals[] = "'" . @mysql_escape_string(@$value[$col]) . "'";
                 }
                 $vals[] = '(' . implode(',', $colVals) . ')';
             }
@@ -314,14 +314,14 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
             $fields = $this->options['fields'];
             $values = implode(',', $vals);
             $query = "insert into $table($fields) values $values";
-            $result = mysql_query($query, $this->connId);
-            if (mysql_errno()) {
-                $message = 'Invalid query: ' . mysql_error() . "\n";
+            $result = mysqli_query($query, $this->connId);
+            if (mysqli_errno($this->connId)) {
+                $message = 'Invalid query: ' . mysqli_error($this->connId) . "\n";
                 $message .= 'Whole query: ' . $query;
                 die($message);
             }
             if ($result) {
-				$insertId = mysql_insert_id();
+				$insertId = mysqli_insert_id();
                 return $insertId;
             }
             return 0;
@@ -330,23 +330,23 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
             $vals = array();
             foreach ($this->options['values'] as $key => $value) {
                 if (in_array($key, $columns)) {
-                    $vals[] = '`'.$key . '`=\'' . @mysql_real_escape_string($value) . '\'';
+                    $vals[] = '`'.$key . '`=\'' . @mysql_escape_string($value) . '\'';
                 }
             }
             $values = implode(',', $vals);
             $query = "update {$this->options['table']} set $values where {$this->options['conds']}";
-            $result = mysql_query($query, $this->connId);
-            if (mysql_errno()) {
-                $message = 'Invalid query: ' . mysql_error() . "\n";
+            $result = mysqli_query($this->connId, $query);
+            if (mysqli_errno($this->connId)) {
+                $message = 'Invalid query: ' . mysqli_error($this->connId) . "\n";
                 $message .= 'Whole query: ' . $query;
                 die($message);
             }
 			return $result;
         } else if (@$this->options['action'] == 'delete') {
             $query = "delete from {$this->options['table']} where {$this->options['conds']}";
-            $result = mysql_query($query, $this->connId);
-            if (mysql_errno()) {
-                $message = 'Invalid query: ' . mysql_error() . "\n";
+            $result = mysqli_query($this->connId, $query);
+            if (mysqli_errno($this->connId)) {
+                $message = 'Invalid query: ' . mysqli_error($this->connId) . "\n";
                 $message .= 'Whole query: ' . $query;
                 die($message);
             }
@@ -423,9 +423,9 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
      * @return array
      */
     public function describle($table, $columns = true) {
-        $result = mysql_query('describe ' . $table, $this->connId);
+        $result = mysqli_query($this->connId, 'describe ' . $table);
         $rslt = array();
-        while ($row = mysql_fetch_assoc($result)) {
+        while ($row = mysqli_fetch_assoc($result)) {
             if ($columns) {
                 $rslt[] = $row['Field'];
             } else {
@@ -444,11 +444,11 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
         $this->connect();
         if (@$_REQUEST['showQuery'])
             pre($sql);
-        $result = mysql_query($sql, $this->connId);
+        $result = mysqli_query($this->connId, $sql);
         if (is_bool($result))
             return $result;
         $rslt = array();
-        while ($row = mysql_fetch_assoc($result)) {
+        while ($row = mysqli_fetch_assoc($result)) {
             $rslt[] = $row;
         }
         return $rslt;
