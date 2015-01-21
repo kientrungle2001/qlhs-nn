@@ -6,6 +6,8 @@
 		<script type="text/javascript">
 			BASE_URL = '<?php echo BASE_URL ?>';
 		</script>
+		<meta name="keywords" content="{prop keywords}" />
+		<meta name="description" content="{prop description}" />
 		<script type="text/javascript" src="<?php echo BASE_URL ?>/public/<?php echo pzk_app()->name . '_' . pzk_or(@$_REQUEST['page'], 'index') ?>.js"></script>
 		<link rel="stylesheet" href="<?php echo BASE_URL ?>/public/<?php echo pzk_app()->name . '_' . pzk_or(@$_REQUEST['page'], 'index') ?>.css"/>
 	</head>
