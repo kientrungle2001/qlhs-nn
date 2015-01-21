@@ -321,7 +321,7 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
                 die($message);
             }
             if ($result) {
-				$insertId = mysqli_insert_id();
+				$insertId = mysqli_insert_id($this->connId);
                 return $insertId;
             }
             return 0;
