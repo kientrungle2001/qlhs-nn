@@ -350,7 +350,6 @@ class PzkAdminModController extends PzkGridAdminController {
 			}
 			$url ="/admin_".$_POST['module']."/index";
 			pzk_notifier_add_message('Import thành công!', 'success');
-			$url = '/redirect.php?url=' . $url;
 			header("location: $url");
 			exit;
 		}
