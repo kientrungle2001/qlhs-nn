@@ -41,3 +41,17 @@ if($version < 5) {
 	_dbs()->commitVersion('test2', 5);
 	$version = 5;
 }
+
+// rename field
+if($version < 6) {
+	_dbs()->select('test2')->rename('status', 'status2')->execute();
+	_dbs()->commitVersion('test2', 6);
+	$version = 6;
+}
+
+// rename field
+if($version < 7) {
+	_dbs()->select('test2')->rename('status2', 'status')->execute();
+	_dbs()->commitVersion('test2', 7);
+	$version = 7;
+}
