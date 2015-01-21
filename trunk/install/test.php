@@ -28,3 +28,8 @@ if($version < 4) {
 	_dbs()->commitVersion('test2', 4);
 	$version = 4;
 }
+if($version < 5) {
+	_dbs()->select('test2')->addInt('status')->execute();
+	_dbs()->commitVersion('test2', 5);
+	$version = 5;
+}
