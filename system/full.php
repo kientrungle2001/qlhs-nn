@@ -1,4 +1,4 @@
-<core.system id="system">
+<core.system id="system" bootstrap="offapplication">
 	<core.loader id="loader" />
 	<core.request id="request" />
 	<core.rewrite.host name="iweb.vn" app="test" />
