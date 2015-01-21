@@ -7,7 +7,7 @@ if(!$username) $username = 'ongkien';
 $token = md5($time.$username . 'onghuu');
 ?>
 
-<form enctype="multipart/form-data" method="post" action="/import.php?token={token}&time={time}">
+<form enctype="multipart/form-data" method="post" action="/admin_{controller.module}/importPost?token={token}&time={time}">
     <div class="form-group clearfix">
         <label for="{field[index]}">Chọn file</label>
         <input name="file" type="file"/>
