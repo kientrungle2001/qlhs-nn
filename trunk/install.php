@@ -10,4 +10,13 @@ require_once 'include.php';
 $sys = pzk_parse('system/full');
 
 $app = $sys->getApp();
-// cài đặt các bảng csdl bằng các phiên bản
+
+_dbs()->create('schema_version')
+	->addVarchar('schema_table')
+	->addInt('schema_version')
+	->execute();
+
+$files = glob('install/*.php');
+foreach($files as $file) {
+	require_once $file;
+}
