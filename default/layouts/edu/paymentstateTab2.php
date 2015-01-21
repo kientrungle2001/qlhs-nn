@@ -172,6 +172,7 @@ $class = $data->getClass();
 	$periodStudentStats = array(); 
 	$lastPeriodId = null; // ki thanh toan truoc
 	foreach($periodStudentSchedules as $periodId => $stds) {
+		$tuition_fee = _db()->useCB()->select('*')->from('tuition_fee')->where(array('and', array('classId', $class['id']), array('periodId', $periodId)))->result_one();
 		foreach($stds as $studentId => $scheduleDates) {
 			$statuses = array_values($scheduleDates);
 			for($i = 0; $i < 6; $i++) {
@@ -183,7 +184,7 @@ $class = $data->getClass();
 			}
 			$periodStudentStats[$periodId][$studentId]['total'] = count($statuses);
 			$periodStudentStats[$periodId][$studentId]['sobuoihoc'] = $periodStudentStats[$periodId][$studentId]['total'] - @$periodStudentStats[$periodId][$studentId]['4'] - @$periodStudentStats[$periodId][$studentId]['6'];
-			$periodStudentStats[$periodId][$studentId]['hocphi'] = $class['amount'] * $periodStudentStats[$periodId][$studentId]['sobuoihoc'];
+			$periodStudentStats[$periodId][$studentId]['hocphi'] = ($tuition_fee ? $tuition_fee['amount'] : $class['amount']) * $periodStudentStats[$periodId][$studentId]['sobuoihoc'];
 		}
 		$lastPeriodId = $periodId;
 	}
@@ -208,6 +209,11 @@ $class = $data->getClass();
 	// hien thi bang thanh toan
 	foreach($periodStudentStats as $periodId => $stds) { 
 	$period = $periodByIds[$periodId];
+	$tuition_fee = _db()->useCB()->select('*')->from('tuition_fee')
+			->where(array('and', 
+				array('classId', $class['id']), 
+				array('periodId', $periodId)))
+			->result_one();
 	?>
 	<div title="{period[name]}">
 	<a href="{url /demo/paymentstatPrint}?classId={class[id]}&periodId={period[id]}" target="_blank">Xem bản in</a>
@@ -258,7 +264,7 @@ $class = $data->getClass();
 			<th>{stdStat[5]}</th>
 			<th>{stdStat[6]}</th>
 			<th>{stdStat[total]}</th>
-			<th>{? echo product_price($class['amount']); ?}</th>
+			<th>{? echo product_price($tuition_fee?$tuition_fee['amount'] : $class['amount']); ?}</th>
 			<th>{stdStat[sobuoihoc]}</th>
 			<th>{? echo product_price($stdStat['hocphi'])?}</th>
 			<th>{status}</th>
