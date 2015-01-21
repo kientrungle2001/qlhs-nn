@@ -12,8 +12,14 @@ class PzkCoreDatabaseSchema extends PzkObjectLightWeight {
 		return $this;
 	}
 	public function addField($field) {
-		if(!isset($this->options['fields'])) $this->options['fields'] = array();
-		$this->options['fields'][] = $field;
+		if(@$this->options['action'] == 'select') {
+			$sql = 'ALTER TABLE `'.$this->options['table'].'` ADD ' . $field;
+			$this->addCommand($sql);
+		} else {
+			if(!isset($this->options['fields'])) $this->options['fields'] = array();
+			$this->options['fields'][] = $field;
+		}
+		
 		return $this;
 	}
 	public function addVarchar($name, $length = 255) {
