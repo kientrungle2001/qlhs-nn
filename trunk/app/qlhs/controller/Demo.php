@@ -105,6 +105,8 @@ class PzkDemoController extends PzkController {
 	}
 	
 	public function reportPostAction() {
+		$password = $_REQUEST['password'];
+		if($password != 'abc123') die('Bạn không có quyền xem báo cáo này');
 		$reportType = $_REQUEST['reportType'];
 		$page = pzk_parse($this->getApp()->getPageUri('demo'));
 		$left = pzk_store_element('left');
