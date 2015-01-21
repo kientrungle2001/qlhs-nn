@@ -20,6 +20,14 @@ class PzkEduStudentDetail extends PzkObject{
 				$last_period = false;
 				foreach($periods as $p) {
 					$period = array_merge(array(), $p);
+					$tuition_fee = _db()->useCB()->select('*')->from('tuition_fee')->where(array('and', array('classId', $class['id']), array('periodId', $period['id'])))->result_one();
+					if($tuition_fee) {
+						$oldClassAmount = $class['amount'];
+						$class['amount'] = $tuition_fee['amount'];
+					} else {
+						if(isset($oldClassAmount))
+							$class['amount'] = $oldClassAmount;
+					}
 					$offschedules = $this->getOffSchedules($p, $class['id']);
 					foreach($schedules as $schedule) {
 						if($schedule['studyDate'] >= $period['startDate'] 
