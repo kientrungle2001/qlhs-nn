@@ -72,6 +72,10 @@ class PzkCoreDatabaseSchema extends PzkObjectLightWeight {
 	public function changeVarchar($field, $length = '255') {
 		return $this->change($field, $field, 'varchar', $length);
 	}
+	public function rename($field, $newField) {
+		$sql = 'ALTER TABLE '.$this->options['table'].' RENAME `'.$field.'` to `'.$newField.'`';
+		return $this->addCommand($command);
+	}
 	public function addCommand($command) {
 		if(!isset($this->options['commands'])) $this->options['commands'] = array();
 		$this->options['commands'][] = $command;
