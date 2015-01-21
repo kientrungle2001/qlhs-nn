@@ -16,8 +16,13 @@ class PzkCoreDatabaseSchema extends PzkObjectLightWeight {
 		$this->options['fields'][] = $field;
 		return $this;
 	}
-	public function addVarchar($name, $length) {
+	public function addVarchar($name, $length = 255) {
 		$str = '`'.$name.'` varchar('.$length.') NOT NULL';
+		$this->addField($str);
+		return $this;
+	}
+	public function addInt($name) {
+		$str = '`'.$name.'` int NOT NULL';
 		$this->addField($str);
 		return $this;
 	}
@@ -74,10 +79,10 @@ class PzkCoreDatabaseSchema extends PzkObjectLightWeight {
 			foreach($this->options['fields'] as $field) {
 				$sql .= $field . ',';
 			}
-			$sql = 'PRIMARY KEY (`id`)
+			$sql .= 'PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;';
 			_db()->query($sql);
-		} else if($this->options['action'] == 'create') {
+		} else if($this->options['action'] == 'select') {
 			if(@$this->options['commands'])
 			foreach($this->options['commands'] as $command) {
 				_db()->query($command);
@@ -86,9 +91,23 @@ class PzkCoreDatabaseSchema extends PzkObjectLightWeight {
 	}
 	public function clear() {
 		$this->options = array();
+		return $this;
+	}
+	public function getVersion($table) {
+		$row = _db()->select('*')->from('schema_version')->whereSchema_table($table)->result_one();
+		return @$row['schema_version'];
+	}
+	public function commitVersion($table, $version) {
+		$row = _db()->select('*')->from('schema_version')->whereSchema_table($table)->result_one();
+		if($row) {
+			_db()->update('schema_version')->set(array('schema_version' => $version))->whereId($row['id'])->result();
+		} else {
+			_db()->insert('schema_version')->fields('schema_table,schema_version')
+				->values(array(array('schema_table' => $table, 'schema_version' => $version)))->result();
+		}
 	}
 }
 
 function _dbs() {
-	return pzk_element('db_schema');
+	return pzk_element('db_schema')->clear();
 }
