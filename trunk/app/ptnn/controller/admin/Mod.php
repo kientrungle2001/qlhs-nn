@@ -1,5 +1,6 @@
 <?php
 class PzkAdminModController extends PzkGridAdminController {
+    public $titleController ='Quản lí người dùng';
     public $table = 'admin';
     //joins to many table
     public $joins = array(
