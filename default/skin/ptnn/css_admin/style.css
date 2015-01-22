@@ -10,6 +10,10 @@ body{
     float: left;
     width: 100%;
 }
+.rightmenu .list-group-item {
+    padding-top: 7px !important;
+    padding-bottom: 7px !important;
+}
 /*Header*/
 #header{
     float: left;
