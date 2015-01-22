@@ -11,6 +11,11 @@ $row = $item;
 $editFieldSettings = $controller->editFieldSettings;
 $setEditTabs = $controller->setEditTabs;
 ?>
+<div class="panel panel-default">
+<div class="panel-heading">
+    <b><?php echo $controller->editLabel; ?></b>
+</div>
+<div class="panel-body">
 <form role="form" method="post" enctype="multipart/form-data"  action="{url /admin}_{controller.module}/editPost">
   <input type="hidden" name="id" value="{item[id]}" />
    <?php if(!empty($setEditTabs)) { ?>
@@ -412,3 +417,5 @@ $setEditTabs = $controller->setEditTabs;
   <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-saved"></span> Cập nhật</button>
   <a class="btn btn-default" href="{url /admin}_{controller.module}/index"><span class="glyphicon glyphicon-refresh"></span> Quay lại</a>
 </form>
+</div>
+</div>

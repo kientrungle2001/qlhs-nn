@@ -6,7 +6,11 @@
     $scriptHolder = pzk_parse('<div id="holder" />');
 ?>
 
-
+<div class="panel panel-default">
+<div class="panel-heading">
+    <b><?php echo $controller->addLabel; ?></b>
+</div>
+<div class="panel-body">
 <form id="{controller.module}AddForm" role="form" enctype="multipart/form-data" method="post" action="{url /admin}_{controller.module}/addPost">
   <input type="hidden" name="id" value="" />
     <?php if(!empty($setAddTabs)) { ?>
@@ -372,3 +376,5 @@
   <a class="btn btn-default" href="{url /admin}_{controller.module}/index"><span class="glyphicon glyphicon-refresh"></span> Quay lại</a>
   </div>
 </form>
+</div>
+</div>

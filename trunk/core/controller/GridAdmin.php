@@ -24,6 +24,7 @@ class PzkGridAdminController extends PzkAdminController {
     public $exportTypes = false;
     public $importFields = false;
     public $titleController = false;
+    public $editLabel = false;
 	public $events = array(
 		'index.after' => array('this.indexAfter')
 	);

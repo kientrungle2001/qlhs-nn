@@ -62,7 +62,7 @@ class PzkAdminModController extends PzkGridAdminController {
 
     //add table
     public $addFields = 'name, usertype_id, password, status';
-    public $addLabel = 'Thêm user';
+    public $addLabel = 'Thêm người dùng';
 
     //add theo dang binh thuong
     public $addFieldSettings = array(
@@ -127,6 +127,7 @@ class PzkAdminModController extends PzkGridAdminController {
     );
 
     //edit table
+    public $editLabel = 'Sửa người dùng';
     public $editFields = 'name, usertype_id, password, status';
 
     //edit theo dang binh thuong
