@@ -63,7 +63,7 @@ if($listSettingType =='parent') {
 
 ?>
 <!-- search, filter, sort -->
-  <div class="well">
+  <div class="well well-sm">
       <?php if($sortFields or $filedFilters or $searchFields) ?>
       <form role="search" action="{url /admin}_{controller.module}/searchFilter">
           <div class="row">
