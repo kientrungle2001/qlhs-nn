@@ -1,8 +1,8 @@
 ﻿<?php
 class PzkAdminNewsController extends PzkGridAdminController {
 	public $table = 'news';
-	public $addFields = 'title, parent,title,img, content,brief,alias,begindate,enddate';
-	public $editFields = 'title, parent, title,img,content,brief,alias,begindate,enddate';
+	public $addFields = 'title, parent,title,img, content,brief,alias';
+	public $editFields = 'title, parent, title,img,content,brief,alias';
 	public $sortFields = array(
 		'id asc' => 'ID tăng',
 		'id desc' => 'ID giảm',
@@ -60,30 +60,6 @@ class PzkAdminNewsController extends PzkGridAdminController {
             'type' => 'text',
             'label' => 'Alias'
         ),
-		array(
-            'index' => 'begindate',
-            'type' => 'date',
-            'label' => 'Ngày bắt đầu'
-        ),
-		array(
-            'index' => 'enddate',
-            'type' => 'date',
-            'label' => 'Ngày kết thúc'
-        ),
-		
-		array(
-			'index' => 'status',
-			'type' => 'status',
-			'label' => 'Trạng thái',
-			'options' => array(
-				'0' => 'Không hoạt động',
-				'1' => 'Hoạt động'
-			),
-			'actions' => array(
-				'0' => 'mở',
-				'1' => 'dừng'
-			)
-		),
         array(
             'index' => 'parent',
             'type' => 'select',
@@ -120,29 +96,6 @@ class PzkAdminNewsController extends PzkGridAdminController {
             'uploadtype'=>'image',
             'label' => 'Chọn ảnh ',
         ),
-		array(
-            'index' => 'begindate',
-            'type' => 'date',
-            'label' => 'Ngày bắt đầu'
-        ),
-		array(
-            'index' => 'enddate',
-            'type' => 'date',
-            'label' => 'Ngày kết thúc'
-        ),
-		array(
-			'index' => 'status',
-			'type' => 'status',
-			'label' => 'Trạng thái',
-			'options' => array(
-				'0' => 'Không hoạt động',
-				'1' => 'Hoạt động'
-			),
-			'actions' => array(
-				'0' => 'mở',
-				'1' => 'dừng'
-			)
-		),
         array(
             'index' => 'parent',
             'type' => 'select',

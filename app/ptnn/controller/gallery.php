@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 class PzkGalleryController extends PzkController {
 	public $masterPage='index';
 	public $masterPosition='left';
@@ -11,6 +11,10 @@ class PzkGalleryController extends PzkController {
 	public function thumbnailgalleryAction()
 	{
 		$this->initPage()->append('gallery/thumbnailgallery')->display();
+	}
+	public function slidegalleryAction()
+	{
+		$this->initPage()->append('gallery/slidegallery')->display();
 	}
 	
 	

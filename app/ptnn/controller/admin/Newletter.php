@@ -1,8 +1,8 @@
 ﻿<?php
 class PzkAdminNewletterController extends PzkGridAdminController {
 	public $table = 'mail';
-	public $addFields = 'mail, dateregister,status' ;
-	public $editFields = 'mail,dateregister,status';
+	public $addFields = 'mail, dateregister' ;
+	public $editFields = 'mail,dateregister';
 	public $sortFields = array(
 		'id asc' => 'ID tăng',
 		'id desc' => 'ID giảm',
@@ -23,20 +23,7 @@ class PzkAdminNewletterController extends PzkGridAdminController {
             'index' => 'dateregister',
             'type' => 'text',
             'label' => 'Ngày đăng ký'
-        ),
-		array(
-			'index' => 'status',
-			'type' => 'status',
-			'label' => 'Trạng thái',
-			'options' => array(
-				'1' => 'Không hoạt động',
-				'0' => 'Hoạt động'
-			),
-			'actions' => array(
-				'1' => 'mở',
-				'0' => 'dừng'
-			)
-		)
+        )
 	);
     public $addLabel = 'Thêm menu';
     public $addFieldSettings = array(
@@ -50,20 +37,7 @@ class PzkAdminNewletterController extends PzkGridAdminController {
             'index' => 'dateregister',
             'type' => 'text',
             'label' => 'Ngày đăng ký'
-        ),
-		array(
-			'index' => 'status',
-			'type' => 'status',
-			'label' => 'Trạng thái',
-			'options' => array(
-				'1' => 'Không hoạt động',
-				'0' => 'Hoạt động'
-			),
-			'actions' => array(
-				'1' => 'mở',
-				'0' => 'dừng'
-			)
-		)
+        )
     );
     public $editFieldSettings = array(
         array(
@@ -76,20 +50,7 @@ class PzkAdminNewletterController extends PzkGridAdminController {
             'index' => 'dateregister',
             'type' => 'text',
             'label' => 'Ngày đăng ký'
-        ),
-		array(
-			'index' => 'status',
-			'type' => 'status',
-			'label' => 'Trạng thái',
-			'options' => array(
-				'1' => 'Không hoạt động',
-				'0' => 'Hoạt động'
-			),
-			'actions' => array(
-				'1' => 'mở',
-				'0' => 'dừng'
-			)
-		)
+        )
     );
 	public $menuLinks = array(
         array(

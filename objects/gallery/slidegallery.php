@@ -1,5 +1,5 @@
 ﻿<?php
-class PzkGalleryThumbnailgallery extends PzkObject
+class PzkGallerySlidegallery extends PzkObject
 {
 		public function getSubgallery($id)
 		{
