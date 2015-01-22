@@ -5,7 +5,7 @@ $version = _dbs()->getVersion('banner');
 // create table
 if ($version < 1) {
 	_dbs()->create('banner')
-		->addDatetime('ngaytao')
+		->addDate('ngaytao')
 		->addVarchar('url', 255)
 		->addVarchar('title', 255)
 		->addInt('click')
