@@ -224,7 +224,7 @@ if($listSettingType =='parent') {
 
 </table>
     <div class="panel-footer item">
-        <div  id="griddelete" style="margin-left: 10px;" class="btn pull-right btn-danger" >
+        <div  id="griddelete" style="margin-left: 10px;" class="btn  btn-sm pull-right btn-danger" >
             <span class="glyphicon glyphicon-remove"></span> Xóa tất
         </div>
         <?php
@@ -242,7 +242,7 @@ if($listSettingType =='parent') {
                     <option value="{val}">Export {val}</option>
                     {/each}
                 </select>
-                <div id="exportdata" class="btn pull-right btn-success ">
+                <div id="exportdata" class="btn  btn-sm pull-right btn-success ">
                     <span class="glyphicon glyphicon-export"></span>
                     Export
                 </div>
@@ -251,7 +251,7 @@ if($listSettingType =='parent') {
         <?php } ?>
 
 
-        <a class="btn btn-primary pull-right" href="{url /admin}_{controller.module}/add"><span class="glyphicon glyphicon-plus"></span> {controller.addLabel}</a>
+        <a class="btn  btn-sm btn-primary pull-right" href="{url /admin}_{controller.module}/add"><span class="glyphicon glyphicon-plus"></span> {controller.addLabel}</a>
     </div>
 </div>
 <!-- js check all--->
