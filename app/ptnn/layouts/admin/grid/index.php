@@ -156,6 +156,10 @@ if($listSettingType =='parent') {
 
 
 <!-- Show data -->
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <b><?php echo $controller->titleController; ?></b>
+    </div>
 <table class="table">
 	<tr>
 		<th><input type="checkbox" id="selecctall"/>
@@ -250,7 +254,7 @@ if($listSettingType =='parent') {
         </td>
 	</tr>
 </table>
-
+</div>
 <!-- js check all--->
 <script>
 

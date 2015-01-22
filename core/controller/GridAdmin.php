@@ -23,6 +23,7 @@ class PzkGridAdminController extends PzkAdminController {
     public $exportFields = false;
     public $exportTypes = false;
     public $importFields = false;
+    public $titleController = false;
 	public $events = array(
 		'index.after' => array('this.indexAfter')
 	);
@@ -200,5 +201,12 @@ class PzkGridAdminController extends PzkAdminController {
             header("location: $url");
             exit;
         }
+    }
+
+    public function demo() {
+        $this->initPage();
+        $this->append('admin/'.pzk_or($this->customModule, $this->module).'/import')
+            ->append('admin/'.pzk_or($this->customModule, $this->module).'/menu', 'right');
+        $this->display();
     }
 }
