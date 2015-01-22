@@ -1,8 +1,8 @@
 ﻿<?php
 class PzkAdminBannerController extends PzkGridAdminController {
 	public $table = 'banner';
-	public $addFields = 'ngaytao, url, title, code,status';
-	public $editFields = 'ngaytao, url, title, code,status';
+	public $addFields = 'ngaytao, url, title';
+	public $editFields = 'ngaytao, url, title';
 	public $sortFields = array(
 		'id asc' => 'ID tăng',
 		'id desc' => 'ID giảm',
@@ -11,7 +11,7 @@ class PzkAdminBannerController extends PzkGridAdminController {
 		'title asc' => 'Tiêu đề tăng',
 		'title desc' => 'Tiêu đề giảm'
 	);
-	public $searchFields = array('title', 'url', 'ngaytao', 'code', 'status');
+	public $searchFields = array('title', 'url', 'ngaytao');
 		public $listFieldSettings = array(
         array(
             'index' => 'title',
@@ -47,20 +47,8 @@ class PzkAdminBannerController extends PzkGridAdminController {
             'type' => 'upload',
             'uploadtype'=>'image',
             'label' => 'Chọn ảnh',
-        ),
-		array(
-			'index' => 'status',
-			'type' => 'status',
-			'label' => 'Trạng thái',
-			'options' => array(
-				'0' => 'Không hoạt động',
-				'1' => 'Hoạt động'
-			),
-			'actions' => array(
-				'0' => 'mở',
-				'1' => 'dừng'
-			)
-		)
+        )
+	
     );
     public $editFieldSettings = array(
           array(
@@ -79,21 +67,8 @@ class PzkAdminBannerController extends PzkGridAdminController {
             'type' => 'upload',
             'uploadtype'=>'image',
             'label' => 'Chọn ảnh',
-        ),
+        )
 
-		array(
-			'index' => 'status',
-			'type' => 'status',
-			'label' => 'Trạng thái',
-			'options' => array(
-				'0' => 'Không hoạt động',
-				'1' => 'Hoạt động'
-			),
-			'actions' => array(
-				'0' => 'mở',
-				'1' => 'dừng'
-			)
-		)
 		
     );
 	public $addValidator = array(

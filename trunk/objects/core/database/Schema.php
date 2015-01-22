@@ -37,6 +37,11 @@ class PzkCoreDatabaseSchema extends PzkObjectLightWeight {
 		$this->addField($str);
 		return $this;
 	}
+	public function addDatetime($name) {
+		$str = '`'.$name.'` datetime NOT NULL';
+		$this->addField($str);
+		return $this;
+	}
 	public function addText($name) {
 		$str = '`'.$name.'` text NOT NULL';
 		$this->addField($str);
@@ -65,6 +70,9 @@ class PzkCoreDatabaseSchema extends PzkObjectLightWeight {
 	}
 	public function changeDate($field) {
 		return $this->change($field, $field, 'date');
+	}
+	public function changeDatetime($field) {
+		return $this->change($field, $field, 'datetime');
 	}
 	public function changeDouble($field) {
 		return $this->change($field, $field, 'double');
