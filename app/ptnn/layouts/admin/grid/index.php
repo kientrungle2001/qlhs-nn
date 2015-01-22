@@ -221,13 +221,14 @@ if($listSettingType =='parent') {
 
 		</td>
 	</tr>
-	<tr>
-		<td colspan="8">
-            <div  id="griddelete" style="margin-left: 10px;" class="btn pull-right btn-danger" >
-                <span class="glyphicon glyphicon-remove"></span> Xóa tất
-            </div>
-            <?php
-            if($exportTypes && $exportFields) {
+
+</table>
+    <div class="panel-footer item">
+        <div  id="griddelete" style="margin-left: 10px;" class="btn pull-right btn-danger" >
+            <span class="glyphicon glyphicon-remove"></span> Xóa tất
+        </div>
+        <?php
+        if($exportTypes && $exportFields) {
             $time = time();
             $username = pzk_session('adminUser');
             if(!$username) $username = 'ongkien';
@@ -247,13 +248,11 @@ if($listSettingType =='parent') {
                 </div>
 
             </form>
-            <?php } ?>
+        <?php } ?>
 
 
-            <a class="btn btn-primary pull-right" href="{url /admin}_{controller.module}/add"><span class="glyphicon glyphicon-plus"></span> {controller.addLabel}</a>
-        </td>
-	</tr>
-</table>
+        <a class="btn btn-primary pull-right" href="{url /admin}_{controller.module}/add"><span class="glyphicon glyphicon-plus"></span> {controller.addLabel}</a>
+    </div>
 </div>
 <!-- js check all--->
 <script>
