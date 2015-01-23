@@ -199,7 +199,7 @@ if($listSettingType =='parent') {
 		<td colspan="8">
 		<form class="form-inline" role="form">
 		<strong>Số mục: </strong>
-		<select id="pageSize" name="pageSize" class="form-control" placeholder="Số mục / trang" onchange="window.location='{url /admin}_{controller.module}/changePageSize?pageSize=' + this.value;">
+		<select id="pageSize" name="pageSize" class="form-control input-sm" placeholder="Số mục / trang" onchange="window.location='{url /admin}_{controller.module}/changePageSize?pageSize=' + this.value;">
 			<option value="10">10</option>
 			<option value="20">20</option>
 			<option value="30">30</option>
@@ -215,7 +215,7 @@ if($listSettingType =='parent') {
 			if($page == $data->pageNum) { $btn = 'btn-primary'; } 
 			else { $btn = 'btn-default'; }
 		?>
-		<a class="btn {btn}" href="{url /admin}_{controller.module}/index?page={page}">{? echo ($page + 1)?}</a>
+		<a class="btn btn-xs {btn}" href="{url /admin}_{controller.module}/index?page={page}">{? echo ($page + 1)?}</a>
 		<?php } ?>
 		</form>
 
