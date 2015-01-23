@@ -3,6 +3,7 @@
 	<core.database.arrayCondition id="conditionBuilder" />
 	<core.database id="db" host="localhost" 
 		user="root" password="" dbName="qlhs" />
+	<core.database.schema id="db_schema" />
 	<core.shorty name="dg" value="easyui.datagrid" />
 	<core.shorty name="frm" value="easyui.form" />
 	<core.shorty name="layout" value="easyui.layout" />
