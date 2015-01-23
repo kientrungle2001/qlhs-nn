@@ -62,11 +62,9 @@ ul.drop li a{
 }
 /*Left*/
 #left{
-	width: 75.9%;
+	width: 80%;
 	float: left;
 	min-height: 800px;
-	border-right: 1px dotted #ccc;
-	padding-right: 2%;
 }
 #contain-left{
 	width: 90%;
@@ -86,7 +84,7 @@ table{
 /*Right*/
 #right{
 	/*clear: both;*/
-	width: 22%;
+	width: 18%;
 	min-height: 800px;
 	float: left;
 	margin-left:2%;
