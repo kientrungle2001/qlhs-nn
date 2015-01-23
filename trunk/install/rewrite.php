@@ -2,6 +2,7 @@
 // cài đặt các bảng csdl bằng các phiên bản
 echo 'Install Url_Rewrite Table<br />';
 $version = _dbs()->getVersion('url_rewrite');
+_dbs()->menu('rewrite', 'Url Rewrite');
 // create table
 if ($version < 1) {
 	_dbs()->create('url_rewrite')
