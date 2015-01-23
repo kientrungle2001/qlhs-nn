@@ -10,4 +10,20 @@ require_once 'include.php';
 $sys = pzk_parse('system/full');
 
 $app = $sys->getApp();
+if(time() - pzk_session('installationTime') > 300) {
+	
+	ob_start();
+		_dbs()->create('schema_version')
+			->addVarchar('schema_table')
+			->addInt('schema_version')
+			->execute();
+		_dbs()->menu('schema', 'Phiên bản Database');
+		$files = glob('install/*.php');
+		foreach($files as $file) {
+			require_once $file;
+		}
+	ob_end_clean();
+	
+	pzk_session('installationTime', time());
+}
 $app->run();
