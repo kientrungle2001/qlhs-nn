@@ -67,14 +67,14 @@ class PzkAdminController extends PzkBackendController {
 	}
     public function searchFilterAction() {
         $action	=	pzk_request('submit_action');
-        if($action != 0){
+        if($action != ACTION_RESET){
             pzk_session($this->table.'Keyword', pzk_request('keyword'));
         }else{
             pzk_session($this->table.'Keyword', '');
             pzk_session($this->table.'OrderBy', '');
             $setting = pzk_controller();
             $fileds = $setting->filterFields;
-            if(isset($fileds)) {
+            if(!empty($fileds)) {
                 foreach($fileds as $val) {
                     pzk_session($setting->table.$val['type'].$val['index'],'');
 
