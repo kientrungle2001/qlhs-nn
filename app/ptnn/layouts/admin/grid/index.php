@@ -99,9 +99,9 @@ if($listSettingType =='parent') {
                             $parents = _db()->select('*')->from($field['table'])->result();
                             if(isset($parents[0]['parent'])) {
                                 $parents = buildArr($parents, 'parent', 0);
-                                echo "<option >--Tất cả</option>";
+                                echo "<option value='' >--Tất cả</option>";
                             }else {
-                                echo "<option >Tất cả</option>";
+                                echo "<option value=''>Tất cả</option>";
                             }
                             ?>
                             {each $parents as $parent}
