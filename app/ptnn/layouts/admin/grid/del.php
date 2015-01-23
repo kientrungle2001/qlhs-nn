@@ -8,7 +8,7 @@ $row = $item;
     <div class="panel-heading">
         <b>Bạn muốn xóa nội dung này?</b>
     </div>
-    <div class="panel-body">
+    <div class="panel-body borderadmin">
         <form role="form" method="post" action="{url /}{controller}/delPost">
 
             <input type="hidden" name="id" value="{item[id]}" />

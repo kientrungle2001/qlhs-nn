@@ -15,7 +15,7 @@ $setEditTabs = $controller->setEditTabs;
 <div class="panel-heading">
     <b><?php echo $controller->editLabel; ?></b>
 </div>
-<div class="panel-body">
+<div class="panel-body borderadmin">
 <form role="form" method="post" enctype="multipart/form-data"  action="{url /admin}_{controller.module}/editPost">
   <input type="hidden" name="id" value="{item[id]}" />
    <?php if(!empty($setEditTabs)) { ?>
