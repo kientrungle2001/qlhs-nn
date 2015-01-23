@@ -2,6 +2,8 @@
 require_once dirname(__FILE__) . '/Base.php';
 class PzkOrderController extends PzkBaseController {
 	public $grid = 'student_order';
+	public $masterPage = 'demo';
+	public $masterPosition = 'left';
 	public function createAction() {
 		$create_order = $this->getOperationStructure('create_order');
 		$create_order->studentId = $_REQUEST['studentId'];
@@ -185,18 +187,14 @@ class PzkOrderController extends PzkBaseController {
 	}
 	
 	public function reportAction() {
-		$page = pzk_parse($this->getApp()->getPageUri('demo'));
-		pzk_store_element('left')->append(pzk_parse($this->getApp()->getPageUri('operation/order_report')));
-		$page->display();
+		$this->render('operation/order_report');
 	}
 	
 	public function reportPostAction() {
 		$reportType = 'order';
-		$page = pzk_parse($this->getApp()->getPageUri('demo'));
-		$left = pzk_store_element('left');
-		$report = pzk_parse($this->getApp()->getPageUri('operation/order_report'));
-		$left->append($report);
-		$reportResult = pzk_parse($this->getApp()->getPageUri('report/' . $reportType));
+		$this->initPage();
+		$this->append('operation/order_report');
+		$reportResult = $this->parse('report/' . $reportType);
 		foreach(array('startDate', 'endDate') as $key) {
 			$reportResult->$key = @$_REQUEST[$key];
 			$elem = $report->findElement("[name=$key]");
@@ -204,7 +202,7 @@ class PzkOrderController extends PzkBaseController {
 				$elem->value = @$_REQUEST[$key];
 			}
 		}
-		$left->append($reportResult);
-		$page->display();
+		$this->append($reportResult);
+		$this->display();
 	}
 }
