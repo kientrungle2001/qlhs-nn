@@ -10,7 +10,7 @@
 <div class="panel-heading">
     <b><?php echo $controller->addLabel; ?></b>
 </div>
-<div class="panel-body">
+<div class="panel-body borderadmin">
 <form id="{controller.module}AddForm" role="form" enctype="multipart/form-data" method="post" action="{url /admin}_{controller.module}/addPost">
   <input type="hidden" name="id" value="" />
     <?php if(!empty($setAddTabs)) { ?>

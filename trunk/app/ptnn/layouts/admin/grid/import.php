@@ -9,7 +9,7 @@ $token = md5($time.$username . 'onghuu');
     <div class="panel-heading">
         <b>Import dữ liệu</b>
     </div>
-    <div class="panel-body">
+    <div class="panel-body borderadmin">
 <form enctype="multipart/form-data" method="post" action="/admin_{controller.module}/importPost?token={token}&time={time}">
     <div class="form-group clearfix">
         <label for="{field[index]}">Chọn file(excel)</label>
