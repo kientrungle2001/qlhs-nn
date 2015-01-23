@@ -124,6 +124,19 @@ class PzkCoreDatabaseSchema extends PzkObjectLightWeight {
 				->values(array(array('schema_table' => $table, 'schema_version' => $version)))->result();
 		}
 	}
+	public function menu($controller, $name, $parent = 0) {
+		$row = _db()->from('admin_menu')->whereAdmin_controller('admin_' . strtolower($controller))->result_one();
+		if(!$row) {
+			_db()->insert('admin_menu')
+				->fields('admin_controller,name,status,parent')
+				->values(array(array(
+					'admin_controller' => 'admin_' . strtolower($controller), 
+					'name' => $name,
+					'status' => 1,
+					'parent' => $parent
+				)))->result();
+		}
+	}
 }
 
 function _dbs() {
