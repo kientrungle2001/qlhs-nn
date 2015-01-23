@@ -139,12 +139,12 @@ if($listSettingType =='parent') {
               <?php if($searchFields) { ?>
               <div style="width: 12%;" class="form-group col-xs-2">
                   <label>&nbsp;</label><br>
-                  <button type="submit" value="1" name="submit_action" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-search"></span> Tìm kiếm</button>
+                  <button type="submit" value="<?php echo ACTION_SEARCH; ?>" name="submit_action" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-search"></span> Tìm kiếm</button>
               </div>
                 <?php } ?>
               <div  class="form-group col-xs-1">
                   <label>&nbsp;</label><br>
-                  <button type="submit" value="0" name="submit_action" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-refresh"></span> Reset</button>
+                  <button type="submit" value="<?php echo ACTION_RESET; ?>" name="submit_action" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-refresh"></span> Reset</button>
               </div>
 
             </div>
