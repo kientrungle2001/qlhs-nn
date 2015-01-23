@@ -11,12 +11,22 @@ $sys = pzk_parse('system/full');
 
 $app = $sys->getApp();
 
+$username = pzk_session('adminUser');
+if(!$username) {
+	echo 'Bạn không có quyền truy cập';
+	echo '<script type="text/javascript">setTimeout(function() { window.location = "/admin_login"; }, 3000 );</script>';
+	die();
+}
+
 _dbs()->create('schema_version')
 	->addVarchar('schema_table')
 	->addInt('schema_version')
 	->execute();
-
+_dbs()->menu('schema', 'Phiên bản Database');
 $files = glob('install/*.php');
 foreach($files as $file) {
 	require_once $file;
 }
+pzk_notifier_add_message('Cài đặt hoàn tất', 'success');
+echo '<script type="text/javascript">setTimeout(function() { window.location = "/admin_schema"; }, 100 );</script>';
+die();
