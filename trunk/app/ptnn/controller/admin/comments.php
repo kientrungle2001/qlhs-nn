@@ -10,7 +10,7 @@ class PzkAdminCommentsController extends PzkGridAdminController {
 		'created desc' => 'Ngày giảm',
 		
 	);
-	public $searchFields = array('title', 'url', 'ngaytao', 'code', 'status');
+	public $searchFields = array('newsId', 'comment', 'userId');
 		public $listFieldSettings = array(
         array(
             'index' => 'newsId',
