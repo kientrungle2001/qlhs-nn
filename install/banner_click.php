@@ -7,7 +7,7 @@ if ($version < 1) {
 	_dbs()->create('banner_click')
 		->addText('ip')
 		->addText('utm_source')
-		->addDatetime('timeclick')
+		->addDate('timeclick')
 		->addInt('bannerId')
 		->execute();
 	_dbs()->commitVersion('banner', 1);

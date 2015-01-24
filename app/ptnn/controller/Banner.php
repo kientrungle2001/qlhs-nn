@@ -18,6 +18,7 @@ class PzkBannerController extends PzkController {
 			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
 		}else{
 			$ip = $_SERVER['REMOTE_ADDR'];
+		}
 		$id=pzk_request('id');
 		$utm_source=pzk_request('utm_source');
 		$time=date("Y-m-d");		
@@ -34,6 +35,7 @@ class PzkBannerController extends PzkController {
 		_db()->useCB()->update('banner')->set(array('click' => $click))->where(array('id',$id))->result();
 		$this->redirect('news/news');
 	}
+	
 	
 	
 	

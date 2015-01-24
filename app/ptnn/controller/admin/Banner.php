@@ -28,6 +28,11 @@ class PzkAdminBannerController extends PzkGridAdminController {
             'type' => 'text',
             'label' => 'URL'
         ),
+		array(
+            'index' => 'click',
+            'type' => 'text',
+            'label' => 'Số lượt click'
+        )
         
     );
     public $addLabel = 'Thêm menu';
