@@ -10,7 +10,9 @@ $setting = pzk_controller();
     </div>
 
     <a class="list-group-item <?php if($action =='index') { echo 'active'; } ?>" href="{url /}{controller}/index">Danh sách</a>
+    <?php if(isset($setting->addFields)) { ?>
     <a class="list-group-item <?php if($action =='add') { echo 'active'; } ?>" href="{url /}{controller}/add">Thêm mới</a>
+    <?php } ?>
     <?php
     if(!empty($setting->menuLinks)) {
         foreach($setting->menuLinks as $val) {
