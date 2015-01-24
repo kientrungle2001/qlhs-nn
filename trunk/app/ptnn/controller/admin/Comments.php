@@ -7,8 +7,7 @@ class PzkAdminCommentsController extends PzkGridAdminController {
 		'id asc' => 'ID tăng',
 		'id desc' => 'ID giảm',
 		'created asc' => 'Ngày tăng',
-		'created desc' => 'Ngày giảm',
-		
+		'created desc' => 'Ngày giảm',	
 	);
 	public $searchFields = array('newsId', 'comment', 'userId');
 		public $listFieldSettings = array(
@@ -37,7 +36,6 @@ class PzkAdminCommentsController extends PzkGridAdminController {
             'type' => 'text',
             'label' => 'Ngày tạo'
         )
-
     );
    public $addLabel = 'Thêm Menu';
    public $addFieldSettings = array(
@@ -61,7 +59,6 @@ class PzkAdminCommentsController extends PzkGridAdminController {
             'type' => 'date',
             'label' => 'Ngày tạo'
         )
-
     );
 
     public $editFieldSettings = array(
@@ -85,9 +82,6 @@ class PzkAdminCommentsController extends PzkGridAdminController {
             'type' => 'date',
             'label' => 'Ngày tạo'
         )
-
-
-		
     );
 	
 }
