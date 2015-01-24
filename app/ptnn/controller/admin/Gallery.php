@@ -19,7 +19,7 @@ class PzkAdminGalleryController extends PzkGridAdminController {
 		'date desc' => 'Ngày giảm'
 		
 	);
-	public $searchFields = array('title, date, brief,url');
+	
 		public $listFieldSettings = array(
         array(
             'index' => 'title',

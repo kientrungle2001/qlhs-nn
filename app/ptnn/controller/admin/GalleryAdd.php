@@ -10,7 +10,7 @@ class PzkAdminGalleryAddController extends PzkGridAdminController {
 		
 		
 	);
-	public $searchFields = array('galleryId, url');
+	
 		public $listFieldSettings = array(
         array(
             'index' => 'galleryId',
