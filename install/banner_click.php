@@ -10,6 +10,6 @@ if ($version < 1) {
 		->addDate('timeclick')
 		->addInt('bannerId')
 		->execute();
-	_dbs()->commitVersion('banner', 1);
+	_dbs()->commitVersion('banner_click', 1);
 	$version = 1;
 }

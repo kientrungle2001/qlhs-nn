@@ -11,7 +11,7 @@ class PzkAdminGalleryAddController extends PzkGridAdminController {
 		
 	);
 	
-		public $listFieldSettings = array(
+	public $listFieldSettings = array(
         array(
             'index' => 'galleryId',
             'type' => 'text',
@@ -53,7 +53,7 @@ class PzkAdminGalleryAddController extends PzkGridAdminController {
             'label' => 'Chọn ảnh',
         )
     );
-	 public $menuLinks = array(
+	public $menuLinks = array(
         array(
             'name' => 'Quay lại',
             'href' => '/admin_gallery'
