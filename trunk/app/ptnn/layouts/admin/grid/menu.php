@@ -15,9 +15,10 @@ $setting = pzk_controller();
     if(!empty($setting->menuLinks)) {
         foreach($setting->menuLinks as $val) {
             $tam = explode('/', $val['href']);
+            $controllerlink = $tam[0];
             $linkaction = end($tam);
             ?>
-            <a class="list-group-item <?php if($action == $linkaction) { echo 'active'; } ?>" href="{val[href]}">{val[name]}</a>
+            <a class="list-group-item <?php if($action == $linkaction && $controller == $controllerlink) { echo 'active'; } ?>" href="{val[href]}">{val[name]}</a>
         <?php
         }
     }
