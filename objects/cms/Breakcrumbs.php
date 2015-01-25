@@ -1,6 +1,5 @@
 <?php
-class PzkBreakcrumbs extends PzkObject {
+class PzkCmsBreakcrumbs extends PzkObject {
 	public $boundable = false;
-	public $layout = 'breakcrumbs';	
+	public $layout = 'cms/breakcrumbs';	
 }
-?>
