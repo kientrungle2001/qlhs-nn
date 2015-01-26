@@ -31,9 +31,8 @@ class PzkDtableController extends PzkTableController {
 					left join `student_order` on student.id = student_order.studentId
 						and classes.id = student_order.classId and student_order.status=\'\' or student_order.status is null
 					left join payment_period on student_order.payment_periodId = payment_period.id',
-			'fields' => 'student.*, group_concat(distinct(classes.name), \' \') as classNames,
-				group_concat(distinct(case when class_student.endClassDate >= CURDATE() or class_student.endClassDate=\'0000-00-00\'  then classes.name end), \' \') as currentClassNames,
-				group_concat(\'[\', classes.name, \' \', case when student_order.payment_periodId = 0 then \'Cả khóa\' else payment_period.name end, \']<br />\' order by classes.name) as periodNames,
+			'fields' => 'student.*, group_concat(distinct(classes.name), \' \') as currentClassNames,
+			group_concat(\'[\', classes.name, \' \', case when student_order.payment_periodId = 0 then \'Cả khóa\' else payment_period.name end, \']<br />\' order by classes.name) as periodNames,
 				group_concat(\'[\', payment_period.id, \']\') as periodIds',
 			'groupBy' => 'student.id',
 			'orderBy' => 'student.id desc'

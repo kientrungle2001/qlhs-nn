@@ -13,4 +13,3 @@ class PzkHomeController extends PzkController{
 		$smarty->display();
 	}
 }
-?>
