@@ -45,8 +45,11 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 
 			//mysqli_query("SET character_set_results=utf8", $this->connId);
             //mysqli_select_db(@$this->dbName, $this->connId) or die('Cant select db: ' . @$this->dbName);
-            //mysqli_query('set names utf-8', $this->connId);
-            mysqli_set_charset($this->connId, 'utf8');
+            if(pzk_app()->name=='qlhs') {
+				mysqli_query($this->connId, 'set names utf-8');
+			} else {
+				mysqli_set_charset($this->connId, 'utf8');
+			}
         }
     }
 
