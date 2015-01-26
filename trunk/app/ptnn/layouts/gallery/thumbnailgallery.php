@@ -3,7 +3,7 @@ $id=pzk_request('id');
 $gallerys=$data->getSubgallery($id); 
 
 ?>
-{each $gallerys as $gallery}
+
 <style>
 footer-logos {text-align:center;}
 .footer-logos img {margin-left:20px;margin-right:20px;}
@@ -14,8 +14,8 @@ footer-logos {text-align:center;}
 </style>
 <div class="footer-logos">
         <ul>
-            <li><img src="{gallery[url]}" alt="" style="width:60%; height:60%;"></li>
-            
+		{each $gallerys as $gallery}
+            <li><img src="{gallery[url]}" alt="" style="width:80%; height:50%;"></li>
+        {/each}
         </ul>
 </div>
-{/each}
