@@ -1,2 +1,2 @@
-<edu.musterTab>
+<edu.musterTab layout="edu/musterTab2">
 </edu.musterTab>

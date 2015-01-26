@@ -35,7 +35,11 @@ foreach ($student['classes'] as $class) {
 <div title="Lớp {class[name]} {? echo $class['startClassDate'] == '0000-00-00' ?'': ' - Start: '.date('d/m', strtotime($class['startClassDate'])) ?}{? echo $class['endClassDate'] == '0000-00-00' ?'': ' - End: ' . date('d/m', strtotime($class['endClassDate'])) ?}">
 	<?php 
 	if(strpos($class['name'], 'M') !== false) { 
-		$order = _db()->useCB()->select('orderId')->from('student_order')->where(array('and', array('studentId', $student['id']), array('classId', $class['id']), array('payment_periodId', 0)))->result_one();
+		$order = _db()->useCB()->select('orderId')->from('student_order')
+			->whereStudentId($student['id'])
+			->whereClassId($class['id'])
+			->wherePayment_periodId('0');
+		$order = $order->result_one();
 		
 	?>
 		<h2>Văn miêu tả</h2>
@@ -177,7 +181,9 @@ $(document).ready(function(e) {
 <div title="Hóa đơn tổng">
 	<h2>Hóa đơn tổng</h2>
 	<div style="width:578px;height:auto;">
-	<?php foreach($class['periods'] as $period) { ?>
+	<?php 
+	if(isset($class) && $class)
+	foreach($class['periods'] as $period) { ?>
 		<div title="{period[name]}">
 			<h3>{period[name]}</h3>
 			<div class="left-handside">
