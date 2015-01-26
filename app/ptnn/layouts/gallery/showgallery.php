@@ -26,6 +26,7 @@
 				<h2>{gallery[title]}</h2>
 				<p>{gallery[brief]}</p>
 				<a href="/gallery/thumbnailgallery?id={gallery[id]}" class="cd-read-more">Xem thêm</a>
+				<a href="/gallery/slidegallery?id={gallery[id]}" class="cd-read-more">Xem slide</a>
 				<span class="cd-date">{gallery[date]}</span>
 			</div> <!-- cd-timeline-content -->
 		</div> <!-- cd-timeline-block -->
