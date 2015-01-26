@@ -604,13 +604,13 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 		}
 		switch ($prefix2) {
 			case 'gt':
-				return $this->where(array('gt', $property3, $arguments[0]));
+				return $this->where(array('gt', $property2, $arguments[0]));
 				break;
 			case 'lt':
-				return $this->where(array('lt', $property3, $arguments[0]));
+				return $this->where(array('lt', $property2, $arguments[0]));
 				break;
 			case 'in':
-				return $this->where(array('in', $property3, $arguments[0]));
+				return $this->where(array('in', $property2, $arguments[0]));
 				break;
 		}
 		return parent::__call($name, $arguments);
