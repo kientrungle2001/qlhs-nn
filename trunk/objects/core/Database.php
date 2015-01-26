@@ -576,10 +576,22 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 			case 'nnull':
 				return $this->where(array('isnotnull', $property5, $arguments[0]));
 				break;
+			case 'ljoin':
+				return $this->leftJoin($property5, $arguments[0]);
+				break;
+			case 'rjoin':
+				return $this->rightJoin($property5, $arguments[0]);
+				break;
 		}
 		switch ($prefix4) {
 			case 'like':
 				return $this->where(array('like', $property4, $arguments[0]));
+				break;
+			case 'from':
+				return $this->from($property4);
+				break;
+			case 'join':
+				return $this->join($property4, $arguments[0], @$arguments[1]);
 				break;
 		}
 		switch ($prefix3) {
