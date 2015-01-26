@@ -7,5 +7,10 @@ class PzkHomeController extends PzkController{
 		$page->title = 'Trang chủ';
 		$page->display();
 	}
+	
+	public function smartyAction() {
+		$smarty = $this->parse('smarty');
+		$smarty->display();
+	}
 }
 ?>
