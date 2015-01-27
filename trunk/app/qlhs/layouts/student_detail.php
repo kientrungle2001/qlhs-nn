@@ -35,7 +35,7 @@ foreach ($student['classes'] as $class) {
 <div title="Lớp {class[name]} {? echo $class['startClassDate'] == '0000-00-00' ?'': ' - Start: '.date('d/m', strtotime($class['startClassDate'])) ?}{? echo $class['endClassDate'] == '0000-00-00' ?'': ' - End: ' . date('d/m', strtotime($class['endClassDate'])) ?}">
 	<?php 
 	if(strpos($class['name'], 'M') !== false) { 
-		$order = _db()->useCB()->select('orderId')->from('student_order')
+		$order = _db()->useCB()->select('orderId')->fromStudent_order()
 			->whereStudentId($student['id'])
 			->whereClassId($class['id'])
 			->wherePayment_periodId('0');
