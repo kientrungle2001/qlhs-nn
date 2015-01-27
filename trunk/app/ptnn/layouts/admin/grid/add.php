@@ -310,7 +310,7 @@
     <div class="form-group clearfix">
         <label for="{field[index]}">{field[label]}</label>
         <div style="float: left;width: 100%;" class="item">
-            <textarea id="{field[index]}" name="{field[index]}"></textarea>
+            <textarea id="{field[index]}" class="tinymce" name="{field[index]}"></textarea>
         </div>
     </div>
     <script type="text/javascript">
