@@ -89,10 +89,19 @@ class pzkAdminDemoGridController extends pzkGridAdminController {
                     'label' => 'Password'
                 ),
                 array(
-                    'index' => 'content',
-                    'type' => 'tinymce',
-                    'label' => 'Content'
+                    'index' => 'url',
+                    'type' => 'upload',
+                    'uploadtype'=>'video',
+                    'label' => 'Chọn Video',
                 ),
+
+                array(
+                    'index' => 'url2',
+                    'type' => 'upload',
+                    'uploadtype'=>'image',
+                    'label' => 'Chọn image',
+                ),
+
             )
         ),
         array(
@@ -105,6 +114,12 @@ class pzkAdminDemoGridController extends pzkGridAdminController {
                     'table' => 'admin_level',
                     'show_value' => 'id',
                     'show_name' => 'level',
+                ),
+
+                array(
+                    'index' => 'content',
+                    'type' => 'tinymce',
+                    'label' => 'Content'
                 ),
 
                 array(
