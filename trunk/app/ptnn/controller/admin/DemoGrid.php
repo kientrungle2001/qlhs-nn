@@ -88,6 +88,11 @@ class pzkAdminDemoGridController extends pzkGridAdminController {
                     'type' => 'password',
                     'label' => 'Password'
                 ),
+                array(
+                    'index' => 'content',
+                    'type' => 'tinymce',
+                    'label' => 'Content'
+                ),
             )
         ),
         array(
