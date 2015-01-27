@@ -160,7 +160,7 @@ if($listSettingType =='parent') {
     <div class="panel-heading">
         <b><?php echo $controller->titleController; ?></b>
     </div>
-<table class="table">
+<table class="table table-hover">
 	<tr>
 		<th><input type="checkbox" id="selecctall"/>
         </th>
