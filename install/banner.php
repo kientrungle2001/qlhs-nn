@@ -1,5 +1,5 @@
 ï»¿<?php
-// cài d?t các b?ng csdl b?ng các phiên b?n
+// cï¿½i d?t cï¿½c b?ng csdl b?ng cï¿½c phiï¿½n b?n
 echo 'Install banner Table<br />';
 $version = _dbs()->getVersion('banner');
 // create table
