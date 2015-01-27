@@ -47,3 +47,7 @@ define('QUESTION_WORDS',	'Dạng về từ');
 define('QUESTION_PHRASE',	'Dạng về câu');
 define('QUESTION_PASSAGE',	'Dạng bài về đoạn văn');
 define('QUESTION_CITATION',	'Dạng bài về bài văn');
+
+//	FORMAT DATE
+
+define('DATEFORMAT',	'Y-m-d H:i:s');
