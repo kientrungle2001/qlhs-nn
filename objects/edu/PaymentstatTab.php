@@ -12,11 +12,7 @@ class PzkEduPaymentstatTab extends PzkObject {
 		return $results;
 	}
 	public function getClass() {
-		$classes = _db()->select('*')->from('classes')->where('id='.$this->classId)->result();
-		if(count($classes)) {
-			return $classes[0];
-		}
-		return null;
+		return _db()->fromClasses()->whereId($this->getClassId())->result_one('edu.class');
 	}
 	
 	public function getTeachers($teacherId1 = false, $teacherId2 = false) {

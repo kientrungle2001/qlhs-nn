@@ -7,7 +7,7 @@
 	$statuses = $data->getStatuses();
 	$teacherStatuses = $data->getTeacherStatuses();
 ?>
-	<div class="easyui-accordion" style="width:1340px;height:auto;padding: 5px;">
+	<div class="easyui-tabs" style="width:1340px;height:auto;padding: 5px;">
 	{each $periods as $period}
 		<?php if($class['startDate'] !== '0000-00-00' && $class['startDate'] >= $period['endDate']) { continue; }?>
 		<?php if($class['endDate'] !== '0000-00-00' && $class['endDate'] < $period['startDate']) { continue; }?>

@@ -7,7 +7,7 @@ require_once 'lib/thumb.php';
 require_once 'lib/recursive.php';
 require_once 'core/Object.php';
 require_once 'core/Object/LightWeight.php';
-// require_once 'core/Object/Smarty.php';
+require_once 'core/Object/Smarty.php';
 require_once 'core/Store.php';
 require_once 'core/Parser.php';
 require_once 'core/Controller.php';

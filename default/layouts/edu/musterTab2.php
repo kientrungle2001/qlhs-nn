@@ -113,7 +113,7 @@
 			}
 		}
 	} ?>
-<div class="easyui-accordion" style="width:1340px;height:auto;padding: 5px;">
+<div class="easyui-tabs" style="width:1340px;height:auto;padding: 5px;">
 <?php
 	
 	foreach($periodStudentSchedules as $periodId => $stds) { 

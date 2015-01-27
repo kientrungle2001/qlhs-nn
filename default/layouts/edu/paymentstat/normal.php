@@ -1,95 +1,23 @@
-<?php
-$class = $data->getClass();
-?>
-<!-- truong hop lop van mieu ta -->
-<?php if($class->getSubjectId() == 3) {
-		$students = $class->getRawStudents();
-		// danh sách học sinh đã thanh toán
-		$payments = $class->getStudentIdPaids();
-		
-	?>
-	<a href="{url /demo/paymentstatPrint}?classId={? echo $class->getId()?}&periodId=0" target="_blank">Xem bản in</a>
-	
-	<table border="1" cellpadding="4px" cellspacing="0" style="border-collapse:collapse;margin: 15px;width: 1000px;">
-		<tr>
-			<th colspan="9">{? echo $class->getName()?}</th>
-		</tr>
-		<tr>
-			<th>Họ tên</th>
-			<th>Số điện thoại</th>
-			<th>Học phí</th>
-			<th>Trạng thái</th>
-			
-		</tr>
-		<?php 
-			$index = 0;
-			$numberPaid = 0;
-			$numberNonPaid = 0;
-		?>
-		{each $students as $student}	
-		{? $index++; ?}
-		<?php 
-			// xet xem da thanh toan hay chua
-			$status = '';
-			if(isset($payments[$student->getId()])) { 
-				$status = '<span style="color: green;">Đã thanh toán</span>'; 
-				$numberPaid++;
-			} else { 
-				$status = '<span style="color: red;">Chưa thanh toán</span>'; 
-				$numberNonPaid++;
-			} ?>
-		<tr>
-			<td>{index}. {? echo $student->getName() ?}</td>
-			<td>{? echo $student->getPhone() ?}</td>
-			<td>{? echo product_price($class->getAmount()) ?}</td>
-			<td>{status}</td>
-		</tr>
-		{/each}
-	</table>
-	<table>
-	<tr><td>Sĩ số:</td><td> {index} học sinh</td></tr>
-	<tr><td>Đã thanh toán:</td><td> {numberPaid} học sinh</td></tr>
-	<tr><td>Chưa thanh toán:</td><td> {numberNonPaid} học sinh</td></tr>
-	</table>
-<?php } else { ?>
+
 <div class="easyui-tabs" style="width:1100px;height:auto;padding: 5px;">
 <?php
-	// loc ra cac ky hoc cua lop
-	$conds = array('and');
-	if($class['startDate'] !== '0000-00-00') {
-		$conds[] = array('or', array('gte', 'startDate', $class['startDate']), array('gt', 'endDate', $class['startDate']));
-	}
-	if($class['endDate'] !== '0000-00-00') {
-		$conds[] = array('or', array('lte', 'startDate', $class['endDate']), array('lt', 'endDate', $class['endDate']));
-	}
-	$conds[] = array('status', '1');
-	$periods = _db()->useCB()->select('*')->from('payment_period')
-		->where($conds)->orderBy('startDate asc')->result();
-	$periodByIds = array();
-	foreach($periods as $period) {
-		$periodByIds[$period['id']] = $period;
+	$class = $data->getClass();
+	$periods = $class->getPeriods();
+	
+	if(!count($periods)) {
+		echo '</div>';
+		return false;
 	}
 	// lay danh sach hoc sinh
-	$students = $data->getStudents();
+	$students = $class->getStudents();
 	
 	// lay lich hoc cua lop trong cac ky
-	$scheduleConds = array('and');
-	$scheduleConds[] = array('equal', 'classId', $class['id']);
-	$scheduleConds[] = array('gte', 'studyDate', min_array($periods, 'startDate'));
-	$scheduleConds[] = array('lt', 'studyDate', max_array($periods, 'endDate'));
-	$schedules = _db()->useCB()->select('studyDate')->from('schedule')->where($scheduleConds)->orderBy('studyDate asc')->result();
+	$schedules = $class->getSchedulesOfPeriods($periods);
 	
 	// chia lich hoc theo cac ky
 	$periodSchedules = array();
 	foreach($periods as $period) {
-		$periodSchedules[$period['id']] = array();
-	}
-	foreach($schedules as $schedule) {
-		foreach($periods as $period) {
-			if($schedule['studyDate'] >= $period['startDate'] &&  $schedule['studyDate'] < $period['endDate']) {
-				$periodSchedules[$period['id']][] = $schedule['studyDate'];
-			}
-		}
+		$period->importSchedules($schedules);
 	}
 	
 	// duyet qua cac ky
@@ -283,4 +211,3 @@ $class = $data->getClass();
 	}
 ?>
 </div>
-<?php } ?>

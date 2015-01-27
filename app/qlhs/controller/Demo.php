@@ -32,7 +32,13 @@ class PzkDemoController extends PzkController {
 	public function paymentstatTabAction() {
 		$classId = pzk_request('classId');
 		$paymentstatTab = $this->parse('operation/paymentstatTab');
-		$paymentstatTab->classId = $classId;
+		$paymentstatTab->setClassId($classId);
+		$class = $paymentstatTab->getClass();
+		if($class->isVMT()) {
+			$paymentstatTab->setLayout('edu/paymentstat/vmt');
+		} else {
+			$paymentstatTab->setLayout('edu/paymentstat/normal');
+		}
 		$paymentstatTab->display();
 	}
 	
