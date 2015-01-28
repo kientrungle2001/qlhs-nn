@@ -305,14 +305,15 @@ class PzkTableController extends PzkController {
         if ($constraints) {
             foreach ($constraints as $constraint) {
                 if (@$constraint['type'] == 'key') {
-                    $key = $constraint['key'];
-                    $conds = array();
+                    $item = _db()->useCB()->select('*')->from($table);
+					$key = $constraint['key'];
                     foreach ($key as $field) {
-                        $conds[] = $field . '=\'' . @mysql_escape_string($data[$field]) . '\'';
+						$item->where(array($field, $data[$field]));
                     }
-                    $items = _db()->select('*')->from($table)->where(implode(' AND ', $conds))->result();
-                    if (count($items)) {
-                        $constraint['row'] = $items[0];
+					
+                    $item = $item->result_one();
+                    if ($item) {
+                        $constraint['row'] = $item;
                         return $constraint;
                     }
                 }
