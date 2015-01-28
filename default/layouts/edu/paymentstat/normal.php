@@ -2,7 +2,13 @@
 <div class="easyui-tabs" style="width:1100px;height:auto;padding: 5px;">
 <?php
 	$class = $data->getClass();
+	
 	$class->makePaymentStats();
+	$class->makeTeacherStats();
+	
+	$teacher = $class->getTeacher();
+	$teacher2 = $class->getTeacher2();
+	
 	$periods = $class->getPeriods();
 	$students = $class->getRawStudents();
 	
@@ -69,10 +75,7 @@
 			</td>
 		</tr>
 	</table>
-	<?php 
-	$teacher = $class->getTeacher();
-	$teacher2 = $class->getTeacher2();
-	?>
+	
 	<table border="1" cellpadding="4px" cellspacing="0" style="border-collapse:collapse;margin: 15px;width: 1000px;">
 		<tr>
 			<th>Thống kê</th>
@@ -86,8 +89,8 @@
 		</tr>
 		<tr>
 			<th>Số buổi dạy</th>
-			<td>8</td>
-			<td>0</td>
+			<td>{? echo $period->getStatOfTeacher($teacher);?}</td>
+			<td>{? echo $period->getStatOfTeacher($teacher2);?}</td>
 		</tr>
 	</table>
 	</div>
