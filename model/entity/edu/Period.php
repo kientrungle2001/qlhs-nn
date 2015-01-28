@@ -139,4 +139,28 @@ class PzkEntityEduPeriodModel extends PzkEntityModel {
 		$paymentEntity->setPaids($payments);
 		return $paymentEntity;
 	}
+	
+	public function importTeacherSchedules($teacherSchedules) {
+		$rs = array();
+		$schedules = $this->getSchedules();
+		$stats = array();
+		if($schedules)
+		foreach($teacherSchedules as $schedule) {
+			if(in_array($schedule['studyDate'], $schedules)) {
+				$rs[$schedule['studyDate']] = $schedule['teacherId'];
+				$stats[$schedule['teacherId']] = 1 + @$stats[$schedule['teacherId']];
+			}
+		}
+		
+		$this->setTeacherSchedules($rs);
+		$this->setTeacherStats($stats);
+	}
+	
+	public function getStatOfTeacher($teacher) {
+		$stats = $this->getTeacherStats();
+		if($teacher) {
+			return @$stats[$teacher->getId()];
+		}
+		return NULL;
+	}
 }
