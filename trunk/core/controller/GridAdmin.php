@@ -204,9 +204,9 @@ class PzkGridAdminController extends PzkAdminController {
         }
     }
 
-    public function demo() {
+    public function highchartAction() {
         $this->initPage();
-        $this->append('admin/'.pzk_or($this->customModule, $this->module).'/import')
+        $this->append('admin/'.pzk_or($this->customModule, $this->module).'/highchart')
             ->append('admin/'.pzk_or($this->customModule, $this->module).'/menu', 'right');
         $this->display();
     }

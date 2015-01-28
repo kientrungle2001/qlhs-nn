@@ -89,6 +89,11 @@ class pzkAdminDemoGridController extends pzkGridAdminController {
                     'label' => 'Password'
                 ),
                 array(
+                    'index' => 'admin_controller',
+                    'type' => 'admin_controller',
+                    'label' => 'admin_controller'
+                ),
+                array(
                     'index' => 'url',
                     'type' => 'upload',
                     'uploadtype'=>'video',
@@ -136,7 +141,7 @@ class pzkAdminDemoGridController extends pzkGridAdminController {
                     )
                 )
             )
-        )
+        ),
 
     );
     //add theo dang binh thuong
