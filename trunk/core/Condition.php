@@ -38,14 +38,14 @@ function ANNULL($col) {
 	return array('isnotnull', $col);
 }
 function AGE($col, $val) {
-	return array('gte', $col, $str);
+	return array('gte', $col, $val);
 }
 function ALE($col, $val) {
-	return array('lte', $col, $str);
+	return array('lte', $col, $val);
 }
 function AGT($col, $val) {
-	return array('gt', $col, $str);
+	return array('gt', $col, $val);
 }
 function ALT($col, $val) {
-	return array('lt', $col, $str);
+	return array('lt', $col, $val);
 }

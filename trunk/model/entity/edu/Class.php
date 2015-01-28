@@ -24,35 +24,41 @@ class PzkEntityEduClassModel extends PzkEntityModel {
 	}
 	
 	public function getPeriods() {
-		$conds = array('and');
-		if($this->getStartDate() !== '0000-00-00') {
-			$conds[] = array('or', array('gte', 'startDate', $this->getStartDate()), array('gt', 'endDate', $this->getStartDate()));
+		if(!@$this->periods) {
+			$conds = array('and');
+			if($this->getStartDate() !== '0000-00-00') {
+				$conds[] = array('or', array('gte', 'startDate', $this->getStartDate()), array('gt', 'endDate', $this->getStartDate()));
+			}
+			if($this->getEndDate() !== '0000-00-00') {
+				$conds[] = array('or', array('lte', 'startDate', $this->getEndDate()), array('lt', 'endDate', $this->getEndDate()));
+			}
+			$conds[] = array('status', '1');
+			$periods = _db()->useCB()->select('*')->fromPayment_period()
+				->where($conds)->orderBy('startDate asc')->result('edu.period');
+			$periodByIds = array();
+			foreach($periods as $period) {
+				$periodByIds[$period->getId()] = $period;
+			}
+			$this->periods = $periodByIds;	
 		}
-		if($this->getEndDate() !== '0000-00-00') {
-			$conds[] = array('or', array('lte', 'startDate', $this->getEndDate()), array('lt', 'endDate', $this->getEndDate()));
-		}
-		$conds[] = array('status', '1');
-		$periods = _db()->useCB()->select('*')->fromPayment_period()
-			->where($conds)->orderBy('startDate asc')->result('edu.period');
-		$periodByIds = array();
-		foreach($periods as $period) {
-			$periodByIds[$period->getId()] = $period;
-		}
-		return $periodByIds;
+		return $this->periods;
 	}
 	
 	public function getRawStudents() {
-		$rows = _db()->useCB()->select('student.id, student.phone, student.name, class_student.endClassDate, class_student.startClassDate')
-			->fromClass_student()
-			->joinStudent('class_student.studentId=student.id')
-			->whereClassId($this->getId())
-			->orderBy('student.name asc')
-			->result('edu.student');
-		$students = array();
-		foreach($rows as $row) {
-			$students[$row->getId()] = $row;
+		if(!@$this->students) {
+			$rows = _db()->useCB()->select('student.id, student.phone, student.name, class_student.endClassDate, class_student.startClassDate')
+				->fromClass_student()
+				->joinStudent('class_student.studentId=student.id')
+				->whereClassId($this->getId())
+				->orderBy('student.name asc')
+				->result('edu.student');
+			$students = array();
+			foreach($rows as $row) {
+				$students[$row->getId()] = $row;
+			}
+			$this->students = $students;	
 		}
-		return $students;
+		return $this->students;
 	}
 	
 	public function getStudentIdPaids() {
@@ -87,13 +93,127 @@ class PzkEntityEduClassModel extends PzkEntityModel {
 	}
 	
 	public function getSchedulesOfPeriods($periods) {
-		$minStartDate = 0; $maxEndDate = 0;
+		$minStartDate = $this->getMinStartDate($periods);
+		$maxEndDate = $this->getMaxEndDate($periods);
+		return $this->getSchedules($minStartDate, $maxEndDate);
+	}
+	
+	public function getStudentSchedules($periods) {
+		
+		$minStartDate = $this->getMinStartDate($periods);
+		$maxEndDate = $this->getMaxEndDate($periods);
+		
+		$studentSchedules = _db()->useCB()
+			->select('studentId, studyDate, status')
+			->fromStudent_schedule()
+			->whereClassId($this->getId())
+			->gteStudyDate($minStartDate)
+			->ltStudyDate($maxEndDate)
+			->orderBy('studentId asc, studyDate asc')
+			->result();
+		return $studentSchedules;
+	}
+	
+	public function getOffSchedules($periods) {
+		
+		$minStartDate = $this->getMinStartDate($periods);
+		$maxEndDate = $this->getMaxEndDate($periods);
+		
+		$offScheduleConds = AA(
+			AO(
+				AA(AE('classId', $this->getId()), AE('type', 'class')), 
+				AE('type', 'center')
+			), 
+			AGE('offDate', $minStartDate), 
+			ALT('offDate', $maxEndDate)
+		);
+		$offSchedules = _db()->useCB()
+				->select('*')
+				->fromOff_schedule()
+				->where($offScheduleConds)
+				->orderBy('offDate asc');
+		return $offSchedules->result();
+	}
+	
+	public function getOrders($periods, $students) {
+		$orders = _db()->useCB()
+			->select('id, orderId, payment_periodId as periodId, studentId')
+			->from('student_order')
+			->whereClassId($this->getId())
+			->inPayment_periodId(array_keys($periods))
+			->inStudentId(array_keys($students))
+			->result();
+		return $orders;
+	}
+	
+	public function getMinStartDate($periods) {
+		$minStartDate = 0; 
 		foreach($periods as $period) {
 			if($minStartDate == 0 || $minStartDate > $period->getStartDate())
 				$minStartDate = $period->getStartDate();
+		}
+		return $minStartDate;
+	}
+	
+	public function getMaxEndDate($periods) {
+		$maxEndDate = 0;
+		foreach($periods as $period) {
 			if($maxEndDate == 0 || $maxEndDate < $period->getEndDate())
 				$maxEndDate = $period->getEndDate();
 		}
-		return $this->getSchedules($minStartDate, $maxEndDate);
+		return $maxEndDate;
+	}
+	
+	public function makePaymentStats() {
+		$class = $this;
+		$periods = $class->getPeriods();
+		// lay danh sach hoc sinh
+		$students = $class->getRawStudents();
+		
+		// lay lich hoc cua lop trong cac ky
+		$schedules = $class->getSchedulesOfPeriods($periods);
+		
+		// chia lich hoc theo cac ky
+		foreach($periods as $period) {
+			$period->importSchedules($schedules);
+		}
+		
+		// duyet qua cac ky
+			// duyet qua cac hoc sinh
+				// dua ra cac buoi hoc cua hoc sinh
+		foreach($periods as $period) {
+			$period->importStudentSchedules($students);
+		}
+		
+		
+		
+		// danh dau cac trang thai diem danh
+		$studentSchedules = $class->getStudentSchedules($periods);
+		foreach($periods as $period) {
+			$period->markStudentSchedules($studentSchedules);
+		}
+		
+		// lich nghi
+		$offSchedules = $class->getOffSchedules($periods);
+		
+		// duyet qua cac lich nghi
+		foreach($periods as $period) {
+			$period->importOffSchedules($offSchedules);
+		}
+		
+		// bat dau tinh so buoi hoc
+		$lastPeriod = NULL;// ki thanh toan truoc
+		foreach($periods as $periodId => $period) {
+			$period->makeStats($lastPeriod, $class);
+			$lastPeriod = $period;
+		}
+		
+		// xem danh sach hoa don
+		$orders = $class->getOrders($periods, $students);
+		
+		// tinh xem hoc sinh da thanh toan hoc phi chua
+		foreach($periods as $period) {
+			$period->markPaids($orders);
+		}
 	}
 }
