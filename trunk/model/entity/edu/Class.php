@@ -218,8 +218,15 @@ class PzkEntityEduClassModel extends PzkEntityModel {
 	}
 	
 	public function makeTeacherStats() {
-		$teacher = $this->getTeacher();
-		$teacher2 = $this->getTeacher2();
+		$periods = $this->getPeriods();
+		$schedules = $this->getTeacherSchedules();
+		foreach($periods as $period) {
+			$period->importTeacherSchedules($schedules);
+		}
+	}
+	
+	public function getTeacherSchedules() {
+		return _db()->select('*')->fromTeacher_schedule()->whereClassId($this->getId())->result();
 	}
 	
 	public function getTeacher() {
