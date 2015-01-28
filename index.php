@@ -10,7 +10,7 @@ require_once 'include.php';
 $sys = pzk_parse('system/full');
 
 $app = $sys->getApp();
-if(time() - pzk_session('installationTime') > 300) {
+if(0 && time() - pzk_session('installationTime') > 300) {
 	
 	ob_start();
 		_dbs()->create('schema_version')

@@ -2,151 +2,22 @@
 <div class="easyui-tabs" style="width:1100px;height:auto;padding: 5px;">
 <?php
 	$class = $data->getClass();
+	$class->makePaymentStats();
 	$periods = $class->getPeriods();
-	
-	if(!count($periods)) {
-		echo '</div>';
-		return false;
-	}
-	// lay danh sach hoc sinh
-	$students = $class->getStudents();
-	
-	// lay lich hoc cua lop trong cac ky
-	$schedules = $class->getSchedulesOfPeriods($periods);
-	
-	// chia lich hoc theo cac ky
-	$periodSchedules = array();
-	foreach($periods as $period) {
-		$period->importSchedules($schedules);
-	}
-	
-	// duyet qua cac ky
-		// duyet qua cac hoc sinh
-			// dua ra cac buoi hoc cua hoc sinh
-	$periodStudentSchedules = array();
-	foreach($periods as $period) {
-		$periodStudentSchedules[$period['id']] = array();
-		foreach($students as $student) {
-			$studentScheduleDateCount = 0;
-			foreach($periodSchedules[$period['id']] as $studyDate) {
-				if(($student['startClassDate']==='0000-00-00' or $studyDate >= $student['startClassDate'])
-					and
-					($student['endClassDate']==='0000-00-00' or $studyDate < $student['endClassDate'])) {
-						if($studentScheduleDateCount == 0) {
-							$periodStudentSchedules[$period['id']][$student['id']] = array();
-						}
-						$studentScheduleDateCount++;
-						$periodStudentSchedules[$period['id']][$student['id']][$studyDate] = '0';
-				}
-			}
-		}
-	}
-	
-	// danh dau cac trang thai diem danh
-	$studentScheduleConds = array('and');
-	$studentScheduleConds[] = array('equal', 'classId', $class['id']);
-	$studentScheduleConds[] = array('gte', 'studyDate', min_array($periods, 'startDate'));
-	$studentScheduleConds[] = array('lt', 'studyDate', max_array($periods, 'endDate'));
-	$studentSchedules = _db()->useCB()->select('studentId, studyDate, status')->from('student_schedule')->where($studentScheduleConds)->orderBy('studentId asc, studyDate asc')->result();
-	
-	foreach($studentSchedules as $studentSchedule){
-		foreach($periods as $period) {
-			if(isset($periodStudentSchedules[$period['id']][$studentSchedule['studentId']][$studentSchedule['studyDate']])) {
-				$periodStudentSchedules[$period['id']][$studentSchedule['studentId']][$studentSchedule['studyDate']] = $studentSchedule['status'];
-			}
-		}
-	}
-	
-	// lich nghi
-	$offScheduleConds = array('and');
-	$offScheduleConds[] = array(
-		'or', 
-		array(
-			'and', 
-			array('equal', 'classId', $class['id']),
-			array('equal', 'type', 'class')
-		),
-		array('equal', 'type', 'center')
-	);
-	$offScheduleConds[] = array('gte', 'offDate', min_array($periods, 'startDate'));
-	$offScheduleConds[] = array('lt', 'offDate', max_array($periods, 'endDate'));
-	
-	$scheduleDates = array();
-	foreach($schedules as $schedule) {
-		$scheduleDates[] = "'{$schedule['studyDate']}'";
-	}
-	$offScheduleConds[] = array('in', 'offDate', $scheduleDates);
-	$offSchedules = _db()->useCB()->select('*')->from('off_schedule')->where($offScheduleConds)->orderBy('offDate asc');
-	$offSchedules = $offSchedules->result();
-	
-	// duyet qua cac lich nghi
-	foreach($periods as $period) {
-		foreach($offSchedules as $offSchedule) {
-			if($offSchedule['offDate'] >= $period['startDate'] && $offSchedule['offDate'] < $period['endDate']) {
-				foreach($students as $student) {
-					if(isset($periodStudentSchedules[$period['id']][$student['id']][$offSchedule['offDate']])){
-						$periodStudentSchedules[$period['id']][$student['id']][$offSchedule['offDate']] = ($offSchedule['paymentType'] == 'immediate') ? '4' : '2';
-					}
-				}
-			}
-		}
-	}
-	
-	// bat dau tinh so buoi hoc
-	$periodStudentStats = array(); 
-	$lastPeriodId = null; // ki thanh toan truoc
-	foreach($periodStudentSchedules as $periodId => $stds) {
-		$tuition_fee = _db()->useCB()->select('*')->from('tuition_fee')->where(array('and', array('classId', $class['id']), array('periodId', $periodId)))->result_one();
-		foreach($stds as $studentId => $scheduleDates) {
-			$statuses = array_values($scheduleDates);
-			for($i = 0; $i < 6; $i++) {
-				$periodStudentStats[$periodId][$studentId][$i] = count_array($statuses, $i);
-			}
-			// so buoi nghi tru tien thang truoc
-			if($lastPeriodId) {
-				$periodStudentStats[$periodId][$studentId][6] = @$periodStudentStats[$lastPeriodId][$studentId][2];
-			}
-			$periodStudentStats[$periodId][$studentId]['total'] = count($statuses);
-			$periodStudentStats[$periodId][$studentId]['sobuoihoc'] = $periodStudentStats[$periodId][$studentId]['total'] - @$periodStudentStats[$periodId][$studentId]['4'] - @$periodStudentStats[$periodId][$studentId]['6'];
-			$periodStudentStats[$periodId][$studentId]['hocphi'] = ($tuition_fee ? $tuition_fee['amount'] : $class['amount']) * $periodStudentStats[$periodId][$studentId]['sobuoihoc'];
-		}
-		$lastPeriodId = $periodId;
-	}
-	
-	// xem danh sach hoa don
-	$orderConds = array('and', 
-		array('classId', $class['id']), 
-		array('in','payment_periodId', array_keys($periodByIds)),
-		array('in', 'studentId', array_keys($students))
-	);
-	$orders = _db()->useCB()->select('id, orderId, payment_periodId as periodId, studentId')->from('student_order')->where($orderConds)->result();
-	
-	// tinh xem hoc sinh da thanh toan hoc phi chua
-	foreach($orders as $order) {
-		$periodId = $order['periodId'];
-		$studentId = $order['studentId'];
-		if(isset($periodStudentStats[$periodId][$studentId])) {
-			$periodStudentStats[$periodId][$studentId]['orderId'] = $order['orderId'];
-		}
-	}
+	$students = $class->getRawStudents();
 	
 	// hien thi bang thanh toan
-	$periodCount = count(array_keys($periodStudentStats));
+	$periodCount = count($periods);
 	$periodIndex = 0;
-	foreach($periodStudentStats as $periodId => $stds) { 
-	$periodIndex++;
-	$period = $periodByIds[$periodId];
-	$tuition_fee = _db()->useCB()->select('*')->from('tuition_fee')
-			->where(array('and', 
-				array('classId', $class['id']), 
-				array('periodId', $periodId)))
-			->result_one();
+	foreach($periods as $periodId => $period) { 
+		$payment = $period->getStudentIdPaids($class, $students);
+		$periodIndex++;
 	?>
-	<div title="{period[name]}" <?php if($periodCount==$periodIndex) { echo 'data-options="selected: true"'; } ?>>
-	<a href="{url /demo/paymentstatPrint}?classId={class[id]}&periodId={period[id]}" target="_blank">Xem bản in</a>
+	<div title="{? echo $period->getName()?}" {? if($periodCount==$periodIndex) { echo 'data-options="selected: true"'; } ?}>
+	<a href="{url /demo/paymentstatPrint}?classId={? echo $class->getId() ?}&periodId={? echo $period->getId()?}" target="_blank">Xem bản in</a>
 	<table border="1" cellpadding="4px" cellspacing="0" style="border-collapse:collapse;margin: 15px;width: 1000px;">
 		<tr>
-			<th colspan="14">{period[name]}</th>
+			<th colspan="14">{? echo $period->getName()?}</th>
 		</tr>
 		<tr>
 			<th>Họ tên</th>
@@ -165,24 +36,16 @@
 			<th>Trạng thái</th>
 		</tr>
 <?php
+		$stds = $period->getStudentStats();
 		$stdIndex = 0;
-		$numberPaid = 0;
-		$numberNonPaid = 0;
+		if($stds)
 		foreach($stds as $studentId => $stdStat) { 
 			$student = $students[$studentId];
 			$stdIndex++;
-			if(isset($stdStat['orderId'])) {
-				$numberPaid++;
-				$status = '<span style="color: green;">Đã thanh toán</span>';
-			} else {
-				$numberNonPaid++;
-				$status = '<span style="color: red;">Chưa thanh toán</span>';
-			}
-			
 		?>
 		<tr>
-			<th>{stdIndex}. {student[name]}</th>
-			<th>{student[phone]}</th>
+			<th>{stdIndex}. {? echo $student->getName() ?}</th>
+			<th>{? echo $student->getPhone() ?}</th>
 			<th>{stdStat[0]}</th>
 			<th>{stdStat[1]}</th>
 			<th>{stdStat[2]}</th>
@@ -191,18 +54,18 @@
 			<th>{stdStat[5]}</th>
 			<th>{stdStat[6]}</th>
 			<th>{stdStat[total]}</th>
-			<th>{? echo product_price($tuition_fee?$tuition_fee['amount'] : $class['amount']); ?}</th>
+			<th>{? echo product_price($period->getAmountOfClass($class)); ?}</th>
 			<th>{stdStat[sobuoihoc]}</th>
 			<th>{? echo product_price($stdStat['hocphi'])?}</th>
-			<th>{status}</th>
+			<th>{? echo $payment->getStatus($student); ?}</th>
 		</tr>
 <?php
 		} ?>
 		<tr>
 			<td colspan="14">
 				Sĩ số: {stdIndex}<br />
-				Đã thanh toán : {numberPaid}<br />
-				Chưa thanh toán : {numberNonPaid}<br />
+				Đã thanh toán : {? echo $payment->getNumberOfPaids(); ?}<br />
+				Chưa thanh toán : {? echo $payment->getNumberOfNonPaids(); ?}<br />
 			</td>
 		</tr>
 	</table>

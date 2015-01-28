@@ -17,15 +17,15 @@ $payment = $class->getStudentIdPaids();
 		<th>Trạng thái</th>
 		
 	</tr>
-	{? $index = 1; ?}
+	{? $index = 0; ?}
 	{each $students as $student}
+	{? $index++; ?}
 	<tr>
 		<td>{index}. {? echo $student->getName(); ?}</td>
 		<td>{? echo $student->getPhone(); ?}</td>
 		<td>{? echo $class->getAmountFormated(); ?}</td>
 		<td>{? echo $payment->getStatus($student); ?}</td>
 	</tr>
-	{? $index++; ?}
 	{/each}
 </table>
 <table>
