@@ -69,6 +69,27 @@
 			</td>
 		</tr>
 	</table>
+	<?php 
+	$teacher = $class->getTeacher();
+	$teacher2 = $class->getTeacher2();
+	?>
+	<table border="1" cellpadding="4px" cellspacing="0" style="border-collapse:collapse;margin: 15px;width: 1000px;">
+		<tr>
+			<th>Thống kê</th>
+			<th>Giáo viên 1</th>
+			<th>Giáo viên 2</th>
+		</tr>
+		<tr>
+			<th>Họ và tên</th>
+			<td>{? if($teacher) { echo $teacher->getName(); } ?}</td>
+			<td>{? if($teacher2) { echo $teacher2->getName(); } ?}</td>
+		</tr>
+		<tr>
+			<th>Số buổi dạy</th>
+			<td>8</td>
+			<td>0</td>
+		</tr>
+	</table>
 	</div>
 <?php
 	}
