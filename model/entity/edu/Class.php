@@ -216,4 +216,28 @@ class PzkEntityEduClassModel extends PzkEntityModel {
 			$period->markPaids($orders);
 		}
 	}
+	
+	public function makeTeacherStats() {
+		$teacher = $this->getTeacher();
+		$teacher2 = $this->getTeacher2();
+	}
+	
+	public function getTeacher() {
+		if(!$this->getTeacherEntity()) {
+			if($this->getTeacherId()) {
+				$teacher = _db()->getEntity('edu.teacher')->load($this->getTeacherId());
+				$this->setTeacherEntity($teacher);
+			}
+		}
+		return $this->getTeacherEntity();
+	}
+	public function getTeacher2() {
+		if(!$this->getTeacher2Entity()) {
+			if($this->getTeacher2Id()) {
+				$teacher = _db()->getEntity('edu.teacher')->load($this->getTeacher2Id());
+				$this->setTeacher2Entity($teacher);
+			}
+		}
+		return $this->getTeacher2Entity();
+	}
 }
