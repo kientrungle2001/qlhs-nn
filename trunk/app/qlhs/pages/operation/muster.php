@@ -40,6 +40,50 @@
 				});
 			}
 		</script>
+		<script type="text/javascript">
+
+function submitMuster(classId, studentId, studyDate, status) {
+	$.ajax({
+		type: 'post',
+		method: 'post',
+		url: BASE_URL + '/index.php/Dtable/replace?table=student_schedule',
+		data: {classId: classId, studentId: studentId, studyDate: studyDate, status: status},
+		success: function(result) {
+			var result = eval('('+result+')');
+			if (result.errorMsg){
+				$.messager.show({
+					title: 'Error',
+					msg: result.errorMsg
+				});
+			}
+		}
+	});
+}
+
+function submitClassMuster(classId, studyDate, status) {
+	$('.muster_' + classId + '_' + studyDate).val(status);
+	$('.muster_' + classId + '_' + studyDate).change();
+}
+
+function submitTeacherMuster(classId, studyDate, teacherId) {
+	$.ajax({
+		type: 'post',
+		method: 'post',
+		url: BASE_URL + '/index.php/Dtable/replace?table=teacher_schedule',
+		data: {classId: classId, teacherId: teacherId, studyDate: studyDate, status: 1},
+		success: function(result) {
+			var result = eval('('+result+')');
+			if (result.errorMsg){
+				$.messager.show({
+					title: 'Error',
+					msg: result.errorMsg
+				});
+			}
+		}
+	});
+}
+
+</script>
 	</div>
 	<div style="float:left; width: 600px;">
 		<div id="musterDetail"></div>
