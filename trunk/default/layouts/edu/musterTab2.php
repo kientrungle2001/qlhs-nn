@@ -144,7 +144,7 @@
 				<option value="4">KTT</option>
 				<option value="5">DH</option>
 			</select><br />
-			<select id="teacher_{class[id]}_{date[studyDate]}" onchange="submitTeacherMuster('{class[id]}', '{date[studyDate]}', this.value)">
+			<select id="teacher_{class[id]}_{date}" onchange="submitTeacherMuster('{class[id]}', '{date}', this.value)">
 				<option value="0">---</option>
 				<?php if (@$class['teacherId']) { 
 					$teacher = $teachers[$class['teacherId']]; 
