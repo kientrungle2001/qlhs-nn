@@ -19,7 +19,7 @@
 			<?php $titles2= $data->getSubnews($title['id']); ?>
 				<ul style="list-style-type:none;">
 					{each $titles2 as $title2}
-					<li style="color:green;"; align="left"><img src="<?php echo BASE_URL.$title2['img'] ; ?>"alt="" width="50px" height="50px"></img> <a href="/news/shownews?id={title2[id]} "> {title2[title]} </a> (<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> {title2[views]}           <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> {title2[comments]})</li>
+					<li style="color:green;"; align="left"><img src="<?php echo BASE_URL.$title2['img'] ; ?>"alt="" width="50px" height="50px"></img> <a href="/news/shownews?id={title2[id]} "> {title2[title]}  </a> ( <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> {title2[views]} <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> {title2[comments]} )</li>
 					{/each}
 				</ul>
 			</div>
