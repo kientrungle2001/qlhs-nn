@@ -11,4 +11,12 @@ class PzkEntityEduPaymentModel extends PzkEntityModel {
 		}
 		return $status;
 	}
+	
+	public function isPaid($student) {
+		$paids = $this->getPaids();
+		if(isset($paids[$student->getId()])) {
+			return true;
+		}
+		return false;
+	}
 }
