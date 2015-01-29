@@ -1,6 +1,6 @@
 
 <div class="easyui-tabs" style="width:1100px;height:auto;padding: 5px;">
-<?php
+{?
 	$class = $data->getClass();
 	
 	$class->makePaymentStats();
@@ -15,10 +15,9 @@
 	// hien thi bang thanh toan
 	$periodCount = count($periods);
 	$periodIndex = 0;
-	foreach($periods as $periodId => $period) { 
-		$payment = $period->getStudentIdPaids($class, $students);
-		$periodIndex++;
-	?>
+?}
+	{each $periods as $period}
+	{? 	$payment = $period->getStudentIdPaids($class, $students); $periodIndex++; ?}
 	<div title="{? echo $period->getName()?}" {? if($periodCount==$periodIndex) { echo 'data-options="selected: true"'; } ?}>
 	<a href="{url /demo/paymentstatPrint}?classId={? echo $class->getId() ?}&periodId={? echo $period->getId()?}" target="_blank">Xem bản in</a>
 	<table border="1" cellpadding="4px" cellspacing="0" style="border-collapse:collapse;margin: 15px;width: 1000px;">
@@ -41,14 +40,8 @@
 			<th>Thành tiền</th>
 			<th>Trạng thái</th>
 		</tr>
-<?php
-		$stds = $period->getStudentStats();
-		$stdIndex = 0;
-		if($stds)
-		foreach($stds as $studentId => $stdStat) { 
-			$student = $students[$studentId];
-			$stdIndex++;
-		?>
+	{? 	$stds = $period->getStudentStats(); $stdIndex = 0;
+		if($stds) foreach($stds as $studentId => $stdStat) {  $student = $students[$studentId]; $stdIndex++; ?}
 		<tr>
 			<th>{stdIndex}. {? echo $student->getName() ?}</th>
 			<th>{? echo $student->getPhone() ?}</th>
@@ -65,8 +58,7 @@
 			<th>{? echo product_price($stdStat['hocphi'])?}</th>
 			<th>{? echo $payment->getStatus($student); ?}</th>
 		</tr>
-<?php
-		} ?>
+	{? 	} ?}
 		<tr>
 			<td colspan="14">
 				Sĩ số: {stdIndex}<br />
@@ -94,7 +86,5 @@
 		</tr>
 	</table>
 	</div>
-<?php
-	}
-?>
+	{/each}
 </div>
