@@ -81,8 +81,8 @@
 		</tr>
 		<tr>
 			<th>Số buổi dạy</th>
-			<td>{? echo $period->getStatOfTeacher($teacher);?}</td>
-			<td>{? echo $period->getStatOfTeacher($teacher2);?}</td>
+			<td>{? echo $stat1 = $period->getStatOfTeacher($teacher);?}</td>
+			<td>{? echo $stat2 = $period->getStatOfTeacher($teacher2);?}</td>
 		</tr>
 	</table>
 	</div>
