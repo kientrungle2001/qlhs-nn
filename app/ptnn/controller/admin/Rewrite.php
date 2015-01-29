@@ -58,7 +58,7 @@ class pzkAdminRewriteController extends pzkGridAdminController {
             )
         )
     );
-    
+    public $editFields = 'alias, path, status';
     public $editFieldSettings = array(
         array(
             'index' => 'alias',
