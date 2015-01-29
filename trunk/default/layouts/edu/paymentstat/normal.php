@@ -40,8 +40,15 @@
 			<th>Thành tiền</th>
 			<th>Trạng thái</th>
 		</tr>
-	{? 	$stds = $period->getStudentStats(); $stdIndex = 0;
-		if($stds) foreach($stds as $studentId => $stdStat) {  $student = $students[$studentId]; $stdIndex++; ?}
+	{? 	$stds = $period->getStudentStats(); $stdIndex = 0; $tonghocphi = 0; $tongdatt = 0; $tongchuatt = 0;
+		if($stds) foreach($stds as $studentId => $stdStat) {  $student = $students[$studentId]; $stdIndex++; 
+		$tonghocphi += $stdStat['hocphi'];
+		if($payment->isPaid($student)) {
+			$tongdatt += $stdStat['hocphi'];
+		} else {
+			$tongchuatt += $stdStat['hocphi'];
+		}
+		?}
 		<tr>
 			<th>{stdIndex}. {? echo $student->getName() ?}</th>
 			<th>{? echo $student->getPhone() ?}</th>
@@ -64,6 +71,9 @@
 				Sĩ số: {stdIndex}<br />
 				Đã thanh toán : {? echo $payment->getNumberOfPaids(); ?}<br />
 				Chưa thanh toán : {? echo $payment->getNumberOfNonPaids(); ?}<br />
+				Tổng học phí: {? echo product_price($tonghocphi); ?}<br />
+				Tổng học phí đã thanh toán: {? echo product_price($tongdatt); ?}<br />
+				Tổng học phí chưa thanh toán: {? echo product_price($tongchuatt); ?}<br />
 			</td>
 		</tr>
 	</table>
@@ -83,6 +93,31 @@
 			<th>Số buổi dạy</th>
 			<td>{? echo $stat1 = $period->getStatOfTeacher($teacher);?}</td>
 			<td>{? echo $stat2 = $period->getStatOfTeacher($teacher2);?}</td>
+		</tr>
+		{? $totalstat = $stat1 + $stat2; 
+		if(!$totalstat) {
+			$totalstat = $stat1 = count($period->getSchedules());
+		}
+		?}
+		<tr>
+			<th>Tổng học phí</th>
+			<td>{? echo product_price($totalstat? ($stat1 / $totalstat) * $tonghocphi: 0);?}</td>
+			<td>{? echo product_price($totalstat? ($stat2 / $totalstat) * $tonghocphi: 0);?}</td>
+		</tr>
+		<tr>
+			<th>Tổng học phí đã thanh toán</th>
+			<td>{? echo product_price($totalstat? ($stat1 / $totalstat) * $tongdatt: 0);?}</td>
+			<td>{? echo product_price($totalstat? ($stat2 / $totalstat) * $tongdatt: 0);?}</td>
+		</tr>
+		<tr>
+			<th>Tổng học phí chưa thanh toán</th>
+			<td>{? echo product_price($totalstat? ($stat1 / $totalstat) * $tongchuatt: 0);?}</td>
+			<td>{? echo product_price($totalstat? ($stat2 / $totalstat) * $tongchuatt: 0);?}</td>
+		</tr>
+		<tr>
+			<th>Trả lương theo học phí đã thanh toán</th>
+			<td>{? echo product_price($totalstat? ($stat1 / $totalstat) * $tongdatt * $teacher->getSalary() / 100: 0);?}</td>
+			<td>{? echo $teacher2 ? product_price($totalstat? ($stat2 / $totalstat) * $tongdatt * $teacher2->getSalary() / 100: 0): 0;?}</td>
 		</tr>
 	</table>
 	</div>
