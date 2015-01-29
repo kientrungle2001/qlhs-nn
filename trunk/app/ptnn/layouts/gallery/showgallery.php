@@ -3,9 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-
 	<link href='http://fonts.googleapis.com/css?family=Droid+Serif|Open+Sans:400,700' rel='stylesheet' type='text/css'>
-
 	<link rel="stylesheet" href="/app/ptnn/layouts/gallery/css/reset.css"> <!-- CSS reset -->
 	<link rel="stylesheet" href="/app/ptnn/layouts/gallery/css/style.css"> <!-- Resource style -->
 	<script src="/app/ptnn/layouts/gallery/js/modernizr.js"></script> <!-- Modernizr -->
