@@ -28,16 +28,7 @@
 	foreach($categories as $cat) {
 		$cats[$cat['id']] = $cat;
 	}
-    /* function getQuestionTypeName($questionTypes, $questionTypeId) {
-        $rs = '';
-        foreach($questionTypes as $type) {
-            if($type['id'] == $questionTypeId){
-                $rs = $type['name'];
-            }
-        }
-        return $rs;
-
-    } */
+   	
 	function getCategoriesName($item, $categories) {
 		$rs = array();
 		$catIds = explode(',', $item['categoryIds']);
@@ -118,7 +109,6 @@
 		{each $items as $item}
 		<?php 
 		$catNames = getCategoriesName($item, $cats);
-	    /* $questionTypeName = getQuestionTypeName($questionTypes, $item['type']); */
 		?>
 		<tr>
 			<td>{item[id]}</td>

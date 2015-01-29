@@ -59,6 +59,17 @@ class PzkAdminQuestionModel {
 		return false;
 	}
 	
+	function question_answers_topic_add($data = array()){
+		
+		if(!empty($data)){
+				
+			$query	= _db()->insert('answers_question_topic')->fields('question_id, answers_question_tn_id, content')->values(array($data))->result();
+				
+			return $query;
+		}
+		return false;
+	}
+	
 	function get_question_answers($question_id = ''){
 		
 		if(!empty($question_id)){
@@ -69,11 +80,29 @@ class PzkAdminQuestionModel {
 			$data =  $query->result();
 			if(count($data) >0){
 				
+				foreach($data as $key =>$value){
+					$data_topic = $this->get_question_answers_topic($value);
+					$data[$key]['topic'] = $data_topic;
+				}
+				
 				return $data;
 			}
 			return NULL;
 		}
 		return NULL;
+	}
+	
+	function get_question_answers_topic($data = array()){
+		
+		if(!empty($data)){
+			$data_id = $data['id'];
+			$query = _db()->select('tp.*')
+			->from('answers_question_topic tp')
+			->where("tp.answers_question_tn_id ='$data_id'");
+			$data_topic =  $query->result();
+			return $data_topic;
+		}
+		return null;
 	}
 	
 	function del_question_answers($question_id = '', $table = ''){

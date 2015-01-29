@@ -5,7 +5,6 @@
 	$categories = _db()->select('*')->from('categories')->result(); 
 	$categories = buildArr($categories,'parent',0);
 	$categoryIds = explode(',', $item['categoryIds']);
-    /* $questionTypes = _db()->select('*')->from('questiontype')->result(); */
 ?>
 <form id="questionsEditForm" role="form" method="post" action="{url /admin_questions/editAllCatePost}">
   	<input type="hidden" name="id" value="{item[id]}" />
@@ -14,9 +13,18 @@
 	    	<label for="name">Câu hỏi</label>
 	    </div>
 	    <div class="col-xs-10">
-	    	<textarea id="name" class="form-control" rows="2" name="name" aria-required="true" aria-invalid="false"><?=$item["name"];?></textarea>
+	    	<textarea id="name" class="form-control tinymce" rows="2" name="name" aria-required="true" aria-invalid="false"><?=$item["name"];?></textarea>
 	    </div>
   	</div>
+  	<div class="form-group col-xs-12">
+  		<div class="col-xs-2">
+	    	<label for="request">Yêu cầu</label>
+	    </div>
+	    <div class="col-xs-10">
+	    	<textarea id="request" style="background-color:#EEEEEE" class="form-control" rows="2" name="request"><?=$item["request"];?></textarea>
+	    </div>
+  	</div>
+  	
   	<div class="form-group col-xs-12">
 	  	<div class="col-xs-2">
 	    	<label for="type">Loại câu hỏi</label>
@@ -82,4 +90,5 @@ $editValidator = json_encode(pzk_app()->controller->editValidator);
 ?>
 <script>
 $('#questionsEditForm').validate({editValidator});
+setTinymce();
 </script>
