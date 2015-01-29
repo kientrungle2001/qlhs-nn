@@ -4,7 +4,7 @@
 }
 body{
 	margin: 0px auto !important;
-	width: 1300px;
+	width: 1120px;
 }
 /*Header*/
 #header{
@@ -53,7 +53,7 @@ ul.drop li a:hover{
 }
 /*Left*/
 #left{
-	width: 64.9%;
+	width: 80%;
 	float: left;
 	min-height: 800px;
 	border-right: 1px dotted #ccc;
@@ -75,7 +75,7 @@ table{
 /*Right*/
 #right{
 	/*clear: both;*/
-	width: 35%;
+	width: 20%;
 	min-height: 800px;
 	float: left;
 }
