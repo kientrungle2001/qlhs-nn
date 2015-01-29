@@ -7,10 +7,10 @@ $questionTypes = _db()->select('*')->from('questiontype')->result();
   	<input type="hidden" name="id" value="" />
   	<div class="form-group col-xs-12">
 	  	<div class="col-xs-2">
-	    	<label for="name">Tên câu hỏi</label>
+	    	<label for="name">Câu hỏi</label>
 	    </div>
 	    <div class="col-xs-10">
-	    	<input type="text" class="form-control" id="name" name="name" placeholder="Tên câu hỏi" />
+	    	<textarea id="name" class="form-control tinymce" rows="5" name="name"></textarea>
 	    </div>
  	</div>
  	<div class="form-group col-xs-12">
@@ -75,5 +75,6 @@ $questionTypes = _db()->select('*')->from('questiontype')->result();
 $addValidator = json_encode(pzk_app()->controller->addValidator);
 ?>
 <script>
-$('#questionsAddForm').validate({addValidator});
+	$('#questionsAddForm').validate({addValidator});
+	setTinymce();
 </script>
