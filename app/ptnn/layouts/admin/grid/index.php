@@ -170,6 +170,7 @@ if($listSettingType =='parent') {
 		{/each}
 		<th colspan="2">Hành động</th>
 	</tr>
+    <?php if($items) {  ?>
 	{each $items as $item}
 
 	<tr>
@@ -195,6 +196,7 @@ if($listSettingType =='parent') {
 		<td><a class="color_delete text-center" href="{url /admin}_{controller.module}/del/{item[id]}"><span class="glyphicon glyphicon-remove"></span> Xóa</td>
 	</tr>
 	{/each}
+    <?php } ?>
 	<tr>
 		<td colspan="8">
 		<form class="form-inline" role="form">
