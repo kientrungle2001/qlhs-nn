@@ -13,7 +13,7 @@
 		</div>
 		<div class="order_date">
 			<div class="order_line">
-				<strong class="order_line_label order_line_label_header">Phiếu Thu</strong><br />
+				<strong class="order_line_label order_line_label_header">Phiếu Chi</strong><br />
 				<span class="order_line_value">Ngày <input class="easyui-datebox" type="text" name="created" /></span>
 			</div>
 		</div>
@@ -24,9 +24,9 @@
 		Có: <input class="easyui-numberbox" type="text" name="balance" />
 		</div>
 		<div class="order_template">
-			Mẫu số 01-TT<br />
-			QĐ số: 1141-TC/QĐ/CĐKT<br />
-			Ngày 1 tháng 11 năm 1995 của Bộ Tài Chính
+			Mẫu số: C31-BB<br />
+			QĐ số: 19/2006/QĐ-BTC<br />
+			ngày 30/3/2006 của Bộ trưởng Bộ Tài chính
 		</div>
 		<div class="clear"></div>
 	</div>

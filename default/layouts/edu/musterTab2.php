@@ -194,6 +194,50 @@
 	}
 ?>
 </div>
-<?php }  else { ?>
-Lớp văn miêu tả
-<?php } ?>
+<?php }  else { 
+$students = $data->getStudents(true);
+$stdIndex = 0;
+	} ?>
+	<table border="1" cellpadding="4px" cellspacing="0" style="border-collapse:collapse;margin: 15px;">
+		<tr>
+			<th>STT</th>
+			<th>Họ tên</th>
+			<th>Số điện thoại</th>
+			<?php for($i = 1; $i < 18; $i++) { ?>
+			<th>Buổi {i}<br />
+			<select id="muster_{class[id]}_{i}"
+					onchange="submitClassMuster('{class[id]}', '{i}', this.value)">
+				<option value="0">N/A</option>
+				<option value="1">CM</option>
+				<option value="2">NTT</option>
+				<option value="3">NKT</option>
+				<option value="4">KTT</option>
+				<option value="5">DH</option>
+			</select>
+			</th>
+			<?php } ?>
+		</tr>
+	{each $students as $student}
+		{? $stdIndex++; ?}
+		<tr>
+			<td>{stdIndex}</td>
+			<td>{student[name]}</td>
+			<td>{student[phone]}</td>
+			<?php for($i = 1; $i < 18; $i++) { ?>
+			<td>
+			<select class="muster_{class[id]}_{i}" id="muster_{class[id]}_{student[id]}_{i}" name="muster[{class[id]}][{student[id]}][{i}]"
+					onchange="submitMuster('{class[id]}', '{student[id]}', '{i}', this.value)">
+				<option value="0">N/A</option>
+				<option value="1">CM</option>
+				<option value="2">NTT</option>
+				<option value="3">NKT</option>
+				<option value="4">KTT</option>
+				<option value="5">DH</option>
+			</select><script type="text/javascript">
+				$('#muster_{class[id]}_{student[id]}_{i}').val('');
+			</script>
+			</td>
+			<?php } ?>
+		</tr>
+	{/each}
+	</table>
