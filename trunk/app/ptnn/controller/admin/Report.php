@@ -1,14 +1,33 @@
 <?php
 class PzkAdminReportController extends PzkReportController {
-    public $table = 'test';
+    public $table = 'orders';
+    public $joins = array(
+        array(
+            'table' => 'shippers',
+            'condition' => 'orders.shipper_id = shippers.shipper_id',
+            'type' =>''
+        )
+    );
     public $groupByReport = array(
         array(
-          'index'=> 'level',
+          'index'=> 'shippers.shipper_id',
             'type'=> 1
         )
 
     );
-    public $selectFields = 'username, COUNT(id) AS number';
+
+    public $typeChart = array(
+        'type' => 'column'
+    );
+
+    public $displayReport = array(
+        'show' => 'shipper_name',
+        'data' => 'NumberOfOrders'
+    );
+
+
+    public $selectFields = 'shippers.shipper_name, COUNT(orders.shipper_id) AS NumberOfOrders';
+
 
 }
 ?>

@@ -11,14 +11,12 @@ class PzkReportController extends PzkController {
     public $childTable = false;
     public $groupBy = false;
     public $groupByReport = false;
+    public $displayReport = false;
+    public $typeChart = false;
     public $titleController = false;
     public $events = array(
         'index.after' => array('this.indexAfter')
     );
-
-    public function __construct() {
-        debug(pzk_element('head'));
-    }
 
     public function append($obj, $position = NULL) {
         $obj = $this->parse($obj);
@@ -45,16 +43,9 @@ class PzkReportController extends PzkController {
             //jQuery('#status-' . $id)->html('Không hoạt động')->display();
         }
     }
-    public function setCss() {
-        if (@$this->scriptTo && $scriptToElement = pzk_store_element($this->scriptTo)) {
-            $scriptToElement->append(pzk_parse('<html.js src="/3rdparty/highchart/js/highcharts.js" />'));
-            $scriptToElement->append(pzk_parse('<html.js src="/3rdparty/highchart/js/modules/exporting.js" />'));
-        }
-    }
+
     public function indexAction() {
         $this->initPage();
-        //debug( pzk_store_element($this->scriptTo));
-        //$this->setCss();
         $this->append('admin/'.pzk_or($this->customModule, $this->module).'/index')
             ->append('admin/'.pzk_or($this->customModule, $this->module).'/menu', 'right');
         $this->display();

@@ -1,1 +1,1 @@
-<div layout="admin/grid/menu" />
+<div layout="admin/report/menu" />

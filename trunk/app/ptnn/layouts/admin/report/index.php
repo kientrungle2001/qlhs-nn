@@ -1,19 +1,46 @@
 <?php
 $setting = pzk_controller();
 $groupByReport = $setting->groupByReport;
+$displayReport = $setting->displayReport;
+$typeChart = $setting->typeChart;
+
+//joins
+if($setting->joins) {
+    $data->joins = $setting->joins;
+}
+
 if($groupByReport) {
     $data->groupByReport = $groupByReport;
 }
+
 if($setting->selectFields) {
     $data->fields = $setting->selectFields;
 }
 
 $items = $data->getReport();
-debug($items);
-$data = array(array('name'=> 'thang 1', 'data'=>20), array('name'=> 'thang 2', 'data'=>50), array('name'=> 'thang 3', 'data'=>40) );
-$dataJson = json_encode($data);
 
-echo $dataJson;
+$arrname = array();
+$arrvalue = array();
+
+foreach($items as $val) {
+    $arrname[] = $val[$displayReport['show']];
+    $arrvalue[] = $val[$displayReport['data']]+12;
+}
+
+$category['categories'] = $arrname;
+$xAxis = json_encode($category);
+
+$arrvalue2['data'] =  $arrvalue;
+$arrvalue2['name'] = 'so don hang';
+$arrvalue2['type'] =  $typeChart['type'];
+$series = '['.(json_encode($arrvalue2)).']';
+
+
+//$data = array(11,10,9,8,12,81);
+//$serie1[] = array('name' => 'serie 1', 'data' => $data);
+//$serie1[] = array('name' => 'serie 2', 'data' => $data);
+//$a = json_encode($serie1);
+//echo $a;
 ?>
 
 <script type="text/javascript">
@@ -32,30 +59,33 @@ echo $dataJson;
                     viewDistance: 25
                 }
             },
+            credits: {
+                enabled: false
+            },
             title: {
-                text: 'Chart rotation demo'
+                text: 'report'
             },
             subtitle: {
-                text: 'Test options by dragging the sliders below'
+                text: 'bao cao'
             },
+            xAxis: <?php echo $xAxis; ?>,
             plotOptions: {
                 column: {
                     depth: 25
                 }
             },
-            xAxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            yAxis: {
+                title: {
+                    text: 'so don hang'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
             },
-            series: [{
-                "name": "WordPress",
-                "data": [4, 5, 6, 2, 5, 7, 2, 1, 6, 7, 3, 4]
-            }, {
-                "name": "CodeIgniter",
-                "data": [5, 2, 3, 6, 7, 1, 2, 6, 6, 4, 6, 3]
-            }, {
-                "name": "Highcharts",
-                "data": [7, 8, 9, 6, 7, 10, 9, 107, 6, 9, 8, 4]
-            }]
+
+            series: <?php echo $series; ?>
         });
 
         function showValues() {

@@ -6,6 +6,18 @@ pzk_loader()->importObject('core/db/List');
 class PzkReportReport extends PzkCoreDbList {
     public $scriptTo = 'head';
 
+    public $joins = false;
+    public function prepareQuery($query) {
+        if(is_string($this->joins))
+            $this->joins = json_decode($this->joins, true);
+        $join = $this->joins;
+        if($join) {
+            foreach($join as $val) {
+                $query->join($val['table'], $val['condition'], $val['type']);
+            }
+        }
+    }
+
     public function init() {
         if (@$this->scriptTo && $scriptToElement = pzk_store_element($this->scriptTo)) {
             $scriptToElement->append(pzk_parse('<html.js src="/3rdparty/highchart/js/highcharts.js" />'));
