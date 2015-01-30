@@ -15,4 +15,5 @@ require_once 'core/Controller.php';
 require_once 'core/controller/Backend.php';
 require_once 'core/controller/Admin.php';
 require_once 'core/controller/GridAdmin.php';
+require_once 'core/controller/Report.php';
 require_once 'model/Entity.php';

@@ -1,0 +1,1 @@
+<report.report table="user" itemId="0" layout="admin/report/index" />

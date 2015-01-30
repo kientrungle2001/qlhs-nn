@@ -6,7 +6,6 @@ class PzkAdminHomeController extends PzkController {
 		$admin = pzk_session('adminUser') ;
 		
 		if(!$admin){
-			
 			 $this->redirect('admin_login/index');
 		}
 		
