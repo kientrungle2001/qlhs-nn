@@ -69,12 +69,12 @@ class PzkCoreDbList extends PzkObject {
         $query = _db()->useCB()->select($this->fields)->from($this->table)
             ->where($this->conditions)
             //->where($this->status)
-            ->orderBy($this->orderBy)
+            //->orderBy($this->orderBy)
             ->limit($this->pageSize, $this->pageNum)
             ->having($this->having);
             $this->processGroupBy($query);
             $this->prepareQuery($query);
-            echo $query->getQuery();
+            //echo $query->getQuery();
         return $query->result();
     }
 
