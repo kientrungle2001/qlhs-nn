@@ -231,16 +231,67 @@ class PzkAdminQuestionsController extends PzkAdminController {
 			
 			$this->display();
 			
-		}elseif($type == ''){
+		}elseif($type == 'Q21' ||$type == 'Q24'){
 			
+			$module = pzk_parse(pzk_app()->getPageUri('admin/'.pzk_or($this->customModule, $this->module).'/question_answers_dt/answers21'));
+			$module->setItemId(pzk_request()->getSegment(3));
+			$this->initPage() ->append($module);
 			
+			$question			= pzk_element('question_answers');
 			
-		}elseif($type == ''){
+			$question_answers 	= pzk_model('AdminQuestion');
 			
+			$itemAnswers 		= $question_answers->get_question_answers($question_id);
 			
+			$question->setItemAnswers($itemAnswers);
+				
+			$this->display();
+		}elseif($type == 'Q22' || $type == 'Q23'){
 			
+			$module = pzk_parse(pzk_app()->getPageUri('admin/'.pzk_or($this->customModule, $this->module).'/question_answers_dt/answers22'));
+			$module->setItemId(pzk_request()->getSegment(3));
+			$this->initPage() ->append($module);
+			
+			$question			= pzk_element('question_answers');
+			
+			$question_answers 	= pzk_model('AdminQuestion');
+			
+			$itemAnswers 		= $question_answers->get_question_answers($question_id);
+			
+			$question->setItemAnswers($itemAnswers);
+				
+			$this->display();
+		}elseif($type == 'Q25'){
+			
+			$module = pzk_parse(pzk_app()->getPageUri('admin/'.pzk_or($this->customModule, $this->module).'/question_answers_dt/answers25'));
+			$module->setItemId(pzk_request()->getSegment(3));
+			$this->initPage() ->append($module);
+			
+			$question			= pzk_element('question_answers');
+			
+			$question_answers 	= pzk_model('AdminQuestion');
+			
+			$itemAnswers 		= $question_answers->get_question_answers($question_id);
+			
+			$question->setItemAnswers($itemAnswers);
+				
+			$this->display();
+		}elseif($type == 'Q26' || $type == 'Q27' || $type == 'Q28' || $type == 'Q29' || $type == 'Q30'){
+			
+			$module = pzk_parse(pzk_app()->getPageUri('admin/'.pzk_or($this->customModule, $this->module).'/question_answers_dt/answers21'));
+			$module->setItemId(pzk_request()->getSegment(3));
+			$this->initPage() ->append($module);
+			
+			$question			= pzk_element('question_answers');
+			
+			$question_answers 	= pzk_model('AdminQuestion');
+			
+			$itemAnswers 		= $question_answers->get_question_answers($question_id);
+			
+			$question->setItemAnswers($itemAnswers);
+				
+			$this->display();
 		}
-		
 	}
 	
 	function edit_tnPostAction() {
@@ -394,17 +445,26 @@ class PzkAdminQuestionsController extends PzkAdminController {
 				$question_answers->del_question_answers($row['id'], 'answers_question_tn');
 				
 				$question_answers->del_question_answers($row['id'], 'answers_question_topic');
+				
 				if(isset($row['answers'])){
+					
 					$answers	=	$row['answers'];
 				}
+				
 				$data_answers = array();
 	
 				foreach( $row['content'] as $key => $content ){
-	
+					$status = 0;
+					if(isset($row['status'])){
+						if($key == 0 ){
+							$status = 1;
+						}
+					}
 					$content = trim($content);
 					$data_answers[$key] = array(
 						'question_id'	=> $row['id'],
 						'content'		=> $content,
+						'status'		=> $status,
 					);
 	
 					$result	=	$question_answers->question_answers_add($data_answers[$key]);
