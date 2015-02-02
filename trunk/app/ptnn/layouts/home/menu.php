@@ -7,30 +7,7 @@
         $items = buildTree($items);
         show_menu($items);
         ?>
-
-
-<div id='ads-right'>
-<div style='margin:0 0 5px 0; padding:0;width:308px;position:fixed; right:24px; top:201px;'>
-
-</div></div>
-	</div>
-    <div id='ads-right'>
-
-</div></div>
-    </div>
-    <div id='ads-right'>
-<div style='margin:0 0 5px 0; padding:0;width:308px;position:fixed; left:-24px; top:393px;'>
-
-</div></div>
-    </div>
-    <div id='ads-right'>
-<div style='margin:0 0 5px 0; padding:0;width:192px;position:fixed; right:667px; top:450px;'>
-
-</div></div>
-    </div>
-    <style>
-
-		</div>
+</div>
      <style>
 
         #menu {
