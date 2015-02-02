@@ -2,13 +2,12 @@
 /**
 * 
 */
-class PzkUserProfilefriend extends PzkObject
+class PzkUserProfileuserleft extends PzkObject
 {
-	// Hiển thị tất cả các ghi chép cá nhân
 	public function loadNote()
 	{
 			$request=pzk_element('request');
-			$username=$request->get('member');
+			$username=pzk_session('username');
 			$sql=" select * from `user_note` where username='".$username."' order by id asc limit 8 ";
 			$note= _db()->query($sql);
 			return ($note); 
@@ -17,7 +16,7 @@ class PzkUserProfilefriend extends PzkObject
 	public function loadWriteWall()
 	{
 			$request=pzk_element('request');
-			$username=$request->get('member');
+			$username=pzk_session('username');
 			$sql=" select * from `user_write_wall` where username='".$username."' order by id asc limit 8 ";
 			$write_wall= _db()->query($sql);
 			return ($write_wall); 
