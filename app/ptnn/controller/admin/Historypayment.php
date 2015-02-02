@@ -1,0 +1,193 @@
+<?php
+class PzkAdminHistorypaymentController extends PzkGridAdminController {
+	public $addFields = 'username, typepayment, amount, datepayment,transactionid,transactionstatus,optionpayment';
+	public $editFields = 'username, typepayment, amount, datepayment,transactionid,transactionstatus,optionpayment';
+	public $table='history_payment';
+	public $sortFields = array(
+		'id asc' => 'ID tăng',
+		'id desc' => 'ID giảm',
+		'datepayment asc' => 'Ngày thanh toán tăng',
+		'datepayment desc' => 'Ngày thanh toán giảm'
+	);
+	public $searchFields = array('username');
+	public $listFieldSettings = array(
+		array(
+			'index' => 'username',
+			'type' => 'text',
+			'label' => 'Tên đăng nhập'
+		),
+		array(
+			'index' => 'optionpayment',
+			'type' => 'text',
+			'label' => 'Hình thức thanh toán'
+		),
+		array(
+			'index' => 'typepayment',
+			'type' => 'text',
+			'label' => 'Loại thanh toán'
+		),
+		array(
+			'index' => 'transactionid',
+			'type' => 'text',
+			'label' => 'Mã giao dịch'
+		),
+		array(
+			'index' => 'amount',
+			'type' => 'text',
+			'label' => 'Số tiền thanh toán'
+		),
+		array(
+			'index' => 'datepayment',
+			'type' => 'text',
+			'label' => 'Ngày thanh toán'
+		),
+		array(
+			'index' => 'transactionstatus',
+			'type' => 'text',
+			'label' => 'Trạng thái',
+			
+			'actions' => array(
+				'0' => 'mở',
+				'1' => 'dừng'
+			)
+		),
+	);
+	public $addLabel = 'Thêm giao dịch';
+	public $addFieldSettings = array(
+		array(
+			'index' => 'username',
+			'type' => 'text',
+			'label' => 'Tên đăng nhập'
+		),
+		array(
+			'index' => 'typepayment',
+			'type' => 'text',
+			'label' => 'Loại thanh toán'
+			
+		),
+		array(
+			'index' => 'transactionid',
+			'type' => 'text',
+			'label' => 'Mã giao dịch'
+			
+		),
+		array(
+			'index' => 'optionpayment',
+			'type' => 'text',
+			'label' => 'Hình thức thanh toán'
+			
+		),
+		array(
+			'index' => 'amount',
+			'type' => 'text',
+			'label' => 'Số tiền'
+		),
+		array(
+			'index' => 'transactionstatus',
+			'type' => 'text',
+			'label' => 'Trạng thái'
+			
+		)
+	);
+	public $editFieldSettings = array(
+		array(
+			'index' => 'username',
+			'type' => 'text',
+			'label' => 'Tên đăng nhập'
+		),
+		array(
+			'index' => 'typepayment',
+			'type' => 'text',
+			'label' => 'Loại thanh toán'
+			
+		),
+		array(
+			'index' => 'transactionid',
+			'type' => 'text',
+			'label' => 'Mã giao dịch'
+			
+		),
+		array(
+			'index' => 'optionpayment',
+			'type' => 'text',
+			'label' => 'Hình thức thanh toán'
+			
+		),
+		array(
+			'index' => 'amount',
+			'type' => 'text',
+			'label' => 'Số tiền'
+		),
+		array(
+			'index' => 'transactionstatus',
+			'type' => 'text',
+			'label' => 'Trạng thái'
+			
+		)
+	);
+	public $addValidator = array(
+		'rules' => array(
+			'optionpayment' => array(
+				'required' => true
+			),
+			'username' => array(
+				'required' => true,
+				'minlength' => 5,
+				'maxlength' => 50
+			),
+			'amount' => array(
+				'required' => true
+				
+			)
+		),
+		'messages' => array(
+			'optionpayment' => array(
+				'required' => 'Phải nhập thức thanh toán'
+				
+			),
+			'username' => array(
+				'required' => 'Tên đăng nhập không được để trống',
+				'minlength' => 'Tên đăng nhập phải dài 5 ký tự trở lên',
+				'maxlength' => 'Tên đăng nhập chỉ dài tối đa 50 ký tự'
+			),
+			'amount' => array(
+				'required' => 'Nhập số tiền thanh toán'
+				
+			)
+		)
+	);
+	public $editValidator = array(
+		'rules' => array(
+			'optionpayment' => array(
+				'required' => true
+			),
+			'username' => array(
+				'required' => true,
+				'minlength' => 5,
+				'maxlength' => 50
+			),
+			'amount' => array(
+				'required' => true
+				
+			)
+		),
+		'messages' => array(
+			'optionpayment' => array(
+				'required' => 'Phải nhập thức thanh toán'
+				
+			),
+			'username' => array(
+				'required' => 'Tên đăng nhập không được để trống',
+				'minlength' => 'Tên đăng nhập phải dài 5 ký tự trở lên',
+				'maxlength' => 'Tên đăng nhập chỉ dài tối đa 50 ký tự'
+			),
+			'amount' => array(
+				'required' => 'Nhập số tiền thanh toán'
+				
+			)
+		)
+	);
+	
+
+
+}
