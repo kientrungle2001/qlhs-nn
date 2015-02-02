@@ -70,3 +70,16 @@ CREATE TABLE IF NOT EXISTS `answers_question_topic` (
   `content` varchar(500) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+CREATE TABLE IF NOT EXISTS `questiontype` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(500) NOT NULL,
+  `request` varchar(500) NOT NULL,
+  `question_type` varchar(255) NOT NULL,
+  `group_question` varchar(225) NOT NULL,
+  `date_create` datetime NOT NULL,
+  `date_modify` datetime NOT NULL,
+  `admin_create` int(11) NOT NULL,
+  `admin_modify` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
