@@ -1,0 +1,1 @@
+<communication.friend.detailnote  layout="communication/friend/detailnotepage" />
