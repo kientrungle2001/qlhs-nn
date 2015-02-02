@@ -1,0 +1,1 @@
+<payment.confirmpayment  layout="payment/confirmpayment" />

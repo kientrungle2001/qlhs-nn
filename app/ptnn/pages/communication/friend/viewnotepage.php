@@ -1,0 +1,1 @@
+<communication.friend.viewnote  layout="communication/friend/viewnotepage" />
