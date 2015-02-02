@@ -70,6 +70,7 @@
 		{
 			$this->tokenCode = $token_code;
 			$md5 = $this->merchantSiteCode.$receiver.$order_code.$amount.$currency_code.$token_code.$this->merchantPassword;
+			
 			return (md5($md5) == $checksum);
 		}
 		
