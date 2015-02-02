@@ -60,7 +60,8 @@ ul.drop li a:hover{
 }
 #contain-left{
 	width: 100%;
-	margin: 10px 0px;
+	margin-top: 3px;
+	padding-right: 5px;
 }
 
 input{
@@ -75,6 +76,7 @@ table{
 /*Right*/
 #right{
 	/*clear: both;*/
+	margin-top: 3px;
 	width: 20%;
 	min-height: 800px;
 	float: left;
