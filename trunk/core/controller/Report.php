@@ -10,6 +10,7 @@ class PzkReportController extends PzkController {
     public $selectFields = '*';
     public $childTable = false;
     public $groupBy = false;
+    public $having = false;
     public $groupByReport = false;
     public $displayReport = false;
     public $typeChart = false;
@@ -49,6 +50,11 @@ class PzkReportController extends PzkController {
         $this->append('admin/'.pzk_or($this->customModule, $this->module).'/index')
             ->append('admin/'.pzk_or($this->customModule, $this->module).'/menu', 'right');
         $this->display();
+    }
+    public function filterAction() {
+        pzk_session('report_type', pzk_request('type'));
+
+        $this->redirect('index');
     }
 }
 ?>

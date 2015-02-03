@@ -9,12 +9,16 @@ if($setting->joins) {
     $data->joins = $setting->joins;
 }
 
+if($setting->selectFields) {
+    $data->fields = $setting->selectFields;
+}
+
 if($groupByReport) {
     $data->groupByReport = $groupByReport;
 }
 
-if($setting->selectFields) {
-    $data->fields = $setting->selectFields;
+if($setting->having) {
+    $data->having = $setting->having;
 }
 
 $items = $data->getReport();
@@ -32,19 +36,21 @@ $xAxis = json_encode($category);
 
 $arrvalue2['data'] =  $arrvalue;
 $arrvalue2['name'] = 'so don hang';
-$arrvalue2['type'] =  $typeChart['type'];
 
-$arrvalue2['data'] =  $arrvalue;
-$arrvalue2['name'] = 'so don hang2';
-$arrvalue2['type'] =  $typeChart['type'];
+if( pzk_session('report_type')) {
+    $type = pzk_session('report_type');
+}else {
+    $type = 'column';
+}
+
 
 $series = '['.(json_encode($arrvalue2)).']';
 
 
-//$data = array(11,10,9,8,12,81);
-//$serie1[] = array('name' => 'serie 1', 'data' => $data);
-//$serie1[] = array('name' => 'serie 2', 'data' => $data);
-//$a = json_encode($serie1);
+$data = array(11,10,9,8,12,81);
+$serie1[] = array('name' => 'serie 1', 'data' => $data);
+$serie1[] = array('name' => 'serie 2', 'data' => $data);
+$a = json_encode($serie1);
 //echo $a;
 ?>
 
@@ -54,7 +60,7 @@ $series = '['.(json_encode($arrvalue2)).']';
         var chart = new Highcharts.Chart({
             chart: {
                 renderTo: 'container',
-                type: 'column',
+                type: "<?php echo $type; ?>",
                 margin: 75,
                 options3d: {
                     enabled: true,
@@ -90,7 +96,7 @@ $series = '['.(json_encode($arrvalue2)).']';
                 }]
             },
 
-            series: <?php echo $series; ?>
+            series: <?php echo $a; ?>
         });
 
         function showValues() {
@@ -114,5 +120,21 @@ $series = '['.(json_encode($arrvalue2)).']';
     });
 </script>
 
+<div class="well">
+    <div class="row">
+        <div  class="form-group col-xs-3">
+            <label>Chọn loại biểu đồ</label><br>
+            <select class="form-control" id="type" name="type" onchange="window.location='{url /admin}_{setting.module}/filter?type=' + this.value;">
+                {each $typeChart as $item }
+                    <option value="{item[value]}">{item[index]}</option>
+                {/each}
+            </select>
+            <script type="text/javascript">
+                <?php $select = pzk_session('report_type'); ?>
+                $('#type').val('{select}');
+            </script>
+        </div>
+    </div>
 
+</div>
 <div id="container"></div>

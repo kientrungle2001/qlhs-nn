@@ -70,8 +70,7 @@ class PzkCoreDbList extends PzkObject {
             ->where($this->conditions)
             //->where($this->status)
             //->orderBy($this->orderBy)
-            ->limit($this->pageSize, $this->pageNum)
-            ->having($this->having);
+            ->limit($this->pageSize, $this->pageNum);
             $this->processGroupBy($query);
             $this->prepareQuery($query);
             //echo $query->getQuery();
@@ -84,7 +83,8 @@ class PzkCoreDbList extends PzkObject {
         foreach($arrGroupBy as $item) {
             $groupBy .= $item['index'].', ';
         }
-        $query->groupBy(substr($groupBy, 0, -2));
+        $query->groupBy(substr($groupBy, 0, -2))
+              ->having($this->having);
     }
 
     public function stringQuery ($keyword = NULL, $fields = array()) {
