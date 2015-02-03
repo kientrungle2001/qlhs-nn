@@ -52,6 +52,11 @@ class PzkAdminReportController extends PzkReportController {
         'data' => 'NumberOfOrders'
     );
 
+    public $configChart = array(
+        'title'=> 'Báo cáo',
+        'subtitle' => 'Số đơn hàng của một shipper',
+        'titley' => 'Số đơn hàng'
+    );
 
 
 
