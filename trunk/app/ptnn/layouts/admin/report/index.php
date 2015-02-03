@@ -3,24 +3,32 @@ $setting = pzk_controller();
 $groupByReport = $setting->groupByReport;
 $displayReport = $setting->displayReport;
 $typeChart = $setting->typeChart;
+$configChart = $setting->configChart;
 
 //joins
 if($setting->joins) {
     $data->joins = $setting->joins;
 }
-
+//select
 if($setting->selectFields) {
     $data->fields = $setting->selectFields;
 }
-
+//group by
 if($groupByReport) {
     $data->groupByReport = $groupByReport;
 }
-
+//having
 if($setting->having) {
     $data->having = $setting->having;
 }
 
+//type chart
+if( pzk_session('report_type')) {
+    $type = pzk_session('report_type');
+}else {
+    $type = 'column';
+}
+//data
 $items = $data->getReport();
 
 $arrname = array();
@@ -36,13 +44,6 @@ $xAxis = json_encode($category);
 
 $arrvalue2['data'] =  $arrvalue;
 $arrvalue2['name'] = 'so don hang';
-
-if( pzk_session('report_type')) {
-    $type = pzk_session('report_type');
-}else {
-    $type = 'column';
-}
-
 
 $series = '['.(json_encode($arrvalue2)).']';
 
@@ -74,10 +75,10 @@ $a = json_encode($serie1);
                 enabled: false
             },
             title: {
-                text: 'report'
+                text: "<?php echo $configChart['title']; ?>"
             },
             subtitle: {
-                text: 'bao cao'
+                text: "<?php echo $configChart['subtitle']; ?>"
             },
             xAxis: <?php echo $xAxis; ?>,
             plotOptions: {
@@ -87,7 +88,7 @@ $a = json_encode($serie1);
             },
             yAxis: {
                 title: {
-                    text: 'so don hang'
+                    text: "<?php echo $configChart['titley']; ?>"
                 },
                 plotLines: [{
                     value: 0,
