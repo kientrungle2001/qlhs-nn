@@ -2,7 +2,7 @@
 	gsv="DJBoN802jfeoHdZJX1oM0vqdSuVjiqQ_0t4dHq0zEf4">
 	<core.database.arrayCondition id="conditionBuilder" />
 
-	<core.database id="db" host="localhost" 
+	<core.database id="db" host="localhost"
 		user="root" password="" dbName="ptnn" />
 
 	<core.database id="db" host="nextnobels.vn" useCBable="true"

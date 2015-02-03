@@ -33,6 +33,11 @@ $xAxis = json_encode($category);
 $arrvalue2['data'] =  $arrvalue;
 $arrvalue2['name'] = 'so don hang';
 $arrvalue2['type'] =  $typeChart['type'];
+
+$arrvalue2['data'] =  $arrvalue;
+$arrvalue2['name'] = 'so don hang2';
+$arrvalue2['type'] =  $typeChart['type'];
+
 $series = '['.(json_encode($arrvalue2)).']';
 
 
