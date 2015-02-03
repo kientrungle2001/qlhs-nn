@@ -16,7 +16,7 @@ if ($version < 1) {
         ->addInt('end_time')
         ->addText('answer_value')
         ->addFloat('total')
-        ->addFload('total_true')
+        ->addFloat('total_true')
         ->execute();
     _dbs()->commitVersion('lessons', 1);
     $version = 1;
