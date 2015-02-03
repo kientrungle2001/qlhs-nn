@@ -2,6 +2,7 @@
 <div id="menu">
         <ul class="drop">
             <li><a href="/">Trang Chủ</a></li>
+			<li><a href="http://localhost/forum/index.php">Diễn đàn</a></li>
 		</ul>
         <?php $items = $data->getItems();
         $items = buildTree($items);
