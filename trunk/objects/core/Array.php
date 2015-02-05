@@ -22,6 +22,7 @@ class PzkCoreArray extends PzkObjectLightWeight {
 	}
 	public function clear() {
 		$this->data = array();
+		return $this;
 	}
 	public function getParams() {
 		return $this->data;
