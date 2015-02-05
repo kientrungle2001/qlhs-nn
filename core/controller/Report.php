@@ -1,5 +1,5 @@
 <?php
-class PzkReportController extends PzkController {
+class PzkReportController extends PzkBackendController {
     public $masterStructure = 'admin/home/index';
     public $masterPosition = 'left';
     public $scriptTo = 'head';
@@ -12,6 +12,7 @@ class PzkReportController extends PzkController {
     public $groupBy = false;
     public $having = false;
     public $groupByReport = false;
+    public $listFieldSettings = false;
     public $displayReport = false;
     public $typeChart = false;
     public $titleController = false;
@@ -50,6 +51,10 @@ class PzkReportController extends PzkController {
         $this->append('admin/'.pzk_or($this->customModule, $this->module).'/index')
             ->append('admin/'.pzk_or($this->customModule, $this->module).'/menu', 'right');
         $this->display();
+    }
+    public function changePageSizeAction() {
+        pzk_session($this->table.'PageSize', pzk_request('pageSize'));
+        $this->redirect('index');
     }
     public function filterAction() {
         pzk_session('report_type', pzk_request('type'));
