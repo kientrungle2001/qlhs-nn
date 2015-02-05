@@ -33,5 +33,39 @@ class PzkReportReport extends PzkCoreDbList {
         }
     }
 
+    public function getReport(){
+        $query = _db()->useCB()->select($this->fields)->from($this->table)
+            ->where($this->conditions)
+            //->where($this->status)
+            //->orderBy($this->orderBy)
+            ->limit($this->pageSize, $this->pageNum);
+        $this->processGroupBy($query);
+        $this->prepareQuery($query);
+        //echo $query->getQuery();
+
+        return $query->result();
+    }
+
+    public function processGroupBy($query) {
+        $arrGroupBy = $this->groupByReport;
+        $groupBy = '';
+        foreach($arrGroupBy as $item) {
+            $groupBy .= $item['index'].', ';
+        }
+        $query->groupBy(substr($groupBy, 0, -2))
+            ->having($this->having);
+    }
+
+    public function getCountReportItems() {
+        $row = _db()->useCB()->select('count(*) as c')
+            ->from($this->table)
+            ->where($this->conditions);
+
+        $this->processGroupBy($row);
+        $this->prepareQuery($row);
+        $row = $row->result();
+        return count($row);
+    }
+
 }
 ?>

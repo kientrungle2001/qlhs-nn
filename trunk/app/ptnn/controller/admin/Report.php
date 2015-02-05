@@ -1,21 +1,40 @@
 <?php
-class PzkAdminReportController extends PzkReportController {
+
+class PzkAdminReportController extends PzkReportController
+{
     public $table = 'orders';
     public $joins = array(
         array(
             'table' => 'shippers',
             'condition' => 'orders.shipper_id = shippers.shipper_id',
-            'type' =>''
+            'type' => ''
         )
     );
-    public $selectFields = 'shippers.shipper_name, COUNT(orders.shipper_id) AS NumberOfOrders';
+    public $selectFields = 'shippers.shipper_name, COUNT(orders.shipper_id) AS NumberOfOrders, SUM(orders.money) as total' ;
     public $groupByReport = array(
         array(
-          'index'=> 'shippers.shipper_id',
+            'index' => 'shippers.shipper_id',
         )
 
     );
-
+    public $listFieldSettings = array(
+        array(
+            'index' => 'shipper_name',
+            'label' => 'Tên nguoi ship'
+        ),
+        array(
+            'index' => 'NumberOfOrders',
+            'label' => 'Tong so order'
+        ),
+        array(
+            'index' => 'total',
+            'label' => 'tong tien'
+        )
+    );
+    public $displayReport = array(
+        'show' => 'shipper_name',
+        'data' => 'NumberOfOrders'
+    );
     //public $having = 'NumberOfOrders > 1';
 
     public $typeChart = array(
@@ -38,27 +57,24 @@ class PzkAdminReportController extends PzkReportController {
         array(
             'index' => 'Bar',
             'value' => 'bar'
-        ),
-        array(
-            'index' => 'PIE',
-            'value' => 'pie'
         )
+        //array(
+        //    'index' => 'PIE',
+        //    'value' => 'pie'
+        //)
 
 
     );
 
-    public $displayReport = array(
-        'show' => 'shipper_name',
-        'data' => 'NumberOfOrders'
-    );
+
 
     public $configChart = array(
-        'title'=> 'Báo cáo',
+        'title' => 'Báo cáo',
         'subtitle' => 'Số đơn hàng của một shipper',
         'titley' => 'Số đơn hàng'
     );
 
 
-
 }
+
 ?>
