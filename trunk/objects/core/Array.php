@@ -1,5 +1,4 @@
 <?php
-<?php
 class PzkCoreArray extends PzkObjectLightWeight {
 	public $data = array();
 	public function setParam($param, $value) {
@@ -29,6 +28,9 @@ class PzkCoreArray extends PzkObjectLightWeight {
 	}
 	public function getData() {
 		return $this->data;
+	}
+	public function setData($data) {
+		return $this->data = $data;
 	}
 	public function toJson() {
 		return json_encode($this->data);
