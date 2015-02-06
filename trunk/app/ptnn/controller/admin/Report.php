@@ -31,6 +31,22 @@ class PzkAdminReportController extends PzkReportController
             'label' => 'tong tien'
         )
     );
+
+    //export data
+    public $exportFields = array('shipper_name', 'NumberOfOrders', 'total');
+    public $exportTypes = array('pdf', 'excel', 'csv');
+
+    //search fields co type la text
+    public $searchFields = array('shipper_name');
+    public $Searchlabels = 'Tên';
+    //sort by
+    public $sortFields = array(
+        'total asc' => 'total tăng',
+        'total desc' => 'total giảm',
+
+    );
+
+
     public $displayReport = array(
         'show' => 'shipper_name',
         'data' => 'NumberOfOrders'

@@ -56,7 +56,6 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
     //$q = mysqli_real_escape_string($dbc, $q);
     $result = mysqli_query($dbc, trim($q));
     mysqli_close($dbc);
-
     if(empty($result)){
         die();
     }
@@ -70,9 +69,10 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
     $arrJoin = array();
     foreach($headings as $field) {
         $tam = explode('.', $field);
-        if($tam[1]) {
+        if(isset($tam[1])) {
             $arrJoin[] = $tam[1];
         }
+
     }
     if(!empty($arrJoin)) {
         $headings = $arrJoin;
