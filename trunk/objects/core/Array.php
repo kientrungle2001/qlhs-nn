@@ -31,14 +31,15 @@ class PzkCoreArray extends PzkObjectLightWeight {
 		return $this->data;
 	}
 	public function setData($data) {
-		return $this->data = $data;
+		$this->data = $data;
+		return $this;
 	}
 	public function toJson() {
 		return json_encode($this->data);
 	}
 	public function toXml($root = 'root') {
 		$xml = new SimpleXMLElement('<'.$root.'/>');
-		array_walk_recursive($this->data, array ($xml, 'addChild'));
+		array_to_xml($this->data, $xml);
 		return $xml->asXML();
 	}
 	
@@ -46,7 +47,8 @@ class PzkCoreArray extends PzkObjectLightWeight {
 		$xmlarray = array();
 		$xml = simplexml_load_string($xmlString); 
 		$xmlarray = array(); // this will hold the flattened data 
-		XMLToArrayFlat($xml, $xmlarray, $path, $root);
+		//XMLToArrayFlat($xml, $xmlarray, $path, $root);
+		$xmlarray = unserialize(serialize(json_decode(json_encode((array) $xml), 1)));
 		$this->data = $xmlarray;
 		return $this;
 	}
@@ -144,4 +146,14 @@ function XMLToArrayFlat($xml, &$return, $path='', $root=false)
         $seen[$childname]++; 
         XMLToArrayFlat($value, $return, $path.'/'.$child.'['.$seen[$childname].']'); 
     } 
+}
+
+function array_to_xml(array $arr, SimpleXMLElement $xml)
+{
+    foreach ($arr as $k => $v) {
+        is_array($v)
+            ? array_to_xml($v, $xml->addChild($k))
+            : $xml->addChild($k, $v);
+    }
+    return $xml;
 }
