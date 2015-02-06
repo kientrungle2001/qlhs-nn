@@ -1,22 +1,12 @@
 <?php
-pzk_loader()->importObject('core/db/List');
+pzk_loader()->importObject('core/db/Grid');
 /**
  *
  */
-class PzkReportReport extends PzkCoreDbList {
+class PzkReportReport extends PzkCoreDbGrid {
     public $scriptTo = 'head';
-
+    public $orderBy = false;
     public $joins = false;
-    public function prepareQuery($query) {
-        if(is_string($this->joins))
-            $this->joins = json_decode($this->joins, true);
-        $join = $this->joins;
-        if($join) {
-            foreach($join as $val) {
-                $query->join($val['table'], $val['condition'], $val['type']);
-            }
-        }
-    }
 
     public function init() {
         if (@$this->scriptTo && $scriptToElement = pzk_store_element($this->scriptTo)) {
@@ -33,18 +23,42 @@ class PzkReportReport extends PzkCoreDbList {
         }
     }
 
-    public function getReport(){
+    public function getReport($keyword = NULL, $fields = array()){
         $query = _db()->useCB()->select($this->fields)->from($this->table)
             ->where($this->conditions)
-            //->where($this->status)
-            //->orderBy($this->orderBy)
+            ->orderBy($this->orderBy)
             ->limit($this->pageSize, $this->pageNum);
+        if($keyword && count($fields)) {
+            $conds = array('or');
+            foreach($fields as $field) {
+                $conds[] = array('like', $field, "%$keyword%");
+            }
+            $query->where($conds);
+        }
         $this->processGroupBy($query);
         $this->prepareQuery($query);
         //echo $query->getQuery();
 
         return $query->result();
     }
+
+    public function getCountReportItems($keyword = NULL, $fields = array()) {
+        $row = _db()->useCB()->select('count(*) as c')
+            ->from($this->table)
+            ->where($this->conditions);
+        if($keyword && count($fields)) {
+            $conds = array('or');
+            foreach($fields as $field) {
+                $conds[] = array('like', $field, "%$keyword%");
+            }
+            $row->where($conds);
+        }
+        $this->processGroupBy($row);
+        $this->prepareQuery($row);
+        $row = $row->result();
+        return count($row);
+    }
+
 
     public function processGroupBy($query) {
         $arrGroupBy = $this->groupByReport;
@@ -56,15 +70,22 @@ class PzkReportReport extends PzkCoreDbList {
             ->having($this->having);
     }
 
-    public function getCountReportItems() {
-        $row = _db()->useCB()->select('count(*) as c')
-            ->from($this->table)
-            ->where($this->conditions);
+    public function stringQueryReport ($keyword = NULL, $fields = array()) {
+        $query = _db()->useCB()->select($this->fields)->from($this->table)
+            ->where($this->conditions)
+            ->orderBy($this->orderBy)
+            ->limit($this->pageSize, $this->pageNum);
+            if($keyword && count($fields)) {
+                $conds = array('or');
+                foreach($fields as $field) {
+                    $conds[] = array('like', $field, "%$keyword%");
+                }
+                $query->where($conds);
+            }
+            $this->processGroupBy($query);
+            $this->prepareQuery($query);
 
-        $this->processGroupBy($row);
-        $this->prepareQuery($row);
-        $row = $row->result();
-        return count($row);
+        return $query->getQuery();
     }
 
 }
