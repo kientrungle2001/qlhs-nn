@@ -101,11 +101,12 @@ class PzkHomeController extends PzkController
 			'array' => array('key' => 'value')
 		));
 		$xmlStr = $arrObj->toXml();
+		// echo $xmlStr;
 		$arrObj = pzk_array();
 		$arrObj->fromXml($xmlStr);
-		debug($arrObj->getData());
+		// debug($arrObj->getData());
+		$test = pzk_parse('<div xml="test" layout="test" />');
+		$test->display();
 	}
 
 }
-
-?>
