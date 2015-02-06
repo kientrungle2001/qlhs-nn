@@ -13,6 +13,8 @@ class PzkObject {
 	public $userable = false;
 	public $role = false;
 	public $cacher = 'filecache';
+	public $xml = false;
+	public $json = false;
 
 	/**
 	 * cac tham so dung de cache, viet cach nhau boi dau phay
@@ -72,7 +74,44 @@ class PzkObject {
 
 		$this->css();
 		$this->javascript();
-
+		if($this->xml) {
+			$this->importXml();
+		}
+		if($this->json) {
+			$this->importJson();
+		}
+	}
+	
+	public function importXml() {
+		if(pzk_element('array')) {
+			$file = BASE_DIR . '/' . pzk_app()->getUri('xml/' . $this->xml . '.xml');
+			if(file_exists($file)) {
+				$content = file_get_contents($file);
+				$arr = pzk_array();
+				$arr->fromXml($content);
+				$data = $arr->getData();
+				$arr->clear();
+				foreach($data as $key => $val) {
+					$this->$key = $val;
+				}
+			}
+		}
+	}
+	
+	public function importJson() {
+		if(pzk_element('array')) {
+			$file = BASE_DIR . '/'. pzk_app()->getUri('json/' . $this->json . '.json');
+			if(file_exists($file)) {
+				$content = file_get_contents($file);
+				$arr = pzk_array();
+				$arr->fromJson($content);
+				$data = $arr->getData();
+				$arr->clear();
+				foreach($data as $key => $val) {
+					$this->$key = $val;
+				}
+			}
+		}
 	}
 	
 	/**
