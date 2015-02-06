@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<root>
+	<string>string-1</string>
+	<number>number-2</number>
+	<array>
+		<key>value</key>
+	</array>
+</root>
