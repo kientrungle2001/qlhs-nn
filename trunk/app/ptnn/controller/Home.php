@@ -90,12 +90,22 @@ class PzkHomeController extends PzkController
 
 
     }
+	
+	public function testAction() {
+		//$item = _db()->from('user')->whereId('97')->result_one();
+		//debug($item);
+		
+		$arrObj = pzk_array()->setData(array(
+			'string' => 'string-1',
+			'number' => 'number-2',
+			'array' => array('key' => 'value')
+		));
+		$xmlStr = $arrObj->toXml();
+		$arrObj = pzk_array();
+		$arrObj->fromXml($xmlStr);
+		debug($arrObj->getData());
+	}
 
-    public function testAction()
-    {
-        $item = _db()->from('user')->whereId('97')->result_one();
-        debug($item);
-    }
 }
 
 ?>
