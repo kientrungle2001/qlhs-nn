@@ -11,6 +11,7 @@ class PzkReportController extends PzkGridAdminController {
     public $groupByReport = false;
     public $listFieldSettings = false;
     public $sortFields = false;
+    public $showchart = false;
     public $displayReport = false;
     public $typeChart = false;
 

@@ -46,7 +46,7 @@ class PzkAdminReportController extends PzkReportController
 
     );
 
-
+    //public $showchart = true;
     public $displayReport = array(
         'show' => 'shipper_name',
         'data' => 'NumberOfOrders'
