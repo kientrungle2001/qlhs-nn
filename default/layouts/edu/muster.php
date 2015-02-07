@@ -48,6 +48,16 @@ function submitClassMuster(classId, studyDate, status) {
 	$('.muster_' + classId + '_' + studyDate).change();
 }
 
+function submitStudentMuster(classId, periodId, studentId, status) {
+	$('.muster_student_' + classId + '_' + periodId + '_' + studentId).val(status);
+	$('.muster_student_' + classId + '_' + periodId + '_' + studentId).change();
+}
+
+function submitAllTeacherMuster(classId, periodId, status) {
+	$('.muster_teacher_' + classId + '_' + periodId).val(status);
+	$('.muster_teacher_' + classId + '_' + periodId).change();
+}
+
 function submitTeacherMuster(classId, studyDate, teacherId) {
 	$.ajax({
 		type: 'post',
