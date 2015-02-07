@@ -46,6 +46,9 @@ class PzkCoreArray extends PzkObjectLightWeight {
 	public function fromXml($xmlString, $path = '', $root = false) {
 		$xmlarray = array();
 		$xml = simplexml_load_string($xmlString); 
+		if($path) {
+			$xml = $xml->xpath($path);
+		}
 		$xmlarray = array(); // this will hold the flattened data 
 		//XMLToArrayFlat($xml, $xmlarray, $path, $root);
 		$xmlarray = unserialize(serialize(json_decode(json_encode((array) $xml), 1)));
