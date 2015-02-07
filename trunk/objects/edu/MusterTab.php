@@ -4,11 +4,7 @@ class PzkEduMusterTab extends PzkObject {
 	public $classId;
 	
 	public function getClass() {
-		$classes = _db()->select('*')->from('classes')->where('id='.$this->classId)->result();
-		if(count($classes)) {
-			return $classes[0];
-		}
-		return null;
+		return _db()->useCB()->select('*')->fromClasses()->whereId($this->getClassId())->result_one('edu.class');
 	}
 	
 	public function getStudyDates() {
