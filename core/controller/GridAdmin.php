@@ -26,7 +26,8 @@ class PzkGridAdminController extends PzkAdminController {
     public $titleController = false;
     public $editLabel = false;
 	public $events = array(
-		'index.after' => array('this.indexAfter')
+		'index.after' => array('this.indexAfter'),
+
 	);
 	public function append($obj, $position = NULL) {
 		$obj = $this->parse($obj);
@@ -39,6 +40,8 @@ class PzkGridAdminController extends PzkAdminController {
 			$list->addEventListener('changeStatus', 'onChangeStatus');
 		}
 	}
+
+
 	
 	public function onChangeStatusAction() {
 		$id = pzk_request('id');
