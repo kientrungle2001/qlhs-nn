@@ -83,6 +83,15 @@ function submitTeacherMuster(classId, studyDate, teacherId) {
 	});
 }
 
+function submitAllTeacherMuster(classId, periodId, status) {
+	$('.muster_teacher_' + classId + '_' + periodId).val(status);
+	$('.muster_teacher_' + classId + '_' + periodId).change();
+}
+
+function submitStudentMuster(classId, periodId, studentId, status) {
+	$('.muster_student_' + classId + '_' + periodId + '_' + studentId).val(status);
+	$('.muster_student_' + classId + '_' + periodId + '_' + studentId).change();
+}
 </script>
 	</div>
 	<div style="float:left; width: 600px;">

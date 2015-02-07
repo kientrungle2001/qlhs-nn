@@ -12,7 +12,13 @@ class PzkDemoController extends PzkController {
 	public function musterTabAction() {
 		$classId = pzk_request('classId');
 		$musterTab = $this->parse('operation/musterTab');
-		$musterTab->classId = $classId;
+		$musterTab->setClassId($classId);
+		$class = $musterTab->getClass();
+		if($class->isVMT()) {
+			$musterTab->setLayout('edu/muster/vmt');
+		} else {
+			$musterTab->setLayout('edu/muster/normal');
+		}
 		$musterTab->display();
 	}
 	
