@@ -9,4 +9,9 @@ class PzkEntityEduTeacherModel extends PzkEntityModel {
 			->result('edu.class');
 	}
 	
+	public function getLastName() {
+		$names = explode(' ', $this->getName());
+		return array_pop($names);
+	}
+	
 }
