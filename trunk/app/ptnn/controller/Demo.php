@@ -201,6 +201,17 @@ class PzkDemoController extends PzkController {
 		$abc = session_get('abc', 'SessionVar');
 		
 	}
+    public $events = array(
+        'index.after' => array('this.indexAfter'),
+        'dkx' => array('this.b', )
+    );
+    public function a() {
+        //dang ki xong
+        $this->fireEvent('dkx', $user);
+    }
+    public function b($user) {
+        //gui mail
+    }
 }
 
 function session_set($var, $val, $storage = 'FileVar') {

@@ -163,6 +163,21 @@
                         setTinymce();
                     </script>
 
+                    {? elseif($field['type'] == 'selectoption'): ?}
+                    <div class="form-group clearfix">
+                        <label for="{field[index]}">{field[label]}</label>
+                        <div style="float: left;width: 100%;" class="item">
+                            <select class="form-control"  id="{field[index]}" name="{field[index]}">
+                                {each $field['option'] as $key=>$val}
+                                <option value="{key}">{val}</option>
+                                {/each}
+                            </select>
+                        </div>
+                    </div>
+
+                    {? elseif($field['type'] == 'datenow'): ?}
+                    <input class="form-control"  id="{field[index]}" name="{field[index]}" type="hidden" value="<?php echo time(); ?>">
+
                     {? elseif($field['type'] == 'status'): ?}
                     <div class="form-group clearfix">
                         <label for="{field[index]}">{field[label]}</label>
@@ -316,6 +331,21 @@
     <script type="text/javascript">
         setTinymce();
     </script>
+
+    {? elseif($field['type'] == 'selectoption'): ?}
+    <div class="form-group clearfix">
+        <label for="{field[index]}">{field[label]}</label>
+        <div style="float: left;width: 100%;" class="item">
+            <select class="form-control"  id="{field[index]}" name="{field[index]}">
+                {each $field['option'] as $key=>$val}
+                <option value="{key}">{val}</option>
+                {/each}
+            </select>
+        </div>
+    </div>
+
+    {? elseif($field['type'] == 'datenow'): ?}
+    <input class="form-control"  id="{field[index]}" name="{field[index]}" type="hidden" value="<?php echo date(DATEFORMAT,time()); ?>">
 
   {? elseif($field['type'] == 'status'): ?}
   <div class="form-group clearfix">

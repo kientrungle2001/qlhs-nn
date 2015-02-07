@@ -291,6 +291,7 @@ class PzkParser {
         $content = preg_replace("/{$o}({$idExp})\.({$idExp})\[({$idExp})\]{$c}/", '<?php echo @$$1->$2[\'$3\'];?>', $content);
         $content = preg_replace("/{$o}thumb ([\d]+)x([\d]+) ([^{$c}]+){$c}/", '<img src="<?php echo BASE_URL . createThumb($3, $1, $2);?>" />', $content);
         $content = preg_replace("/{$o}each ([^ ]+) as ([^{$c}]+){$c}/", '<?php foreach ( $1 as $2 ) : ?>', $content);
+        $content = preg_replace("/{$o}each ([^ ]+) as ([^= ]+)=>([^{$c}]+){$c}/", '<?php foreach ( $1 as $2 => $3 ) : ?>', $content);
         $content = preg_replace("/{$o}\/each{$c}/", '<?php endforeach; ?>', $content);
 		$content = preg_replace("/{$o}if ([^{$c}]+){$c}/", '<?php if ( $1 ) : ?>', $content);
 		$content = preg_replace("/{$o}ifvar ({$idExp}){$c}/", '<?php if ( @$$1 ) : ?>', $content);

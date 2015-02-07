@@ -61,7 +61,7 @@ class PzkCoreDbList extends PzkObject {
 			$query->where($conds);
 		}
         $this->prepareQuery($query);
-        //echo $query->getQuery();
+       //echo $query->getQuery();
 		return $query->result();
 	}
 
