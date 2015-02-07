@@ -14,6 +14,7 @@ class PzkObject {
 	public $role = false;
 	public $cacher = 'filecache';
 	public $xml = false;
+	public $xpath = '';
 	public $json = false;
 
 	/**
@@ -88,7 +89,7 @@ class PzkObject {
 			if(file_exists($file)) {
 				$content = file_get_contents($file);
 				$arr = pzk_array();
-				$arr->fromXml($content);
+				$arr->fromXml($content, $this->xpath);
 				$data = $arr->getData();
 				$arr->clear();
 				foreach($data as $key => $val) {
