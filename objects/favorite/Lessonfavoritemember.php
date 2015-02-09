@@ -30,23 +30,22 @@ class PzkFavoriteLessonfavoritemember extends PzkObject
         $num_page=ceil($num_row/$num_record);
         return $num_page;
 	}
-	public function viewListLesson($member)
+	public function viewListLesson($userId,$id)
 	{
+		
+			//$listLesson=_db()->useCB()->select('lesson_favorite.id as id, lessons.lesson_name as lessonName,categories.name as categoriesName, lesson_favorite.date as date')->from('lesson_favorite')->join('categories','categories.id=lesson_favorite.categoriesId')->join('lessons','lessons.id=lesson_favorite.lessonId')->where(array(array('column','lesson_favorite','userId'),$member))->result();
+		
+			//return $listLesson; 
+			$listLesson=_db()->useCB()->select('lesson_favorite.id as id, lessons.lesson_name as lessonName,categories.name as categoriesName, lesson_favorite.date as date')->from('lesson_favorite')->leftjoin('categories','categories.id=lesson_favorite.categoriesId')->leftjoin('lessons','lessons.id=lesson_favorite.lessonId')->where(array('userId',$userId));
 			
-			/*$loadUserName= $this->loadUserName($member);
-			$username= $loadUserName['username'];
-			$page=pzk_request('page');
-			if(!$page){
-				$page=1;
+			if($id) {
+
+				$listLesson->where(array('lt',array('column','lesson_favorite','id'), $id));
 			}
-			*/
-			$listLesson=_db()->useCB()->select('lesson_favorite.id as id, lessons.lesson_name as lessonName,categories.name as categoriesName, lesson_favorite.date as date')->from('lesson_favorite')->join('categories','categories.id=lesson_favorite.categoriesId')->join('lessons','lessons.id=lesson_favorite.lessonId')->where(array(array('column','lesson_favorite','userId'),$member))->result();
-			//$friend=_db()->useCB()->select('user.id as id,user.username as username, friend.userfriend as userfriend')->from('friend')->leftjoin('user','friend.username=user.username')->where(array(array('column','user','id'),'99'))->result();
-			//$listlession=_db()->useCB()->select('friend. *')->from('friend')->where(array('username',$username))->limit($this->num_record,$page-1)->result();
-			//$listfriend=_db()->useCB()->select('friend. *')->from('friend')->where(array('username',$username))->result();
+
+			$listLesson->orderBy('lesson_favorite.id desc')->limit(6);
 			
-			//$viewwritewall=_db()->useCB()->select('user_write_wall. *')->from('user_write_wall')->where(array('username',$username))->limit(6,0)->result();
-			return $listLesson; 
+			return $listLesson->result(); 
 	}
 	public function testOnline($member)
 	{
@@ -73,8 +72,20 @@ class PzkFavoriteLessonfavoritemember extends PzkObject
 		return $avatar;
 		
 	}
+	public function countLessonFavorite($userId, $id)
+	{
+		$countLessonFavorite=_db()->useCB()->select('count(*) as count')->from('lesson_favorite')->where(array('userId',$userId));
+		
+		if($id)
+			{
+				$countLessonFavorite->where(array('lt','id', $id));
+			}
+		$countLessonFavorite->orderBy('id desc');
+		$count= $countLessonFavorite->result_one(); 
+		return $count['count'];
+	}
 
-
+	
 	
 }
  ?>
