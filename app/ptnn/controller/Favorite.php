@@ -42,6 +42,26 @@ class PzkFavoriteController extends PzkController
 		$lessonfavorite->delete();
 		$this->redirect('lessonfavorite?member='.pzk_session('userId'));
 	}
+	public function viewlessonAction()
+	{
+		//$lesson_favoriteId= pzk_request('lesson_favoriteId');
+		$detailnotepage=$this->parse('favorite/lessonfavoritepage')	;
+		$detailnotepage->display();
 
+	}
+	public function viewlessonmemberAction()
+	{
+		//$lesson_favoriteId= pzk_request('lesson_favoriteId');
+		$detailnotepage=$this->parse('favorite/lessonfavoritememberpage')	;
+		$detailnotepage->display();
+
+	}
+	public function viewhistoryAction()
+	{
+		$lesson_favoriteId= pzk_request('lesson_historyId');
+		$detailnotepage=$this->parse('favorite/lessonhistorypage')	;
+		$detailnotepage->display();
+
+	}
 }
  ?>

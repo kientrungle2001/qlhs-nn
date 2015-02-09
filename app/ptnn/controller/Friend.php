@@ -197,6 +197,18 @@ class PzkFriendController extends PzkController
 		$detailnotepage->display();
 
 	}
+	public function viewwritewallAction()
+	{
+		$this->layout();
+		$this->append('user/profile/profileuserleft1')->append('communication/friend/viewwritewall');
+		$this->append('user/profile/profileuser','right');
+		$this->display();
 
+	}
+	public function viewwritewallPageAction()
+	{
+		$viewwritewallpage=$this->parse('communication/friend/viewwritewallpage')	;
+		$viewwritewallpage->display();	
+	}
 }
  ?>

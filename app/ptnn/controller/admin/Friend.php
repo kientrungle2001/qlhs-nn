@@ -1,7 +1,7 @@
 <?php
 class PzkAdminFriendController extends PzkGridAdminController {
-	public $addFields = 'username, userfriend';
-	public $editFields ='username, userfriend';
+	public $addFields = 'username, userfriend, date';
+	public $editFields ='username, userfriend, date';
 	public $table='friend';
 	public $sortFields = array(
 		'id asc' => 'ID tăng',
@@ -20,6 +20,11 @@ class PzkAdminFriendController extends PzkGridAdminController {
 			'index' => 'userfriend',
 			'type' => 'text',
 			'label' => 'Tên đăng nhập bạn bè '
+		),
+		array(
+			'index' => 'date',
+			'type' => 'text',
+			'label' => 'Ngày kết bạn '
 		)
 	);
 	public $addLabel = 'Thêm bạn mới';
@@ -34,6 +39,11 @@ class PzkAdminFriendController extends PzkGridAdminController {
 			'type' => 'text',
 			'label' => 'Tên đăng nhập bạn bè'
 			
+		),
+		array(
+			'index' => 'date',
+			'type' => 'text',
+			'label' => 'Ngày kết bạn '
 		)
 	);
 	public $editFieldSettings = array(
@@ -47,6 +57,11 @@ class PzkAdminFriendController extends PzkGridAdminController {
 			'type' => 'text',
 			'label' => 'Tên đăng nhập bạn bè'
 			
+		),
+		array(
+			'index' => 'date',
+			'type' => 'text',
+			'label' => 'Ngày kết bạn '
 		)
 	);
 	public $addValidator = array(

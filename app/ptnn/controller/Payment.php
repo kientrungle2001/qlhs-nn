@@ -246,15 +246,18 @@ class PzkPaymentController extends PzkController
 	public function PaymentNextNobelsAction()
 	{
 		$nextnobels_card= pzk_request('nextnobels_card');
-		//$nextnobels_card=md5($nextnobels_card);
+		$nextnobels_serial= pzk_request('nextnobels_serial');
+		$nextnobels_card=md5($nextnobels_card);
 		$username=pzk_session('username');
 
 		$card_nextnobels= _db()->getEntity('payment.card_nextnobels');
-		$card_nextnobels->loadWhere(array('pincard',$nextnobels_card));
+		$card_nextnobels->loadWhere(array('and',array('pincard',$nextnobels_card),array('serial',$nextnobels_serial)));
+		
 
 		if($card_nextnobels->getId())
 		{
 			// Cap nhat du lieu
+			
 			echo 1;
 		}
 		else echo 0;
