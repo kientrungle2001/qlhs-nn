@@ -209,6 +209,17 @@ class PzkAccountController extends PzkController
 					$rowRegister= array('username' =>$username,'password'=>md5($password),'email'=>$email,'name'=>$name,'birthday'=>$birthday,'sex'=>$sex,'address'=>$address,'phone'=>$phone,'idpassport'=>$idpassport,'idplace'=>$idplace,'registered'=>$dateregister);
 					$user->setData($rowRegister);
 					$user->save();
+					// Em Tien: Chuyen thong tin member dang ky sang forum
+					$addForum=array('username' =>$username,'email'=>$email,'register_date'=>$dateregister,'gender'=>$sex,'language_id'=>1,'style_id'=>0,'visible'=>1,'activity_visible'=>1,'user_group_id'=>2,'user_state'=>'valid','is_staff'=>1);
+					$entity = _db()->useCb()->getEntity('table')->setTable('xf_user');
+					$entity->setData($addForum);
+					$entity->save();
+					// Em Tien: Chuyen mat khau member dang ky sang forum
+					$hash = hash('sha256', hash('sha256',$password.$salt));
+					$addPass=array('remember_key' =>sha256(sha256($password) . salt));
+					$entity = _db()->useCb()->getEntity('table')->setTable('xf_user_authenticate');
+					$entity->setData($addPass);
+					$entity->save();
 					//_db()->useCB()->insert('user')->fields('username,password,email,name,birthday,sex,address,phone,idpassport,idplace,iddate,registered')->values(array($rowRegister))->result();
 					$this->sendMail($username,$password,$email);
 					// Hiển thị layout showregister
