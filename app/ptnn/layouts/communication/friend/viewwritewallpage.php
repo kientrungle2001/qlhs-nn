@@ -21,7 +21,7 @@
       </div>
 
      <div class="prf_titlenote" style="width:30%; height: auto; float:left;">
-       <a href="/user/profileusercontent?member=<?php echo $loadUserID['userid']; ?>" >{write_wall[userwritewall]}</a>
+       <a href="/user/profile/profileusercontent?member=<?php echo $loadUserID['userid']; ?>" >{write_wall[userwritewall]}</a>
          
       </div>
        <div class="prf_titlenote" style="width:30%; height: auto; float:left;">
