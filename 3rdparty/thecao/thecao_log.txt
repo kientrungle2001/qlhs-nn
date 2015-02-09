@@ -1,0 +1,12 @@
+Nap menh gia:  | type: viettel | serial: 92327639510 | ma the: 1924705631103 ref_code: kieunghia2015-01-20 11:24:37
+Ma gia dich:  |usernamekieunghia|thoi gian: 2015-01-20 11:32:22|menh gia the:  | type: viettel | serial: 92327639510 | ma the: 1924705631103 ref_code: kieunghia 2015-01-20 11:32:22
+Ma gia dich:  |usernamekieunghia|thoi gian: 2015-01-20 11:32:28|menh gia the:  | type: viettel | serial: 92327639510 | ma the: 1924705631103 ref_code: kieunghia 2015-01-20 11:32:28
+Ma gia dich:  |usernamekieunghia|thoi gian: 2015-01-20 11:38:56|menh gia the:  | type: viettel | serial: 92327639510 | ma the: 1924705631103 ref_code: kieunghia 2015-01-20 11:38:56
+Ma gia dich:  |usernamekieunghia|thoi gian: 2015-01-20 11:48:26|menh gia the:  | type: viettel | serial: 92327639510 | ma the: 1924705631103 ref_code: kieunghia 2015-01-20 11:48:26
+Ma gia dich:  |usernamekieunghia|thoi gian: 2015-01-20 11:49:39|menh gia the:  | type: viettel | serial: 92327639510 | ma the: 1924705631103 ref_code: kieunghia 2015-01-20 11:49:39
+Ma gia dich:  |usernamekieunghia|thoi gian: 2015-01-20 11:51:37|menh gia the:  | type: viettel | serial: 92327639510 | ma the: 1924705631103 ref_code: kieunghia 2015-01-20 11:51:37
+Ma gia dich:  |usernamekieunghia|thoi gian: 2015-01-20 11:51:47|menh gia the:  | type: viettel | serial: 92327639510 | ma the: 1924705631103 ref_code: kieunghia 2015-01-20 11:51:47
+Ma gia dich:  |usernamekieunghia|thoi gian: 2015-01-20 11:53:00|menh gia the:  | type: viettel | serial: 92327639510 | ma the: 1924705631103 ref_code: kieunghia 2015-01-20 11:53:00
+Ma gia dich:  |usernamekieunghia|thoi gian: 2015-01-20 11:53:04|menh gia the:  | type: viettel | serial: 92327639510 | ma the: 1924705631103 ref_code: kieunghia 2015-01-20 11:53:04
+Ma gia dich:  |usernamekieunghia|thoi gian: 2015-01-20 11:53:15|menh gia the:  | type: viettel | serial: 92327639510 | ma the: 1924705631103 ref_code: kieunghia 2015-01-20 11:53:15
+Ma gia dich:  |usernamekieunghia|thoi gian: 2015-01-20 11:53:30|menh gia the:  | type: viettel | serial: 1924705631103 | ma the: 92327639510 ref_code: kieunghia 2015-01-20 11:53:30
