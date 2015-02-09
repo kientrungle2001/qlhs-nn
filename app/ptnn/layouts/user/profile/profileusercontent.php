@@ -81,7 +81,8 @@ font-size: 12px;
         <img src="/3rdparty/uploads/img/usernote.png" alt="">
       </div>
     <div class="prf_titlenote">
-         {note[titlenote]}
+    <a href="/friend/detailnote?member=<?php echo $member ?>&id={note[id]}">{note[titlenote]}</a>
+        
       </div>
 
       <div class="prf_clear"> </div>
@@ -181,7 +182,7 @@ font-size: 12px;
     {/each}
            
             <div class="pr_bt_viewmore_c">
-        <a href="/profile/viewwritewall?member=<?php echo $member; ?>">Xem tất cả</a>
+        <a href="/friend/viewwritewall?member=<?php echo $member; ?>">Xem tất cả</a>
       </div>
       
     </div>
