@@ -22,7 +22,15 @@ $displayFields = explode(',',$data->displayFields);
 		$fieldTag=@$data->$fieldTag?@$data->$fieldTag: 'div';
 		$value = @$item[$field]; 
 	?}
-	<{fieldTag} class="{data.classPrefix}{field}" rel="{item[id]}">{value}</{fieldTag}>
+	<{fieldTag} class="{data.classPrefix}{field}" rel="{item[id]}">
+		{? if(@$data->titleField==$field && @$data->linkTitle) : ?}
+		<a href="/{item[alias]}">
+		{? endif;?}
+	{value}
+		{? if(@$data->titleField==$field && @$data->linkTitle) : ?}
+		</a>
+		{? endif;?}
+	</{fieldTag}>
 	{/each}
 	</div>
 {/each}
