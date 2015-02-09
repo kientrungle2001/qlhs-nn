@@ -1,303 +1,130 @@
 <?php
-class pzkAdminCardNextnobelsGridController extends pzkGridAdminController {
-    public $table = 'card_nextnobels';
-    //joins to many table
-    public $joins = array(
-        array(
-            'table' => 'admin_level',
-            'condition' => 'admin.usertype_id = admin_level.id',
-            'type' =>''
-        )
-    );
-    //select table
-    public $selectFields = 'admin.*, admin_level.level';
-    //show fields on page index
-    public $listFieldSettings = array(
-        array(
-            'index' => 'name',
-            'type' => 'text',
-            'label' => 'Tên User'
-        ),
-        array(
-            'index' => 'level',
-            'type' => 'text',
-            'label' => 'Tên quyền'
-        ),
-
-        array(
-            'index' => 'status',
-            'type' => 'status',
-            'label' => 'status'
-        )
-
-    );
-    //search fields co type la text
-    public $searchFields = array('name');
-    public $Searchlabels = 'Tên';
-    //filter cho cac truong co type la select
-    public $filterFields = array(
-
-        array(
-            'index' => 'usertype_id',
-            'type' => 'select',
-            'label' => 'Tên quyền',
-            'table' => 'admin_level',
-            'show_value' => 'id',
-            'show_name' => 'level',
-        ),
-        array(
-            'index'=>'status',
-            'type' => 'status',
-            'label' => 'status'
-        )
-
-    );
-    //sort by
+class PzkAdminCardNexnobelsController extends PzkGridAdminController {
+    public $addFields = 'pincard, serial, price,discount,useradd,dateadd';
+    public $editFields = 'pincard, serial, price,discount,usermodified,datemodified';
+    public $table='card_nextnobels';
     public $sortFields = array(
         'id asc' => 'ID tăng',
-        'id desc' => 'ID giảm',
-
+        'id desc' => 'ID giảm'
+       
     );
-    //add menu links
-    public $menuLinks = array(
+    public $searchFields = array('pincard');
+    public $listFieldSettings = array(
         array(
-            'name' => 'demo',
-            'href' => '/admin_levelaction/index'
+            'index' => 'pincard',
+            'type' => 'text',
+            'label' => 'Mã thẻ'
         ),
         array(
-            'name' => 'demo2',
-            'href' => '/admin_levelaction/index'
-        ),
-    );
-    //add table
-    public $addFields = 'name, usertype_id, password, status';
-    public $addLabel = 'Thêm quyền';
-
-    //add theo dang tab
-    public $setAddTabs = array(
-        array(
-            'name' => 'tab1',
-            'listFields' => array(
-                array(
-                    'index' => 'name',
-                    'type' => 'text',
-                    'label' => 'Tên người dùng'
-                ),
-                array(
-                    'index' => 'password',
-                    'type' => 'password',
-                    'label' => 'Password'
-                ),
-            )
+            'index' => 'serial',
+            'type' => 'text',
+            'label' => 'Serial '
         ),
         array(
-            'name' => 'tab2',
-            'listFields' => array(
-                array(
-                    'index' => 'usertype_id',
-                    'type' => 'select',
-                    'label' => 'tên quyền',
-                    'table' => 'admin_level',
-                    'show_value' => 'id',
-                    'show_name' => 'level',
-                ),
-
-                array(
-                    'index' => 'status',
-                    'type' => 'status',
-                    'label' => 'Trạng thái',
-                    'options' => array(
-                        '0' => 'Không hoạt động',
-                        '1' => 'Hoạt động'
-                    ),
-                    'actions' => array(
-                        '0' => 'mở',
-                        '1' => 'dừng'
-                    )
-                )
-            )
+            'index' => 'price',
+            'type' => 'text',
+            'label' => 'Giá '
+        ),
+        array(
+            'index' => 'discount',
+            'type' => 'text',
+            'label' => 'Giảm giá '
         )
 
     );
-    //add theo dang binh thuong
+    public $addLabel = 'Thêm bạn mới';
     public $addFieldSettings = array(
         array(
-            'index' => 'name',
+            'index' => 'pincard',
             'type' => 'text',
-            'label' => 'Tên người dùng'
+            'label' => 'Mã thẻ'
         ),
         array(
-            'index' => 'password',
-            'type' => 'password',
-            'label' => 'Tên người dùng'
+            'index' => 'serial',
+            'type' => 'text',
+            'label' => 'Serial '
         ),
         array(
-            'index' => 'usertype_id',
-            'type' => 'select',
-            'label' => 'tên quyền',
-            'table' => 'admin_level',
-            'show_value' => 'id',
-            'show_name' => 'level',
+            'index' => 'price',
+            'type' => 'text',
+            'label' => 'Giá '
         ),
-
         array(
-            'index' => 'status',
-            'type' => 'status',
-            'label' => 'Trạng thái',
-            'options' => array(
-                '0' => 'Không hoạt động',
-                '1' => 'Hoạt động'
-            ),
-            'actions' => array(
-                '0' => 'mở',
-                '1' => 'dừng'
-            )
+            'index' => 'discount',
+            'type' => 'text',
+            'label' => 'Giảm giá '
+        )
+    );
+    public $editFieldSettings = array(
+       array(
+            'index' => 'pincard',
+            'type' => 'text',
+            'label' => 'Mã thẻ'
+        ),
+        array(
+            'index' => 'serial',
+            'type' => 'text',
+            'label' => 'Serial '
+        ),
+        array(
+            'index' => 'price',
+            'type' => 'text',
+            'label' => 'Giá '
         )
     );
     public $addValidator = array(
         'rules' => array(
-            'name' => array(
-                'required' => true,
-                'minlength' => 2,
-                'maxlength' => 50
+            'pincard' => array(
+                'required' => true
             ),
-            'password' =>
-                array(
-                    'minlength' => 4,
-                )
+            'serial' => array(
+                'required' => true
+               
+            )
 
         ),
         'messages' => array(
-            'name' => array(
-                'required' => 'Tên nhóm không được để trống',
-                'minlength' => 'Tên nhóm phải dài 2 ký tự trở lên',
-                'maxlength' => 'Tên nhóm chỉ dài tối đa 50 ký tự'
+            'pincard' => array(
+                'required' => 'Pincard không được để trống'
+                
             ),
-            'password' =>
-                array(
-                    'minlength' => 'Mật khẩu dài tối thiểu 4 ký tự',
-                )
-
-        )
-    );
-
-    //edit table
-    public $editFields = 'name, usertype_id, password, status';
-    //edit theo dang tab
-    public $setEditTabs = array(
-        array(
-            'name' => 'tab1',
-            'listFields' => array(
-                array(
-                    'index' => 'name',
-                    'type' => 'text',
-                    'label' => 'Tên người dùng'
-                ),
-                array(
-                    'index' => 'password',
-                    'type' => 'password',
-                    'label' => 'Password'
-                ),
-            )
-        ),
-        array(
-            'name' => 'tab2',
-            'listFields' => array(
-                array(
-                    'index' => 'usertype_id',
-                    'type' => 'select',
-                    'label' => 'tên quyền',
-                    'table' => 'admin_level',
-                    'show_value' => 'id',
-                    'show_name' => 'level',
-                ),
-
-                array(
-                    'index' => 'status',
-                    'type' => 'status',
-                    'label' => 'Trạng thái',
-                    'options' => array(
-                        '0' => 'Không hoạt động',
-                        '1' => 'Hoạt động'
-                    ),
-                    'actions' => array(
-                        '0' => 'mở',
-                        '1' => 'dừng'
-                    )
-                )
-            )
-        )
-
-    );
-    //edit theo dang binh thuong
-    public $editFieldSettings = array(
-        array(
-            'index' => 'name',
-            'type' => 'text',
-            'label' => 'Tên người dùng'
-        ),
-        array(
-            'index' => 'password',
-            'type' => 'password',
-            'label' => 'Tên người dùng'
-        ),
-        array(
-            'index' => 'usertype_id',
-            'type' => 'select',
-            'label' => 'tên quyền',
-            'table' => 'admin_level',
-            'show_value' => 'id',
-            'show_name' => 'level'
-        ),
-
-        array(
-            'index' => 'status',
-            'type' => 'status',
-            'label' => 'Trạng thái',
-            'options' => array(
-                '0' => 'Không hoạt động',
-                '1' => 'Hoạt động'
-            ),
-            'actions' => array(
-                '0' => 'mở',
-                '1' => 'dừng'
+            'serial' => array(
+                'required' => 'Serial không được để trống'
+                
             )
         )
     );
-
     public $editValidator = array(
         'rules' => array(
-            'name' => array(
-                'required' => true,
-                'minlength' => 2,
-                'maxlength' => 50
+            'pincard' => array(
+                'required' => true
             ),
-            'password' =>
-                array(
-                    'minlength' => 4,
-                    )
+            'serial' => array(
+                'required' => true
+               
+            )
 
         ),
         'messages' => array(
-            'name' => array(
-                'required' => 'Tên nhóm không được để trống',
-                'minlength' => 'Tên nhóm phải dài 2 ký tự trở lên',
-                'maxlength' => 'Tên nhóm chỉ dài tối đa 50 ký tự'
+            'pincard' => array(
+                'required' => 'Pincard không được để trống'
+                
             ),
-            'password' =>
-                array(
-                    'minlength' => 'Mật khẩu dài tối thiểu 4 ký tự',
-                )
-
+            'serial' => array(
+                'required' => 'Serial không được để trống'
+                
+            )
         )
     );
-
     public function editPostAction() {
         $row = $this->getEditData();
+       
         if($this->validateEditData($row)) {
-            $password = trim(pzk_request('password'));
-            if($password) {
-                $row['password'] = md5($password);
+            $pincard = trim(pzk_request('pincard'));
+            $usermodified= pzk_session('userId');
+            $datemodified= date("Y-m-d H:i:s");
+            if($pincard !=$row['pincard']) {
+                $row['pincard'] = md5($pincard);
                 $this->edit($row);
                 pzk_notifier()->addMessage('Cập nhật thành công');
                 $this->redirect('index');
@@ -315,9 +142,9 @@ class pzkAdminCardNextnobelsGridController extends pzkGridAdminController {
     public function addPostAction() {
         $row = $this->getAddData();
         if($this->validateAddData($row)) {
-            $password = trim(pzk_request('password'));
-            if($password) {
-                $row['password'] = md5($password);
+            $pincard = trim(pzk_request('pincard'));
+            if($pincard) {
+                $row['pincard'] = md5($pincard);
 
                 $this->add($row);
 
@@ -334,5 +161,3 @@ class pzkAdminCardNextnobelsGridController extends pzkGridAdminController {
     }
 
 }
-
-?>
