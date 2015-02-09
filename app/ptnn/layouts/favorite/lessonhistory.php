@@ -1,12 +1,10 @@
 <div id="lesson_history">
-  <div class="layout_title">Lịch sử học tập</div>
+<div class="lesson_favorite_">
+  <div class="fvr_title"><span class="glyphicon glyphicon-star"></span><span> Lịch sử học tập</span></div>
   <div class="prf_clear"></div>
-  <div class="note_favorite">
-  <span class="glyphicon glyphicon-star"></span>
-  <span> Danh sách những bài đã học</span>
-  </div>
-  <div class="clear"></div>
-  
+ <div style="margin:auto;text-align:center;"><img src="/3rdparty/uploads/img/circle.png" alt="" width="500px" height="30px"></div>
+  <div class="clear" style="padding-bottom:10px;"></div>
+  <div class="lesson_favorite_list">
    <div class="list_lesson_favorite">
    
      <div class="lesson_history_name">Tên bài học</div>
@@ -15,22 +13,75 @@
      
   
    </div>
+   <div id="add_more_history"></div>
   <?php 
     $member=pzk_request('member');
-
-    $listlessions=$data->viewListLesson($member);
-    //var_dump($listlessions);
-    //die();
+    $lesson_historyId=pzk_request('lesson_historyId');
+    $listlessions=$data->viewListLesson($member,$lesson_historyId);  
+     $listlessions= array_reverse($listlessions); 
    ?>
    {each $listlessions as $listlession} 
   <div class="list_lesson_row">
    
      <div class="lesson_history_name_row"><a href="#">{listlession[lessonName]}</a></div>
      <div class="lesson_history_type_row"><a href="#">{listlession[categoriesName]}</a></div>
-     <div class="lesson_history_type_row">{listlession[date]}</div>
+     <div class="lesson_history_type_row">{listlession[id]}</div>
      
   
   </div>
   {/each}
+  <div id="view_more_history">
+
+      <a href="#" onclick="viewMore(); return false;"><span>Xem thêm <span id="count_lesson_history"></span> bài khác >></span></a>
+    </div>
+  </div>
+
  </div>
+ </div>
+ <?php 
+
+  $count_arr= count($listlessions);
+  
+
+  if(isset($listlessions))
+  {
+   
+    $countLesson= $data->countLesson($member,$listlessions[0]['id']);
+    //var_dump($count_lesson_favorite);
+   
+    echo "<script>$('#count_lesson_history').html(".$countLesson.");</script>";
+    echo '<script>window.lesson_historyId='.$listlessions[0]['id'].';</script>';
+  }
+ ?> 
+<script>
+  var numberrow= parseInt('<?php echo @$count_arr ; ?>');
+  var countLesson=parseInt('<?php echo @$countLesson ?>');
+ 
+  $('#view_more_history').hide();
+  if(numberrow < 6 || countLesson<=0)
+  {
+    $('#view_more_history').hide();
+  }else{
+    $('#view_more_history').show();
+  }    
+   function viewMore()
+    {
+      //alert('in');
+      var member= '<?php echo $member; ?>';
+      var lesson_historyId= window.lesson_historyId;
+      $.ajax({
+        url:'/favorite/viewhistory',
+        data:{
+          lesson_historyId:lesson_historyId,
+          member: member
+        },
+        success: function(result)
+        {
+          //alert(result);
+          $('#add_more_history').after(result);
+        }
+      });
+      
+    }
+</script>
  
