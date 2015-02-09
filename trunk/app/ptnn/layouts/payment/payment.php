@@ -24,7 +24,9 @@
         <div class="pm_paycard_img_right"><img src=""></div>
         <div class="pm_paycard_form_napthe">
           <input type="text" autocomplete="off" class="pm_paycard_input" id="nextnobels_card" name="nextnobels_card"  placeholder="Nhập mã số nạp thẻ">
-          
+          <br>
+          <input type="text" autocomplete="off" class="pm_paycard_input" id="nextnobels_serial" name="pm_serial_input"  placeholder="Nhập số serial">
+
           <input type="button" id="pm_bttNextnobels" class="pm_paycard_btt" value="Nạp thẻ"> 
         </div>
 
@@ -57,6 +59,7 @@
     $('#show_error_paycard_nextnobels').hide();
     $('#show_ok_paycard_nextnobels').hide();
     var nextnobels_card= $('#nextnobels_card').val();
+    var nextnobels_serial= $('#nextnobels_serial').val();
     if('nextnobels_card'=='')
     {
       alert('Bạn chưa nhập mã thẻ');
@@ -65,14 +68,15 @@
       $.ajax({
         url:'/payment/PaymentNextNobels',
         data: {
-          nextnobels_card:nextnobels_card
+          nextnobels_card:nextnobels_card,
+          nextnobels_serial:nextnobels_serial
         },
         success: function(result)
         {
           
-          //alert(result);  
+          alert(result);  
           if(result==0){
-            $('#show_error_paycard_nextnobels').html('<span> Mã thẻ không đúng</span>');
+            $('#show_error_paycard_nextnobels').html('<span> Mã thẻ hoặc serial không đúng</span>');
             $('#show_error_paycard_nextnobels').show();
           }else if(result==1) {
             $('#show_ok_paycard_nextnobels').html('<span>Bạn đã nạp thẻ thành công</span>');
