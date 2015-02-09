@@ -109,7 +109,7 @@ font-size: 12px;
          ?>" alt="" width="60" height="60">
       </div>
       <div class="prf_titlenote" style="width:30%; height: auto; float:left;">
-       <a href="/user/profileusercontent?member=<?php echo $loadUserID['userid']; ?>" >{write_wall[userwritewall]}</a>
+       <a href="/user/profile/profileusercontent?member=<?php echo $loadUserID['userid']; ?>" >{write_wall[userwritewall]}</a>
          
       </div>
       <div class="prf_titlenote" style="width:30%; height: auto; float:left;">
@@ -146,7 +146,7 @@ font-size: 12px;
           page_wall: page,
           member: "<?php echo $member ?>"
         },
-        url:'/user/viewwritewallPage',
+        url:'/friend/viewwritewallPage',
         success: function(msg){
           //alert(msg);
           $('#viewall_write_wall').html(msg);
