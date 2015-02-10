@@ -3,10 +3,6 @@ class PzkAccountController extends PzkController
 {
 	public $masterPage='index';
 	public $masterPosition='left';
-	public function layout()
-	{
-		$this->page = pzk_parse($this->getApp()->getPageUri('index'));
-	}
 	public function getLink($url,$params=array(),$use_existing_arguments=false)
 		{
     		if($use_existing_arguments) $params = $params + $_GET;
@@ -60,13 +56,7 @@ class PzkAccountController extends PzkController
 			echo 'Mailer Error: ' . $mail->ErrorInfo;
 		}
 	}
-	public function userAction()
-	{
-			$this->layout();
-					
-			$this->display();
 	
-	}
 	public function loginAction() 
 	{
 		
@@ -85,7 +75,7 @@ class PzkAccountController extends PzkController
 	// Xử lý đăng nhập
 	public function loginPostAction()
 	{
-		if($_SERVER['HTTP_REFERER']!="http://nextnobels.vn/User_Account/loginPost")
+		if($_SERVER['HTTP_REFERER']!=BASE_REQUEST . "/User_Account/loginPost")
 		{
 			pzk_session('referer_url',$_SERVER['HTTP_REFERER']);
 		}
@@ -165,10 +155,7 @@ class PzkAccountController extends PzkController
 // Đăng ký tài khoản
 	public function registerAction()
 	{
-		//$this->render('user/account/register');
-		$this->layout();
-		$this->append('user/account/register','left');
-		$this->display();
+		$this->render('user/account/register');
 	}
 	public function registerPostAction()
 	{	
@@ -283,7 +270,7 @@ class PzkAccountController extends PzkController
 	public function registersuccesAction() 
 		{
 		
-			$this->layout('user/account/registersuccess');
+			$this->render('user/account/registersuccess');
 		}
 		// Gửi email quên mật khẩu
 	public function sendMailForgotpassword($email="",$password="") {
@@ -336,7 +323,7 @@ class PzkAccountController extends PzkController
 				{
 					$password=$user->getPassword();
 					$this->sendMailForgotpassword($email,$password);
-					$this->render('user/account/showforgotpassword');
+					return $this->render('user/account/showforgotpassword');
 				}
 				else
 				{
@@ -377,7 +364,7 @@ class PzkAccountController extends PzkController
 			$username=$user->getUsername();
 			$user->update(array('password' => $updatepassword,'key'=>''));
 			//_db()->useCB()->update('user')->set(array('password' => $updatepassword,'key'=>''))->where(array('and',array('username',$username),array('status',1)))->result();
-			$newpassword = pzk_parse(pzk_app()->getPageUri('user/account/newpassword'));
+			$newpassword = $this->parse('user/account/newpassword');
 			$newpassword->setUsername($username);
 			$newpassword->setPassword($password);
 			$this->render($newpassword);
@@ -385,7 +372,7 @@ class PzkAccountController extends PzkController
 		}
 		else
 		{
-			$newpassword = pzk_parse(pzk_app()->getPageUri('user/account/newpassword'));
+			$newpassword = $this->parse('user/account/newpassword');
 			$newpassword->setUsername("");
 			$this->render($newpassword);
 			
@@ -395,7 +382,6 @@ class PzkAccountController extends PzkController
 	public function newpasswordAction() 
 	{
 		$this->render('user/account/newpassword');
-	
 	}
 }
  ?>
