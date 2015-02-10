@@ -3,6 +3,13 @@ class PzkAdminFriendController extends PzkGridAdminController {
 	public $addFields = 'username, userfriend, date';
 	public $editFields ='username, userfriend, date';
 	public $table='friend';
+	/*public $joins = array(
+        array(
+            'table' => 'user',
+            'condition' => 'friend.username = user.username',
+            'type' =>''
+        )
+    );*/
 	public $sortFields = array(
 		'id asc' => 'ID tăng',
 		'id desc' => 'ID giảm',
@@ -39,11 +46,6 @@ class PzkAdminFriendController extends PzkGridAdminController {
 			'type' => 'text',
 			'label' => 'Tên đăng nhập bạn bè'
 			
-		),
-		array(
-			'index' => 'date',
-			'type' => 'text',
-			'label' => 'Ngày kết bạn '
 		)
 	);
 	public $editFieldSettings = array(
@@ -57,11 +59,6 @@ class PzkAdminFriendController extends PzkGridAdminController {
 			'type' => 'text',
 			'label' => 'Tên đăng nhập bạn bè'
 			
-		),
-		array(
-			'index' => 'date',
-			'type' => 'text',
-			'label' => 'Ngày kết bạn '
 		)
 	);
 	public $addValidator = array(
@@ -112,4 +109,60 @@ class PzkAdminFriendController extends PzkGridAdminController {
 			)
 		)
 	);
+ 	public function addPostAction() {
+        $row = $this->getAddData();
+        if($this->validateAddData($row)) {
+            $username = trim(pzk_request('username'));
+            $userfriend = trim(pzk_request('userfriend'));
+            $user=_db()->getEntity('user.account.user');
+            $user1 =$user->loadWhere(array('username',$username));
+            $user2=$user->loadWhere(array('username',$userfriend));
+            if($user1->getId() && $user2->getId()) {
+            	
+            		$row['username'] = $username;
+                	$row['userfriend']=$userfriend;
+                	$row['date']=date("Y-m-d H:i:s");
+                	$this->add($row);
+                	$row['username'] = $userfriend;
+                	$row['userfriend']=$username;
+                	$row['date']=date("Y-m-d H:i:s");
+                	$this->add($row);
+                	pzk_notifier()->addMessage('Cập nhật thành công');
+             		$this->redirect('index');
+            } else {
+            	pzk_notifier()->addMessage('Tên của user chưa đăng ký tài khoản');
+                pzk_validator()->setEditingData($row);
+                $this->redirect('add');
+            }
+        } else {
+            pzk_validator()->setEditingData($row);
+            $this->redirect('add');
+        }
+    }
+    public function editPostAction() {
+        $row = $this->getEditData();
+       
+        if($this->validateEditData($row)) {
+        	$username = trim(pzk_request('username'));
+            $userfriend = trim(pzk_request('userfriend'));
+            $row['username']=$username;
+            $row['userfriend']=$userfriend;
+            $row['date']=date("Y-m-d H:i:s");
+            $user=_db()->getEntity('user.account.user');
+            $user1 =$user->loadWhere(array('username',$username));
+            $user2=$user->loadWhere(array('username',$userfriend));
+            if($user1->getId() && $user2->getId()) {
+                $this->edit($row);
+            	pzk_notifier()->addMessage('Cập nhật thành công');
+            	$this->redirect('index');          
+        	}
+        	else{
+        		pzk_notifier()->addMessage('User chưa đăng ký tài khoản');
+            	$this->redirect('edit/' . pzk_request('id'));     
+        	}
+        } else {
+            pzk_validator()->setEditingData($row);
+            $this->redirect('edit/' . pzk_request('id'));
+        }
+    }
 }

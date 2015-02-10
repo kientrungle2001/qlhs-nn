@@ -187,7 +187,66 @@ class PzkAdminHistorypaymentController extends PzkGridAdminController {
 			)
 		)
 	);
-	
+    public function addPostAction() {
+        $row = $this->getAddData();
+        if($this->validateAddData($row)) {
+           //	$row['userId']=pzk_request('userId');
+        	//$row['serviceId']=pzk_request('serviceId');
+            $row['userAdd']=pzk_session('adminId');
+            $row['dateAdd']=date("Y-m-d H:i:s");
+            $this->add($row);
+            $wallets=_db()->getEntity('user.account.wallets');
+            $wallets->loadWhere(array('username',$row['username']));
+            if($wallets->getId()){
+            	$price=$wallets->getAmount();
+            	if($price==Null){
+            		$price=0;
+            	}
+            	$price= $price+ (double)pzk_request('amount');
 
+            	$wallets->update(array('amount'=>$price));
+            }else{
+            	$price= (double)pzk_request('amount');
+            	$rowwallets=array('username'=>pzk_request('username'),'amount'=>pzk_request('amount'));
+            	$wallets->setData($rowwallets);
+            	$wallets->save();
+            }
+            pzk_notifier()->addMessage('Cập nhật thành công');
+            $this->redirect('index');
+        
+        } else {
+            pzk_validator()->setEditingData($row);
+            $this->redirect('add');
+        }
+    }
 
+    public function editPostAction() {
+    	$id= pzk_request('id');
+    	$check=_db()->getEntity('payment.history_payment');
+    	$check->loadWhere(array('id',$id));
+    	$amountold= $check->getAmount();
+        $row = $this->getEditData();
+       	$amountnew= $row['amount'];
+       	$username= $row['username'];
+        if($this->validateEditData($row)) {
+          	//cập nhật bảng wallets
+          	$wallets= _db()->getEntity('user.account.wallets');
+          	
+          	$wallets->loadWhere(array('username',$username));
+          	$walletsAmount= $wallets->getAmount();
+
+          	$walletsAmount= $walletsAmount - $amountold + (double)$amountnew;
+          	$wallets->update(array('amount'=>$walletsAmount));
+
+            $row['userModified']=pzk_session('adminId');
+            $row['dateModified']=date("Y-m-d H:i:s");
+            $this->edit($row);
+            pzk_notifier()->addMessage('Cập nhật thành công');
+            $this->redirect('index');
+        
+        } else {
+            pzk_validator()->setEditingData($row);
+            $this->redirect('edit/' . pzk_request('id'));
+        }
+    }
 }
