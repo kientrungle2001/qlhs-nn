@@ -114,8 +114,37 @@ class PzkObject {
 			}
 		}
 	}
-	
-	/**
+
+    /**
+     * Ham them less cho trang
+     */
+    public function less() {
+        if ($this->cssLink != false) {
+            if($this->scriptTo) {
+                $elem = pzk_element($this->scriptTo);
+                $elem->append(pzk_parse('<html.less src="'.BASE_REQUEST.'/default/skin/'.pzk_app()->name.'/css/'.$this->cssLink.'.less" />'));
+            } else {
+                if($page = pzk_page())
+                    $page->addObjCss($this->cssLink);
+            }
+
+        }
+        if ($this->cssExternalLink != false) {
+            if($this->scriptTo) {
+                $elem = pzk_element($this->scriptTo);
+                $elem->append(pzk_parse('<html.less src="'.$this->cssExternalLink.'" />'));
+            } else {
+                if($page = pzk_page()) {
+                    $page->addExternalCss($this->cssExternalLink);
+                }
+            }
+
+        }
+
+    }
+
+
+    /**
 	 * Ham them css cho trang
 	 */
 	public function css() {

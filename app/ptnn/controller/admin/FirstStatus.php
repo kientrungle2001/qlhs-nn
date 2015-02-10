@@ -31,13 +31,13 @@ class PzkAdminFirstStatusController extends PzkGridAdminController {
 
     );
 
-    public $searchFields = array('name');
-    public $Searchlabels = 'Tên';
+    public $searchFields = array('value');
+    public $Searchlabels = 'Trạng thái';
     //filter cho cac truong co type la select
     public $filterFields = array(
 
         array(
-            'index' => 'usertype_id',
+            'index' => 'type_id',
             'type' => 'select',
             'label' => 'Tên quyền',
             'table' => 'admin_level',
