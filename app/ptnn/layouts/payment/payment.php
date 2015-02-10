@@ -6,7 +6,10 @@
     - Nếu tài khoản của bạn ứng với chương trình học in trên thẻ vẫn còn ngày học trên trang web thì bạn sẽ không nạp thẻ được nữa. <br>
     - Mỗi tài khoản có thể nạp thẻ cho tất cả các chương trình học có trên NextNobels <br>
     - Không nên cho người khác mượn tài khoản để học để tránh sự cố xảy ra <br> <br>
-      Nếu bạn chưa có thẻ : <a href="/huongdan/datmuathe">Đặt mua thẻ</a>
+      Nếu bạn chưa có thẻ : <a href="/service/ordercard">Đặt mua thẻ</a>
+      <br>
+      <br>
+      Sau khi nạp tiền thành công bạn có thể mua trực tiếp các gói dịch vụ của NextNobels <span style="color:#f51353;font-size:30px;  "class="glyphicon glyphicon-star-empty"></span> <a style="color:#f51353;font-weight: bold;  " href="/service/service">TẠI ĐÂY</a>
   </div>
 
   <!--Begin Nạp tiền trực tiếp  qua NL-->
@@ -74,13 +77,16 @@
         success: function(result)
         {
           
-          alert(result);  
+          
           if(result==0){
-            $('#show_error_paycard_nextnobels').html('<span> Mã thẻ hoặc serial không đúng</span>');
+            $('#show_error_paycard_nextnobels').html(' <span class="glyphicon glyphicon-remove"></span><span> Mã thẻ hoặc serial không đúng</span>');
             $('#show_error_paycard_nextnobels').show();
           }else if(result==1) {
-            $('#show_ok_paycard_nextnobels').html('<span>Bạn đã nạp thẻ thành công</span>');
+            $('#show_ok_paycard_nextnobels').html('<span class="glyphicon glyphicon-ok"></span><span>Bạn đã nạp thẻ thành công</span>');
             $('#show_ok_paycard_nextnobels').show();
+          }else if(result==2){
+            $('#show_error_paycard_nextnobels').html('<span class="glyphicon glyphicon-remove"></span><span> Mã thẻ đã được sử dụng</span>');
+            $('#show_error_paycard_nextnobels').show();
           }
         }
       });
