@@ -14,6 +14,7 @@
      
    </div>
    <div id="add_more_favoritemember"></div>
+   <div id="show_empty_favorite_mb" class="show_empty"></div>
   <?php 
     $member=pzk_request('member');
 
@@ -45,16 +46,18 @@
   $count_arr= count($listlessions);
   
 
-  if(isset($listlessions))
+  if(!empty($listlessions))
   {
    
     $count_lesson_favoritemember= $data->countLessonFavorite($member,$listlessions[0]['id']);
-    //var_dump($count_lesson_favoritemember);
    
     echo "<script>$('#count_lesson_favoritemember').html(".$count_lesson_favoritemember.");</script>";
     echo '<script>window.lesson_favoriteId_member='.$listlessions[0]['id'].';</script>';
+  }else{
+    echo "<script>$('#show_empty_favorite_mb').html('<span>không có bài học nào</span>');</script>";
   }
  ?> 
+ 
 <script>
   var numberrow= parseInt('<?php echo @$count_arr ; ?>');
   var count_lesson_favoritemember=parseInt('<?php echo @$count_lesson_favoritemember ?>');

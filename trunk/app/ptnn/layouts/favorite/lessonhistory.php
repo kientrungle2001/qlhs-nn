@@ -14,6 +14,7 @@
   
    </div>
    <div id="add_more_history"></div>
+   <div id="show_empty_history" class="show_empty"></div>
   <?php 
     $member=pzk_request('member');
     $lesson_historyId=pzk_request('lesson_historyId');
@@ -25,7 +26,7 @@
    
      <div class="lesson_history_name_row"><a href="#">{listlession[lessonName]}</a></div>
      <div class="lesson_history_type_row"><a href="#">{listlession[categoriesName]}</a></div>
-     <div class="lesson_history_type_row">{listlession[id]}</div>
+     <div class="lesson_history_type_row">{listlession[date]}</div>
      
   
   </div>
@@ -43,7 +44,7 @@
   $count_arr= count($listlessions);
   
 
-  if(isset($listlessions))
+  if(!empty($listlessions))
   {
    
     $countLesson= $data->countLesson($member,$listlessions[0]['id']);
@@ -51,6 +52,8 @@
    
     echo "<script>$('#count_lesson_history').html(".$countLesson.");</script>";
     echo '<script>window.lesson_historyId='.$listlessions[0]['id'].';</script>';
+  }else{
+    echo "<script>$('#show_empty_history').html('<span>không có bài học nào</span>');</script>";
   }
  ?> 
 <script>
