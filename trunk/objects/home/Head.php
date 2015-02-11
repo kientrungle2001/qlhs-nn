@@ -4,5 +4,6 @@
 	*/
 	class PzkHomeHead extends PzkObject
 	{
+
 	}
  ?>
