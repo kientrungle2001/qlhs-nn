@@ -175,9 +175,6 @@
                         </div>
                     </div>
 
-                    {? elseif($field['type'] == 'datenow'): ?}
-                    <input class="form-control"  id="{field[index]}" name="{field[index]}" type="hidden" value="<?php echo time(); ?>">
-
                     {? elseif($field['type'] == 'status'): ?}
                     <div class="form-group clearfix">
                         <label for="{field[index]}">{field[label]}</label>
@@ -343,9 +340,6 @@
             </select>
         </div>
     </div>
-
-    {? elseif($field['type'] == 'datenow'): ?}
-    <input class="form-control"  id="{field[index]}" name="{field[index]}" type="hidden" value="<?php echo date(DATEFORMAT,time()); ?>">
 
   {? elseif($field['type'] == 'status'): ?}
   <div class="form-group clearfix">

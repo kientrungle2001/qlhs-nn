@@ -183,6 +183,18 @@ $setEditTabs = $controller->setEditTabs;
                                setTinymce();
                            </script>
 
+                           {? elseif($field['type'] == 'selectoption'): ?}
+                           <div class="form-group clearfix">
+                               <label for="{field[index]}">{field[label]}</label>
+                               <div style="float: left;width: 100%;" class="item">
+                                   <select class="form-control"  id="{field[index]}" name="{field[index]}">
+                                       {each $field['option'] as $key=>$val}
+                                       <option value="{key}" <?php if($row[$field['index']] == $key) { echo 'selected'; } ?> >{val}</option>
+                                       {/each}
+                                   </select>
+                               </div>
+                           </div>
+
 
                            {? elseif($field['type'] == 'status'): ?}
                            <div class="form-group clearfix"><?php
@@ -356,8 +368,19 @@ $setEditTabs = $controller->setEditTabs;
         setTinymce();
     </script>
 
+       {? elseif($field['type'] == 'selectoption'): ?}
+       <div class="form-group clearfix">
+           <label for="{field[index]}">{field[label]}</label>
+           <div style="float: left;width: 100%;" class="item">
+               <select class="form-control"  id="{field[index]}" name="{field[index]}">
+                   {each $field['option'] as $key=>$val}
+                   <option value="{key}" <?php if($row[$field['index']] == $key) { echo 'selected'; } ?> >{val}</option>
+                   {/each}
+               </select>
+           </div>
+       </div>
 
-  {? elseif($field['type'] == 'status'): ?}
+       {? elseif($field['type'] == 'status'): ?}
   <div class="form-group clearfix"><?php
 		$selected0 = ''; $selected1 = '';
 		$selectedField = 'selected'.$row['status'];
