@@ -79,11 +79,11 @@ class PzkAdminInvitationController extends PzkGridAdminController {
 
 		),
 		'messages' => array(
-			'optionpayment' => array(
+			'username' => array(
 				'required' => 'Tên người dùng không được để trống'
 				
 			),
-			'username' => array(
+			'userinvitation' => array(
 				'required' => 'Tên người dùng không được để trống',
 				'minlength' => 'Tên người dùng phải dài 5 ký tự trở lên',
 				'maxlength' => 'Tên người dùng chỉ dài tối đa 50 ký tự'
@@ -103,7 +103,7 @@ class PzkAdminInvitationController extends PzkGridAdminController {
 
 		),
 		'messages' => array(
-			'optionpayment' => array(
+			'userinvitation' => array(
 				'required' => 'Tên người dùng không được để trống'
 				
 			),
