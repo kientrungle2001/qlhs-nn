@@ -8,8 +8,6 @@
 		<html.css src="/3rdparty/bootstrap3/css/bootstrap-theme.min.css" />
 		<html.js src="/3rdparty/bootstrap3/js/bootstrap.min.js" />
         <html.js src="/3rdparty/jquery.countdownTimer.js" />
-        <html.js src="/3rdparty/Validate/lib/jquery.js" />
-        <html.js src="/3rdparty/Validate/dist/jquery.validate.js" />
 
 	</home.head>
 	<core.db.list table="categories" layout="home/menu"/>
