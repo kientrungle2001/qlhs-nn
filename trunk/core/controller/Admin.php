@@ -101,6 +101,8 @@ class PzkAdminController extends PzkBackendController {
 	public function addPostAction() {
 		$row = $this->getAddData();
 		if($this->validateAddData($row)) {
+            $row['createdId'] = pzk_session('adminId');
+            $row['created'] = date(DATEFORMAT,time());
 			$this->add($row);
 			pzk_notifier()->addMessage('Thêm thành công');
 			$this->redirect('index');
@@ -136,6 +138,8 @@ class PzkAdminController extends PzkBackendController {
 	public function editPostAction() {
 		$row = $this->getEditData();
 		if($this->validateEditData($row)) {
+            $row['modifiedId'] = pzk_session('adminId');
+            $row['modified'] = date(DATEFORMAT,time());
 			$this->edit($row);
 			pzk_notifier()->addMessage('Cập nhật thành công');
 			$this->redirect('index');

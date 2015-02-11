@@ -60,7 +60,7 @@ class PzkAdminFirstStatusController extends PzkGridAdminController {
 
     //add theo dang binh thuong
     public $addLabel = 'Thêm trạng thái';
-    public $addFields = 'type_id, value, status, date_create';
+    public $addFields = 'type_id, value, status';
     public $addFieldSettings = array(
         array(
             'index' => 'type_id',
@@ -81,10 +81,6 @@ class PzkAdminFirstStatusController extends PzkGridAdminController {
             ),
             'label' => 'Trạng thái đầu'
         ),
-        array(
-            'index' => 'date_create',
-            'type' => 'datenow',
-        ),
 
         array(
             'index' => 'status',
@@ -101,6 +97,7 @@ class PzkAdminFirstStatusController extends PzkGridAdminController {
         )
     );
     //edit
+    public $editFields = 'type_id, value, status';
     public $editFieldSettings = array(
         array(
             'index' => 'type_id',
@@ -120,10 +117,6 @@ class PzkAdminFirstStatusController extends PzkGridAdminController {
                 'deleted'=>'Deleted'
             ),
             'label' => 'Trạng thái đầu'
-        ),
-        array(
-            'index' => 'date_edit',
-            'type' => 'datenow',
         ),
 
         array(
