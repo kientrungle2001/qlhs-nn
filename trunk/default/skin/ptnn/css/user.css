@@ -57,7 +57,13 @@
     font-size: 18px;
     font-weight: bold;
  }   
-
+.show_empty{
+    color: green;
+   
+    font-style: italic;
+   
+    font-size: 16px;
+}
 
 /* End class*/
 /*  BEGIN LAYOUT REGISTER   */
@@ -715,6 +721,18 @@
         background: linear-gradient(to bottom right, #fffbcb , #fff79a);
         box-shadow: 3px 3px 3px #888888;
     }
+    #prf_manager{
+        width: 90%;
+        height: auto;
+        border-radius: 10px;
+        
+        margin: auto;
+        background: linear-gradient(to bottom right, #ffffff , #49ed16);
+        box-shadow: 3px 3px 3px #6e8bc7;
+    }
+    .prf_manager{
+        color: #ed1630;
+    }
     .notebook
     {
         width: 90%;
@@ -850,6 +868,12 @@
         height: 60px;
         text-align: center;
         line-height: 60px;
+        
+    }
+    .userfriend
+    {
+        color: #000000;
+        font-weight: bold; 
     }
     .count_friend
     {
