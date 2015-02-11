@@ -29,8 +29,21 @@
     <div class="grow_map"> </div>
   </div>
   <div class="tamp"></div>
+  
 
+  <div id="prf_manager">
+     <div class="prf_text_title" style="padding-left:10px;">
+      <span style="color:#00adef;" class="glyphicon glyphicon-cog"></span>
+      <span class="prf_text_title">Quản trị tài khoản</span>
+    </div>
+    <div class="prf_lesson_list"><a class="prf_manager" href="/profile/editinfor">Thay đổi thông tin cá nhân</a></div>
+    <div class="prf_lesson_list"><a class="prf_manager" href="/profile/editavatar">Thay đổi avatar</a></div>
+    <div class="prf_lesson_list"><a class="prf_manager" href="/profile/editsign">Thay đổi chữ ký</a></div>
+    <div class="prf_lesson_list"><a class="prf_manager" href="/profile/editpassword">Thay đổi mật khẩu</a></div>
+  </div>
+  
 
+  <div class="tamp"></div>
   <div class="notebook">
     <div class="prf_text_title" style="padding-left:10px;">
       <span style="color:#00adef;" class="glyphicon glyphicon-asterisk"></span>
@@ -63,7 +76,7 @@
         
       </div>
       <div class="prf_name_friend">
-      <a href="/profile/profileusercontent?member={loadfriend[userid]}">{userfriend}</a>
+      <a class="userfriend" href="/profile/profileusercontent?member={loadfriend[userid]}">{userfriend}</a>
       </div>
     </div>
     <?php } ?>
@@ -93,3 +106,13 @@
 
   </div>
 </div>
+<script>
+$('#prf_manager').hide();
+var member='<?php echo $member; ?>';
+var user='<?php echo pzk_session("userId"); ?>';
+if(member==user){
+  $('#prf_manager').show();
+}else{
+  $('#prf_manager').hide();
+}
+</script>
