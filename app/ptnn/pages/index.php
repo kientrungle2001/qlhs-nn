@@ -6,6 +6,7 @@
 		<html.js src="/3rdparty/jquery/additional-methods.min.js"></html.js>
 		<html.css src="/3rdparty/bootstrap3/css/bootstrap.min.css" />
 		<html.css src="/3rdparty/bootstrap3/css/bootstrap-theme.min.css" />
+        <html.less src="/default/skin/ptnn/less/style.less" />
 		<html.js src="/3rdparty/bootstrap3/js/bootstrap.min.js" />
         <html.js src="/3rdparty/jquery.countdownTimer.js" />
 

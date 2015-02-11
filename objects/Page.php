@@ -10,7 +10,9 @@ class PzkPage extends PzkObject {
 	);
 	public $jsInstances = array();
 	public $cssFiles = array();
+    public $lessFiles = array();
 	public $cssExternals = array();
+    public $lessExternals = array();
 	public $style = false;
 	public $scriptable = false;
 
@@ -60,6 +62,12 @@ class PzkPage extends PzkObject {
 			$this->cssFiles[] = $link;
 		}
 	}
+
+    public function addLess($link) {
+        if (!in_array($link, $this->lessFiles)) {
+            $this->lessFiles[] = $link;
+        }
+    }
 	
 	public function addExternalCss($link) {
 		if (!in_array($link, $this->cssExternals)) {
@@ -67,10 +75,21 @@ class PzkPage extends PzkObject {
 		}
 	}
 
+    public function addExternalLess($link) {
+        if (!in_array($link, $this->lessExternals)) {
+            $this->lessExternals[] = $link;
+        }
+    }
+
 	public function addObjCss($obj) {
 		$css = pzk_app()->getTemplateUri($obj . '.css');
 		$this->addCss($css);
 	}
+
+    public function addObjLess($obj) {
+        $css = pzk_app()->getTemplateUri($obj . '.less');
+        $this->addCss($css);
+    }
 
 	public function cacheJs() {
 		$page = pzk_or(@$_REQUEST['page'], 'index');
