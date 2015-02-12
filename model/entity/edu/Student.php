@@ -92,4 +92,23 @@ class PzkEntityEduStudentModel extends PzkEntityModel {
 		
 		return $result;
 	}
+	
+	public function gridIndex() {
+		$id = $this->getId();
+		$query = "select student.*, group_concat(distinct(classes.name), ' ') as currentClassNames,
+			group_concat('[', classes.name, ' ', case when student_order.payment_periodId = 0 then 'Cả khóa' else payment_period.name end, ']<br />' order by classes.name) as periodNames,
+				group_concat('[', payment_period.id, ']') as periodIds from student 
+					left join `class_student` on student.id = class_student.studentId
+					left join `classes` on class_student.classId = classes.id
+					left join `student_order` on student.id = student_order.studentId
+						and classes.id = student_order.classId and student_order.status='' or student_order.status is null
+					left join payment_period on student_order.payment_periodId = payment_period.id where student.id=$id AND 1 AND 1 group by student.id order by student.id desc";
+		$item = _db()->query_one($query);
+		if($item) {
+			$this->setCurrentClassNames($item['currentClassNames']);
+			$this->setPeriodNames($item['periodNames']);
+			$this->setPeriodIds($item['periodIds']);
+			$this->save();
+		}
+	}
 }

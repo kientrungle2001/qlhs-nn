@@ -94,7 +94,7 @@ class PzkHomeController extends PzkController
 	public function testAction() {
 		//$item = _db()->from('user')->whereId('97')->result_one();
 		//debug($item);
-		
+		/*
 		$arrObj = pzk_array()->setData(array(
 			'string' => 'string-1',
 			'number' => 'number-2',
@@ -107,6 +107,8 @@ class PzkHomeController extends PzkController
 		// debug($arrObj->getData());
 		$test = pzk_parse('<div xml="test" layout="test" />');
 		$test->display();
+		*/
+		var_dump(pzk_session()->getFilterData('username', 'userId'));
 	}
 
 }

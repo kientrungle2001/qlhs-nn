@@ -20,6 +20,7 @@ class PzkAccountController extends PzkController
 		$arr=array('active'=>$confirm);
 		$request=pzk_request();
 		$url= $request->build($url,$arr);
+		pzk_request()->build($route, $query);
 		$mailtemplate->setUrl($url);
 		$mail = pzk_mailer();
 		$mail->AddAddress($email);

@@ -221,6 +221,12 @@ class PzkTableController extends PzkController {
         }
         _db()->update($table)
                 ->set($data)->where('id=' . $_REQUEST['id'])->result();
+		if($table == 'class_student' || $table=='student_order') {
+			$student = _db()->getEntity('edu.student')->load($data['studentId']);
+			if($student->getId()) {
+				$student->gridIndex();
+			}
+		}
         echo json_encode(array(
             'errorMsg' => false
         ));
@@ -244,6 +250,12 @@ class PzkTableController extends PzkController {
         _db()->insert($table)
                 ->fields(implode(',', $fields))
                 ->values(array($data))->result();
+		if($table == 'class_student'  || $table=='student_order') {
+			$student = _db()->getEntity('edu.student')->load($data['studentId']);
+			if($student->getId()) {
+				$student->gridIndex();
+			}
+		}
         echo json_encode(array(
             'errorMsg' => false
         ));
@@ -260,12 +272,39 @@ class PzkTableController extends PzkController {
 						_db()->update($delTable)->set(array('status' => 'deleted'))->where( $refField . '=' . $_REQUEST['id'])->result();
 					}
 				}
+				if($table == 'class_student' || $table=='student_order') {
+					$data = _db()->useCB()->select('*')->from($table)->whereId($_REQUEST['id'])->result_one();
+					$student = _db()->getEntity('edu.student')->load($data['studentId']);
+					if($student->getId()) {
+						$student->gridIndex();
+					}
+				}
 			} else if (isset($_REQUEST['ids'])) {
 				_db()->update($table)->set(array('status' => 'deleted'))->where('id in (' . implode(', ', $_REQUEST['ids']) . ')')->result();
 				$deletions = @$this->deletes[$table];
 				if($deletions) {
 					foreach($deletions as $delTable => $refField) {
 						_db()->update($delTable)->set(array('status' => 'deleted'))->where($refField . ' in (' . implode(', ', $_REQUEST['ids']) . ')')->result();
+					}
+				}
+				if($table == 'class_student' || $table=='student_order') {
+					foreach($_REQUEST['ids'] as $id) {
+						$data = _db()->useCB()->select('*')->from($table)->whereId($id)->result_one();
+						$student = _db()->getEntity('edu.student')->load($data['studentId']);
+						if($student->getId()) {
+							$student->gridIndex();
+						}	
+					}
+				}
+				if($table == 'general_order') {
+					foreach($_REQUEST['ids'] as $id) {
+						$student_order = _db()->select('*')->from('student_order')->whereOrderId($id)->result_one();
+						if($student_order) {
+							$student = _db()->getEntity('edu.student')->load($student_order['studentId']);
+							if($student->getId()) {
+								$student->gridIndex();
+							}
+						}
 					}
 				}
 			}	
@@ -284,12 +323,40 @@ class PzkTableController extends PzkController {
 					_db()->delete()->from($delTable)->where( $refField . '=' . $_REQUEST['id'])->result();
 				}
 			}
+			if($table == 'class_student' || $table=='student_order') {
+				$data = _db()->useCB()->select('*')->from($table)->whereId($_REQUEST['id'])->result_one();
+				$student = _db()->getEntity('edu.student')->load($data['studentId']);
+				if($student->getId()) {
+					$student->gridIndex();
+				}
+			}
         } else if (isset($_REQUEST['ids'])) {
             _db()->delete()->from($table)->where('id in (' . implode(', ', $_REQUEST['ids']) . ')')->result();
 			$deletions = @$this->deletes[$table];
 			if($deletions) {
 				foreach($deletions as $delTable => $refField) {
 					_db()->delete()->from($delTable)->where($refField . ' in (' . implode(', ', $_REQUEST['ids']) . ')')->result();
+				}
+			}
+			
+			if($table == 'class_student' || $table=='student_order') {
+				foreach($_REQUEST['ids'] as $id) {
+					$data = _db()->useCB()->select('*')->from($table)->whereId($id)->result_one();
+					$student = _db()->getEntity('edu.student')->load($data['studentId']);
+					if($student->getId()) {
+						$student->gridIndex();
+					}	
+				}
+			}
+			if($table == 'general_order') {
+				foreach($_REQUEST['ids'] as $id) {
+					$student_order = _db()->select('*')->from('student_order')->whereOrderId($id)->result_one();
+					if($student_order) {
+						$student = _db()->getEntity('edu.student')->load($student_order['studentId']);
+						if($student->getId()) {
+							$student->gridIndex();
+						}
+					}
 				}
 			}
 		}
@@ -357,10 +424,24 @@ class PzkTableController extends PzkController {
 		if(@$_REQUEST['id'] && @$_REQUEST['noConstraint']) {
 			_db()->update($table)
 						->set($data)->where('id=' . $_REQUEST['id'])->result();
+			if($table == 'class_student' || $table=='student_order') {
+				$data = _db()->useCB()->select('*')->from($table)->whereId($_REQUEST['id'])->result_one();
+				$student = _db()->getEntity('edu.student')->load($data['studentId']);
+				if($student->getId()) {
+					$student->gridIndex();
+				}
+			}
 		} else {
 			if ($result = $this->checkConstraints($table, $data)) {
 				_db()->update($table)
 						->set($data)->where('id=' . $result['row']['id'])->result();
+				if($table == 'class_student' || $table=='student_order') {
+					$data = _db()->useCB()->select('*')->from($table)->whereId($result['row']['id'])->result_one();
+					$student = _db()->getEntity('edu.student')->load($data['studentId']);
+					if($student->getId()) {
+						$student->gridIndex();
+					}
+				}
 			}
 		}
         echo json_encode(array(

@@ -87,12 +87,46 @@ class PzkStore {
 	public function load($data) {
 	}
 	
-	public function __get($name) {
-		return $this->get($name);
+	public function __call($name, $arguments) {
+		$prefix = substr($name, 0, 3);
+		$property = strtolower($name[3]) . substr($name, 4);
+		switch ($prefix) {
+			case 'get':
+				return $this->get($property, @$arguments[0]);
+				break;
+			case 'set':
+				//Always set the value if a parameter is passed
+				if (count($arguments) != 1) {
+					throw new \Exception("Setter for $name requires exactly one parameter.");
+				}
+				$this->set($property, $arguments[0]);
+				//Always return this (Even on the set)
+				return $this;
+			default:
+				throw new \Exception("Property $name doesn't exist.");
+				break;
+		}
 	}
 	
-	public function __set($name, $value) {
-		return $this->set($name, $value);
+	public function getFilterData() {
+		$fields = array();
+		$arguments = func_get_args();
+		if(count($arguments) == 0) {
+			return $this;
+		} else if(count($arguments) == 1) {
+			if(is_string($arguments[0])) {
+				$fields = explodetrim(',', $arguments[0]);
+			} else if (is_array($arguments[0])) {
+				$fields = $arguments[0];
+			}
+		} else {
+			$fields = $arguments;
+		}
+		$data = array();
+		foreach($fields as $field) {
+			$data[$field] = $this->get($field);
+		}
+		return $data;
 	}
 	
 }
@@ -129,10 +163,10 @@ class PzkMemcacheStore extends PzkStore {
 			$this->storage->flush();
 		}
 
-		$time = $this->get('time');
+		$time = $this->getTime();
 		if (time() - $time > $this->timeout) {
 			$this->storage->flush();
-			$this->time = $this->set('time', time());
+			$this->time = $this->setTime(time());
 		}
 	}
 
@@ -320,7 +354,10 @@ PzkStore::store('element', $elementStorage); // php element
  * @return PzkObject
  */
 
-function pzk_store_element($key, $value = NULL) {
+function pzk_store_element($key = NULL, $value = NULL) {
+	if($key === NULL) {
+		return pzk_store('element');
+	}
 	return pzk_store('element.'. $key, $value);
 }
 
@@ -330,7 +367,7 @@ function pzk_store_element($key, $value = NULL) {
  * @param string $value: element
  * @return PzkObject đối tượng
  */
-function pzk_element($key, $value = NULL) {
+function pzk_element($key = NULL, $value = NULL) {
 	return pzk_store_element($key, $value);
 }
 
@@ -342,7 +379,10 @@ function pzk_element($key, $value = NULL) {
  * @return mixed gia tri tuong ung voi khoa
  */
 
-function pzk_store_session($key, $value = NULL, $timeout = NULL) {
+function pzk_store_session($key = NULL, $value = NULL, $timeout = NULL) {
+	if($key === NULL) {
+		return pzk_store('session');
+	}
 	return pzk_store('session.'. $key, $value, $timeout);
 }
 
@@ -353,7 +393,7 @@ function pzk_store_session($key, $value = NULL, $timeout = NULL) {
  * @param string $timeout thời gian hết hạn session
  * @return mixed
  */
-function pzk_session($key, $value = NULL, $timeout = NULL) {
+function pzk_session($key = NULL, $value = NULL, $timeout = NULL) {
 	return pzk_store_session($key, $value, $timeout);
 }
 
@@ -365,11 +405,14 @@ function pzk_session($key, $value = NULL, $timeout = NULL) {
  * @return gia tri tuong ung voi khoa
  */
 
-function pzk_store_memcache($key, $value = NULL, $timeout = NULL) {
+function pzk_store_memcache($key = NULL, $value = NULL, $timeout = NULL) {
+	if($key === NULL) {
+		return pzk_store('memcache');
+	}
 	return pzk_store('memcache.'. $key, $value, $timeout);
 }
 
-function pzk_memcache($key, $value = NULL, $timeout = NULL) {
+function pzk_memcache($key = NULL, $value = NULL, $timeout = NULL) {
 	return pzk_store_memcache($key, $value, $timeout);
 }
 
@@ -381,19 +424,25 @@ function pzk_memcache($key, $value = NULL, $timeout = NULL) {
  * @return gia tri tuong ung voi khoa
  */
 
-function pzk_store_filecache($key, $value = NULL, $timeout = NULL) {
+function pzk_store_filecache($key = NULL, $value = NULL, $timeout = NULL) {
+	if($key === NULL) {
+		return pzk_store('filecache');
+	}
 	return pzk_store('filecache.'. $key, $value, $timeout);
 }
 
-function pzk_filecache($key, $value = NULL, $timeout = NULL) {
+function pzk_filecache($key = NULL, $value = NULL, $timeout = NULL) {
 	return pzk_store_filecache($key, $value, $timeout);
 }
 
-function pzk_store_filevar($key, $value = NULL, $timeout = NULL) {
+function pzk_store_filevar($key = NULL, $value = NULL, $timeout = NULL) {
+	if($key === NULL) {
+		return pzk_store('fileVar');
+	}
 	return pzk_store('fileVar.'. $key, $value, $timeout);
 }
 
-function pzk_filevar($key, $value = NULL, $timeout = NULL) {
+function pzk_filevar($key = NULL, $value = NULL, $timeout = NULL) {
 	return pzk_store_filevar($key, $value, $timeout);
 }
 
