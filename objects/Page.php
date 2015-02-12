@@ -1,5 +1,6 @@
 <?php
 class PzkPage extends PzkObject {
+
 	public $title = 'Pzk Page';
 	public $layout = 'page';
 	public $keywords = '';
@@ -29,7 +30,7 @@ class PzkPage extends PzkObject {
 			$this->style = false;
 		}
 		if (@$this->style) {
-			$this->addObjCss($this->style);
+            $this->addObjCss($this->style);
 		}
 	}
 	
@@ -88,7 +89,7 @@ class PzkPage extends PzkObject {
 
     public function addObjLess($obj) {
         $css = pzk_app()->getTemplateUri($obj . '.less');
-        $this->addCss($css);
+        $this->addLess($css);
     }
 
 	public function cacheJs() {
