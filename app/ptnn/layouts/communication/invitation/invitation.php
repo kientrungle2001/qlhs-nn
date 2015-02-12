@@ -17,7 +17,7 @@
     
       <br>    
       <div class="title_invitation">Lời nhắn:</div>
-      <div class="txtarea_invi"><textarea name="invitation" id="txtarea_invitation"  rows="4" cols="50" value=""></textarea></div>
+      <div class="txtarea_invi"><textarea name="invitation" id="txtarea_invitation"  rows="4" cols="50"></textarea></div>
       
       <div class="btt_invi">
        
