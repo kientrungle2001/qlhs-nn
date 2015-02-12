@@ -8,35 +8,7 @@ class PzkServiceController extends PzkController
 		$this->page = pzk_parse($this->getApp()->getPageUri('index'));
 	}
 
-	// Gửi email kích hoạt tài khoản
-	public function sendMail($username="",$password="",$email="") {
-		$mailtemplate = pzk_parse(pzk_app()->getPageUri('user/mailtemplate/register'));
-		$mailtemplate->setUsername($username);
-		//tạo URL gửi email xác nhận đăng ký
-		$url= "http://".$_SERVER["SERVER_NAME"].'/Account/activeRegister';
-		$strConfirm = $password.$email.$username;
-		$confirm= md5($strConfirm);
-		$user=_db()->getEntity('user.account.user');
-		$user->loadWhere(array('username',$username));
-		//var_dump($user->getId());
-		$user->update(array('key' => $confirm));
-		//_db()->useCB()->update('user')->set(array('key' => $confirm))->where(array('username',$username))->result();
-		$arr=array('active'=>$confirm);
-		$url= $this->getLink($url,$arr);
-		$mailtemplate->setUrl($url);
-		$mail = pzk_mailer();
-		$mail->AddAddress($email);
-		$mail->Subject = 'Confirm new Register';
-		$mail->Body    = $mailtemplate->getContent();
-		//$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
-		if(!$mail->send()) {
-			echo 'Message could not be sent.';
-			echo 'Mailer Error: ' . $mail->ErrorInfo;
-		}
-	}
-
-	// Hiển thị password mới
 	public function serviceAction() 
 	{
 		$this->layout();
