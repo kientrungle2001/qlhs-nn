@@ -448,6 +448,11 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
         if (@$_REQUEST['showQuery'])
             pre($sql);
         $result = mysqli_query($this->connId, $sql);
+        if (mysqli_errno($this->connId)) {
+                $message = 'Invalid query: ' . mysqli_error($this->connId) . "\n";
+                $message .= 'Whole query: ' . $sql;
+                die($message);
+            }
         if (is_bool($result))
             return $result;
         $rslt = array();
