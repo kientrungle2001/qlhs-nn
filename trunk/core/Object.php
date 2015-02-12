@@ -47,7 +47,9 @@ class PzkObject {
 	 * Css nay khong can cache lai
 	 */
 	public $cssExternalLink = false;
-	
+
+    public $less = false;
+    public $lessExteralLink = false;
 	/**
 	 * Js lien quan den object, js nay se duoc cache lai
 	 */
@@ -119,23 +121,26 @@ class PzkObject {
      * Ham them less cho trang
      */
     public function less() {
-        if ($this->cssLink != false) {
-            if($this->scriptTo) {
+        $head = pzk_element($this->scriptTo);
+        debug($head);die();
+        $head->append(pzk_parse('<script src="/3rdparty/less.min.js"></script>'));
+        if ($this->lessLink != false) {
+            if(!$this->scriptTo) {
                 $elem = pzk_element($this->scriptTo);
-                $elem->append(pzk_parse('<html.less src="'.BASE_REQUEST.'/default/skin/'.pzk_app()->name.'/css/'.$this->cssLink.'.less" />'));
+                $elem->append(pzk_parse('<html.less src="'.BASE_REQUEST.'/default/skin/'.pzk_app()->name.'/less/'.$this->cssLink.'.less" />'));
             } else {
                 if($page = pzk_page())
-                    $page->addObjCss($this->cssLink);
+                    $page->addObjLess($this->cssLink);
             }
 
         }
-        if ($this->cssExternalLink != false) {
+        if ($this->lessExternalLink != false) {
             if($this->scriptTo) {
                 $elem = pzk_element($this->scriptTo);
                 $elem->append(pzk_parse('<html.less src="'.$this->cssExternalLink.'" />'));
             } else {
                 if($page = pzk_page()) {
-                    $page->addExternalCss($this->cssExternalLink);
+                    $page->addExternalLess($this->cssExternalLink);
                 }
             }
 
@@ -156,7 +161,7 @@ class PzkObject {
 				if($page = pzk_page())
 					$page->addObjCss($this->cssLink);
 			}
-			
+
 		}
 		if ($this->cssExternalLink != false) {
 			if($this->scriptTo) {
@@ -165,9 +170,9 @@ class PzkObject {
 			} else {
 				if($page = pzk_page()) {
 					$page->addExternalCss($this->cssExternalLink);
-				}	
+				}
 			}
-			
+
 		}
 
 	}
