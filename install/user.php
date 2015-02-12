@@ -18,7 +18,7 @@ if ($version < 1) {
 		->addVarchar('key')
 		->addInt('status',1)
 		->addVarchar('sign')
-		->addVarchar('sex')
+		->addTinyint('sex')
 		->addVarchar('type')
 		->addDatetime('registered')
 		->addDatetime('lastlogined')
