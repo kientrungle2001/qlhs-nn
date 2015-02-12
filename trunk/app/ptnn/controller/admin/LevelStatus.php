@@ -1,15 +1,15 @@
 <?php
-class PzkAdminFirstStatusController extends PzkGridAdminController {
-    public $table = 'type_first_status';
+class PzkAdminLevelStatusController extends PzkGridAdminController {
+    public $table = 'level_status';
     public $joins = array(
         array(
             'table' => 'admin_level',
-            'condition' => 'type_first_status.type_id = admin_level.id',
+            'condition' => 'level_status.type_id = admin_level.id',
             'type' =>''
         )
     );
     //select table
-    public $selectFields = 'type_first_status.*, admin_level.level';
+    public $selectFields = 'level_status.*, admin_level.level';
     public $listFieldSettings = array(
         array(
             'index' => 'level',
@@ -17,12 +17,16 @@ class PzkAdminFirstStatusController extends PzkGridAdminController {
             'label' => 'Tên quyền'
         ),
         array(
-            'index' => 'value',
+            'index' => 'start_status',
             'type' => 'text',
-            'label' => 'Tên trạng thái'
+            'label' => 'Tên trạng đầu'
         ),
 
-
+        array(
+            'index' => 'end_status',
+            'type' => 'text',
+            'label' => 'Tên trạng cuối'
+        ),
         array(
             'index' => 'status',
             'type' => 'status',
@@ -60,7 +64,7 @@ class PzkAdminFirstStatusController extends PzkGridAdminController {
 
     //add theo dang binh thuong
     public $addLabel = 'Thêm trạng thái';
-    public $addFields = 'type_id, value, status';
+    public $addFields = 'type_id, start_status, end_status, status';
     public $addFieldSettings = array(
         array(
             'index' => 'type_id',
@@ -71,7 +75,7 @@ class PzkAdminFirstStatusController extends PzkGridAdminController {
             'show_name' => 'level',
         ),
         array(
-            'index' => 'value',
+            'index' => 'start_status',
             'type' => 'selectoption',
             'option' => array(
                 'new'=> 'New',
@@ -80,6 +84,18 @@ class PzkAdminFirstStatusController extends PzkGridAdminController {
                 'deleted'=>'Deleted'
             ),
             'label' => 'Trạng thái đầu'
+        ),
+
+        array(
+            'index' => 'end_status',
+            'type' => 'selectoption',
+            'option' => array(
+                'new'=> 'New',
+                'accepted'=>'Accepted',
+                'processing'=>'Processing',
+                'deleted'=>'Deleted'
+            ),
+            'label' => 'Trạng thái cuối'
         ),
 
         array(
@@ -97,7 +113,7 @@ class PzkAdminFirstStatusController extends PzkGridAdminController {
         )
     );
     //edit
-    public $editFields = 'type_id, value, status';
+    public $editFields = 'type_id, start_status, end_status, status';
     public $editFieldSettings = array(
         array(
             'index' => 'type_id',
@@ -108,7 +124,7 @@ class PzkAdminFirstStatusController extends PzkGridAdminController {
             'show_name' => 'level',
         ),
         array(
-            'index' => 'value',
+            'index' => 'start_status',
             'type' => 'selectoption',
             'option' => array(
                 'new'=> 'New',
@@ -117,6 +133,18 @@ class PzkAdminFirstStatusController extends PzkGridAdminController {
                 'deleted'=>'Deleted'
             ),
             'label' => 'Trạng thái đầu'
+        ),
+
+        array(
+            'index' => 'end_status',
+            'type' => 'selectoption',
+            'option' => array(
+                'new'=> 'New',
+                'accepted'=>'Accepted',
+                'processing'=>'Processing',
+                'deleted'=>'Deleted'
+            ),
+            'label' => 'Trạng thái cuối'
         ),
 
         array(
