@@ -3,38 +3,13 @@ class PzkAccountController extends PzkController
 {
 	public $masterPage='index';
 	public $masterPosition='left';
-	public function getLink($url,$params=array(),$use_existing_arguments=false)
-		{
-    		if($use_existing_arguments) $params = $params + $_GET;
-    		if(!$params) return $url;
-    		$link = $url;
-    		if(strpos($link,'?') === false) $link .= '?'; //If there is no '?' add one at the end
-    		elseif(!preg_match('/(\?|\&(amp;)?)$/',$link)) $link .= '&amp;'; //If there is no '&' at the END, add one.
-    
-   			 $params_arr = array();
-    		foreach($params as $key=>$value) 
-    		{
-	        	if(gettype($value) == 'array') { //Handle array data properly
-	            	foreach($value as $val)
-	            	{
-	                	$params_arr[] = $key . '[]=' . urlencode($val);
-	            	}
-	        	}
-	        	else 
-	        	{
-	            	$params_arr[] = $key . '=' . urlencode($value);
-	        	}
-    		}
-    		$link .= implode('&amp;',$params_arr);
-    
-    		return $link;
-		} 
+	 
 	// Gửi email kích hoạt tài khoản
 	public function sendMail($username="",$password="",$email="") {
 		$mailtemplate = pzk_parse(pzk_app()->getPageUri('user/mailtemplate/register'));
 		$mailtemplate->setUsername($username);
 		//tạo URL gửi email xác nhận đăng ký
-		$url= "http://".$_SERVER["SERVER_NAME"].'/Account/activeRegister';
+		$url= 'Account/activeRegister';
 		$strConfirm = $password.$email.$username;
 		$confirm= md5($strConfirm);
 		$user=_db()->getEntity('user.account.user');
@@ -43,7 +18,8 @@ class PzkAccountController extends PzkController
 		$user->update(array('key' => $confirm));
 		//_db()->useCB()->update('user')->set(array('key' => $confirm))->where(array('username',$username))->result();
 		$arr=array('active'=>$confirm);
-		$url= $this->getLink($url,$arr);
+		$request=pzk_request();
+		$url= $request->build($url,$arr);
 		$mailtemplate->setUrl($url);
 		$mail = pzk_mailer();
 		$mail->AddAddress($email);
@@ -187,15 +163,16 @@ class PzkAccountController extends PzkController
 					$password=$request->get('password1');
 					$birthday= $request->get('birthday');
 					$sex= $request->get('sex');
-					$address= $request->get('address');
+					//$address= $request->get('address');
 					$phone= $request->get('phone');
-					$idpassport= $request->get('idpassport');
-					$iddate= $request->get('iddate');
-					$idplace= $request->get('idplace');
+					//$idpassport= $request->get('idpassport');
+					//$iddate= $request->get('iddate');
+					//$idplace= $request->get('idplace');
 					$dateregister=date("Y-m-d H:i:s"); 
-					$rowRegister= array('username' =>$username,'password'=>md5($password),'email'=>$email,'name'=>$name,'birthday'=>$birthday,'sex'=>$sex,'address'=>$address,'phone'=>$phone,'idpassport'=>$idpassport,'idplace'=>$idplace,'registered'=>$dateregister);
+					$rowRegister= array('username' =>$username,'password'=>md5($password),'email'=>$email,'name'=>$name,'birthday'=>$birthday,'sex'=>$sex,'address'=>'','phone'=>$phone,'idpassport'=>'','idplace'=>'','registered'=>$dateregister);
 					$user->setData($rowRegister);
 					$user->save();
+					/*
 					// Em Tien: Chuyen thong tin member dang ky sang forum
 					$addForum=array('username' =>$username,'email'=>$email,'register_date'=>$dateregister,'gender'=>$sex,'language_id'=>1,'style_id'=>0,'visible'=>1,'activity_visible'=>1,'user_group_id'=>2,'user_state'=>'valid','is_staff'=>1);
 					$entity = _db()->useCb()->getEntity('table')->setTable('xf_user');
@@ -207,6 +184,7 @@ class PzkAccountController extends PzkController
 					$entity = _db()->useCb()->getEntity('table')->setTable('xf_user_authenticate');
 					$entity->setData($addPass);
 					$entity->save();
+					*/
 					//_db()->useCB()->insert('user')->fields('username,password,email,name,birthday,sex,address,phone,idpassport,idplace,iddate,registered')->values(array($rowRegister))->result();
 					$this->sendMail($username,$password,$email);
 					// Hiển thị layout showregister
@@ -276,7 +254,7 @@ class PzkAccountController extends PzkController
 	public function sendMailForgotpassword($email="",$password="") {
 		
 		//tạo URL gửi email xác nhận đăng ký
-		$url= "http://".$_SERVER["SERVER_NAME"].'/Account/sendPassword';
+		$url= 'Account/sendPassword';
 		
 		$strConfirm = $email.$password;
 		$confirm= md5($strConfirm);
@@ -287,7 +265,8 @@ class PzkAccountController extends PzkController
 		//_db()->useCB()->update('user')->set(array('key' => $confirm))->where(array('username',$username))->result();
 		//_db()->useCB()->update('user')->set(array('key' => $confirm))->where(array('and',array('email',$email),array('status',1)))->result();
 		$arr=array('forgotpassword'=>$confirm);
-		$url= $this->getLink($url,$arr);
+		$request=pzk_request();
+		$url= $request->build($url,$arr);
 		$mailtemplate->setUrl($url);
 		$mail = pzk_mailer();
 		$mail->AddAddress($email);

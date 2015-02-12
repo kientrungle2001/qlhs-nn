@@ -7,32 +7,7 @@ class PzkProfileController extends PzkController
 	{
 		$this->page = pzk_parse($this->getApp()->getPageUri('index'));
 	}
-	public function getLink($url,$params=array(),$use_existing_arguments=false)
-		{
-    		if($use_existing_arguments) $params = $params + $_GET;
-    		if(!$params) return $url;
-    		$link = $url;
-    		if(strpos($link,'?') === false) $link .= '?'; //If there is no '?' add one at the end
-    		elseif(!preg_match('/(\?|\&(amp;)?)$/',$link)) $link .= '&amp;'; //If there is no '&' at the END, add one.
-    
-   			 $params_arr = array();
-    		foreach($params as $key=>$value) 
-    		{
-	        	if(gettype($value) == 'array') { //Handle array data properly
-	            	foreach($value as $val)
-	            	{
-	                	$params_arr[] = $key . '[]=' . urlencode($val);
-	            	}
-	        	}
-	        	else 
-	        	{
-	            	$params_arr[] = $key . '=' . urlencode($value);
-	        	}
-    		}
-    		$link .= implode('&amp;',$params_arr);
-    
-    		return $link;
-		} 
+
 	public function profileuserAction()
 	{
 		$this->layout();		
@@ -176,10 +151,12 @@ class PzkProfileController extends PzkController
 	{
 		//tạo URL gửi email xác nhận đăng ký
 		$mailtemplate = pzk_parse(pzk_app()->getPageUri('user/mailtemplate/editpassword'));
-		$url= "http://".$_SERVER["SERVER_NAME"].'/Profile/confirmeditpassword';
+		//$url= "http://".$_SERVER["SERVER_NAME"].'/Profile/confirmeditpassword';
+		$url= 'Profile/confirmeditpassword';
 		$newpassword=md5($newpassword);
 		$arr=array('editpassword'=>$key,'conf'=>$newpassword);
-		$url= $this->getLink($url,$arr);
+		$request=pzk_request();
+		$url= $request->build($url,$arr);
 		$mailtemplate->setUrl($url);
 		$mail = pzk_mailer();
 		$mail->AddAddress($email);

@@ -56,7 +56,11 @@ class PzkAdminCardNexnobelsController extends PzkGridAdminController {
         )
     );
     public $editFieldSettings = array(
-      
+         array(
+            'index' => 'pincard',
+            'type' => 'text',
+            'label' => 'Mã thẻ'
+        ),
         array(
             'index' => 'serial',
             'type' => 'text',
@@ -108,8 +112,9 @@ class PzkAdminCardNexnobelsController extends PzkGridAdminController {
     );
     public function editPostAction() {
         $row = $this->getEditData();
-       
+        $pincard=pzk_request('pincard');
         if($this->validateEditData($row)) {
+            $row['pincard'] = md5($pincard);
             $row['userModified']=pzk_session('adminId');
             $row['dateModified']=date("Y-m-d H:i:s");
             $this->edit($row);
