@@ -27,6 +27,12 @@ class PzkCoreDatabaseSchema extends PzkObjectLightWeight {
 		$this->addField($str);
 		return $this;
 	}
+	public function addTinyint($name){
+		$str = '`'.$name.'` tinyint NOT NULL';
+		$this->addField($str);
+		return $this;
+	}
+	
 	public function addInt($name) {
 		$str = '`'.$name.'` int NOT NULL';
 		$this->addField($str);
