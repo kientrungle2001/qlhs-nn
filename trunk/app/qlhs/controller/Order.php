@@ -103,6 +103,10 @@ class PzkOrderController extends PzkBaseController {
 		);
 		_db()->insert('student_order')->fields(implode(',',array_keys($student_order)))
 			->values(array($student_order))->result();
+		$student = _db()->getEntity('edu.student')->load($student_order['studentId']);
+			if($student->getId()) {
+				$student->gridIndex();
+			}
 		}
 		if(@$_REQUEST['bookNum'] && @$_REQUEST['noNum']) { 
 			// do nothing

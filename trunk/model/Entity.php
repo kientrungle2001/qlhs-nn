@@ -34,6 +34,12 @@ class PzkEntityModel {
 
 	public function update($data) {
 		$this->data = array_merge($this->data, $data);
+		foreach($data as $key => &$value) {
+			if($value === NULL) {
+				$value = '';
+			}
+		}
+		$data = _db()->buildInsertData($this->table, $this->data);
 		_db()->update($this->table)->set($data)->where('id=' . $this->data['id'])->result();
 	}
 	public function save() {
