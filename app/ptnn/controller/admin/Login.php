@@ -20,16 +20,10 @@ class PzkAdminLoginController extends PzkController {
                 pzk_notifier_add_message('Tên đăng nhập or mật khẩu không đúng', 'danger');
                 $this->redirect('admin_login/index');
             }
-
-
-
         }else{
             $view = pzk_parse('<div layout="admin/login/login" />');
             $view->display();
         }
-
-
-
     }
 
     public function logoutAction(){

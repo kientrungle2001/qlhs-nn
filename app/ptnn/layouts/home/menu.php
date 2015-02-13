@@ -10,91 +10,61 @@
         ?>
 </div>
      <style>
-
-        #menu {
-            float: left;
-            font: bold 12px Arial, Helvetica, Sans-serif;
-            overflow: hidden;
-        }
-
         #menu ul {
             margin:0;
             padding:0;
             list-style:none;
         }
 
-        #menu ul li {
+        #menu ul.drop li {
             float:left;
+        	list-style-type: none;
+        	height: 43px;
         }
-
+        
+		#menu ul li a:last-child { border-right: none;}
         #menu ul li a {
             float: left;
             text-decoration:none;
-            background:#337ab7;
-            border-left: 1px solid rgba(255, 255, 255, 0.05);
-            border-right: 1px solid rgba(0,0,0,0.2);
+       		margin-top: 8px;
+            border-right: 1px solid #F7E308;
+        	height: 27px;
         }
 
         #menu li ul {
-            background:#337ab7;
-
-            border-radius: 0 0 10px 10px;
-            -moz-border-radius: 0 0 10px 10px;
-            -webkit-border-radius: 0 0 10px 10px;
             left: -999em;
-            margin: 50px 0 0;
+            margin-top: 43px;
             position: absolute;
-            width: 160px;
+            width: 250px;
             z-index: 9999;
         }
-
+		
+        #menu li ul li {
+            background: #EC44A8;
+        	border-bottom:1px solid #F7E308;
+        }
+        
         #menu li ul a {
-            background: none;
-            border: 0 none;
             margin-right: 0;
-            width: 160px;
-
+            width: 250px;
         }
 
-        #menu ul li a:hover,
-        #menu ul li:hover > a {
-            background: #DFF807;
-        }
-
+        #menu ul li:hover,
+        #menu ul li:hover > a,
         #menu li ul a:hover,
         #menu ul li li:hover > a  {
-            background: #DFF807;
+            color: #FFF100;
         }
-
-
-
         #menu li:hover ul {
             left: auto;
         }
-
-
+		
         #menu li li ul {
-            margin: 0px 0 0 160px;
-            -webkit-border-radius: 0 10px 10px 10px;
-            -moz-border-radius: 0 10px 10px 10px;
-            border-radius: 0 10px 10px 10px;
+            margin: 0px 0 0  251px;
             visibility:hidden;
         }
-
         #menu li li:hover ul {
             visibility:visible;
-        }
-
-        #menu ul ul li:last-child > a {
-            -moz-border-radius:0 0 10px 10px;
-            -webkit-border-radius:0 0 10px 10px;
-            border-radius:0 0 10px 10px;
-        }
-
-        #menu ul ul ul li:first-child > a {
-            -moz-border-radius:0 10px 0 0;
-            -webkit-border-radius:0 10px 0 0;
-            border-radius:0 10px 0 0;
         }
 
     </style>

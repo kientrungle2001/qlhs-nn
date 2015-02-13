@@ -63,8 +63,8 @@
 
 <form method="post" action="/Account/loginPost" >
   
-    <input style="width: 120px;" type="text" name="userlogin" size="10px" id="userlogin"placeholder="Username" value="">
-    <input style="width: 120px;"type="password" name="userpassword"placeholder="Password" id="userpassword" value="">
+    <input style="width: 120px;" type="text" name="userlogin" size="10px" id="userlogin" placeholder="Username" value="">
+    <input style="width: 120px;" type="password" name="userpassword" placeholder="Password" id="userpassword" value="">
     <button type="submit" class="login-button" id="usersubmit">Đăng nhập</button>
     <a href="/account/register">Đăng ký</a>
   

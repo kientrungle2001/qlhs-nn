@@ -3,18 +3,14 @@
 /**
  *
  */
-class PzkHomeController extends PzkController
-{
-    public function layout()
-    {
-        $this->page = pzk_parse($this->getApp()->getPageUri('index'));
-    }
-
-    public function indexAction()
-    {
-        $this->layout();
-        $this->page->display();
-    }
+class PzkHomeController extends PzkFrontendController{
+		
+	public $masterPage	=	"index";
+	
+	public function indexAction(){
+		
+		$this->initPage()->display();
+	}
 
     public function categoryAction()
     {

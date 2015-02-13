@@ -47,7 +47,7 @@
         foreach ($array as $item)
         {
             echo '<li>';
-            echo '<a href="'.pzk_request()->build($item['router'].'/'.$item['id']).'"">';
+            echo '<a href="'.pzk_request()->build($item['router'].'/'.$item['id']).'">';
             echo $item['name'];
             echo '</a>';
             if (!empty($item['children']))
