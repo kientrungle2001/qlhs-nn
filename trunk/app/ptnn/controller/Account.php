@@ -58,8 +58,7 @@ class PzkAccountController extends PzkController
 		}
 		//$referer_url= $_SERVER['HTTP_REFERER'];
 		
-		if(pzk_session('login'))
-		{
+		if(pzk_session('login')){
 			header('location: /home');
 		}
 		$error="";

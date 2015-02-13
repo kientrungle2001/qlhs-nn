@@ -72,7 +72,7 @@
                   <p > <strong >ĐĂNG KÝ THÀNH VIÊN</strong></p>
                 </div>
                     
-                    <form id="formRegister" name="formRegister" method="post"action="/Account/registerPost" > 
+                    <form id="formRegister" name="formRegister" method="post" action="/Account/registerPost" > 
                         <fieldset  style="padding-bottom: 20px;padding-top: 20px;width:100%;"> 
                             <legend class="step">Thông tin tài khoản</legend>
                            
@@ -89,7 +89,7 @@
                                     <label class="note" >(ít nhất 6 kí tự) <br>*Mật khẩu phải bao gồm cả chữ cái và chữ số, có ít nhất 1 chữ cái viết hoa, 1 chữ cái viết thường, 1 chữ số và không được chứa khoảng trắng</label> 
                                 </div>
                                 <div class="inputid">
-                                    <input class="user"id="password1" name="password1"  type="password"  value="" /> 
+                                    <input class="user" id="password1" name="password1"  type="password"  value="" /> 
                                 </div>
                                 
                                 <div class="name">
@@ -102,10 +102,10 @@
                                 
                                 <div class="name">
                                     <label for="email">Email</label> 
-                                    <label class="note"for=""> <br>  *Bạn hãy nhập email của bạn</label>
+                                    <label class="note" for=""> <br>  *Bạn hãy nhập email của bạn</label>
                                 </div>
                                 <div class="inputid">
-                                <input class="user" id="email" name="email" type="email"placeholder="info@gmail.com"  value="" /> 
+                                <input class="user" id="email" name="email" type="email" placeholder="info@gmail.com"  value="" /> 
                                 </div>
                                 <br>
                         </fieldset> 
@@ -116,7 +116,7 @@
                                     <label  for="name">Họ và Tên</label>
                                 </div>
                                 <div class="inputprofile">
-                                    <input id="name" name="name" type="text"minlength="5"  autocomplete="OFF"/> 
+                                    <input id="name" name="name" type="text" minlength="5"  autocomplete="OFF"/> 
                                 </div>
                                 <div class="profile">
                                     <label for="birthday">Ngày sinh</label> 
@@ -128,7 +128,7 @@
                                     <label for="sex">Giới tính</label>
                                 </div>
                                 <div class="inputprofile">
-                                    <select style="width:150px;height:24px;"id="sex" name="sex">
+                                    <select style="width:150px;height:24px;" id="sex" name="sex">
                                     <option value="Nam">Nam</option>
                                     <option value="Nữ">Nữ</option>
                                     </select>
@@ -166,11 +166,11 @@
  
                         </fieldset>                       
                         
-                        <fieldset class=""style="padding-bottom: 20px;padding-top: 20px;"> 
+                        <fieldset class="" style="padding-bottom: 20px;padding-top: 20px;"> 
                             <legend class="step">Điều khoản sử dụng</legend> 
                             <div style="width:100%;height:auto;">
-                                    <input style="float:left;height: 18px;width:18px;padding-left:0px;" type="checkbox" class="checkbox" id="agree" name="agree">    
-                                    <label style="float:left;"for="agree">Tôi đồng ý với các điều khoản trên</label>
+                                    <input style="float:left; height: 18px; width:18px; padding-left:0px;" type="checkbox" class="checkbox" id="agree" name="agree">    
+                                    <label style="float:left;" for="agree">Tôi đồng ý với các điều khoản trên</label>
                             </div>        
                             <div style="width:100%;float:left;height:auto;">                                       
                                     <label style="width:150px;" for="captcha">Nhập mã bảo mật:</label>

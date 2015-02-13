@@ -10,10 +10,10 @@ body{
 #header{
     float: left;
     width: 100%;
-	height: 150px;
-	background: #86F9EB;
+	height: 209px;
 	text-align: center;
-
+	background: url('/default/skin/ptnn/media/header.png') no-repeat;
+	border-bottom:1px solid #0464B1;
 }
 #user{
 	float: left;
@@ -22,30 +22,49 @@ body{
 #header h4,p{
 	padding-top: 35px;
 }
-/*Menu*/
-#menu{
-	height: 50px;
-	background: #337ab7;
+/*Search*/
+#search{
+	height: 43px;
+	background: #1E55A8;
     float: left;
     width: 100%;
 }
-ul.drop li{
-	list-style: none;
+#search .date{
+	color:#FFFFFD;
+	padding:10px 0px;
+	float:left;
+	margin-left:17px;
 }
-ul.drop li a{
-	text-decoration: none;
-	float: left;
-	display: block;
+.color-white{color: #FFFFFD}
+
+#search a span{
+	font-weight:bold;
+	color:#FFFFFD;
+}
+#search input{color:}
+
+#search .form{float:left; padding:10px 0px;}
+
+/*Menu*/
+#menu{
+	background: linear-gradient(to right, #80097A, #E8008A, #80097A); 
+    float: left;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 13px;
+    height: 43px;
+    overflow: hidden;
+    width: 100%;
+}
+
+#menu ul.drop li a{
+	display:inline;
 	padding: 0px 17px;
-    height: 50px;
-    line-height: 50px ;
+    height: 25px;
+    line-height: 27px ;
     overflow: hidden;
 	color: #fff;
-	border-right: 1px solid #fff;
 }
-ul.drop li a:hover{
-	background: #DFF807;
-}
+
 /*Main*/
 #main{
 	clear: both;
@@ -101,3 +120,5 @@ border: 1px solid #e1e1e8;
 border-radius: 4px;
 color: white;
 }
+
+.margin-right-30{margin-right:30px;}
