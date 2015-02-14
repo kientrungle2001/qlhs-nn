@@ -32,4 +32,19 @@ class PzkHomeController extends PzkController{
 		}
 		echo 'success';
 	}
+	
+	public function testAction() {
+		$classStudents = _db()
+				->selectNone()->selectClassId()
+				->selectStudentId()->selectStatus()
+				->selectStudyDate()
+				->fromStudent_schedule()->result();
+		$arr = pzk_array();
+		$arr->setData($classStudents);
+		//$rs = $arr->groupBy(array('classId', 'studentId', 'status'));
+		//var_dump($rs[8][4]);
+		$arr->sortBy(array(array('classId', 'asc'), array('studentId', 'asc'), array('studyDate', 'asc'), array('status', 'asc')));
+		//var_dump($arr->getData());
+		echo 1;
+	}
 }
