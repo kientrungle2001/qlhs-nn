@@ -15,7 +15,8 @@
 		<a href="{url /course/schedule}" class="easyui-linkbutton" data-options="plain:true">Lịch học</a>
 		{/if}
 		<a href="#" class="easyui-menubutton" data-options="plain:true,menu:'#qltrt'">Quản lý trung tâm</a>
-		{ifpermission order/createbill}<a href="{url /order/createbill}" class="easyui-linkbutton" data-options="plain:true">Tạo hóa đơn chi</a>{/if}
+		{ifpermission order/createbill}<a href="{url /order/createbill}" class="easyui-linkbutton" data-options="plain:true">Tạo HĐC 1</a>{/if}
+		{ifpermission order/createbill2}<a href="{url /order/createbill2}" class="easyui-linkbutton" data-options="plain:true">Tạo HĐC 2</a>{/if}
 		{ifpermission order/billing}<a href="{url /order/billing}" class="easyui-linkbutton" data-options="plain:true">Hóa đơn chi</a>{/if}
 		{ifpermission demo/report}<a href="{url /demo/report}" class="easyui-linkbutton" data-options="plain:true">Báo cáo</a>{/if}
 		{ifpermission profile/index}<a href="{url /profile}" class="easyui-linkbutton" data-options="plain:true">Người dùng</a>{/if}

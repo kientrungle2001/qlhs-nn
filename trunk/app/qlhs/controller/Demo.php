@@ -6,13 +6,12 @@ class PzkDemoController extends PzkController {
 	}
 	
 	public function musterAction() {
-		$this->render('operation/muster');
+		$this->renderOperation_muster();
 	}
 	
 	public function musterTabAction() {
-		$classId = pzk_request('classId');
-		$musterTab = $this->parse('operation/musterTab');
-		$musterTab->setClassId($classId);
+		$musterTab = $this->parseOperation_musterTab();
+		$musterTab->setClassId(pzk_request()->getClassId());
 		$class = $musterTab->getClass();
 		if($class->isVMT()) {
 			$musterTab->setLayout('edu/muster/vmt');
@@ -23,22 +22,19 @@ class PzkDemoController extends PzkController {
 	}
 	
 	public function musterPrintAction() {
-		$classId = pzk_request('classId');
-		$periodId = pzk_request('periodId');
-		$musterPrint = $this->parse('operation/musterPrint');
-		$musterPrint->classId = $classId;
-		$musterPrint->periodId = $periodId;
-		$musterPrint->display();
+		$this->parseOperation_musterPrint()
+			->setClassId(pzk_request()->getClassId())
+			->setPeriodId(pzk_request()->getPeriodId())
+			->display();
 	}
 	
 	public function paymentstatAction() {
-		$this->render('operation/paymentstat');
+		$this->renderOperation_paymentstat();
 	}
 	
 	public function paymentstatTabAction() {
-		$classId = pzk_request('classId');
-		$paymentstatTab = $this->parse('operation/paymentstatTab');
-		$paymentstatTab->setClassId($classId);
+		$paymentstatTab = $this->parseOperation_paymentstatTab();
+		$paymentstatTab->setClassId(pzk_request()->getClassId());
 		$class = $paymentstatTab->getClass();
 		if($class->isVMT()) {
 			$paymentstatTab->setLayout('edu/paymentstat/vmt');
@@ -49,30 +45,20 @@ class PzkDemoController extends PzkController {
 	}
 	
 	public function paymentstatPrintAction() {
-		$classId = $_REQUEST['classId'];
-		$periodId = $_REQUEST['periodId'];
-		$paymentstatTab = $this->parse('operation/paymentstatPrint');
-		$paymentstatTab->classId = $classId;
-		$paymentstatTab->periodId = $periodId;
-		$paymentstatTab->display();
-	}
-	
-	public function musterclassAction() {
-		$musterclass = $this->parse('operation/musterclass');
-		$musterclass->display();
+		$this->parseOperation_paymentstatPrint()
+			->setClassId(pzk_request()->getClassId())
+			->setPeriodId(pzk_request()->getPeriodId())
+			->display();
 	}
 	
 	public function loginAction() {
-		$page = $this->parse('login');
-		$page->display();
+		$this->parseLogin()->display();
 	}
 	
 	public function loginPostAction() {
-		$username = $_REQUEST['username'];
-		$password = $_REQUEST['password'];
-		$permission = pzk_element('permission');
+		$permission = pzk_element()->getPermission();
 		
-		if($permission->login($username, $password)) {
+		if($permission->login(pzk_request()->getUsername(), pzk_request()->getPassword())) {
 			$this->redirect('student/index');
 		} else {
 			$this->redirect('demo/login');
@@ -80,31 +66,30 @@ class PzkDemoController extends PzkController {
 	}
 	
 	public function logoutAction() {
-		pzk_session('loginId', false);
+		pzk_session()->setLoginId(false);
 		$this->redirect('demo/login');
 	}
 	
 	public function reportAction() {
-		$this->render('operation/report');
+		$this->renderOperation_report();
 	}
 	
 	public function reportPostAction() {
-		$password = $_REQUEST['password'];
-		if($password != 'abc123') die('Bạn không có quyền xem báo cáo này');
-		$reportType = $_REQUEST['reportType'];
+		if(pzk_request()->getPassword() != 'abc123') die('Bạn không có quyền xem báo cáo này');
+		$reportType = pzk_request()->getReportType();
 		$this->initPage();
-		$report = $this->parse('operation/report');
+		$report = $this->parseOperation_report();
 		$this->append($report);
 		$reportResult = $this->parse('report/' . $reportType);
 		foreach(array('reportType', 'teacherId', 'subjectId', 'classId', 'periodId') as $key) {
-			$reportResult->$key = @$_REQUEST[$key];
+			$reportResult->$key = pzk_request($key);
 			$elem = $report->findElement("[name=$key]");
 			if($elem) {
-				$elem->value = @$_REQUEST[$key];
+				$elem->setValue(pzk_request($key));
 			}
 		}
-		$left->append($reportResult);
-		$page->display();
+		$this->append($reportResult);
+		$this->display();
 	}
 	public function studentAction() {
 		$this->redirect('student/index');

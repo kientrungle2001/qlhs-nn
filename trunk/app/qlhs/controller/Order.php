@@ -6,27 +6,27 @@ class PzkOrderController extends PzkBaseController {
 	public $masterPosition = 'left';
 	public function createAction() {
 		$create_order = $this->getOperationStructure('create_order');
-		$create_order->studentId = $_REQUEST['studentId'];
-		$create_order->periodId = $_REQUEST['periodId'];
-		if(isset($_REQUEST['multiple']) && $_REQUEST['multiple']) {
-			$create_order->multiple = true;
-			$create_order->classIds = $_REQUEST['classIds'];
-			$create_order->amounts = $_REQUEST['amounts'];
-			$create_order->discounts = $_REQUEST['discounts'];
-			$create_order->musters = $_REQUEST['musters'];
-			$create_order->prices = $_REQUEST['prices'];
-			$create_order->discount_reasons = $_REQUEST['discount_reasons'];
+		$create_order->setStudentId(pzk_request()->getStudentId());
+		$create_order->setPeriodId(pzk_request()->getPeriodId());
+		if(pzk_request()->getMultiple()) {
+			$create_order->setMultiple(true);
+			$create_order->setClassIds(pzk_request()->getClassIds());
+			$create_order->setAmounts(pzk_request()->getAmounts());
+			$create_order->setDiscounts(pzk_request()->getDiscounts());
+			$create_order->setMusters(pzk_request()->getMusters());
+			$create_order->setPrices(pzk_request()->getPrices());
+			$create_order->setDiscount_reasons(pzk_request()->getDiscount_reasons());
 		} else {
-			$create_order->multiple = false;
-			$create_order->classId = $_REQUEST['classId'];
-			$create_order->amount = $_REQUEST['amount'];
+			$create_order->setMultiple(false);
+			$create_order->setClassId(pzk_request()->getClassId());;
+			$create_order->setAmount(pzk_request()->getAmount());
 		}
 		$this->viewStructure($create_order);
 	}
 	
 	public function detailAction() {
 		$order_detail = $this->getOperationStructure('order_detail');
-		$order_detail->orderId = $_REQUEST['id'];
+		$order_detail->setOrderId(pzk_request()->getId());
 		$xcssjs = '<html.js src="' . BASE_URL . '/xcss" />';
 		$xcsscss = '<html.css src="' . BASE_URL . '/xcss/output/test.css" />';
 		$order_detail->append(pzk_parse($xcssjs));
@@ -35,13 +35,27 @@ class PzkOrderController extends PzkBaseController {
 	}
 	
 	public function billingdetailAction() {
-		$order_detail = $this->getOperationStructure('bill_detail');
-		$order_detail->orderId = $_REQUEST['id'];
-		$xcssjs = '<html.js src="' . BASE_URL . '/xcss" />';
-		$xcsscss = '<html.css src="' . BASE_URL . '/xcss/output/test.css" />';
-		$order_detail->append(pzk_parse($xcssjs));
-		$order_detail->append(pzk_parse($xcsscss));
-		$order_detail->display();
+		$order = _db()->getTableEntity('billing_order');
+		$order->load(pzk_request()->getId());
+		if($order->getType() == 'normal') {
+			$order_detail = $this->getOperationStructure('bill_detail2');
+			$order_detail->setOrderId(pzk_request()->getId());
+			$xcssjs = '<html.js src="' . BASE_URL . '/xcss" />';
+			$xcsscss = '<html.css src="' . BASE_URL . '/xcss/output/test.css" />';
+			$order_detail->append(pzk_parse($xcssjs));
+			$order_detail->append(pzk_parse($xcsscss));
+			$order_detail->display();	
+
+		} else {
+			$order_detail = $this->getOperationStructure('bill_detail');
+			$order_detail->setOrderId(pzk_request()->getId());
+			$xcssjs = '<html.js src="' . BASE_URL . '/xcss" />';
+			$xcsscss = '<html.css src="' . BASE_URL . '/xcss/output/test.css" />';
+			$order_detail->append(pzk_parse($xcssjs));
+			$order_detail->append(pzk_parse($xcsscss));
+			$order_detail->display();	
+		}
+		
 	}
 	
 	public function postAction() {
@@ -130,6 +144,10 @@ class PzkOrderController extends PzkBaseController {
 		$this->viewOperation('create_bill');
 		//$create_order->display();
 	}
+	public function createbill2Action() {
+		$this->viewOperation('create_bill2');
+		//$create_order->display();
+	}
 	public function createbillpostAction() {
 		$bookNum = $_REQUEST['bookNum'] = pzk_element('config')->get('bill_bookNum', 1);
 		$noNum = $_REQUEST['noNum'] = pzk_element('config')->get('bill_noNum', 1);
@@ -180,6 +198,60 @@ class PzkOrderController extends PzkBaseController {
 		_db()->insert('billing_detail_order')->fields(implode(',',array_keys($order_item)))
 			->values(array($order_item))->result();
 		}
+		if($noNum >= 50) {
+			pzk_element('config')->set('bill_noNum', 1);
+			pzk_element('config')->set('bill_bookNum', $bookNum + 1);
+		} else {
+			pzk_element('config')->set('bill_noNum', $noNum + 1);
+			pzk_element('config')->set('bill_bookNum', $bookNum);
+		}
+		header('Location: '.BASE_URL.'/index.php/order/billing');
+	}
+	
+	public function createbillpost2Action() {
+		$bookNum = $_REQUEST['bookNum'] = pzk_element('config')->get('bill_bookNum', 1);
+		$noNum = $_REQUEST['noNum'] = pzk_element('config')->get('bill_noNum', 1);
+		$order = array(
+			'orderType' => 'billing',
+			'type' => 'normal',
+			'amount' => $_REQUEST['total_amount'],
+			'created' => date('Y-m-d', strtotime($_REQUEST['created'])),
+			'createdTime' => time(),
+			'bookNum' => $_REQUEST['bookNum'],
+			'noNum' => $_REQUEST['noNum'],
+			'debit' => $_REQUEST['debit'],
+			'name' => $_REQUEST['order_name'],
+			'address' => $_REQUEST['address'],
+			'phone' => $_REQUEST['phone'],
+			'reason' => $_REQUEST['reason'],
+			'additional' => $_REQUEST['additional'],
+			'invoiceNum' => $_REQUEST['invoiceNum']
+		);
+		$orderId = _db()->insert('billing_order')
+				->fields(implode(',', array_keys($order)))
+				->values(array($order))->result();
+		
+		$order_item = array(
+			'orderId' => $orderId,
+			'amount' => $_REQUEST['total_amount'],
+			'discount' => 0,
+			'quantity' => 1,
+			'price' => $_REQUEST['total_amount'],
+			'total_before_discount' => $_REQUEST['total_amount'],
+			'created' => date('Y-m-d', strtotime($_REQUEST['created'])),
+			'createdTime' => time(),
+			'bookNum' => $_REQUEST['bookNum'],
+			'noNum' => $_REQUEST['noNum'],
+			'debit' => $_REQUEST['debit'],
+			'name' => $_REQUEST['order_name'],
+			'address' => $_REQUEST['address'],
+			'reason' => $_REQUEST['reason'],
+			'additional' => $_REQUEST['additional'],
+			'invoiceNum' => $_REQUEST['invoiceNum']
+		);
+		_db()->insert('billing_detail_order')->fields(implode(',',array_keys($order_item)))
+			->values(array($order_item))->result();
+		
 		if($noNum >= 50) {
 			pzk_element('config')->set('bill_noNum', 1);
 			pzk_element('config')->set('bill_bookNum', $bookNum + 1);
