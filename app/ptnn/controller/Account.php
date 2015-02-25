@@ -36,88 +36,86 @@ class PzkAccountController extends PzkController
 	public function loginAction() 
 	{
 		
-		if(pzk_session('login'))
-		{
+		if(pzk_session('login')){
+			
 			$ip="192.168.1.2";
 			pzk_session('ipdress','hellosss');
 		}
-		else
-		{
+		else{
 			
 			$this->render('user/account/login');
-			
 		}
 	}
 	// Xử lý đăng nhập
 	public function loginPostAction()
 	{
-		if($_SERVER['HTTP_REFERER']!=BASE_REQUEST . "/User_Account/loginPost")
-		{
+		if($_SERVER['HTTP_REFERER']!=BASE_REQUEST . "/User_Account/loginPost"){
+			
 			pzk_session('referer_url',$_SERVER['HTTP_REFERER']);
 		}
-		//$referer_url= $_SERVER['HTTP_REFERER'];
 		
 		if(pzk_session('login')){
-			header('location: /home');
+			$this->redirect('home/index');
 		}
 		$error="";
 		$request = pzk_element('request');
+		
 		// Đăng nhập bằng form user
 		$password=md5($request->get('userpassword'));
 		$username=$request->get('userlogin');
-		$submitlogin=$request->get('submitlogin');
+		
 		// Đăng nhập bằng form login
-		if($request->get('passwordlogin') !="" || $request->get('login') !="")
-		{
+		if($request->get('passwordlogin') !="" || $request->get('login') !="") {
+			
 			$password=md5($request->get('passwordlogin'));
 			$username=$request->get('login');
 		}
-		if($username !="")
-		{
+		if($username !="") {
 			$user=_db()->getEntity('user.account.user');
 			$user->loadWhere(array('username',$username));
 		
-		if($user->getId())
-		{
-			$userId= $user->getId();
-			$name= $user->getName();
-			$pass= $user->getPassword();
-			$status=$user->getStatus();
-			$avatar=$user->getAvatar();
-			if($pass==$password)
-			{
-				if($status==1)
-				{
-					pzk_session('login', true);
-					pzk_session('username', $username);
-					pzk_session('userId',$userId);
-					pzk_session('name',$name);
-					pzk_session('avatar',$avatar);
-					$datelogin=date("Y-m-d H:i:s");
-					$user->update(array('lastlogined' =>$datelogin ));
-					$referer_url=pzk_session('referer_url');
-					pzk_session('referer_url',false);
-					header('location:'.$referer_url);
-				
-				}else
-				{
-					//tài khoản của bạn đăng bị khóa hoặc chưa kích hoạt
-					$error="tài khoản của bạn đăng bị khóa hoặc chưa kích hoạt";
+			if($user->getId()) {
+				$userId= $user->getId();
+				$name= $user->getName();
+				$pass= $user->getPassword();
+				$status=$user->getStatus();
+				$avatar=$user->getAvatar();
+				if($pass==$password) {
+					if($status==1) {
+						pzk_session('login', true);
+						pzk_session('username', $username);
+						pzk_session('userId',$userId);
+						pzk_session('name',$name);
+						pzk_session('avatar',$avatar);
+						$datelogin=date("Y-m-d H:i:s");
+						$user->update(array('lastlogined' =>$datelogin ));
+						$referer_url=pzk_session('referer_url');
+						pzk_session('referer_url',false);
+						$error = -1;
+					}else {
+						
+						//$error="tài khoản của bạn đăng bị khóa hoặc chưa kích hoạt";
+						$error = 0;
+					}
+				}else {
+					
+					//$error="Mật khẩu đăng nhập chưa đúng";
+					$error = 1;
 				}
-			}else 
-				{
-					//Mật khẩu đăng nhập chưa đúng
-					$error="Mật khẩu đăng nhập chưa đúng";
-				}
-		}else
-		{
-			$error="Tên đăng nhập chưa đúng";
-		}
-		}else $error="Bạn phải nhập đầy đủ tên đăng nhập và mật khẩu";
+			}else {
 			
-			pzk_notifier_add_message($error, 'danger');		
-			$this->render('user/account/login');
+				//$error="Tên đăng nhập chưa đúng";
+				$error = 2;
+			}
+		}else {
+			
+			//$error="Bạn phải nhập đầy đủ tên đăng nhập và mật khẩu";
+			$error = 3;
 		}
+		echo $error;
+		//pzk_notifier_add_message($error, 'danger');		
+		//$this->render('user/account/login');
+	}
 	// Đăng xuất 
 	public function logoutAction(){
 		pzk_session('login',false);
@@ -127,37 +125,35 @@ class PzkAccountController extends PzkController
 		//$this->redirect('/home');
 		header('location:/home');
 	}
-// Đăng ký tài khoản
+	// Đăng ký tài khoản
 	public function registerAction()
 	{
 		$this->render('user/account/register');
 	}
 	public function registerPostAction()
 	{	
-		$error="";	
+		$error ="";	
 		$request=pzk_element('request');
 		$username=$request->get('username');
 		$email=$request->get('email');
 		$captcha= $request->get('captcha');
 		$user=_db()->getEntity('user.account.user');
-		if($captcha==$_SESSION['security_code'])
-		{
-			//$testUser= _db()->useCB()->select('username')->from('user')->where(array('equal','username',$request->get('username')))->result();
+		if($captcha==$_SESSION['security_code']) {
+			
 			$testUser=$user->loadWhere(array('username',$username));
-			if($testUser->getId())
-			{
+			if($testUser->getId()) {
 				
-				$error="Tên đăng nhập đã tồn tại trên hệ thống";
-			}
-			else
-			{	
+				//$error="Tên đăng nhập đã tồn tại trên hệ thống";
+				$error = -1;
+			} else {
+				
 				$testEmail= $user->loadWhere(array('email',$email));
-				if($testEmail->getId())
-				{
-					$error= "Email đã tồn tại trên hệ thống";
-				}
-				else
-				{
+				if($testEmail->getId()) {
+					
+					//$error= "Email đã tồn tại trên hệ thống";
+					$error = 0;
+				}else {
+					
 					$name= $request->get('name');
 					$password=$request->get('password1');
 					$birthday= $request->get('birthday');
@@ -185,21 +181,21 @@ class PzkAccountController extends PzkController
 					$entity->save();
 					*/
 					//_db()->useCB()->insert('user')->fields('username,password,email,name,birthday,sex,address,phone,idpassport,idplace,iddate,registered')->values(array($rowRegister))->result();
+					
 					$this->sendMail($username,$password,$email);
 					// Hiển thị layout showregister
-					$this->render('user/account/showregister');
+					//$this->render('user/account/showregister');
+					
+					//$error = "Bạn vui lòng đăng nhập vào email để kích hoạt tài khoản đăng ký trên website";
+					$error = 1;
 				}
 			}
-
+		}else {
+			
+			//$error = "Mã bảo mật chưa đúng";
+			$error = 2;
 		}
-		else
-		{
-			$error="Mã bảo mật chưa đúng";
-
-		}
-		pzk_notifier_add_message($error, 'danger');
-		$this->render('user/account/register');
-		
+		echo $error;
 	}
 	// Hiển thị thông báo sau khi đăng ký tài khoản
 	public function showregisterAction()
