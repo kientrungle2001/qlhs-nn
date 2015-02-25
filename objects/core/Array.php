@@ -121,8 +121,40 @@ class PzkCoreArray extends PzkObjectLightWeight {
 				break;
 		}
 	}
+	
+	public function groupBy($fields = array()) {
+		$rs = array();
+		foreach($this->data as $row) {
+			$r = &$rs;
+			foreach($fields as $field) {
+				if(!isset($r[$row[$field]])) {
+					$r[$row[$field]] = array();
+				}
+				$r = &$r[$row[$field]];
+			}
+			$r[] = $row;
+		}
+		return $rs;
+	}
+	
+	public static $sortFields;
+	public function sortBy($fields = array()) {
+		self::$sortFields = $fields;
+		usort($this->data, 'sort_by_fields');
+	}
+	
+	public function indexById() {
+		$rs = array();
+		foreach($this->data as $row) {
+			$rs[$row['id']] = $row;
+		}
+		return $rs;
+	}
 }
 
+/**
+ * @return PzkCoreArray
+ */
 function pzk_array() {
 	return pzk_element('array')->clear();
 }
@@ -159,4 +191,20 @@ function array_to_xml(array $arr, SimpleXMLElement $xml)
             : $xml->addChild($k, $v);
     }
     return $xml;
+}
+
+function sort_by_fields($a, $b) {
+	$fields = PzkCoreArray::$sortFields;
+	foreach($fields as $field) {
+		if($a[$field[0]] > $b[$field[0]]) {
+			if($field[1] == 'asc')
+				return 1;
+			return -1;
+		} else if($a[$field[0]] < $b[$field[0]]) {
+			if($field[1] == 'asc')
+				return -1;
+			return 1;
+		}
+	}
+	return 1;
 }

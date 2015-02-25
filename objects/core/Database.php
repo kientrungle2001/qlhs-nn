@@ -124,6 +124,19 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
         $this->options['fields'] = $fields;
         return $this;
     }
+    
+    /**
+     * Add more fields to select
+     * @param string $fields
+     * @return PzkCoreDatabase
+     */
+    public function addFields($fields) {
+    	if(!@$this->options['fields'])
+    		$this->select($fields);
+    	else 
+    		$this->options['fields'] .= ',' . $fields;
+    	return $this;
+    }
 
     /**
      * Lệnh đếm
@@ -554,6 +567,8 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 		//If it doesn't chech if its a normal old type setter ot getter
 		//Getting and setting with $this->getProperty($optional);
 		//Getting and setting with $this->setProperty($optional);
+		$prefix6 = substr($name, 0, 6);
+		$property6 = strtolower($name[6]) . substr($name, 7);
 		$prefix5 = substr($name, 0, 5);
 		$property5 = strtolower($name[5]) . substr($name, 6);
 		$prefix4 = substr($name, 0, 4);
@@ -562,6 +577,17 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 		$property3 = strtolower($name[3]) . substr($name, 4);
 		$prefix2 = substr($name, 0, 2);
 		$property2 = strtolower($name[2]) . substr($name, 3);
+		switch ($prefix6) {
+			case 'select':
+			if($property6 == 'all') {
+				return $this->select('*');
+			}
+			if($property6 == 'none') {
+				return $this->select('');
+			}
+			return $this->addFields(str_replace('__', '.', $property6));
+			break;
+		}
 		switch ($prefix5) {
 			case 'where':
 				return $this->where(array($property5, $arguments[0]));
