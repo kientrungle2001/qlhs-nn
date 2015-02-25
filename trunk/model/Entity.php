@@ -84,14 +84,14 @@ class PzkEntityModel {
 		}
 		return $query->result($entity);
 	}
-	
+	/*
 	public function getType() {
 		$typeCode = $this->type;
 		if(!$typeCode) $typeCode = str_replace('_', '', $this->table) . 'Table';
 		$type = _db()->useCB()->select('*')->from('attribute_catalog_type')
 				->where(array('and', array('sourceTable', $this->table), array('code', $typeCode)))->result_one('attribute.catalog.type');
 		return $type;
-	}
+	}*/
 	
 	public function get($key, $default = NULL) {
 		return isset($this->data[$key]) && $this->data[$key]?$this->data[$key]: $default;
