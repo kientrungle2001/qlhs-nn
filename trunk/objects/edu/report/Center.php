@@ -2,6 +2,10 @@
 class PzkEduReportCenter extends PzkObject {
 	public $layout = 'edu/report/center';
 	
+	public function summaryAll() {
+		
+	}
+	
 	public function getSubjectSummary() {
 		$cond = '1';
 		if(intval($this->teacherId)) {
