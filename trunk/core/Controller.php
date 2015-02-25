@@ -165,4 +165,44 @@ class PzkController {
 		}
 		$this->events[$event][] = $handler;
 	}
+	
+	public function __call($name, $arguments) {	
+		$prefix = substr($name, 0, 3);
+		$property = strtolower($name[3]) . substr($name, 4);
+		switch ($prefix) {
+			case 'get':
+				return $this->$property;
+				break;
+			case 'set':
+				//Always set the value if a parameter is passed
+				if (count($arguments) != 1) {
+					throw new \Exception("Setter for $name requires exactly one parameter.");
+				}
+				$this->$property = $arguments[0];
+				//Always return this (Even on the set)
+				return $this;
+		}
+		
+		$prefix5 = substr($name, 0, 5);
+		$property5 = strtolower($name[5]) . substr($name, 6);
+		switch ($prefix5) {
+			case 'parse':
+				return $this->parse(str_replace('_', '/', $property5));
+				break;
+		}
+		
+		$prefix6 = substr($name, 0, 6);
+		$property6 = strtolower($name[6]) . substr($name, 7);
+		switch ($prefix6) {
+			case 'append':
+				return $this->append(str_replace('_', '/', $property6));
+				break;
+			case 'render':
+				return $this->render(str_replace('_', '/', $property6));
+				break;
+			default:
+				throw new \Exception("Property $name doesn't exist.");
+				break;
+		}
+	}
 }
