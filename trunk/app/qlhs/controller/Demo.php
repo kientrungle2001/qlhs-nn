@@ -22,10 +22,15 @@ class PzkDemoController extends PzkController {
 	}
 	
 	public function musterPrintAction() {
-		$this->parseOperation_musterPrint()
-			->setClassId(pzk_request()->getClassId())
-			->setPeriodId(pzk_request()->getPeriodId())
-			->display();
+		$musterTab = $this->parseOperation_musterTab();
+		$musterTab->setClassId(pzk_request()->getClassId());
+		$class = $musterTab->getClass();
+		if($class->isVMT()) {
+			$musterTab->setLayout('edu/muster/print/vmt');
+		} else {
+			$musterTab->setLayout('edu/muster/print/normal');
+		}
+		$musterTab->display();
 	}
 	
 	public function paymentstatAction() {
@@ -45,10 +50,15 @@ class PzkDemoController extends PzkController {
 	}
 	
 	public function paymentstatPrintAction() {
-		$this->parseOperation_paymentstatPrint()
-			->setClassId(pzk_request()->getClassId())
-			->setPeriodId(pzk_request()->getPeriodId())
-			->display();
+		$paymentstatTab = $this->parseOperation_paymentstatTab();
+		$paymentstatTab->setClassId(pzk_request()->getClassId());
+		$class = $paymentstatTab->getClass();
+		if($class->isVMT()) {
+			$paymentstatTab->setLayout('edu/paymentstat/print/vmt');
+		} else {
+			$paymentstatTab->setLayout('edu/paymentstat/print/normal');
+		}
+		$paymentstatTab->display();
 	}
 	
 	public function loginAction() {

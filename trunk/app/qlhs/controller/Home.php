@@ -47,4 +47,13 @@ class PzkHomeController extends PzkController{
 		//var_dump($arr->getData());
 		echo 1;
 	}
+	
+	public function crawlAction() {
+		for($page = 1; $page < 7; $page++) {
+			$records = pzk_mytour()->crawl('http://mytour.vn/c37/khach-san-tai-lai-chau.html?page=' . $page);
+			foreach($records as $record) {
+				$record->update(array('city' => 'Lai Châu'));
+			}
+		}
+	}
 }
