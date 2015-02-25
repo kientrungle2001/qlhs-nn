@@ -60,8 +60,8 @@ if($class['teacher2Id']) {
 	<table border="1" cellspacing="0" cellpadding="5" style="border-collapse: collapse;">
 		<tr>
 			<th>Tên lớp - GV2</th>
-			<th>Tổng cộng</th>
-			<th>Tổng đã thanh toán</th>
+			<th>Tổng cộng theo điểm danh</th>
+			<th>Tổng cộng theo hóa đơn</th>
 		</tr>
 		<?php 
 		$sum = 0;
@@ -90,8 +90,8 @@ if($class['teacher2Id']) {
 		<table border="1" cellspacing="0" cellpadding="5" style="border-collapse: collapse;">
 		<tr>
 			<th>Giáo viên 2</th>
-			<th>Tổng</th>
-			<th>Tổng đã thanh toán</th>
+			<th>Tổng theo điểm danh</th>
+			<th>Tổng theo hóa đơn</th>
 		</tr>
 		
 		<?php foreach($teacherSummary as $teacherName => $teacherSummaryDetail):?>
