@@ -20,3 +20,4 @@ label.error{ margin-top:3px; color: #b20000;}
 select.error{ border: 1px solid #b20000 !important; }
 .date .col-xs-4{padding:0px 0px;}
 #registerForm{border-top:2px solid #265b89 !important; }
+#register_successful{display:none;}
