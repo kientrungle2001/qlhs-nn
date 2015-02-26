@@ -155,7 +155,8 @@
         var height = 500;
         var Ypos =((screen.availHeight - height)/2);                
         vWin=window.open(url,"CM_OpenID","width=" + width + ",height=" + height + ",resizable,scrollbars=yes,status=1");        
-        tWin(); 
+        tWin();
+         
     }
 
 	function login(){
