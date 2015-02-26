@@ -11,6 +11,7 @@ class PzkSG {
 	 * @return gia tri theo khoa
 	 */
 	public function get($key, $timeout = null) {
+		return @$this->$key;
 	}
 	
 	/**
@@ -20,6 +21,7 @@ class PzkSG {
 	 * @return gia tri vua dat
 	 */
 	public function set($key, $value) {
+		$this->$key = $value;
 	}
 	
 	/**

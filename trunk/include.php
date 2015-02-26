@@ -22,6 +22,7 @@ require_once 'core/SG/Store/init.php';
 
 require_once 'core/Object.php';
 require_once 'core/Object/LightWeight.php';
+require_once 'core/Object/LightWeightSG.php';
 require_once 'core/Object/Smarty.php';
 require_once 'core/Condition.php';
 require_once 'core/Store.php';

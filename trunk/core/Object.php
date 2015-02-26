@@ -565,14 +565,6 @@ class PzkObject extends PzkSG {
 		return pzk_loader()->getModel($model);
 	}
 	
-	public function set($key, $value) {
-		$this->$key = $value;
-	}
-	
-	public function get($key, $timeout=NULL) {
-		return $this->$key;
-	}
-	
 	public $events = array();
 	
 	public function addEventListener($event, $handler){
