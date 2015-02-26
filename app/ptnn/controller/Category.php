@@ -2,7 +2,7 @@
 /**
  *
  */
-class PzkCategoryController extends PzkController
+class PzkCategoryController extends PzkFrontendController
 {
     public $masterPage = 'index';
     public $masterPosition = 'left';
