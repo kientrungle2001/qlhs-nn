@@ -367,5 +367,9 @@ class PzkAccountController extends  PzkController
 	{
 		$this->render('user/account/loginfacebook');
 	}
+	public function logingoogleAction() 
+	{
+		$this->render('user/account/logingoogle');
+	}
 }
  ?>
