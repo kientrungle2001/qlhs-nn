@@ -176,6 +176,62 @@ class PzkCoreRequest extends PzkObjectLightWeight {
 		else
 			header('Location: ' . BASE_REQUEST . '/' . $url);
 	}
+	
+	/**
+	 * Trả về data được lọc theo mảng
+	 * @example
+	 * Cho đường dẫn: http://example.com/home/index?page=1&id=2&orderBy=id&orderDir=asc<br />
+	 * Lấy ra mảng dữ liệu chứa orderBy, orderDir:<br />
+	 * $data = pzk_request()->getFilterData('orderBy, orderDir'); hoặc <br />
+	 * $data = pzk_request()->getFilterData('orderBy', 'orderDir'); hoặc <br />
+	 * $data = pzk_request()->getFilterData(array('orderBy', 'orderDir')); hoặc <br />
+	 * @return multitype:|multitype:mixed
+	 */
+	public function getFilterData() {
+		$fields = array();
+		$arguments = func_get_args();
+		if(count($arguments) == 0) {
+			return $this->query;
+		} else if(count($arguments) == 1) {
+			if(is_string($arguments[0])) {
+				$fields = explodetrim(',', $arguments[0]);
+			} else if (is_array($arguments[0])) {
+				$fields = $arguments[0];
+			}
+		} else {
+			$fields = $arguments;
+		}
+		$data = array();
+		foreach($fields as $field) {
+			$data[$field] = $this->get($field);
+		}
+		return $data;
+	}
+	
+	public function __call($name, $arguments) {
+	
+		//If it doesn't chech if its a normal old type setter ot getter
+		//Getting and setting with $this->getProperty($optional);
+		//Getting and setting with $this->setProperty($optional);
+		$prefix = substr($name, 0, 3);
+		$property = strtolower($name[3]) . substr($name, 4);
+		switch ($prefix) {
+			case 'get':
+				return $this->get($property, @$arguments[0]);
+				break;
+			case 'set':
+				//Always set the value if a parameter is passed
+				if (count($arguments) != 1) {
+					throw new \Exception("Setter for $name requires exactly one parameter.");
+				}
+				$this->set($property, $arguments[0]);
+				//Always return this (Even on the set)
+				return $this;
+			default:
+				throw new \Exception("Property $name doesn't exist.");
+				break;
+		}
+	}
 }
 /**
  * 
