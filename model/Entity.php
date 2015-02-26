@@ -1,5 +1,5 @@
 <?php
-class PzkEntityModel {
+class PzkEntityModel extends PzkSG{
 	public $data = array();
 	public $table;
 	public $type = '';
@@ -141,48 +141,6 @@ class PzkEntityModel {
 	public function delete() {
 		return _db()->useCB()->delete()->from($this->table)
 		->where(array('id', $this->get('id')))->result();
-	}
-	
-	public function __call($name, $arguments) {
-
-		//Getting and setting with $this->property($optional);
-
-		if (property_exists(get_class($this), $name)) {
-
-
-			//Always set the value if a parameter is passed
-			if (count($arguments) == 1) {
-				/* set */
-				$this->set($name, $arguments[0]);
-			} else if (count($arguments) > 1) {
-				throw new \Exception("Setter for $name only accepts one parameter.");
-			}
-
-			//Always return the value (Even on the set)
-			return $this->get($name);
-		}
-
-		//If it doesn't chech if its a normal old type setter ot getter
-		//Getting and setting with $this->getProperty($optional);
-		//Getting and setting with $this->setProperty($optional);
-		$prefix = substr($name, 0, 3);
-		$property = strtolower($name[3]) . substr($name, 4);
-		switch ($prefix) {
-			case 'get':
-				return $this->get($property, @$arguments[0]);
-				break;
-			case 'set':
-				//Always set the value if a parameter is passed
-				if (count($arguments) != 1) {
-					throw new \Exception("Setter for $name requires exactly one parameter.");
-				}
-				$this->set($property, $arguments[0]);
-				//Always return this (Even on the set)
-				return $this;
-			default:
-				throw new \Exception("Property $name doesn't exist.");
-				break;
-		}
 	}
 	
 	public function getWhere($where = 1, $orderBy = 'id asc'){
