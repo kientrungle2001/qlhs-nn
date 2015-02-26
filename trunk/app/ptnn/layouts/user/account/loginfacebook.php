@@ -27,6 +27,8 @@ if ($fbUserId) {
           $name = $user_profile['name'];
          
           $data->CheckFB($id,$name);
+
+          echo '<script>window.close();</script>';
     }
     } catch (FacebookApiException $e) {
         $user_profile = null;
