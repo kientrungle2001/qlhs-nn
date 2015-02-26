@@ -61,13 +61,22 @@
 
 <?php } else{ ?>
 
+<div>
 <form method="post" action="/Account/loginPost" >
-  
+    <img width="30px" height="30px" onclick="return LoginFB()" src="/3rdparty/uploads/img/loginfb.png" alt="">
     <input style="width: 120px;" type="text" name="userlogin" size="10px" id="userlogin" placeholder="Username" value="">
     <input style="width: 120px;" type="password" name="userpassword" placeholder="Password" id="userpassword" value="">
     <button type="submit" class="login-button" id="usersubmit">Đăng nhập</button>
     <a href="/account/register">Đăng ký</a>
-  
+    
 </form>
+</div>
   <?php } ?>
   </div>
+  <script>
+      function LoginFB(){
+        //window.location = "/Account/loginfacebook";
+        window.onload = "/Account/loginfacebook";
+
+      }
+  </script>
