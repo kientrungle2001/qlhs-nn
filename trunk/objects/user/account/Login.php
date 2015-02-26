@@ -16,7 +16,8 @@ class PzkUserAccountLogin extends PzkObject
 				pzk_session('username', $id);
 				pzk_session('userId',$userId);
 				pzk_session('name',$name);
-				header('location:'.'/home/');
+
+				//header('location:'.'/home/');
 				
 			}else{
 
@@ -29,7 +30,7 @@ class PzkUserAccountLogin extends PzkObject
 				pzk_session('username', $id);
 				pzk_session('userId',$userId);
 				pzk_session('name',$name);
-				header('location:'.'/home/');
+				//header('location:'.'/home/');
 				
 			}
 		}
