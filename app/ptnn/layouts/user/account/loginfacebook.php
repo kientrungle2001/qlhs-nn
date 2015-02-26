@@ -22,7 +22,7 @@ if ($fbUserId) {
         $user_profile = $facebook->api('/me');
        
         if (!empty($user_profile)) {
-         
+        //$query="SELECT .... WHERE a.`fbid`='$fbUserId'";   
           $id=$user_profile['id'];
           $name = $user_profile['name'];
          
