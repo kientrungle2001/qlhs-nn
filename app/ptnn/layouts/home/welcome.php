@@ -1,7 +1,7 @@
 <div id="welcome">
-	<img src="/default/skin/ptnn/media/home.jpg" usemap="#login_Map"/>
+	<img src="/default/skin/ptnn/media/home.png" usemap="#login_Map"/>
 	<map name="login_Map" id="login_Map" data-toggle="modal" data-target=".bs-example-modal-lg">
-         <area shape="circle" coords="738,305,45" href="javascript:void(0)" title="Click vào để đăng nhập" id="login" class="mapping">
+         <area shape="circle" coords="738,195,55" href="javascript:void(0)" title="Click vào để đăng nhập" id="login" class="mapping">
     </map>
     
     <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
