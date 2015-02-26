@@ -94,7 +94,7 @@
                             $arrcontroller = glob(BASE_DIR.'/app/ptnn/controller/admin/*.php');
 
                             ?>
-                            <option value="0">Chọn controller</option>
+                            <option value="0_<?Php echo time(); ?>">Chọn controller</option>
                             {each $arrcontroller as $val }
 
                             <option value="<?php echo 'admin_'.strtolower(basename($val,".php"));  ?>"><?php echo 'admin_'.strtolower(basename($val,".php"));  ?></option>
@@ -264,7 +264,7 @@
             $arrcontroller = glob(BASE_DIR.'/app/ptnn/controller/admin/*.php');
 
             ?>
-            <option value="0">Chọn controller</option>
+            <option value="0_<?Php echo time(); ?>">Chọn controller</option>
             {each $arrcontroller as $val }
 
             <option value="<?php echo 'admin_'.strtolower(basename($val,".php"));  ?>"><?php echo 'admin_'.strtolower(basename($val,".php"));  ?></option>
