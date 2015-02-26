@@ -141,13 +141,11 @@
 	function tWin() {
         if (vWin.closed) {
             document.location = document.location;
-        }
-        else {
+        }else {
             setTimeout("tWin()", 500);
         }
   	}
-
-
+	
     function LoginFB(){
         var url = 'http://ptnn.vn/Account/loginfacebook';
         var width = 900;
@@ -158,7 +156,7 @@
         tWin();
          
     }
-
+	
 	function login(){
 		
 		var userlogin 		= $('#userlogin').val();
