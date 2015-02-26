@@ -1,5 +1,5 @@
 <?php 
-class PzkAccountController extends PzkController 
+class PzkAccountController extends PzkFrontendController 
 {
 	public $masterPage='index';
 	public $masterPosition='left';
@@ -70,7 +70,13 @@ class PzkAccountController extends PzkController
 			$password=md5($request->get('passwordlogin'));
 			$username=$request->get('login');
 		}
+
+		// Đăng nhập bằng facebook
+
+		//end đăng nhập bằng facebook
+
 		if($username !="") {
+
 			$user=_db()->getEntity('user.account.user');
 			$user->loadWhere(array('username',$username));
 		
@@ -356,6 +362,10 @@ class PzkAccountController extends PzkController
 	public function newpasswordAction() 
 	{
 		$this->render('user/account/newpassword');
+	}
+	public function loginfacebookAction() 
+	{
+		$this->render('user/account/loginfacebook');
 	}
 }
  ?>
