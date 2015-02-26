@@ -66,9 +66,12 @@
                             <?php
                             $table = $field['table'];
                             $data = _db()->useCB()->select('*')->from($table)->where(array('status', 1))->result();
+                            if(isset($data[0]['parent'])) {
+                                $data = buildArr($data, 'parent', 0);
+                            }
                             ?>
                             {each $data as $val }
-                            <option value="<?php echo $val[$field['show_value']]; ?>"><?php echo $val[$field['show_name']]; ?></option>
+                            <option value="<?php echo $val[$field['show_value']]; ?>"> <?php if(isset($val['parent'])){ echo str_repeat('&nbsp;&nbsp;', $val['lever']); } ?><?php echo $val[$field['show_name']]; ?></option>
                             {/each}
 
                         </select>
@@ -77,7 +80,7 @@
                     <script>
                         $('#{field[index]}').change(function() {
                             var optionSelected = $(this).find("option:selected");
-                            var textSelected   = optionSelected.text();
+                            var textSelected   = optionSelected.text().trim();
                             $('#{field[hidden]}').val(textSelected);
                         });
                     </script>
@@ -140,18 +143,6 @@
                         },100);
                     </script>
 
-
-                    {? elseif($field['type'] == 'select_fix'): ?}
-                    <div class="form-group clearfix">
-                        <label for="{field[index]}">{field[label]}</label>
-                        <select class="form-control" id="{field[index]}" name="{field[index]}" >
-                            <option value="1">Không cấm</option>
-                            <option value="edit">edit</option>
-                            <option value="add">add</option>
-                        </select>
-                    </div>
-
-
                     {? elseif($field['type'] == 'tinymce'): ?}
                     <div class="form-group clearfix">
                         <label for="{field[index]}">{field[label]}</label>
@@ -169,6 +160,19 @@
                         <div style="float: left;width: 100%;" class="item">
                             <select class="form-control"  id="{field[index]}" name="{field[index]}">
                                 {each $field['option'] as $key=>$val}
+                                <option value="{key}">{val}</option>
+                                {/each}
+                            </select>
+                        </div>
+                    </div>
+
+                    {? elseif($field['type'] == 'selectdefine'): ?}
+                    <div class="form-group clearfix">
+                        <label for="{field[index]}">{field[label]}</label>
+                        <div style="float: left;width: 100%;" class="item">
+                            <select class="form-control"  id="{field[index]}" name="{field[index]}">
+                                <?php $option = json_decode($field['option']);?>
+                                {each $option as $key=>$val}
                                 <option value="{key}">{val}</option>
                                 {/each}
                             </select>
@@ -232,9 +236,12 @@
             <?php
             $table = $field['table'];
             $data = _db()->useCB()->select('*')->from($table)->where(array('status', 1))->result();
+            if(isset($data[0]['parent'])) {
+                $data = buildArr($data, 'parent', 0);
+            }
             ?>
             {each $data as $val }
-            <option value="<?php echo $val[$field['show_value']]; ?>"><?php echo $val[$field['show_name']]; ?></option>
+            <option value="<?php echo $val[$field['show_value']]; ?>"> <?php if(isset($val['parent'])){ echo str_repeat('&nbsp;&nbsp;', $val['lever']); } ?><?php echo $val[$field['show_name']]; ?></option>
             {/each}
 
         </select>
@@ -243,7 +250,7 @@
     <script>
         $('#{field[index]}').change(function() {
             var optionSelected = $(this).find("option:selected");
-            var textSelected   = optionSelected.text();
+            var textSelected   = optionSelected.text().trim();
             $('#{field[hidden]}').val(textSelected);
         });
     </script>
@@ -306,18 +313,6 @@
       }, 100);
   </script>
 
-
-  {? elseif($field['type'] == 'select_fix'): ?}
-    <div class="form-group clearfix">
-        <label for="{field[index]}">{field[label]}</label>
-        <select class="form-control" id="{field[index]}" name="{field[index]}" >
-            <option value="1">Không cấm</option>
-            <option value="edit">edit</option>
-            <option value="add">add</option>
-        </select>
-    </div>
-
-
     {? elseif($field['type'] == 'tinymce'): ?}
     <div class="form-group clearfix">
         <label for="{field[index]}">{field[label]}</label>
@@ -335,6 +330,18 @@
         <div style="float: left;width: 100%;" class="item">
             <select class="form-control"  id="{field[index]}" name="{field[index]}">
                 {each $field['option'] as $key=>$val}
+                <option value="{key}">{val}</option>
+                {/each}
+            </select>
+        </div>
+    </div>
+    {? elseif($field['type'] == 'selectdefine'): ?}
+    <div class="form-group clearfix">
+        <label for="{field[index]}">{field[label]}</label>
+        <div style="float: left;width: 100%;" class="item">
+            <select class="form-control"  id="{field[index]}" name="{field[index]}">
+                <?php $option = json_decode($field['option']);?>
+                {each $option as $key=>$val}
                 <option value="{key}">{val}</option>
                 {/each}
             </select>

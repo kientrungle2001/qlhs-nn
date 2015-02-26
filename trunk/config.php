@@ -47,7 +47,15 @@ define('QUESTION_WORDS',	'Dạng về từ');
 define('QUESTION_PHRASE',	'Dạng về câu');
 define('QUESTION_PASSAGE',	'Dạng bài về đoạn văn');
 define('QUESTION_CITATION',	'Dạng bài về bài văn');
-
+$type_level = array(
+    '1' => 'Xem',
+    'add'=> 'Thêm',
+    'edit'=>'Sửa',
+    'del'=>'Xóa',
+    'import'=>'Thêm dữ liệu',
+    'export'=>'Xuất dữ liệu'
+);
+define('TYPE_LEVEL', json_encode($type_level));
 //	FORMAT DATE
 
 define('DATEFORMAT',	'Y-m-d H:i:s');
