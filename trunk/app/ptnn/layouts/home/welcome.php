@@ -139,8 +139,8 @@
 <script>
 
 	function LoginFB(){
-		
-        window.location = "/Account/loginfacebook";
+		window.open('/Account/loginfacebook', '_blank', 'toolbar=yes, location=yes, status=yes, menubar=yes, scrollbars=yes, width=400, height=400');
+        //window.location = "/Account/loginfacebook";
     }
 	function login(){
 		
