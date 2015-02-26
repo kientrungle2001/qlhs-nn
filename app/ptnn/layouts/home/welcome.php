@@ -137,11 +137,27 @@
 	</div>
 </div>
 <script>
+	var vWin;
+	function tWin() {
+        if (vWin.closed) {
+            document.location = document.location;
+        }
+        else {
+            setTimeout("tWin()", 500);
+        }
+  	}
 
-	function LoginFB(){
-		window.open('/Account/loginfacebook', '_blank', 'toolbar=yes, location=yes, status=yes, menubar=yes, scrollbars=yes, width=400, height=400');
-        //window.location = "/Account/loginfacebook";
+
+    function LoginFB(){
+        var url = 'http://ptnn.vn/Account/loginfacebook';
+        var width = 900;
+        var Xpos = ((screen.availWidth - width)/2);
+        var height = 500;
+        var Ypos =((screen.availHeight - height)/2);                
+        vWin=window.open(url,"CM_OpenID","width=" + width + ",height=" + height + ",resizable,scrollbars=yes,status=1");        
+        tWin(); 
     }
+
 	function login(){
 		
 		var userlogin 		= $('#userlogin').val();
