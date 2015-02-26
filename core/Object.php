@@ -3,7 +3,7 @@
  * View object
  *
  */
-class PzkObject {
+class PzkObject extends PzkSG {
 	public $children;
 	public $layout = 'empty';
 	public $scriptable = false;
@@ -565,46 +565,12 @@ class PzkObject {
 		return pzk_loader()->getModel($model);
 	}
 	
-	public function __call($name, $arguments) {
-
-		//Getting and setting with $this->property($optional);
-
-		if (property_exists(get_class($this), $name)) {
-
-
-			//Always set the value if a parameter is passed
-			if (count($arguments) == 1) {
-				/* set */
-				$this->$name = $arguments[0];
-			} else if (count($arguments) > 1) {
-				throw new \Exception("Setter for $name only accepts one parameter.");
-			}
-
-			//Always return the value (Even on the set)
-			return $this->$name;
-		}
-
-		//If it doesn't chech if its a normal old type setter ot getter
-		//Getting and setting with $this->getProperty($optional);
-		//Getting and setting with $this->setProperty($optional);
-		$prefix = substr($name, 0, 3);
-		$property = strtolower($name[3]) . substr($name, 4);
-		switch ($prefix) {
-			case 'get':
-				return $this->$property;
-				break;
-			case 'set':
-				//Always set the value if a parameter is passed
-				if (count($arguments) != 1) {
-					throw new \Exception("Setter for $name requires exactly one parameter.");
-				}
-				$this->$property = $arguments[0];
-				//Always return this (Even on the set)
-				return $this;
-			default:
-				throw new \Exception("Property $name doesn't exist.");
-				break;
-		}
+	public function set($key, $value) {
+		$this->$key = $value;
+	}
+	
+	public function get($key, $timeout=NULL) {
+		return $this->$key;
 	}
 	
 	public $events = array();
