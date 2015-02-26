@@ -28,6 +28,23 @@
 							  	</div>
 							</div>
 				    	</form>
+
+				    	<form id="loginFBForm" class="login form-horizontal" >
+				    		<div class="form-group margin-top-10">
+				    			<div class="col-xs-3">
+							  		<label class="login-title" for="userlogin">Đăng nhập bằng tài khoản:</label>
+							  	</div>
+							  	<div class="col-xs-2 control-group">
+							  		<img width="122px" height="42px" onclick="return LoginFB()" alt="Đăng nhập bằng tài khoản facebook" src="/3rdparty/uploads/img/facebook.png" data-toggle="tooltip" data-placement="top" title="Đăng nhập bằng tài khoản Facebook">
+							  	</div>
+							  	<div class="col-xs-2 control-group">
+							  		<img width="117px" height="43px" onclick="return LoginGoogle()" src="/3rdparty/uploads/img/google.png" data-toggle="tooltip" data-placement="top" title="Đăng nhập bằng tài khoản Gmail">
+							  	</div>
+							  	<div class="col-xs-2	 control-group">
+							  		<img width="98px" height="43px" onclick="return LoginYahoo()" src="/3rdparty/uploads/img/yahoo.png" data-toggle="tooltip" data-placement="top" title="Đăng nhập bằng tài khoản Yahoo">
+							  	</div>
+							</div>
+				    	</form>
 				    	
 				    	<form id="registerForm" class="register form-horizontal margin-top-20" onsubmit="return register()">
 				    		<div class="form-group margin-top-10">
@@ -36,7 +53,7 @@
 							  	</div>
 							  	<div class="col-xs-4 margin-top-10">
 							  		<label for="username">Tên đăng nhập :</label> <span class="validate">(*)</span>
-						    		<input type="text" class="form-control" id="username" name="username" placeholder="Tên đăng nhập" data-toggle="tooltip" data-placement="top" title="Tên đăng nhập tối thiểu phải 6 ký tự, không có ký tự đặc biệt">
+						    		<input type="text" class="form-control" id="username" name="username" placeholder="Tên đăng nhập" data-toggle="tooltip" data-placement="top" title="Tên đăng nhập tối thiểu phải 6 ký tự, không có ký tự đặc biệt">
 						    	</div>
 						    	<div class="col-xs-4 margin-top-10">
 							  		<label for="email">Email :</label> <span class="validate">(*)</span>
@@ -121,6 +138,11 @@
 </div>
 <script>
 
+	 function LoginFB(){
+        window.location = "/Account/loginfacebook";
+        //window.onload = "/Account/loginfacebook";
+
+      }
 	function login(){
 		
 		var userlogin 		= $('#userlogin').val();
