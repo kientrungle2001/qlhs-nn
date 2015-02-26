@@ -252,7 +252,8 @@ class PzkParser {
      * @param $data du lieu can parse
      */
     public static function parseTemplate($content, $data) {
-        $content = preg_replace('/\{\?/', '<?php', $content);
+        $content = str_replace('<?=', '<?php echo ', $content);
+		$content = preg_replace('/\{\?/', '<?php', $content);
         $content = preg_replace('/\?\}/', '?>', $content);
         $content = preg_replace('/\{url ([^\}]+)\}/', '<?php echo BASE_REQUEST . \'$1\'; ?>', $content);
 		$content = preg_replace('/\{rurl ([^\}]+)\}/', BASE_URL . '$1', $content);
