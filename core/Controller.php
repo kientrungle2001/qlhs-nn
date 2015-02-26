@@ -1,28 +1,6 @@
 <?php
 
-class PzkController {
-
-    /**
-     *
-     * @var PzkCoreApplication
-     */
-    public $app;
-
-    /**
-     * 
-     * @param PzkCoreApplication $app
-     */
-    public function setApp(PzkCoreApplication $app) {
-        $this->app = $app;
-    }
-
-    /**
-     * 
-     * @return PzkCoreApplication
-     */
-    public function getApp() {
-        return $this->app;
-    }
+class PzkController extends PzkSG{
 	
 	public function getStructure($uri) {
 		if($uri instanceof PzkObject) return $uri;
