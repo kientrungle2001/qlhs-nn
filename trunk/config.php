@@ -48,7 +48,7 @@ define('QUESTION_PHRASE',	'Dạng về câu');
 define('QUESTION_PASSAGE',	'Dạng bài về đoạn văn');
 define('QUESTION_CITATION',	'Dạng bài về bài văn');
 $type_level = array(
-    '1' => 'Xem',
+    'index' => 'Xem',
     'add'=> 'Thêm',
     'edit'=>'Sửa',
     'del'=>'Xóa',

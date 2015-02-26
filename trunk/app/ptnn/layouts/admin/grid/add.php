@@ -43,6 +43,7 @@
                             <?php
                             $parents = _db()->select('*')->from($field['table'])->result();
                             if(isset($parents[0]['parent'])) {
+                                $parents = buildArr($parents, 'parent', 0);
                                 echo "<option value='0'>&nbsp;&nbsp;&nbsp;&nbsp;Danh mục gốc</option>";
                             }else{
                                 echo "<option value='0'>Danh mục gốc</option>";
