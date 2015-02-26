@@ -75,9 +75,18 @@ $setEditTabs = $controller->setEditTabs;
                                    <?php
                                    $table = $field['table'];
                                    $data = _db()->useCB()->select('*')->from($table)->where(array('status', 1))->result();
+                                   if(isset($data[0]['parent'])) {
+                                       $data = buildArr($data, 'parent', 0);
+                                   }
                                    ?>
                                    {each $data as $val }
-                                   <option <?php if($row[$field['index']] == $val[$field['show_value']]) { echo 'selected'; } ?> value="<?php echo $val[$field['show_value']]; ?>"><?php echo $val[$field['show_name']]; ?></option>
+                                   <?php
+                                   $selected = '';
+                                   if($val[$field['show_value']] == $row[$field['index']]) { $selected = 'selected'; }?>
+                                   <option value="<?php echo $val[$field['show_value']]; ?>" {selected}>
+                                   <?php if(isset($val['parent'])){ echo str_repeat('&nbsp;&nbsp;', $val['lever']); } ?>
+                                   <?php echo $val[$field['show_name']]; ?>
+                                   </option>
                                    {/each}
 
                                </select>
@@ -86,7 +95,7 @@ $setEditTabs = $controller->setEditTabs;
                            <script>
                                $('#{field[index]}').change(function() {
                                    var optionSelected = $(this).find("option:selected");
-                                   var textSelected   = optionSelected.text();
+                                   var textSelected   = optionSelected.text().trim();
                                    $('#{field[hidden]}').val(textSelected);
                                });
                            </script>
@@ -159,19 +168,6 @@ $setEditTabs = $controller->setEditTabs;
                                }, 100);
                            </script>
 
-
-
-                           {? elseif($field['type'] == 'select_fix'): ?}
-                           <div class="form-group clearfix">
-                               <label for="{field[index]}">{field[label]}</label>
-                               <select class="form-control" id="{field[index]}" name="{field[index]}" >
-                                   <option <?php if($row[$field['index']] == 1) { echo 'selected'; } ?> value="1">Không cấm</option>
-                                   <option <?php if($row[$field['index']] == 'edit') { echo 'selected'; } ?> value="edit">edit</option>
-                                   <option <?php if($row[$field['index']] == 'add') { echo 'selected'; } ?> value="add">add</option>
-                               </select>
-                           </div>
-
-
                            {? elseif($field['type'] == 'tinymce'): ?}
                            <div class="form-group clearfix">
                                <label for="{field[index]}">{field[label]}</label>
@@ -189,6 +185,19 @@ $setEditTabs = $controller->setEditTabs;
                                <div style="float: left;width: 100%;" class="item">
                                    <select class="form-control"  id="{field[index]}" name="{field[index]}">
                                        {each $field['option'] as $key=>$val}
+                                       <option value="{key}" <?php if($row[$field['index']] == $key) { echo 'selected'; } ?> >{val}</option>
+                                       {/each}
+                                   </select>
+                               </div>
+                           </div>
+
+                           {? elseif($field['type'] == 'selectdefine'): ?}
+                           <div class="form-group clearfix">
+                               <label for="{field[index]}">{field[label]}</label>
+                               <div style="float: left;width: 100%;" class="item">
+                                   <select class="form-control"  id="{field[index]}" name="{field[index]}">
+                                       <?php $option = json_decode($field['option']); ?>
+                                       {each $option as $key=>$val}
                                        <option value="{key}" <?php if($row[$field['index']] == $key) { echo 'selected'; } ?> >{val}</option>
                                        {/each}
                                    </select>
@@ -260,9 +269,18 @@ $setEditTabs = $controller->setEditTabs;
             <?php
             $table = $field['table'];
             $data = _db()->useCB()->select('*')->from($table)->where(array('status', 1))->result();
+            if(isset($data[0]['parent'])) {
+                $data = buildArr($data, 'parent', 0);
+            }
             ?>
             {each $data as $val }
-            <option <?php if($row[$field['index']] == $val[$field['show_value']]) { echo 'selected'; } ?> value="<?php echo $val[$field['show_value']]; ?>"><?php echo $val[$field['show_name']]; ?></option>
+            <?php
+            $selected = '';
+            if($val[$field['show_value']] == $row[$field['index']]) { $selected = 'selected'; }?>
+            <option value="<?php echo $val[$field['show_value']]; ?>" {selected}>
+            <?php if(isset($val['parent'])){ echo str_repeat('&nbsp;&nbsp;', $val['lever']); } ?>
+            <?php echo $val[$field['show_name']]; ?>
+            </option>
             {/each}
 
         </select>
@@ -271,7 +289,7 @@ $setEditTabs = $controller->setEditTabs;
     <script>
         $('#{field[index]}').change(function() {
             var optionSelected = $(this).find("option:selected");
-            var textSelected   = optionSelected.text();
+            var textSelected   = optionSelected.text().trim();
             $('#{field[hidden]}').val(textSelected);
         });
     </script>
@@ -344,19 +362,6 @@ $setEditTabs = $controller->setEditTabs;
         },100);
     </script>
 
-
-
-    {? elseif($field['type'] == 'select_fix'): ?}
-    <div class="form-group clearfix">
-        <label for="{field[index]}">{field[label]}</label>
-        <select class="form-control" id="{field[index]}" name="{field[index]}" >
-            <option <?php if($row[$field['index']] == 1) { echo 'selected'; } ?> value="1">Không cấm</option>
-            <option <?php if($row[$field['index']] == 'edit') { echo 'selected'; } ?> value="edit">edit</option>
-            <option <?php if($row[$field['index']] == 'add') { echo 'selected'; } ?> value="add">add</option>
-        </select>
-    </div>
-
-
     {? elseif($field['type'] == 'tinymce'): ?}
     <div class="form-group clearfix">
         <label for="{field[index]}">{field[label]}</label>
@@ -374,6 +379,19 @@ $setEditTabs = $controller->setEditTabs;
            <div style="float: left;width: 100%;" class="item">
                <select class="form-control"  id="{field[index]}" name="{field[index]}">
                    {each $field['option'] as $key=>$val}
+                   <option value="{key}" <?php if($row[$field['index']] == $key) { echo 'selected'; } ?> >{val}</option>
+                   {/each}
+               </select>
+           </div>
+       </div>
+
+       {? elseif($field['type'] == 'selectdefine'): ?}
+       <div class="form-group clearfix">
+           <label for="{field[index]}">{field[label]}</label>
+           <div style="float: left;width: 100%;" class="item">
+               <select class="form-control"  id="{field[index]}" name="{field[index]}">
+                   <?php $option = json_decode($field['option']); ?>
+                   {each $option as $key=>$val}
                    <option value="{key}" <?php if($row[$field['index']] == $key) { echo 'selected'; } ?> >{val}</option>
                    {/each}
                </select>

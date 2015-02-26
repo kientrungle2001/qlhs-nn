@@ -17,7 +17,7 @@ class PzkBackendController extends PzkController
             if(isset($action) && $action != 'index') {
                 $adminmodel = pzk_model('admin');
                 $checkAction = $adminmodel->checkActionType($action, $controller, $level);
-                if($checkAction) {
+                if(!$checkAction) {
                     $view = pzk_parse('<div layout="erorr/erorr" />');
                     $view->display();
                     die();

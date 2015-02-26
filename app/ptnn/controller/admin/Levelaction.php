@@ -56,7 +56,7 @@ class PzkAdminLevelactionController extends PzkGridAdminController {
         array(
             'index' => 'action_type',
             'type' => 'text',
-            'label' => 'Cấm quyền'
+            'label' => 'Quyền'
         ),
         array(
             'index' => 'status',
@@ -86,11 +86,12 @@ class PzkAdminLevelactionController extends PzkGridAdminController {
             'show_name' => 'name',
             'hidden'=>'name_menu'
         ),
+
         array(
             'index' => 'action_type',
-            'type' => 'select_fix',
-            'label' => 'Cấm quyền',
-
+            'type' => 'selectdefine',
+            'option' => TYPE_LEVEL,
+            'label' => 'Trạng thái đầu'
         ),
 
         array(
@@ -128,12 +129,11 @@ class PzkAdminLevelactionController extends PzkGridAdminController {
             'show_name' => 'name',
             'hidden'=>'name_menu'
         ),
-
         array(
             'index' => 'action_type',
-            'type' => 'select_fix',
-            'label' => 'Cấm quyền',
-
+            'type' => 'selectdefine',
+            'option' => TYPE_LEVEL,
+            'label' => 'Trạng thái đầu'
         ),
 
         array(
@@ -150,42 +150,7 @@ class PzkAdminLevelactionController extends PzkGridAdminController {
             )
         )
     );
-    public $addValidator = array(
-        'rules' => array(
-            'admin_action' => array(
-                'required' => true,
-                'minlength' => 2,
-                'maxlength' => 50
-            )
 
-        ),
-        'messages' => array(
-            'admin_action' => array(
-                'required' => 'Tên nhóm không được để trống',
-                'minlength' => 'Tên nhóm phải dài 2 ký tự trở lên',
-                'maxlength' => 'Tên nhóm chỉ dài tối đa 50 ký tự'
-            )
-
-        )
-    );
-    public $editValidator = array(
-        'rules' => array(
-            'admin_action' => array(
-                'required' => true,
-                'minlength' => 2,
-                'maxlength' => 50
-            )
-
-        ),
-        'messages' => array(
-            'admin_action' => array(
-                'required' => 'Tên nhóm không được để trống',
-                'minlength' => 'Tên nhóm phải dài 2 ký tự trở lên',
-                'maxlength' => 'Tên nhóm chỉ dài tối đa 50 ký tự'
-            )
-
-        )
-    );
 
     public function getAdminLevel() {
         $data = _db()->useCB()->select('id, level')->from('admin_level')->where(array('status', 1))->result();
