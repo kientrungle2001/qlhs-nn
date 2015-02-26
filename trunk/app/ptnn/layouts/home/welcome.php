@@ -138,11 +138,10 @@
 </div>
 <script>
 
-	 function LoginFB(){
+	function LoginFB(){
+		
         window.location = "/Account/loginfacebook";
-        //window.onload = "/Account/loginfacebook";
-
-      }
+    }
 	function login(){
 		
 		var userlogin 		= $('#userlogin').val();
