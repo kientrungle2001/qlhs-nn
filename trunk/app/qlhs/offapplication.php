@@ -16,4 +16,5 @@
 	<core.rewrite.request pattern="^\/([*controller*][\w_][\w\d_]*)[\/]?$" queryParams="controller" defaultQueryParams='{"action": "index"}' />
 	<core.rewrite.request pattern="^\/([*controller*][\w_][\w\d_]*)\/([*action*][\w_][\w\d_]*)" queryParams="controller, action" />
 	<core.rewrite.permission id="permission" />
+	<crawler.hotel.mytour id="mytour" />
 </core.application>

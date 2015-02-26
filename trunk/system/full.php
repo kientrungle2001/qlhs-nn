@@ -2,6 +2,8 @@
 	<core.loader id="loader" />
 	<core.request id="request" />
 	<core.rewrite.host name="iweb.vn" app="test" />
+	<core.rewrite.host name="phattrienngonngu.com" app="qlhs" controller="Student" action="index" />
+	<core.rewrite.host name="www.phattrienngonngu.com" app="qlhs" controller="Student" action="index" />
 	<core.rewrite.host name="qlhs.vn" app="qlhs" controller="Student" action="index" />
 	<core.rewrite.host name="ptnn.vn" app="ptnn" />
 	<core.rewrite.host name="about.vn" app="about" />
