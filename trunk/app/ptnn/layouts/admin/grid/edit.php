@@ -299,7 +299,7 @@ $setEditTabs = $controller->setEditTabs;
     <div class="form-group clearfix">
         <label for="{field[index]}">{field[label]}</label>
         <select class="form-control" id="{field[index]}" name="{field[index]}" >
-            <option value="">Chọn controller</option>
+            <option value="<?php if($row[$field['index']]== 0){ echo '0_'.time(); } else { echo $row[$field['index']];} ?>">Chọn controller</option>
             <?php
             $arrcontroller = glob(BASE_DIR.'/app/ptnn/controller/admin/*.php');
 

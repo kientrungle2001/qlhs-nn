@@ -13,7 +13,7 @@
             ->where(array(array('column', 'ala', 'action_type'),1))
             ->where(array(array('column', 'am', 'status'),1))
             ->where(array(array('column', 'ala', 'status'),1));
-        //echo $query->getQuery();
+        echo $query->getQuery();
        // $query->where(array(array('in', 'am', 'status'),$arrIds));
         //$query->where(array('in', 'am.id', $arrIds));
         $allmenu = $query->result();

@@ -67,7 +67,7 @@
         		$class_action = " class = 'action'";
         	}
             echo '<li'.$class_action.'>';
-            if($item['admin_controller'] == '0'){
+            if(substr($item['admin_controller'], 0, 1) == '0'){
                 echo '<a href="javarscript:void(0);">';
             }else {
                 echo '<a href="/'.$item['admin_controller'].'/index">';
