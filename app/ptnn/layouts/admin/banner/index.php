@@ -17,7 +17,7 @@
 	{each $items as $item}
 	<?php 
 	$tab = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp';
-	$banner = str_repeat($tab, $item['lever'])
+	$banner = str_repeat($tab, $item['level'])
 	.$item['title']
 	.$item['ngaytao']
 	.$item['url']

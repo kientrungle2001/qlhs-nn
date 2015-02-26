@@ -21,7 +21,7 @@ $row = pzk_validator()->getEditingData();
 				<?php 
 				$selected = '';
 				if($parent['id'] == $parentId) { $selected = 'selected'; }?>
-				<option value="{parent[id]}" {selected}><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $parent['lever']); ?>{parent[name]}</option>
+				<option value="{parent[id]}" {selected}><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $parent['level']); ?>{parent[name]}</option>
 			{/each}
 		</select>
 	</div>

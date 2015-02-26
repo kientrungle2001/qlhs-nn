@@ -74,7 +74,7 @@
           	<select id="categoryId" name="categoryId" class="form-control input-sm" placeholder="Danh mục" onchange="window.location='{url /admin_questions/changeCategoryId}?categoryId=' + this.value;">
 			<option value="">-- Tất cả --</option>
 			{each $categoryTree as $cat}
-				<option value="{cat[id]}"><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $cat['lever']);?>{cat[name]}</option>
+				<option value="{cat[id]}"><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $cat['level']);?>{cat[name]}</option>
 			{/each}
  		 	</select>
   			<script type="text/javascript">

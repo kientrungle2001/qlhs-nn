@@ -71,7 +71,7 @@
 					</select> phút
 				</th>
 				<th>
-					<select name="lever">
+					<select name="level">
 						<option value="1">Dễ</option>
 						<option value="2">Bình thường</option>
 						<option value="3">Khó</option>

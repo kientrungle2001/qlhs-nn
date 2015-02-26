@@ -66,7 +66,7 @@
 			{each $categories as $cat}
 			<?php 
 			$tab = '&nbsp;&nbsp;&nbsp;&nbsp;';	
-			$tabs = str_repeat($tab, $cat['lever']);
+			$tabs = str_repeat($tab, $cat['level']);
 			$catName = $tabs.$cat['name'];
 			$selected = '';
 			if(in_array($cat['id'], $categoryIds)) {

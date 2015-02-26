@@ -105,7 +105,7 @@ if($listSettingType =='parent') {
                             }
                             ?>
                             {each $parents as $parent}
-                            <option value="<?php echo $parent[$field['show_value']]; ?>" ><?php if(isset($parent['parent'])){ echo str_repeat('--', $parent['lever']); } ?>
+                            <option value="<?php echo $parent[$field['show_value']]; ?>" ><?php if(isset($parent['parent'])){ echo str_repeat('--', @$parent['level']); } ?>
                                 <?php echo $parent[$field['show_name']]; ?>
                             </option>
                             {/each}
@@ -184,7 +184,7 @@ if($listSettingType =='parent') {
         {? elseif ($field['type'] == 'parent') : ?}
         <?php
         $tab = '&nbsp;&nbsp;&nbsp;&nbsp;';
-        $cate = str_repeat($tab, $item['lever']).$item[$field['index']];
+        $cate = str_repeat($tab, $item['level']).$item[$field['index']];
         ?>
         <td>{cate}</td>
 

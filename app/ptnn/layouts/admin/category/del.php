@@ -16,7 +16,7 @@ $parents = buildArr($parents, 'parent', 0);
 			<?php 
 			$selected = '';
 			if($parent['id'] == $item['parent']) { $selected = 'selected'; }?>
-			<option value="{parent[id]}" {selected}><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $parent['lever']); ?>{parent[name]}</option>
+			<option value="{parent[id]}" {selected}><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $parent['level']); ?>{parent[name]}</option>
 		{/each}
 	</select>
   </div>

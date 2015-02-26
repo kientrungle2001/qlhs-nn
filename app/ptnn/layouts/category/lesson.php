@@ -20,10 +20,10 @@
             {each $subject as $valueSub}
             <?php
             $tab = "&nbsp;&nbsp;&nbsp;&nbsp;";
-            if($valueSub['lever'] == 1){
+            if($valueSub['level'] == 1){
                 $subject = $tab.$valueSub['name'];
             } else {
-                for ($i= 2; $i <= $valueSub['lever'] ; $i++) {
+                for ($i= 2; $i <= $valueSub['level'] ; $i++) {
                     $tab = $tab.$tab;
                 }
                 $subject = $tab.$valueSub['name'];

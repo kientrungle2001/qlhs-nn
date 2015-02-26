@@ -12,7 +12,7 @@
 	{each $items as $item}
 	<?php 
 	$tab = '&nbsp;&nbsp;&nbsp;&nbsp;';
-	$cate = str_repeat($tab, $item['lever']).$item['name'];
+	$cate = str_repeat($tab, $item['level']).$item['name'];
 	?>
 	<tr>
 		<td>{item[id]}</td>
