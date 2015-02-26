@@ -56,7 +56,7 @@ $questionTypes = _db()->select('*')->from('questiontype')->result();
 			{each $categories as $cat}
 			<?php 
 			$tab = '&nbsp;&nbsp;&nbsp;&nbsp;';	
-			$tabs = str_repeat($tab, $cat['lever']);
+			$tabs = str_repeat($tab, $cat['level']);
 			$catName = $tabs.$cat['name'];
 			?>
 			<option value="{cat[id]}">{catName}</option>

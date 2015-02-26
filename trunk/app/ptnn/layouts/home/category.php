@@ -10,10 +10,10 @@
 		{each $cateParent as $value}
 		<?php 
 			$tab = "&nbsp;&nbsp;&nbsp;&nbsp;";
-			if($value['lever'] == 1){
+			if($value['level'] == 1){
 				$cate = $tab.$value['name'];
 			} else {
-				for ($i= 2; $i <= $value['lever'] ; $i++) { 
+				for ($i= 2; $i <= $value['level'] ; $i++) { 
 					$tab = $tab.$tab;
 				}
 				$cate = $tab.$value['name'];
@@ -29,10 +29,10 @@
 		{each $subject as $valueSub}
 		<?php
 			$tab = "&nbsp;&nbsp;&nbsp;&nbsp;";
-			if($valueSub['lever'] == 1){
+			if($valueSub['level'] == 1){
 				$subject = $tab.$valueSub['name'];
 			} else {
-				for ($i= 2; $i <= $valueSub['lever'] ; $i++) { 
+				for ($i= 2; $i <= $valueSub['level'] ; $i++) { 
 					$tab = $tab.$tab;
 				}
 				$subject = $tab.$valueSub['name'];
@@ -67,7 +67,7 @@
 					</select> phút
 				</th>
 				<th>
-					<select name="lever">
+					<select name="level">
 						<option value="1">Dễ</option>
 						<option value="2">Bình thường</option>
 						<option value="3">Khó</option>

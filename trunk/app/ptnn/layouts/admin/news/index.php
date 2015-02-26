@@ -15,7 +15,7 @@
 	{each $items as $item}
 	<?php 
 	$tab = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp';
-	$news = str_repeat($tab, $item['lever'])
+	$news = str_repeat($tab, $item['level'])
 	.$item['title']
 	.$item['content']
 	.$item['brief']

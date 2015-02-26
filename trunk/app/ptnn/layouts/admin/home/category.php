@@ -11,10 +11,10 @@
 		if($value['id'] == $data->rootId) {
 			$value['name'] = '<b>' . $value['name'] . '</b>';
 		}
-		if($value['lever'] == 1){
+		if($value['level'] == 1){
 			$cate = $tab.$value['name'];
 		} else {
-			for ($i= 2; $i <= $value['lever'] ; $i++) { 
+			for ($i= 2; $i <= $value['level'] ; $i++) { 
 				$tab = $tab.$tab;
 			}
 			

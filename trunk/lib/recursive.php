@@ -11,16 +11,16 @@
 		return $resultArr;
 	}
 	
-	function recursive($data,$columnName = "",$parentValue = 0, $lever = 1,&$resultArr)
+	function recursive($data,$columnName = "",$parentValue = 0, $level = 1,&$resultArr)
 	{
 		if(count($data) > 0){
 			foreach ($data as $key => $value) {
 				if($value['parent'] == $parentValue){
-					$value['lever'] = $lever;
+					$value['level'] = $level;
 					$resultArr[] = $value;
 					$newParent = $value['id'];
 					unset($data[$key]);
-					recursive($data,$columnName,$newParent,$lever+1,$resultArr);
+					recursive($data,$columnName,$newParent,$level+1,$resultArr);
 				}
 			}
 		}

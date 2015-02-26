@@ -60,7 +60,7 @@ $setEditTabs = $controller->setEditTabs;
                                    $selected = '';
                                    if($parent[$field['show_value']] == $row[$field['index']]) { $selected = 'selected'; }?>
                                    <option value="<?php echo $parent[$field['show_value']]; ?>" {selected}>
-                                   <?php if(isset($parent['parent'])){ echo str_repeat('--', $parent['lever']); } ?>
+                                   <?php if(isset($parent['parent'])){ echo str_repeat('--', $parent['level']); } ?>
                                    <?php echo $parent[$field['show_name']]; ?>
                                    </option>
                                    {/each}
@@ -84,7 +84,7 @@ $setEditTabs = $controller->setEditTabs;
                                    $selected = '';
                                    if($val[$field['show_value']] == $row[$field['index']]) { $selected = 'selected'; }?>
                                    <option value="<?php echo $val[$field['show_value']]; ?>" {selected}>
-                                   <?php if(isset($val['parent'])){ echo str_repeat('&nbsp;&nbsp;', $val['lever']); } ?>
+                                   <?php if(isset($val['parent'])){ echo str_repeat('&nbsp;&nbsp;', $val['level']); } ?>
                                    <?php echo $val[$field['show_name']]; ?>
                                    </option>
                                    {/each}
@@ -254,7 +254,7 @@ $setEditTabs = $controller->setEditTabs;
             $selected = '';
             if($parent[$field['show_value']] == $row[$field['index']]) { $selected = 'selected'; }?>
             <option value="<?php echo $parent[$field['show_value']]; ?>" {selected}>
-            <?php if(isset($parent['parent'])){ echo str_repeat('--', $parent['lever']); } ?>
+            <?php if(isset($parent['parent'])){ echo str_repeat('--', $parent['level']); } ?>
             <?php echo $parent[$field['show_name']]; ?>
             </option>
             {/each}
@@ -278,7 +278,7 @@ $setEditTabs = $controller->setEditTabs;
             $selected = '';
             if($val[$field['show_value']] == $row[$field['index']]) { $selected = 'selected'; }?>
             <option value="<?php echo $val[$field['show_value']]; ?>" {selected}>
-            <?php if(isset($val['parent'])){ echo str_repeat('&nbsp;&nbsp;', $val['lever']); } ?>
+            <?php if(isset($val['parent'])){ echo str_repeat('&nbsp;&nbsp;', $val['level']); } ?>
             <?php echo $val[$field['show_name']]; ?>
             </option>
             {/each}
