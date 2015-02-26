@@ -56,4 +56,9 @@ class PzkHomeController extends PzkController{
 			}
 		}
 	}
+	
+	public function sessionAction() {
+		//sg_session()->setTime(array('a'=>1, 'b'=>2, 'c'=> array('d' => 4, 'e' => 5)));
+		var_dump(sg_session()->getTime());
+	}
 }

@@ -1,7 +1,7 @@
 <?php
 class PzkSGStore extends PzkSG{
 	public $storage;
-	public function __construct(SGStore $storage) {
+	public function __construct($storage) {
 		$this->storage = $storage;
 	}
 	
