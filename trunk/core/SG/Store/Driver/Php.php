@@ -9,7 +9,7 @@ class PzkSGStoreDriverPhp extends PzkSGStore {
 	}
 	
 	public function get($key, $timeout = NULL) {
-		return $this->storage[$key];
+		return @$this->storage[$key];
 	}
 	
 	public function clear(){

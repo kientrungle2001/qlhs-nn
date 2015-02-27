@@ -337,7 +337,7 @@ function pzk_store($key, $value = NULL, $timeout = NULL) {
 	}
 	return $store->set($realKey, $value);
 }
-
+/*
 // Khoi tao Store de luu cac bien global
 $phpStorage = PzkStore::setCurrent(PzkStore::instance('php'));
 PzkStore::store('php', $phpStorage);
@@ -345,7 +345,7 @@ PzkStore::store('php', $phpStorage);
 // khoi tao store de luu cac element
 $elementStorage = PzkStore::instance('php');
 PzkStore::store('element', $elementStorage); // php element
-
+*/
 /**
  * Ham lay hoac dat cac element
  *
@@ -379,14 +379,14 @@ function pzk_element($key = NULL, $value = NULL) {
  * @param Object $value: gia tri can dat
  * @return mixed gia tri tuong ung voi khoa
  */
-
+/*
 function pzk_store_session($key = NULL, $value = NULL, $timeout = NULL) {
 	if($key === NULL) {
 		return pzk_store('session');
 	}
 	return pzk_store('session.'. $key, $value, $timeout);
 }
-
+*/
 /**
  * Lấy, đặt giá trị của session
  * @param String $key
@@ -394,10 +394,11 @@ function pzk_store_session($key = NULL, $value = NULL, $timeout = NULL) {
  * @param string $timeout thời gian hết hạn session
  * @return mixed
  */
+/*
 function pzk_session($key = NULL, $value = NULL, $timeout = NULL) {
 	return pzk_store_session($key, $value, $timeout);
 }
-
+*/
 /**
  * Ham lay gia tri trong memcache
  *
@@ -405,7 +406,7 @@ function pzk_session($key = NULL, $value = NULL, $timeout = NULL) {
  * @param String $value: gia tri can dat
  * @return gia tri tuong ung voi khoa
  */
-
+/*
 function pzk_store_memcache($key = NULL, $value = NULL, $timeout = NULL) {
 	if($key === NULL) {
 		return pzk_store('memcache');
@@ -416,7 +417,7 @@ function pzk_store_memcache($key = NULL, $value = NULL, $timeout = NULL) {
 function pzk_memcache($key = NULL, $value = NULL, $timeout = NULL) {
 	return pzk_store_memcache($key, $value, $timeout);
 }
-
+*/
 /**
  * Ham lay gia tri duoc cache o file
  *
@@ -424,7 +425,7 @@ function pzk_memcache($key = NULL, $value = NULL, $timeout = NULL) {
  * @param String $value: gia tri duoc luu ra file
  * @return gia tri tuong ung voi khoa
  */
-
+/*
 function pzk_store_filecache($key = NULL, $value = NULL, $timeout = NULL) {
 	if($key === NULL) {
 		return pzk_store('filecache');
@@ -435,7 +436,8 @@ function pzk_store_filecache($key = NULL, $value = NULL, $timeout = NULL) {
 function pzk_filecache($key = NULL, $value = NULL, $timeout = NULL) {
 	return pzk_store_filecache($key, $value, $timeout);
 }
-
+*/
+/*
 function pzk_store_filevar($key = NULL, $value = NULL, $timeout = NULL) {
 	if($key === NULL) {
 		return pzk_store('fileVar');
@@ -446,7 +448,7 @@ function pzk_store_filevar($key = NULL, $value = NULL, $timeout = NULL) {
 function pzk_filevar($key = NULL, $value = NULL, $timeout = NULL) {
 	return pzk_store_filevar($key, $value, $timeout);
 }
-
+*/
 /////////////////////////// Cache Shortcuts /////////////////////////
 
 /**
@@ -456,12 +458,4 @@ function pzk_filevar($key = NULL, $value = NULL, $timeout = NULL) {
  */
 function pzk_parse($xml) {
 	return PzkParser::parse($xml);
-}
-
-function pzk_pclass($selector) {
-	$pss = pzk_store_element('pss'); 
-	if ($pss) {
-		return @$pss->arr[$selector];
-	}
-	return 0;
 }

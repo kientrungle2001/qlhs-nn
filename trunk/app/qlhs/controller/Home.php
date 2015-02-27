@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // --IGNORE--
 class PzkHomeController extends PzkController{
 	
@@ -58,7 +58,9 @@ class PzkHomeController extends PzkController{
 	}
 	
 	public function sessionAction() {
-		//sg_session()->setTime(array('a'=>1, 'b'=>2, 'c'=> array('d' => 4, 'e' => 5)));
+		$obj = new stdClass();
+		$obj->name = 'Kien';
+		sg_session()->setTime($obj);
 		var_dump(sg_session()->getTime());
 	}
 }
