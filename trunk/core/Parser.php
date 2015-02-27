@@ -31,6 +31,7 @@ class PzkParser {
     }
 
     public static function parseFile($obj) {
+		//if($rs = pzk_session()->get($obj)) return $rs;
 		$fileName = BASE_DIR . '/public/' . str_replace('/', '_', $obj . '.php');
 		
 		$filePath = self::getFilePath($obj . '.php');
@@ -47,7 +48,9 @@ class PzkParser {
         ob_end_clean();
         $source = str_replace('&', '&amp;', $source);
         
-		return self::parseDocument($source);
+		$rs = self::parseDocument($source);
+		//pzk_session()->set($obj, $rs);
+		return $rs;
     }
 
     public static function parseFilePath($filePath) {
@@ -112,7 +115,6 @@ class PzkParser {
      * @param $parent la parent cua node can parse
      */
     public static function parseNode($node, $parent = false) {
-        require_once BASE_DIR . '/lib/string.php';
         if ($node->nodeType == XML_ELEMENT_NODE) {
 
             $name = $node->nodeName;
