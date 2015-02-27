@@ -9,7 +9,7 @@ class PzkFormFckEditor extends PzkObject {
 	
 	public function init() {
 		if(!self::$scripted) {
-			if (@$this->scriptTo && $scriptToElement = pzk_store_element($this->scriptTo)) {
+			if (@$this->scriptTo && $scriptToElement = pzk_element($this->scriptTo)) {
 				$scriptToElement->append(pzk_parse('<html.js src="/3rdparty/jquery/fckeditor/fckeditor.js" />'));
 				$scriptToElement->append(pzk_parse('<html.js src="/js/form/fckEditor.js" />'));
 			}

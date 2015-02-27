@@ -207,6 +207,6 @@ class PzkPage extends PzkObject {
  * @return PzkPage
  */
 function pzk_page() {
-	return pzk_store_element('page');
+	return pzk_element('page');
 }
 ?>

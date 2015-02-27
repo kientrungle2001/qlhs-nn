@@ -75,7 +75,7 @@ class PzkCoreApplication extends PzkObjectLightWeight {
  * @return PzkCoreApplication
  */
 function pzk_app() {
-	return pzk_store_element('app');
+	return pzk_element('app');
 }
 
 /**

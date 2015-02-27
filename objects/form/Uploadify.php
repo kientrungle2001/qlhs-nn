@@ -6,7 +6,7 @@ class PzkFormUploadify extends PzkObject {
 	public $scriptTo = 'head';
 	public function init() {
 		if(!self::$scripted) {
-			if (@$this->scriptTo && $scriptToElement = pzk_store_element($this->scriptTo)) {
+			if (@$this->scriptTo && $scriptToElement = pzk_element($this->scriptTo)) {
 				$scriptToElement->append(pzk_parse('<html.css src="/3rdparty/jquery/uploadify2/uploadify.css" />'));
 				$scriptToElement->append(pzk_parse('<html.js src="/3rdparty/jquery/uploadify2/swfobject.js" />'));
 				$scriptToElement->append(pzk_parse('<html.js src="/3rdparty/jquery/uploadify2/jquery.uploadify.v2.1.4.min.js" />'));

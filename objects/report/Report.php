@@ -9,7 +9,7 @@ class PzkReportReport extends PzkCoreDbGrid {
     public $joins = false;
 
     public function init() {
-        if (@$this->scriptTo && $scriptToElement = pzk_store_element($this->scriptTo)) {
+        if (@$this->scriptTo && $scriptToElement = pzk_element($this->scriptTo)) {
             $scriptToElement->append(pzk_parse('<html.js src="/3rdparty/highchart/js/highcharts.js" />'));
             $scriptToElement->append(pzk_parse('<html.js src="/3rdparty/highchart/js/modules/exporting.js" />'));
         }

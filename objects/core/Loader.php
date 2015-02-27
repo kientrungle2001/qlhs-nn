@@ -92,7 +92,7 @@ class PzkCoreLoader extends PzkObjectLightWeight{
  * @return PzkCoreLoader
  */
 function pzk_loader() {
-	return pzk_store_element('loader');
+	return pzk_element('loader');
 }
 
 /**
