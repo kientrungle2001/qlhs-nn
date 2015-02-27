@@ -353,13 +353,13 @@ PzkStore::store('element', $elementStorage); // php element
  * @param PzkObject $value: instance cua element
  * @return PzkObject
  */
-
+/*
 function pzk_store_element($key = NULL, $value = NULL) {
 	if($key === NULL) {
 		return pzk_store('element');
 	}
 	return pzk_store('element.'. $key, $value);
-}
+}*/
 
 /**
  * Hàm lấy hoặc đặt element
@@ -367,9 +367,10 @@ function pzk_store_element($key = NULL, $value = NULL) {
  * @param string $value: element
  * @return PzkObject đối tượng
  */
+ /*
 function pzk_element($key = NULL, $value = NULL) {
 	return pzk_store_element($key, $value);
-}
+}*/
 
 /**
  * Ham lay gia tri cua 1 bien session
