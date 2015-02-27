@@ -308,3 +308,12 @@ class PzkParser {
     }
 
 }
+
+/**
+ * 
+ * @param unknown $xml
+ * @return PzkObject
+ */
+function pzk_parse($xml) {
+	return PzkParser::parse($xml);
+}
