@@ -17,7 +17,7 @@ class PzkSGStoreDriverMemcache extends PzkSGStoreDriver {
 	}
 	
 	public function get($key, $timeout = NULL) {
-		$this->storage->get($key);
+		return $this->storage->get($key);
 	}
 	
 	public function clear(){
