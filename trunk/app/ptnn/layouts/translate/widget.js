@@ -143,17 +143,17 @@ function WriteJS() {
     str+='#container{width:225px;}';
     str+='#xx_header,#xx_header_L,#xx_header_R{float:left;width:100%;height:29px;}';
     str += '#xx_header{background :transparent url("' + geDictURL + '/Content/images/bm_header_bg.png") repeat-x scroll top left;}';
-    str += '#xx_header_L{background:transparent url("' + geDictURL + '/Content/images/bm_header_left.png") no-repeat 0 0;width:27px;}';
+    str += '#xx_header_L{background:transparent url("' + geDictURL + '/Content/images/bm_header_left.png") no-repeat 0 0;width:59px;}';
     str += '#xx_header_L:hover{background  : transparent url("' + geDictURL + '/Content/images/bm_header_left.png") no-repeat -67px 0;}';
     str += '#xx_header_R{background  : transparent url("' + geDictURL + '/Content/images/bm_header_right.png") no-repeat top right;margin-left:27px;width:4px;}';
-    str+='#xx_header_search{float: left;margin-left: 6px;margin-top: 5px;padding: 0;width: 160px;}';
+    str+='#xx_header_search{float: left;margin-left: 6px;margin-top: 5px;padding: 0;width: 129px;}';
     str+='#xx_header_search_input,#search_center,#search_left,#search_right{float:left;width:100%;height:26px;}';
     str+='#xx_header_search_input{float:left;margin-left:0px;margin-right:0px;margin-top:0px;}';
     str += '#search_center{background: url("' + geDictURL + '/Content/images/bm_search_center.png") repeat-x scroll left top transparent;}';
     str += '#search_left{background: url("' + geDictURL + '/Content/images/bm_search_left.png") no-repeat scroll 0 0 transparent;}';
     str += '#search_right{background: url("' + geDictURL + '/Content/images/bm_search_right.png") no-repeat scroll top right transparent;}';
-    str+='#search_input{float: left;margin-left: 10px;margin-top: 2px;padding-top: 0px;width:93%;}';
-    str+='#Word{border: medium none;height: 14px;margin-top: 2px;width: 100%;}';
+    str+='#search_input{float: left;margin-left: 7px;margin-top: 0px;padding-top: 0px;width:90%;}';
+    str+='#Word{border: medium none;height: 5px;margin-top: 2px;margin-bottom: 2px;width: 100%;}';
     str+='#xx_header_x{float:right;margin-right:10px;margin-top:2px;}';
 
     str += '<\/style>';

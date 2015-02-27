@@ -4,7 +4,9 @@
             <li><a href="/">Trang Chủ</a></li>
 			<li><a href="http://localhost/ptnn/app/ptnn2/index.php">Diễn đàn</a></li>
 		</ul>
-        <?php $items = $data->getItems();
+        <?php 
+		
+		$items = $data->getItems();
         $items = buildTree($items);
         show_menu($items);
         ?>

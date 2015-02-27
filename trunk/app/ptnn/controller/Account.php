@@ -180,11 +180,11 @@ class PzkAccountController extends  PzkController
 					$entity->setData($addForum);
 					$entity->save();
 					// Em Tien: Chuyen mat khau member dang ky sang forum
-					$hash = hash('sha256', hash('sha256',$password.$salt));
-					$addPass=array('remember_key' =>sha256(sha256($password) . salt));
-					$entity = _db()->useCb()->getEntity('table')->setTable('xf_user_authenticate');
-					$entity->setData($addPass);
-					$entity->save();
+					//$hash = hash('sha256', hash('sha256',$password.$salt));
+					//$addPass=array('remember_key' =>sha256(sha256($password) . salt));
+					//$entity = _db()->useCb()->getEntity('table')->setTable('xf_user_authenticate');
+					//$entity->setData($addPass);
+					//$entity->save();
 					*/
 					//_db()->useCB()->insert('user')->fields('username,password,email,name,birthday,sex,address,phone,idpassport,idplace,iddate,registered')->values(array($rowRegister))->result();
 					
