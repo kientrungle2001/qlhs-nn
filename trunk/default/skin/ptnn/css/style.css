@@ -15,10 +15,6 @@ body{
 	background: url('/default/skin/ptnn/media/header.png') no-repeat;
 	border-bottom:1px solid #0464B1;
 }
-#user{
-	float: left;
-	
-	}
 #header h4,p{
 	padding-top: 35px;
 }
@@ -64,6 +60,8 @@ body{
     overflow: hidden;
 	color: #fff;
 }
+
+.user_name{position:relative;}
 
 /*Main*/
 #main{

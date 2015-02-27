@@ -37,7 +37,7 @@ function sw_get_current_weekday() {
 		<div class="col-xs-6 form">
 			<div class="pull-right margin-right-30">
 				<form action="search" method="post">
-					<span class="color-white">Tìm kiếm : </span><input type="text" /><span class="color-white"> Xin chào ( <?php echo pzk_session('username');?> )</span> 
+					<span class="color-white">Tìm kiếm : </span><input type="text" /><span class="color-white user_name"> Xin chào ( {children all} )</span> 
 					<a href="<?php echo BASE_URL?>/account/logout"><span>Thoát</span></a>
 				</form>
 			</div>
