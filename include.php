@@ -1,4 +1,5 @@
 <?php
+require_once 'lib/string.php';
 require_once 'lib/error.php';
 require_once 'lib/array.php';
 require_once 'lib/condition.php';
@@ -25,8 +26,8 @@ require_once 'core/Object.php';
 require_once 'core/Object/LightWeight.php';
 require_once 'core/Object/LightWeightSG.php';
 require_once 'core/Object/Smarty.php';
+
 require_once 'core/Condition.php';
-//require_once 'core/Store.php';
 require_once 'core/Parser.php';
 require_once 'core/Controller.php';
 
