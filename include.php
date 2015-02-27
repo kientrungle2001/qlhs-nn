@@ -11,6 +11,7 @@ require_once 'core/SG/Store.php';
 require_once 'core/SG/Store/Cluster.php';
 require_once 'core/SG/Store/Crypt.php';
 require_once 'core/SG/Store/Driver.php';
+require_once 'core/SG/Store/Driver/Php.php';
 require_once 'core/SG/Store/Driver/File.php';
 require_once 'core/SG/Store/Driver/Memcache.php';
 require_once 'core/SG/Store/Format.php';

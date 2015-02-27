@@ -125,7 +125,7 @@ class PzkParser {
             // xet xem co ten rut gon khong
             $shorts = explode('.', $name);
             if (count($shorts) == 2) {
-                $shortRs = pzk_store('shorty_' . $shorts[0]);
+                $shortRs = pzk_global()->get('shorty_' . $shorts[0]);
                 if ($shortRs) {
                     $name = $shortRs . '.' . $shorts[1];
                 }

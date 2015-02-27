@@ -1,5 +1,5 @@
 <?php
-function sg_session($key = NULL, $value = NULL, $timeout = NULL) {
+function pzk_session($key = NULL, $value = NULL, $timeout = NULL) {
 	static $session;
 	if(!$session)
 	$session = new PzkSGStoreSession(new PzkSGStoreFormatSerialize(new PzkSGStoreCrypt(new PzkSGStoreDriverFile('cache/session'))));
@@ -15,10 +15,10 @@ function sg_session($key = NULL, $value = NULL, $timeout = NULL) {
 	return $session;
 }
 
-function sg_memcache() {
+function pzk_memcache() {
 	static $memcache;
 	if(!$memcache)
-	$memcache = new PzkSGStoreFormatSerialize(new PzkSGStoreDriverMemcache());
+	$memcache = new PzkSGStoreFormatSerialize(new PzkSGStoreCrypt(new PzkSGStoreDriverMemcache()));
 	if($key === NULL) {
 		return $memcache;
 	} else {
@@ -35,6 +35,54 @@ function pzk_element($key = NULL, $value = NULL) {
 	static $store;
 	if(!$store)
 	$store = new PzkSGStoreDriverPhp();
+	if($key === NULL) {
+		return $store;
+	} else {
+		if($value === NULL) {
+			return $store->get($key);
+		} else {
+			return $store->set($key, $value);
+		}
+	}
+	return $store;
+}
+
+function pzk_global($key = NULL, $value = NULL) {
+	static $store;
+	if(!$store)
+	$store = new PzkSGStoreDriverPhp();
+	if($key === NULL) {
+		return $store;
+	} else {
+		if($value === NULL) {
+			return $store->get($key);
+		} else {
+			return $store->set($key, $value);
+		}
+	}
+	return $store;
+}
+
+function pzk_filecache($key = NULL, $value = NULL) {
+	static $store;
+	if(!$store)
+	$store = new PzkSGStoreDriverFile('cache');
+	if($key === NULL) {
+		return $store;
+	} else {
+		if($value === NULL) {
+			return $store->get($key);
+		} else {
+			return $store->set($key, $value);
+		}
+	}
+	return $store;
+}
+
+function pzk_filevar($key = NULL, $value = NULL) {
+	static $store;
+	if(!$store)
+	$store = new PzkSGStoreFormatSerialize(new PzkSGStoreDriverFile('cache'));
 	if($key === NULL) {
 		return $store;
 	} else {
