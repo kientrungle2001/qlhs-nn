@@ -654,7 +654,7 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
  * @return PzkCoreDatabase
  */
 function _db() {
-    $db = pzk_store_element('db')->clear();
+    $db = pzk_element('db')->clear();
 	$db->select('*');
 	$db->useCB();
 	return $db;

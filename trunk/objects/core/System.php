@@ -42,6 +42,6 @@ class PzkCoreSystem extends PzkObjectLightWeight {
  * @return PzkCoreSystem
  */
 function pzk_system() {
-	return pzk_store_element('system');
+	return pzk_element('system');
 }
 ?>
