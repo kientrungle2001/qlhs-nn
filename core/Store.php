@@ -450,12 +450,3 @@ function pzk_filevar($key = NULL, $value = NULL, $timeout = NULL) {
 }
 */
 /////////////////////////// Cache Shortcuts /////////////////////////
-
-/**
- * 
- * @param unknown $xml
- * @return PzkObject
- */
-function pzk_parse($xml) {
-	return PzkParser::parse($xml);
-}
