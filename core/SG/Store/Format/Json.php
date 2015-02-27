@@ -6,6 +6,6 @@ class PzkSGStoreFormatJson extends PzkSGStoreFormat {
 	}
 	
 	public function get($key, $timeout = NULL) {
-		return json_decode($this->storage->get($key, $timeout));
+		return json_decode($this->storage->get($key, $timeout), true);
 	}
 }
