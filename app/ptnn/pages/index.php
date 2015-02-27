@@ -18,11 +18,11 @@
 		
 	</home.head>
 	<home.top id="top" layout="home/top"/>
-	<home.search id="search" layout="home/search" />
+	<home.search id="search" layout="home/search">
+		<user.account.user id="user" layout="user/account/user" />
+	</home.search>
 	<core.db.list table="categories" layout="home/menu"/>
 	<home.left id="left" layout="home/left"/>
-	<home.right id="right" layout="home/right">
-		<user.account.user id="user" layout="user/account/user" />
-	</home.right>
+	<home.right id="right" layout="home/right"/>
 	<home.footer layout="home/footer"/>
 </page>
