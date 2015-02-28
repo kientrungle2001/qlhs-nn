@@ -12,8 +12,7 @@ class PzkHomeController extends PzkFrontendController{
 		$this->initPage()->display();
 	}
 
-    public function categoryAction()
-    {
+    public function categoryAction(){
         $this->layout();
         $category = pzk_parse('<home.category table="categories" layout="home/category"/>');
         $left = pzk_element('left');
@@ -21,8 +20,7 @@ class PzkHomeController extends PzkFrontendController{
         $this->page->display();
     }
 
-    public function questionAction()
-    {
+    public function questionAction(){
         $this->layout();
         $question = pzk_parse('<core.db.list table="questions" layout="home/question" />');
         $left = pzk_element('left');
@@ -30,10 +28,8 @@ class PzkHomeController extends PzkFrontendController{
         $this->page->display();
     }
 
-    public function videoAction()
-    {
-
-
+    public function videoAction(){
+    	
         $file = BASE_DIR . '/3rdparty/uploads/videos/test.txt';
         $file2 = BASE_DIR . '/3rdparty/uploads/videos/test_encrypted.txt';
         $handle = fopen($file, "rb");
@@ -47,15 +43,12 @@ class PzkHomeController extends PzkFrontendController{
 
             $encrypted_file = @fopen($file2, 'wb');
             $ok_encrypt = @fwrite($encrypted_file, $encrypted_data);
-
-
+			
             @fclose($encrypted_file);
-
         }
     }
 
-    public function deVideoAction()
-    {
+    public function deVideoAction(){
 
         $file = BASE_DIR . '/3rdparty/uploads/videos/test_encrypted.txt';
         $file2 = BASE_DIR . '/3rdparty/uploads/videos/test_decrypted.txt';
@@ -83,8 +76,6 @@ class PzkHomeController extends PzkFrontendController{
             mcrypt_module_close($td);
 
         }
-
-
     }
 	
 	public function testAction() {
