@@ -41,7 +41,7 @@ class PzkObject extends PzkSG {
 	/**
 	 * Css lien quan den object, css nay se duoc cache lai
 	 */
-	public $cssLink = false;
+	public $css = false;
 
 	/**
 	 * Css nay khong can cache lai
@@ -53,7 +53,7 @@ class PzkObject extends PzkSG {
 	/**
 	 * Js lien quan den object, js nay se duoc cache lai
 	 */
-	public $jsLink = false;
+	public $js = false;
 
 	/**
 	 * Js nay khong can cache lai
@@ -127,20 +127,20 @@ class PzkObject extends PzkSG {
         if ($this->lessLink != false) {
             if(!$this->scriptTo) {
                 $elem = pzk_element($this->scriptTo);
-                $elem->append(pzk_parse('<html.less src="'.BASE_REQUEST.'/default/skin/'.pzk_app()->name.'/less/'.$this->cssLink.'.less" />'));
+                $elem->append(pzk_parse('<html.less src="'.BASE_REQUEST.'/default/skin/'.pzk_app()->name.'/less/'.$this->less.'.less" />'));
             } else {
                 if($page = pzk_page())
-                    $page->addObjLess($this->cssLink);
+                    $page->addObjLess($this->less);
             }
 
         }
         if ($this->lessExternalLink != false) {
             if($this->scriptTo) {
                 $elem = pzk_element($this->scriptTo);
-                $elem->append(pzk_parse('<html.less src="'.$this->cssExternalLink.'" />'));
+                $elem->append(pzk_parse('<html.less src="'.$this->lessExternalLink.'" />'));
             } else {
                 if($page = pzk_page()) {
-                    $page->addExternalLess($this->cssExternalLink);
+                    $page->addExternalLess($this->lessExternalLink);
                 }
             }
 
