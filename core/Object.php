@@ -49,7 +49,7 @@ class PzkObject extends PzkSG {
 	public $cssExternalLink = false;
 
     public $less = false;
-    public $lessExteralLink = false;
+    public $lessExternalLink = false;
 	/**
 	 * Js lien quan den object, js nay se duoc cache lai
 	 */
@@ -74,7 +74,7 @@ class PzkObject extends PzkSG {
 			$this->id = 'uniqueId' . self::$maxId;
 			self::$maxId++;
 		}
-		//$this->less();
+		$this->less();
 		$this->css();
 		$this->javascript();
 		if($this->xml) {
@@ -121,13 +121,13 @@ class PzkObject extends PzkSG {
      * Ham them less cho trang
      */
     public function less() {
-        $head = pzk_element($this->scriptTo);
-        debug($head);die();
-        $head->append(pzk_parse('<script src="/3rdparty/less.min.js"></script>'));
-        if ($this->lessLink != false) {
+        
+        if ($this->less != false) {
             if(!$this->scriptTo) {
                 $elem = pzk_element($this->scriptTo);
                 $elem->append(pzk_parse('<html.less src="'.BASE_REQUEST.'/default/skin/'.pzk_app()->name.'/less/'.$this->less.'.less" />'));
+				$elem = pzk_element($this->scriptTo);
+				$elem->append(pzk_parse('<script src="/3rdparty/less.min.js"></script>'));
             } else {
                 if($page = pzk_page())
                     $page->addObjLess($this->less);
