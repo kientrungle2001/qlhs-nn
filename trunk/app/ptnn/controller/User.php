@@ -1,5 +1,5 @@
 <?php
-class PzkUserController extends PzkController {
+class PzkUserController extends PzkFrontendController {
 	public $masterPage='index';
 	public $masterPosition='left';
 
