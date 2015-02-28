@@ -32,3 +32,11 @@ if ($version < 1) {
 	_dbs()->commitVersion('user', 1);
 	$version = 1;
 }
+// add field
+if($version < 5) {
+	_dbs()->select('user')->addVarchar('idFacebook')->execute();
+	_dbs()->select('user')->addVarchar('idGoogle')->execute();
+	_dbs()->commitVersion('user', 5);
+	$version = 5;
+}
+?>
