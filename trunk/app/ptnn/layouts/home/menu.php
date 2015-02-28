@@ -6,7 +6,7 @@
 		</ul>
         <?php 
 		
-		$items = $data->getItems();
+		$items = $data->getItems(); 
         $items = buildTree($items);
         show_menu($items);
         ?>
