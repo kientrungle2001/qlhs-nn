@@ -1,4 +1,5 @@
 <?php
+/*
 // cài đặt các bảng csdl bằng các phiên bản
 echo 'Install Test2 Table<br />';
 $version = _dbs()->getVersion('test2');
@@ -54,4 +55,4 @@ if($version < 7) {
 	_dbs()->select('test2')->rename('status2', 'status')->execute();
 	_dbs()->commitVersion('test2', 7);
 	$version = 7;
-}
+}*/
