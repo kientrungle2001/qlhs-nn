@@ -1,5 +1,5 @@
 <?php 
-class PzkFavoriteController extends PzkController 
+class PzkFavoriteController extends PzkFrontendController 
 {
 	public $masterPage='index';
 	public $masterPosition='left';

@@ -1,5 +1,5 @@
 <?php 
-class PzkInvitationController extends PzkController 
+class PzkInvitationController extends PzkFrontendController 
 {
 	public $masterPage='index';
 	public $masterPosition='left';
