@@ -74,7 +74,7 @@ class PzkObject extends PzkSG {
 			$this->id = 'uniqueId' . self::$maxId;
 			self::$maxId++;
 		}
-
+		//$this->less();
 		$this->css();
 		$this->javascript();
 		if($this->xml) {
@@ -153,13 +153,13 @@ class PzkObject extends PzkSG {
 	 * Ham them css cho trang
 	 */
 	public function css() {
-		if ($this->cssLink != false) {
+		if ($this->css != false) {
 			if($this->scriptTo) {
 				$elem = pzk_element($this->scriptTo);
-				$elem->append(pzk_parse('<html.css src="'.BASE_REQUEST.'/default/skin/'.pzk_app()->name.'/css/'.$this->cssLink.'.css" />'));
+				$elem->append(pzk_parse('<html.css src="'.BASE_REQUEST.'/default/skin/'.pzk_app()->name.'/css/'.$this->css.'.css" />'));
 			} else {
 				if($page = pzk_page())
-					$page->addObjCss($this->cssLink);
+					$page->addObjCss($this->css);
 			}
 
 		}
@@ -196,13 +196,13 @@ class PzkObject extends PzkSG {
 			}
 		}
 		
-		if ($this->jsLink != false) {
+		if ($this->js != false) {
 			if($this->scriptTo) {
 				$elem = pzk_element($this->scriptTo);
-				$elem->append(pzk_parse('<html.js src="'.BASE_REQUEST.'/default/skin/'.pzk_app()->name.'/js/'.$this->jsLink.'.js" />'));
+				$elem->append(pzk_parse('<html.js src="'.BASE_REQUEST.'/default/skin/'.pzk_app()->name.'/js/'.$this->js.'.js" />'));
 			} else {
 				if($page = pzk_page())
-					$page->addObjCss($this->cssLink);
+					$page->addObjCss($this->css);
 			}
 			
 		}
