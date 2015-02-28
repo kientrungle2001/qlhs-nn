@@ -40,9 +40,7 @@
 							  	<div class="col-xs-2 control-group">
 							  		<img width="117px" height="43px" onclick="return LoginGoogle()" src="/3rdparty/uploads/img/google.png" data-toggle="tooltip" data-placement="top" title="Đăng nhập bằng tài khoản Gmail">
 							  	</div>
-							  	<div class="col-xs-2	 control-group">
-							  		<img width="98px" height="43px" onclick="return LoginYahoo()" src="/3rdparty/uploads/img/yahoo.png" data-toggle="tooltip" data-placement="top" title="Đăng nhập bằng tài khoản Yahoo">
-							  	</div>
+							  	
 							</div>
 				    	</form>
 				    	
@@ -138,14 +136,7 @@
 </div>
 <script>
 	var vWin;
-	function tWin() {
-        if (vWin.closed) {
-            document.location = document.location;
-        }else {
-            setTimeout("tWin()", 500);
-        }
-  	}
-	
+	var vWinG;
     function LoginFB(){
         var url = 'http://ptnn.vn/Account/loginfacebook';
         var width = 900;
@@ -154,9 +145,34 @@
         var Ypos =((screen.availHeight - height)/2);                
         vWin=window.open(url,"CM_OpenID","width=" + width + ",height=" + height + ",resizable,scrollbars=yes,status=1");        
         tWin();
-         
+
     }
-	
+    function LoginGoogle(){
+        var urlgoogle = 'http://ptnn.vn/Account/logingoogle';
+        var width = 900;
+        var Xpos = ((screen.availWidth - width)/2);
+        var height = 500;
+        var Ypos =((screen.availHeight - height)/2);                
+        vWinG=window.open(urlgoogle,"CM_OpenID","width=" + width + ",height=" + height + ",resizable,scrollbars=yes,status=1");        
+        gWin();	
+    }
+    function gWin() {
+        if (vWinG.closed) {
+            document.location = document.location;
+        }
+        else {
+            setTimeout("gWin()", 500);
+        }
+  	}
+    function tWin() {
+        if (vWin.closed) {
+            document.location = document.location;
+        }
+        else {
+            setTimeout("tWin()", 500);
+        }
+  	}
+
 	function login(){
 		
 		var userlogin 		= $('#userlogin').val();
