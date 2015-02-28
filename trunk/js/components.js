@@ -49,7 +49,35 @@ pzk = {
 			data: data,
 			success: callback
 		}, options));
-	}
+	},
+	load: function(urls, callback, nocache) {
+		if(typeof urls == 'string') {
+			urls = [urls];
+		}
+        if (typeof nocache=='undefined') nocache=false; // default don't refresh
+        $.when(
+            $.each(urls, function(i, url){
+                if (nocache) url += '?_ts=' + new Date().getTime(); // refresh? 
+                if (pzk._urls.indexOf(url) == -1) {
+					$.get(url, function(){
+						if(pzk.ext(url) == 'css') {
+							$('<link>', {rel:'stylesheet', type:'text/css', 'href':url}).appendTo('head');
+						} else if(pzk.ext(url) == 'js') {
+							$('<script>', {type:'text/javascript', 'src':url}).appendTo('head');
+						}
+						pzk._urls.push(url);
+					});
+				}
+            })
+        ).then(function(){
+            if (typeof callback=='function') callback();
+        });
+	},
+	ext: function(url) {
+		var re = /(?:\.([^.]+))?$/;
+		return re.exec(url)[1];
+	},
+	_urls: []
 };
 PzkObj = (function(props) { $.extend (this, props || {}); }).pzkImpl({
 	init: function() {
