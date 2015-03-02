@@ -97,7 +97,7 @@ class PzkDtableController extends PzkTableController {
 		'class_student' => array('classId', 'studentId', 'startClassDate', 'endClassDate', 'note'),
 		'room' => array('name', 'size'),
 		'subject' => array('name'),
-		'teacher' => array('name', 'phone', 'address', 'school', 'salary'),
+		'teacher' => array('name', 'phone', 'address', 'school', 'salary', 'password'),
 		'teaching' => array('subjectId', 'teacherId', 'level'),
 		'schedule' => array('classId', 'studyDate', 'studyTime', 'status'),
 		'off_schedule' => array('classId', 'offDate', 'type', 'reason', 'paymentType'),
@@ -114,6 +114,9 @@ class PzkDtableController extends PzkTableController {
 	
 	public $filters = array(
 		'student' => array(
+			'none' => 0
+		),
+		'general_order' => array(
 			'none' => 0
 		),
 		'classes' => array(
@@ -156,6 +159,12 @@ class PzkDtableController extends PzkTableController {
 				'phone' => array('like', array('column', 'student', 'phone'), '%?%'),
 				'classNames' => array('like', array('column', 'currentClassNames'), '%?%'),
 				'periodId' =>  array('like', array('column', 'periodIds'), '%?%')
+			)
+		),
+		'general_order_filter' => array(
+			'where' => array(
+				'name' => array('like', array('column', 'name'), '%?%'),
+				'phone' => array('like', array('column', 'phone'), '%?%')
 			)
 		)
 	);
