@@ -123,14 +123,12 @@ class PzkObject extends PzkSG {
     public function less() {
         
         if ($this->less != false) {
-            if(!$this->scriptTo) {
+            if($this->scriptTo) {
                 $elem = pzk_element($this->scriptTo);
                 $elem->append(pzk_parse('<html.less src="'.BASE_REQUEST.'/default/skin/'.pzk_app()->name.'/less/'.$this->less.'.less" />'));
 				$elem = pzk_element($this->scriptTo);
 				$elem->append(pzk_parse('<script src="/3rdparty/less.min.js"></script>'));
             } else {
-                if($page = pzk_page())
-                    $page->addObjLess($this->less);
             }
 
         }
