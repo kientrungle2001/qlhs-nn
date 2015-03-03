@@ -9,7 +9,10 @@ class PzkHomeController extends PzkFrontendController{
 	
 	public function indexAction(){
 		
-		$this->initPage()->display();
+		//$this->initPage()->display();
+		$this->initPage();
+		$this->append('<home.content layout="home/content_home"/>','left');
+		$this->display();
 	}
 
     public function categoryAction(){

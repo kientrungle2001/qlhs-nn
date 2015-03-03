@@ -58,7 +58,7 @@ ul.drop li a{
 #main{
 	clear: both;
 	min-height: 800px;
-	padding-top: 20px;
+	padding-top: 45px;
 }
 /*Left*/
 #left{
@@ -141,7 +141,6 @@ table{
 #menu {
     float: left;
     font: bold 12px Arial, Helvetica, Sans-serif;
-    overflow: hidden;
 }
 
 #menu ul {
