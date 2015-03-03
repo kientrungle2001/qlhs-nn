@@ -8,29 +8,29 @@
 	$ip=$data->getRealIPAddress();
 	$id=pzk_request('id');
 	$ip=$data->getVisitor($ip,$id);
-	$news=$data->getNewsContent($id);
-	$nlists=$data->getNewsList($id);
+	$featured=$data->getfeaturedContent($id);
+	$nlists=$data->getfeaturedList($id);
 	$lists = $nlists[0];
 ?>
 
-<p><a href="/news/news">Tin tức</a>
+<p><a href="/featured/featured">Bài viết hay</a>
 <?php if ($nlists[2]){ ?> 
->> <a href="/news/shownews?id=<?php echo $nlists[2]['id'];?>">
+>> <a href="/featured/showfeatured?id=<?php echo $nlists[2]['id'];?>">
   <?php echo $nlists[2]['title'];?></a>
 <?php }
 ?>
  >>   
-<a href="/news/shownews?id={news[id]}">{news[title]}</a>
+<a href="/featured/showfeatured?id={featured[id]}">{featured[title]}</a>
 </p>
 
-<div id="shownews-wrapper" style="width:95%; ">
-  <div id="shownews-left">
-    <div class="shownews-container">
-      <div class="shownews-title">
-	  <h3> {news[title]}</h3>
+<div id="showfeatured-wrapper" style="width:95%; ">
+  <div id="showfeatured-left">
+    <div class="showfeatured-container">
+      <div class="showfeatured-title">
+	  <h3> {featured[title]}</h3>
 	  </div>
-	  <div class="shownews-brief"><h6><strong>{news[brief]}<strong></h6></div>
-      <div class="shownews-content" style="margin-bottom:20px;">{news[content]}</div>
+	  <div class="showfeatured-brief"><h6><strong>{featured[brief]}<strong></h6></div>
+      <div class="showfeatured-content" style="margin-bottom:20px;">{featured[content]}</div>
 	 <iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fptnn.vn%2Fnews%2Fshownews&amp;width&amp;layout=button_count&amp;action=like&amp;show_faces=true&amp;share=false&amp;height=21&amp;appId=826319910759457" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:21px;" allowTransparency="true"></iframe>
    </div>
 	<div class="comments">
@@ -45,7 +45,7 @@
 	  {/each}
 	  </div>
       <div class="prf_clear">
-	  <p><a href="/news/news">Quay lại</a></p>
+	  <p><a href="/featured/featured">Quay lại</a></p>
 	  </div>
     </div>
   </div>
