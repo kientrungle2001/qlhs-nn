@@ -49,10 +49,10 @@ class PzkHomeController extends PzkController{
 	}
 	
 	public function crawlAction() {
-		for($page = 1; $page < 7; $page++) {
-			$records = pzk_mytour()->crawl('http://mytour.vn/c37/khach-san-tai-lai-chau.html?page=' . $page);
+		for($page = 1; $page < 9; $page++) {
+			$records = pzk_mytour()->crawl('http://mytour.vn/d352/khach-san-tai-da-lat.html=' . $page);
 			foreach($records as $record) {
-				$record->update(array('city' => 'Lai Châu'));
+				$record->update(array('city' => 'Đà Lạt'));
 			}
 		}
 	}
