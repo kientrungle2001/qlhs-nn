@@ -1,9 +1,35 @@
 <?php
-class PzkAdminTopicsController extends PzkAdminController {
-	public $masterStructure = 'admin/home/index';
-	public $masterPosition = 'left';
-	public $addFields = 'name';
-	public $editFields = 'name';
+class PzkAdminTopicsController extends PzkGridAdminController {
+	
+	public $titleController = 'Topics';
+	public $table = 'topics';
+	public $listFieldSettings = array(
+			array(
+					'index' => 'id',
+					'type' => 'text',
+					'label' => 'ID'
+			),
+			array(
+					'index' => 'name',
+					'type' => 'text',
+					'label' => 'Chủ đề'
+			)
+	);
+	
+	public $searchFields = array('name');
+	public $Searchlabels = 'Chủ đề';
+	
+	public $addFields = 'name, createdId, created, modifiedId, modified';
+	public $addLabel = 'Thêm chủ đề';
+	
+	public $addFieldSettings = array(
+			array(
+					'index' => 'name',
+					'type' => 'text',
+					'label' => 'Chủ đề'
+			),
+	);
+	
 	
 	public $addValidator = array(
 		'rules' => array(
@@ -22,22 +48,32 @@ class PzkAdminTopicsController extends PzkAdminController {
 		)
 	);
 	
-	function indexAction(){
-		
-		$data = array();
-		
-		$admin_question = pzk_model('AdminQuestion');
-		
-		$data = $admin_question->get_question_type();
-		
-		$this->initPage()->append('admin/'.pzk_or($this->customModule, $this->module).'/index') 
-						 ->append('admin/'.pzk_or($this->customModule, $this->module).'/menu', 'right');
-		$this->fireEvent('index.after', $this);
-		
-		$question	= pzk_element('question');
-		
-		$question->setQuestionType($data);
-		
-		$this->display();
-	}
+	public $editLabel = 'Sửa chủ đề';
+	public $editFields = 'name, createdId, created, modifiedId, modified';
+	
+	public $editFieldSettings = array(
+			array(
+					'index' => 'name',
+					'type' => 'text',
+					'label' => 'Chủ đề'
+			)
+	);
+	
+	public $editValidator = array(
+			'rules' => array(
+					'name' => array(
+							'required' => true,
+							'minlength' => 2,
+							'maxlength' => 50
+					)
+	
+			),
+			'messages' => array(
+					'name' => array(
+							'required' => 'Chủ đề không được để trống',
+							'minlength' => 'Chủ đề phải dài 2 ký tự trở lên',
+							'maxlength' => 'Chủ đề chỉ dài tối đa 50 ký tự'
+					)
+			)
+	);
 }
