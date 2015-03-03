@@ -23,6 +23,8 @@
 	</home.search>
 	<core.db.list table="categories" layout="home/menu"/>
 	<home.left id="left" layout="home/left"/>
-	<home.right id="right" layout="home/right"/>
+	<home.right id="right" layout="home/right">
+		<user.profile.profileuser  layout="user/profile/profileuser" />
+	</home.right>
 	<home.footer layout="home/footer"/>
 </page>

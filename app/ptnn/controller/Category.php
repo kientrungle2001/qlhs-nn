@@ -6,8 +6,8 @@ class PzkCategoryController extends PzkFrontendController
 {
     public $masterPage = 'index';
     public $masterPosition = 'left';
-    public function layout()
-    {
+    public function layout(){
+    	
         $this->page = pzk_parse($this->getApp()->getPageUri('index'));
     }
     public function indexAction()
@@ -59,31 +59,29 @@ class PzkCategoryController extends PzkFrontendController
         $this->display();
     }
 
-    public function questionAction()
-    {
+    public function questionAction(){
 
         $this->initPage();
         $this->append('category/question', 'left');
 
         $this->display();
     }
-    public function answerAction()
-    {
+    public function answerAction(){
+    	
         $this->initPage();
         $this->append('category/answer', 'left');
 
         $this->display();
     }
-    public function reviewAction()
-    {
+    public function reviewAction(){
 
         $this->initPage();
         $this->append('category/review', 'left');
 
         $this->display();
     }
-    public function successAction()
-    {
+    public function successAction(){
+    	
         if(pzk_request()->is('POST')) {
             $this->initPage();
             $this->append('category/success', 'left');
@@ -114,8 +112,6 @@ class PzkCategoryController extends PzkFrontendController
                 $this->redirect('');
 
             }
-
-
             $this->display();
         }
     }
