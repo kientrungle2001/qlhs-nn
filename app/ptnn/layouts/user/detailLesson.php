@@ -65,7 +65,7 @@ $items = explode(',',$lesson['question_ids']);
 
         {each $items as $item}
         <?php
-        $answers = _db()->useCB()->select('*')->from('answers')->where(array('questionId', $item))->result();
+        $answers = _db()->useCB()->select('*')->from('answers_question_tn')->where(array('question_id', $item))->result();
         ?>
         <tr>
             <td><?php echo 'Câu '.$i.':'; ?></td>
@@ -78,10 +78,10 @@ $items = explode(',',$lesson['question_ids']);
         {each $answers as $val}
         <tr>
             <td>
-                <input disabled   <?php if(isset($lessonvalue[$item]) && $lessonvalue[$item] == $val['id']){ echo 'checked'; }  ?> type="radio" />
+                <input style="height: 15px; width: 15px;" disabled   <?php if(isset($lessonvalue[$item]) && $lessonvalue[$item] == $val['id']){ echo 'checked'; }  ?> type="radio" />
 
             </td>
-            <td <?php if($val['valueTrue'] == 1) { echo "class='highlinght'";} ?> >{val[value]}</td>
+            <td <?php if($val['status'] == 1) { echo "class='highlinght'";} ?> >{val[content]}</td>
         </tr>
         {/each}
         <?php $i++; ?>

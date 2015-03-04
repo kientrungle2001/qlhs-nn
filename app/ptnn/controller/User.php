@@ -256,5 +256,17 @@ class PzkUserController extends PzkFrontendController {
 		$this->append('user/profileuser','right');
 		$this->display();
 	}
-
+    public function lessonAction()
+    {
+        $this->layout();
+        $this->append('user/lesson');
+        $this->append('user/profileuser','right');
+        $this->display();
+    }
+    public function detailLessonAction() {
+        $this->layout();
+        $this->append('user/detaillesson');
+        $this->append('user/profileuser','right');
+        $this->display();
+    }
 }
