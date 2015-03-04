@@ -740,7 +740,7 @@
         padding-bottom: 10px;
         border-radius: 10px;
         margin: auto;
-        background: linear-gradient(to bottom right, #fffbcb , #fff79a);
+        background: linear-gradient(to bottom right, #ffffff , #fff79a);
         box-shadow: 3px 3px 3px #888888;
     }
     #prf_manager{
@@ -749,11 +749,11 @@
         border-radius: 10px;
         
         margin: auto;
-        background: linear-gradient(to bottom right, #ffffff , #49ed16);
+        background: linear-gradient(to bottom right, #ffffff , #95fc01);
         box-shadow: 3px 3px 3px #6e8bc7;
     }
     .prf_manager{
-        color: #ed1630;
+        color: #9d3e33;
     }
     .notebook
     {
@@ -782,7 +782,7 @@
         
         border-radius: 10px;
         margin: auto;
-        background: linear-gradient(to bottom right, #fdfbfc , #ee1983);
+        background: linear-gradient(to bottom right, #fffdfe , #ef81b0);
         box-shadow: 3px 3px 3px #70828c;
     }
     .infor_user_
