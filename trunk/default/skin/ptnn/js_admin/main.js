@@ -26,7 +26,7 @@ function setTinymce() {
         plugins: [
             "advlist autolink lists link image charmap print preview anchor",
             "searchreplace visualblocks code fullscreen media",
-            "insertdatetime media table contextmenu paste responsivefilemanager textcolor"
+            "insertdatetime media table contextmenu paste textcolor"
         ],
 
         toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | styleselect formatselect fontselect fontsizeselect | forecolor backcolor",
