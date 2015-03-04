@@ -5,18 +5,15 @@
 
 <div id="prf_user_search" >
 
-     <div class="profile_user" style="height: 100px;">
-       <div class="title" style="height: 100px;">
-         <p align="center" style=" padding-top: 10px;"><strong>Tìm kiếm bạn bè</strong></p>
-         <form action="/Friend/searchPost/" method="get">
-         <label for="">Nhập chuỗi cần tìm:</label>
-           <input style="width: 250px;height: 30px;" type="text" name="searchfriend" value="">
-           <input id="btt_search_user" style="width: 50px;" type="submit" name="submit_search"value="Tìm">
-         </form>
-       </div>
-      
-      
+    
        
-     </div>              
+         <form action="/Friend/searchPost" class="form-searchuser">
+          <input type="text" id="input_search_user" name="searchfriend" placeholder="Tìm kiếm bạn bè" required>
+          <input type="submit" value="Tìm kiếm" id="submit_search_user">
+         </form>
+      
+      
+      
+               
         
  </div> 
