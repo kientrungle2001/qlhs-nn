@@ -8,8 +8,8 @@ if(pzk_request()->is('POST')) {
         $tam = 'value_'.$value;
         if(isset($request[$tam])) {
             $answerId = $request[$tam];
-            $answers = _db()->useCB()->select('*')->from('answers')
-                ->where(array('and', array('valueTrue', 1), array('id', $answerId)) )->result();
+            $answers = _db()->useCB()->select('*')->from('answers_question_tn')
+                ->where(array('and', array('status', 1), array('id', $answerId)) )->result();
             if(count($answers)>0) {
                 $total++;
             }
@@ -95,7 +95,7 @@ if(pzk_request()->is('POST')) {
 
             {each $items as $item}
             <?php
-            $answers = _db()->useCB()->select('*')->from('answers')->where(array('questionId', $item))->result();
+            $answers = _db()->useCB()->select('*')->from('answers_question_tn')->where(array('question_id', $item))->result();
             ?>
             <tr>
                 <td><?php echo 'Câu '.$i.':'; ?></td>
@@ -109,12 +109,12 @@ if(pzk_request()->is('POST')) {
             <tr>
                 <?php $a = "value_".$item; ?>
                 <td>
-                    <input  disabled="disabled"   <?php if(isset($request[$a]) && $request[$a] == $val['id']){ echo 'checked'; }  ?> type="radio" />
+                    <input style="height: 15px;width: 15px;" disabled="disabled"   <?php if(isset($request[$a]) && $request[$a] == $val['id']){ echo 'checked'; }  ?> type="radio" />
                     <input name="value_<?php echo $item; ?>" style="display: none;"  value="{val[id]}" <?php if(isset($request[$a]) && $request[$a] == $val['id']){ echo 'checked'; }  ?> type="radio" />
                     <input name="value[<?php echo $item; ?>]" style="display: none;"  value="{val[id]}" <?php if(isset($request[$a]) && $request[$a] == $val['id']){ echo 'checked'; }  ?> type="radio" />
 
                 </td>
-                <td <?php if($val['valueTrue'] == 1) { echo "class='highlinght'";} ?> >{val[value]}</td>
+                <td <?php if($val['status'] == 1) { echo "class='highlinght'";} ?> >{val[content]}</td>
             </tr>
             {/each}
             <?php $i++; ?>

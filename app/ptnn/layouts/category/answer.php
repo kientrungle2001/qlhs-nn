@@ -73,7 +73,7 @@ if(pzk_request()->is('POST')) {
 
             {each $items as $item}
             <?php
-            $answers = _db()->useCB()->select('*')->from('answers')->where(array('questionId', $item))->result();
+            $answers = _db()->useCB()->select('*')->from('answers_question_tn')->where(array('question_id', $item))->result();
             ?>
             <tr>
                 <td><?php echo 'Câu '.$i.':'; ?></td>
@@ -87,11 +87,11 @@ if(pzk_request()->is('POST')) {
             <tr>
                 <?php $a = "value_".$item; ?>
                 <td>
-                    <input disabled   <?php if(isset($request[$a]) && $request[$a] == $val['id']){ echo 'checked'; }  ?> type="radio" />
-                    <input name="value_<?php echo $item; ?>" style="display: none;"  value="{val[id]}" <?php if(isset($request[$a]) && $request[$a] == $val['id']){ echo 'checked'; }  ?> type="radio" />
+                    <input style="width: 15px; height: 15px;" disabled   <?php if(isset($request[$a]) && $request[$a] == $val['id']){ echo 'checked'; }  ?> type="radio" />
+                    <input style="display: none;" name="value_<?php echo $item; ?>"  value="{val[id]}" <?php if(isset($request[$a]) && $request[$a] == $val['id']){ echo 'checked'; }  ?> type="radio" />
 
                 </td>
-                <td>{val[value]}</td>
+                <td>{val[content]}</td>
             </tr>
             {/each}
             <?php $i++; ?>

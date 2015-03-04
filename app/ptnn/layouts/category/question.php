@@ -82,7 +82,7 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
 
             {each $items as $item}
             <?php
-            $answers = _db()->useCB()->select('*')->from('answers')->where(array('questionId', $item['id']))->result();
+            $answers = _db()->useCB()->select('*')->from('answers_question_tn')->where(array('question_id', $item['id']))->result();
             ?>
             <tr>
                 <td><?php echo 'Câu '.$i.':'; ?></td>
@@ -91,8 +91,8 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
             </tr>
             {each $answers as $val}
             <tr>
-                <td><input name="value_<?php echo $item['id']; ?>" value="{val[id]}" type="radio" /></td>
-                <td>{val[value]}</td>
+                    <td><input style="width: 15px; height: 15px;" name="value_<?php echo $item['id']; ?>" value="{val[id]}" type="radio" /></td>
+                <td>{val[content]}</td>
             </tr>
             {/each}
             <?php $i++; ?>
