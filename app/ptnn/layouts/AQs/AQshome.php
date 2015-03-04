@@ -18,7 +18,10 @@
 			{allquestion[name]}:{allquestion[question]}
 			</div>	
 			<div id="spoiler" style="display: none;">
-			<?php $count=$data->getCountComment($newsid); ?>
+			<?php
+			
+			$count=$data->getCountComment($allquestions[id]); 
+			?>
 Nội dung của bạn ở đây, có thể chèn mã HTML vào trong này nhé!
 </div>
 <button onclick="if(document.getElementById('spoiler') .style.display=='none') {document.getElementById('spoiler') .style.display=''}else{document.getElementById('spoiler') .style.display='none'}" title="Click to show/hide" type="button">Trả lời</button>
