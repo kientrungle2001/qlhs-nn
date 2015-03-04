@@ -1,12 +1,10 @@
 <?php 
 
-/**
-* 
-*/
 class PzkUserAccountLogin extends PzkObject
 {
 	public function CheckFB($id, $name){
 		$user=_db()->getEntity('user.account.user');
+		$dateregister= date("Y-m-d H:i:s");
 		if($id){
 			$user->loadWhere(array('idFacebook',$id));
 			if($user->getId()){
@@ -17,11 +15,9 @@ class PzkUserAccountLogin extends PzkObject
 				pzk_session('userId',$userId);
 				pzk_session('name',$name);
 
-				//header('location:'.'/home/');
-				
 			}else{
 
-				$row=array('idFacebook'=>$id,'name'=>$name,'username'=>$id);
+				$row=array('idFacebook'=>$id,'username'=>$id,'name'=>$name,'status'=>1,'registered'=>$dateregister,'lastlogined' =>$dateregister);
 				$user->setData($row);
 				$user->save();
 				$userId=$user->getId();
@@ -30,12 +26,9 @@ class PzkUserAccountLogin extends PzkObject
 				pzk_session('username', $id);
 				pzk_session('userId',$userId);
 				pzk_session('name',$name);
-				//header('location:'.'/home/');
-				
+				$user->update(array('lastlogined' =>$dateregister ));
 			}
 		}
-		
-
 	}
 	
 	public function CheckGoogle($id, $name,$email,$sex){
@@ -50,26 +43,17 @@ class PzkUserAccountLogin extends PzkObject
 				pzk_session('username', $username);
 				pzk_session('userId',$userId);
 				pzk_session('name',$name);
-
-				//header('location:'.'/home/');
-				
 			}else{
-
-				$row=array('idGoogle'=>$id,'name'=>$name,'username'=>$id, 'email'=>$email, 'sex'=>$sex);
+				$row=array('idGoogle'=>$id,'name'=>$name,'username'=>$id, 'email'=>$email, 'sex'=>$sex,'status'=>1,'registered'=>$dateregister,'lastlogined' =>$dateregister);
 				$user->setData($row);
 				$user->save();
 				$userId=$user->getId();
-				
 				pzk_session('login', true);
 				pzk_session('username',$id);
 				pzk_session('userId',$userId);
 				pzk_session('name',$name);
-				//header('location:'.'/home/');
-				
 			}
 		}
-		
-
 	}	
 }
  ?>
