@@ -10,6 +10,7 @@ class PzkFrontendController extends PzkController {
         if(!$login) {
         	$this->redirect('WelCome/index');
         }
+		parent::__construct();
 	}
 	
 	public function indexAction(){

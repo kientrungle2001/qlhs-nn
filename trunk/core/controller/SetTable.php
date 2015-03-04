@@ -5,6 +5,7 @@ class PzkSetTableController extends PzkController {
     public $constraints = array();
     public $filters = array();
 	public function __construct() {
+		parent::__construct();
 		$table = @$_REQUEST['table'];
 		if(!$table) {
 			$request = pzk_element('request');

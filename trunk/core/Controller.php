@@ -1,7 +1,20 @@
 <?php
 
 class PzkController extends PzkSG{
-	
+	public $xml = true;
+	public function __construct() {
+		if($this->xml) {
+			$file = strtolower(pzk_app()->getUri('xml/' . str_replace('_', '/', pzk_request()->getController()) . '/' . pzk_request()->getAction()) . '.xml');
+			if(file_exists(BASE_DIR . '/' . $file)) {
+				$arr = pzk_array();
+				$arr->fromXml(file_get_contents($file));
+				$arr = $arr->getData();
+				foreach($arr as $key => $val) {
+					$this->$key = $val;
+				}
+			}
+		}
+	}
 	public function getStructure($uri) {
 		if($uri instanceof PzkObject) return $uri;
 		if(strpos($uri, '<') !==false) return pzk_parse($uri);

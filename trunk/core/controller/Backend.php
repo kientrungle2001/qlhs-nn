@@ -2,6 +2,7 @@
 class PzkBackendController extends PzkController
 {
     public function __construct() {
+		parent::__construct();
         $admin = pzk_session('adminUser') ;
         $level = pzk_session('adminLevel') ;
 
