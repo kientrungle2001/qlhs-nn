@@ -3,9 +3,11 @@
 /**
 * 
 */
-class PzkNewsOldnews extends PzkObject
+class PzkNewsUnreg extends PzkObject
 {
-	
-	
+
+		
+		
 }
- ?>
+
+?>
