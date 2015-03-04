@@ -27,7 +27,7 @@ class PzkProfileController extends PzkFrontendController
 	{
 		$this->layout();
 		$this->append('user/profile/profileuserleft1')->append('user/profile/profileusercontent');
-		$this->append('user/profile/profileuser','right');
+		
 		$this->display();
 		//$this->render('user/payment/payment');		
 	}
@@ -57,7 +57,7 @@ class PzkProfileController extends PzkFrontendController
 			$editinfor->setidplace($idplace);
 			$this->layout();
 			$this->append('user/profile/profileuserleft1')->append($editinfor);
-			$this->append('user/profile/profileuser','right');
+			
 			$this->display();
 			//$this->render($editinfor);			
 			
@@ -104,7 +104,7 @@ class PzkProfileController extends PzkFrontendController
 		$this->layout();
 		pzk_notifier_add_message('Bạn đã thay đổi thành công', 'success');
 		$this->append('user/profile/profileuserleft1')->append($editinfor);
-		$this->append('user/profile/profileuser','right');
+		
 		$this->display();
 	}
 	public function editpasswordAction()
@@ -112,7 +112,7 @@ class PzkProfileController extends PzkFrontendController
 			//$this->render('user/editpassword');
 		$this->layout();
 		$this->append('user/profile/profileuserleft1')->append('user/profile/editpassword');
-		$this->append('user/profile/profileuser','right');
+		
 		$this->display();
 	}
 	public function editpasswordPostAction()
@@ -141,7 +141,7 @@ class PzkProfileController extends PzkFrontendController
 		}	
 		$this->layout();
 		$this->append('user/profile/profileuserleft1')->append($editpassword);
-		$this->append('user/profile/profileuser','right');
+		
 		$this->display();
 		//$this->render($editpassword);
 	
@@ -197,7 +197,7 @@ class PzkProfileController extends PzkFrontendController
 			
 			$this->layout();
 			$this->append('user/profile/profileuserleft1')->append($editpasswordsuccess);
-			$this->append('user/profile/profileuser','right');
+			
 			$this->display();
 			
 		}
@@ -207,7 +207,7 @@ class PzkProfileController extends PzkFrontendController
 			$editpasswordsuccess->setUsername("");
 			$this->layout();
 			$this->append('user/profile/profileuserleft1')->append($editpasswordsuccess);
-			$this->append('user/profile/profileuser','right');
+			
 			$this->display();
 			
 		}
@@ -228,7 +228,7 @@ class PzkProfileController extends PzkFrontendController
 			$editsign->setSign($sign);
 			$this->layout();
 			$this->append('user/profile/profileuserleft1')->append($editsign);
-			$this->append('user/profile/profileuser','right');
+			
 			$this->display();
 			//$this->render($editsign);
 	}
@@ -251,7 +251,7 @@ class PzkProfileController extends PzkFrontendController
 			pzk_notifier_add_message($message, 'success');
 			$this->layout();
 			$this->append('user/profile/profileuserleft1')->append($editsign);
-			$this->append('user/profile/profileuser','right');
+			
 			$this->display();
 	}
 	// Function hiển thị thông tin cá nhân của user
@@ -264,77 +264,149 @@ class PzkProfileController extends PzkFrontendController
 		$editavatar->setMessage($message);
 		$this->layout();
 		$this->append('user/profile/profileuserleft1')->append($editavatar);
-		$this->append('user/profile/profileuser','right');
+		
 		$this->display();
 		//$this->render($editavatar);	
 		
 	}
-
-	public function editavatarPostAction()
-	{
-		$error="";
-		$target_dir =BASE_DIR."/uploads/avatar/";
-		$basename= basename($_FILES["fileToUpload"]["name"]);
-		$target_file = $target_dir .$basename;
-		$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-		$size =$_FILES["fileToUpload"]["size"];
-		$check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-		if($check !==false)
-		{
-			if($size < 500000)
-			{
-				if($imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg"|| $imageFileType == "gif"|| $imageFileType == "JPG" || $imageFileType == "PNG" || $imageFileType == "JPEG" || $imageFileType == "GIF")
-				{
-					// Đổi tên file ảnh trùng tên username
-					$basename=pzk_session('username').'.'.$imageFileType;
-					$target_file=$target_dir .$basename;
-					if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file))
-					{
-						// Upload thành công
-						//insert đường dẫn file vào database
-						$username= pzk_session('username');
-						$userId= pzk_session('userId');
-						$editdate=date("Y-m-d H:i:s");
-						//$avata=$target_file;
-						$avatar=BASE_URL.'/uploads/avatar/'.$basename;
-						$user=_db()->getEntity('user.account.user');
-						$user->loadWhere(array('username',$username));
-						$user->update(array('avatar'=>$avatar,'modified'=>$editdate,'modifiedId'=>$userId));
-						$message="Bạn đã thay đổi avatar thành công";
-						$editavatar = pzk_parse(pzk_app()->getPageUri('user/profile/editavatar'));
-						$editavatar->setMessage($message);
-						//pzk_notifier_add_message($message, 'success');
-						$this->layout();
-						$this->append('user/profile/profileuserleft1')->append($editavatar);
-						$this->append('user/profile/profileuser','right');
-						$this->display();		
-					}else $error="Upload không thành công";
-				}
-				else
-				{
-					$error="Bạn chỉ được phép upload file ảnh JPG, JPEG, PNG, GIF";
-				}
-			}
-			else
-			{
-				$error="Dung lượng của file ảnh quá lớn, bạn hãy chọn file ảnh có kích thước < 488kb ";
-			}
+	//Edit Avatar
+	public function normal_resize_image($source, $destination, $image_type, $max_size, $image_width, $image_height, $quality){
+	
+	if($image_width <= 0 || $image_height <= 0){return false;} //return false if nothing to resize
+	
+	//do not resize if image is smaller than max size
+	if($image_width <= $max_size && $image_height <= $max_size){
+		if($this->save_image($source, $destination, $image_type, $quality)){
+			return true;
 		}
-		else
-		{
-			$error="Bạn chỉ được phép upload file ảnh JPG, JPEG, PNG, GIF";
-			// hiển thị 
-			pzk_notifier_add_message($error, 'danger');
-			$editavatar = pzk_parse(pzk_app()->getPageUri('user/profile/editavatar'));
-			$editavatar->setMessage("");
-			$this->layout();
-			$this->append('user/profile/profileuserleft1')->append($editavatar);
-			$this->append('user/profile/profileuser','right');
-			$this->display();
-			//$this->render($editavatar);	
-		}
-		
+	}
+	
+	//Construct a proportional size of new image
+	$image_scale	= min($max_size/$image_width, $max_size/$image_height);
+	$new_width		= ceil($image_scale * $image_width);
+	$new_height		= ceil($image_scale * $image_height);
+	
+	$new_canvas		= imagecreatetruecolor( $new_width, $new_height ); //Create a new true color image
+	
+	//Copy and resize part of an image with resampling
+	if(imagecopyresampled($new_canvas, $source, 0, 0, 0, 0, $new_width, $new_height, $image_width, $image_height)){
+		$this->save_image($new_canvas, $destination, $image_type, $quality); //save resized image
 	}
 
+	return true;
+}
+
+##### This function corps image to create exact square, no matter what its original size! ######
+	public function crop_image_square($source, $destination, $image_type, $square_size, $image_width, $image_height, $quality){
+	if($image_width <= 0 || $image_height <= 0){return false;} //return false if nothing to resize
+	
+	if( $image_width > $image_height )
+	{
+		$y_offset = 0;
+		$x_offset = ($image_width - $image_height) / 2;
+		$s_size 	= $image_width - ($x_offset * 2);
+	}else{
+		$x_offset = 0;
+		$y_offset = ($image_height - $image_width) / 2;
+		$s_size = $image_height - ($y_offset * 2);
+	}
+	$new_canvas	= imagecreatetruecolor( $square_size, $square_size); //Create a new true color image
+	
+	//Copy and resize part of an image with resampling
+	if(imagecopyresampled($new_canvas, $source, 0, 0, $x_offset, $y_offset, $square_size, $square_size, $s_size, $s_size)){
+		$this->save_image($new_canvas, $destination, $image_type, $quality);
+	}
+
+	return true;
+}
+
+##### Saves image resource to file ##### 
+	public function save_image($source, $destination, $image_type, $quality){
+	switch(strtolower($image_type)){//determine mime type
+		case 'image/png': 
+			imagepng($source, $destination); return true; //save png file
+			break;
+		case 'image/gif': 
+			imagegif($source, $destination); return true; //save gif file
+			break;          
+		case 'image/jpeg': case 'image/pjpeg': 
+			imagejpeg($source, $destination, $quality); return true; //save jpeg file
+			break;
+		default: return false;
+	}
+}
+	// End Edit Avatar
+public function editavatarPostAction(){
+	$max_image_size 		= 120; //Maximum image size (height and width
+	$jpeg_quality 			= 90; 
+	$image_name = $_FILES['fileToUpload']['name']; //file name
+	$image_size = $_FILES['fileToUpload']['size']; //file size
+	$image_temp = $_FILES['fileToUpload']['tmp_name'];
+	$error="";
+	$destination_folder= BASE_DIR."/uploads/avatar/";
+	$target_dir =BASE_DIR."/uploads/avatar/";
+	$basename= basename($_FILES["fileToUpload"]["name"]);
+	$target_file = $target_dir .$basename;
+	$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+	$size =$_FILES["fileToUpload"]["size"];	
+	if($size < 500000){
+		if($imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg"|| $imageFileType == "gif"|| $imageFileType == "JPG" || $imageFileType == "PNG" || $imageFileType == "JPEG" || $imageFileType == "GIF"){
+			$image_size_info 	= getimagesize($image_temp);
+			if($image_size_info){
+				$image_width 		= $image_size_info[0]; //image width
+				$image_height 		= $image_size_info[1]; //image height
+				$image_type 		= $image_size_info['mime']; //image type
+			}else{
+					$error="File ảnh không đúng quy định";
+				}
+			switch($image_type){
+				case 'image/png':
+					$image_res =  imagecreatefrompng($image_temp); break;
+				case 'image/gif':
+					$image_res =  imagecreatefromgif($image_temp); break;			
+				case 'image/jpeg': case 'image/pjpeg':
+					$image_res = imagecreatefromjpeg($image_temp); break;
+				default:
+					$image_res = false;
+			}
+			if($image_res){
+				$image_info = pathinfo($image_name);
+				$image_extension = strtolower($image_info["extension"]); //image extension
+				$image_name_only = strtolower($image_info["filename"]);//file name only, no extension
+				$new_file_name =pzk_session('userId').'.'. $imageFileType;
+				$image_save_folder 	= $target_dir . $new_file_name;
+				$this->normal_resize_image($image_res, $image_save_folder, $image_type, $max_image_size, $image_width, $image_height, $jpeg_quality);
+				imagedestroy($image_res); //freeup memory
+				$username= pzk_session('username');
+				$userId= pzk_session('userId');
+				$editdate=date("Y-m-d H:i:s");
+				$avatar=BASE_URL.'/uploads/avatar/'.$new_file_name;
+				$user=_db()->getEntity('user.account.user');
+				$user->loadWhere(array('username',$username));
+				$user->update(array('avatar'=>$avatar,'modified'=>$editdate,'modifiedId'=>$userId));
+				$message="Bạn đã thay đổi avatar thành công";
+				$editavatar = pzk_parse(pzk_app()->getPageUri('user/profile/editavatar'));
+				$editavatar->setMessage($message);
+				$editavatar->setError("");
+				$this->layout();
+				$this->append('user/profile/profileuserleft1')->append($editavatar);
+				
+				$this->display();	
+			}
+		}else{
+			$error="Bạn chỉ được phép upload file ảnh JPG, JPEG, PNG, GIF";
+		}
+
+	}else{
+		$error=$error="Dung lượng của file ảnh quá lớn, bạn hãy chọn file ảnh có kích thước < 488kb ";
+	}
+	$editavatar = pzk_parse(pzk_app()->getPageUri('user/profile/editavatar'));
+	$editavatar->setMessage("");
+	$editavatar->setError($error);
+	$this->layout();
+	$this->append('user/profile/profileuserleft1')->append($editavatar);
+	
+	$this->display();
+}
 }
  ?>
