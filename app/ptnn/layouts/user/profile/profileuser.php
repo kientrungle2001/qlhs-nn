@@ -39,7 +39,8 @@
     <div class="prf_lesson_list"><a class="prf_manager" href="/profile/editinfor">Thay đổi thông tin cá nhân</a></div>
     <div class="prf_lesson_list"><a class="prf_manager" href="/profile/editavatar">Thay đổi avatar</a></div>
     <div class="prf_lesson_list"><a class="prf_manager" href="/profile/editsign">Thay đổi chữ ký</a></div>
-    <div class="prf_lesson_list"><a class="prf_manager" href="/profile/editpassword">Thay đổi mật khẩu</a></div>
+    <div id="prf_edit_pass" class="prf_lesson_list"><a class="prf_manager" href="/profile/editpassword">Thay đổi mật khẩu</a></div>
+    <div id="prf_add_infor" class="prf_lesson_list"><a class="prf_manager" href="/profile/addinfor">Bổ xung thông tin cá nhân</a></div>
   </div>
   
 
@@ -85,8 +86,22 @@
       <div style=" float:right;"><a style="color: #fefeff;" href="/friend/friendlistuser?member={member}">Xem tiếp >></a></div>
     </div>
   </div>
-  <div class="tamp"></div>
 
+  <div class="tamp"></div>
+  <div class="notebook">
+  <div class="prf_text_title" style="padding-left:10px;">
+      <span style="color:#00adef;" class="glyphicon glyphicon-asterisk"></span>
+      <span class="prf_text_title">Tìm kiếm bạn bè</span>
+  </div>
+  <div class="profile_search">
+        <form method="post" action="/Friend/searchPost" >
+            <input type="text" name="searchfriend"placeholder="Tìm kiếm bạn bè" id="searchfriend" value="">
+            <button type="submit" class="search-button">Tìm kiếm</button>
+        </form>
+  </div>
+  </div>
+
+  <div class="tamp"></div>
 
 
   <div class="learning_user">
