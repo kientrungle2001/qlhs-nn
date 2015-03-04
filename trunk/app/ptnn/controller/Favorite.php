@@ -13,7 +13,7 @@ class PzkFavoriteController extends PzkFrontendController
 		$this->layout();		
 		//$this->append('user/profilefriend', 'left');
 		$this->append('favorite/lessonfavorite', 'left');
-		$this->append('user/profile/profileuser','right');
+		
 		$this->page->display();
 			
 	}
@@ -22,14 +22,14 @@ class PzkFavoriteController extends PzkFrontendController
 	{
 		$this->layout();
 		$this->append('favorite/lessonfavoritemember', 'left');
-		$this->append('user/profile/profileuser','right');
+		
 		$this->display();
 	}
 	public function lessonhistoryAction()
 	{
 		$this->layout();
 		$this->append('favorite/lessonhistory', 'left');
-		$this->append('user/profile/profileuser','right');
+		
 		$this->display();
 				
 	}

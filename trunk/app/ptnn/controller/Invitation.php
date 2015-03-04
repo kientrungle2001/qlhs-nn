@@ -15,6 +15,14 @@ class PzkInvitationController extends PzkFrontendController
 		$this->page->display();
 	
 	}
+	public function invitationAction()
+	{
+		$this->layout();		
+		$this->append('user/profile/profileuser', 'right');
+		$this->append('user/profile/profileuserleft1')->append('communication/invitation/invitation');
+		$this->page->display();
+	
+	}
 	public function agreeAction()
 	{
 		$request=pzk_element('request');
