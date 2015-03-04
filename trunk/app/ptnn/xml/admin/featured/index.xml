@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+
+<root>
+	<table>featured</table>
+	<listFieldSettings>
+		<index>title</index>
+		<type>text</type>
+		<label>Bài hay</label>
+	</listFieldSettings>
+	<listFieldSettings>
+		<index>views</index>
+		<type>text</type>
+		<label>Lượt xem</label>
+	</listFieldSettings>
+	<listFieldSettings>
+		<index>comments</index>
+		<type>text</type>
+		<label>Lượt bình luận</label>
+	</listFieldSettings>
+</root>
