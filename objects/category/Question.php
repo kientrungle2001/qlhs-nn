@@ -18,7 +18,7 @@ class PzkCategoryQuestion extends PzkCoreDbList
     }
     public function getQuestionByIds($ids, $level,$limit=5) {
         $data = _db()->useCB()->select('*')->from($this->table)
-            ->where(array('and', array('like', 'categoryIds', '%'.$ids.'%')/*, array('level', $level)*/) )
+            ->where(array('and', array('like', 'categoryIds', '%'.$ids.'%'), array('level', $level)) )
             ->orderby('rand()')
             ->limit($limit, 0);
         return $data->result();
