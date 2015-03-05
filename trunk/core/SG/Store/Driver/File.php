@@ -29,6 +29,14 @@ class PzkSGStoreDriverFile extends PzkSGStoreDriver {
 		return file_put_contents ( $this->dir . '/' . md5 ( $key ) . '.txt', $value );
 	}
 	
+	public function has($key) {
+		return file_exists($this->dir . '/' . md5 ( $key ) . '.txt');
+	}
+	
+	public function del($key) {
+		return @unlink($this->dir . '/' . md5 ( $key ) . '.txt');
+	}
+	
 	public function clear() {
 		$d = dir ( $this->dir );
 		while ( false !== ($entry = $d->read ()) ) {
