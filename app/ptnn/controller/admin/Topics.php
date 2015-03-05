@@ -66,7 +66,6 @@ class PzkAdminTopicsController extends PzkGridAdminController {
 							'minlength' => 2,
 							'maxlength' => 50
 					)
-	
 			),
 			'messages' => array(
 					'name' => array(

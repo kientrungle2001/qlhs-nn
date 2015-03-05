@@ -146,5 +146,18 @@ class PzkAdminQuestionModel {
 		}
 		return false;
 	}
+	
+	function get_topics($id=''){
+		if(!empty($id)){
+			$query = _db()->select('t.*')
+			->from('topics t')
+			->where("t.id='$id'");
+		}else{
+			$query = _db()->select('t.*')
+			->orderBy('id ASC')
+			->from('topics t');
+		}
+		return $query->result();
+	}
 }
 ?>

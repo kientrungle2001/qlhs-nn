@@ -3,12 +3,16 @@
 	$orderBy = pzk_session('questionsOrderBy');
 	$categoryId = pzk_session('questionsCategoryId');
 	$type = pzk_session('questionsType');
+	$topic_id	=	pzk_session('questionsTopic_id');
 	
 	if($categoryId) {
 		$data->conditions .= " and categoryIds like '%,$categoryId,%'";
 	}
 	if($type) {
 		$data->conditions .= " and `type` like '$type'";
+	}
+	if($topic_id){
+		$data->conditions .= " and `topic_id` like '$topic_id'";
 	}
 	if($orderBy) {
 		$data->orderBy = $orderBy;
@@ -43,6 +47,8 @@
 	$categoryTree = buildArr($categories,'parent',0);
 	
 	$question_types = $data->getQuestionType();
+	
+	$topics	=	$data->getTopics();
 ?>
 <div class="well">
 <form role="search" action="{url /admin_questions/searchPost}">
@@ -83,10 +89,23 @@
         </div>
         
         <div class="form-group col-xs-2">
+        	<label for="categoryId">Chủ đề</label><br>
+        	<select id="topic_id" name="topic_id" class="form-control input-sm" placeholder="Chủ đề" onchange="window.location='{url /admin_questions/changeTopics}?topic_id=' + this.value;">
+        		<option value="">-- Tất cả --</option>
+        		{each $topics as $topic}
+        			<option value="{topic[id]}">{topic[name]}</option>
+        		{/each}
+        	</select>
+        	<script type="text/javascript">
+				$('#topic_id').val('{topic_id}');
+  			</script>
+        </div>
+        
+        <div class="form-group col-xs-1">
         	<label>&nbsp;</label> <br>
         	<button type="submit" name ="submit_action" class="btn btn-primary btn-sm" value="<?=ACTION_SEARCH?>"><span class="glyphicon glyphicon-search"></span> Search</button>
         </div>
-        <div class="form-group col-xs-2">
+        <div class="form-group col-xs-1">
         	<label>&nbsp;</label> <br>
         	<button type="submit" name =submit_action class="btn btn-default btn-sm" value="<?=ACTION_RESET?>"><span class="glyphicon glyphicon-refresh"></span>Reset</button>
         </div>
