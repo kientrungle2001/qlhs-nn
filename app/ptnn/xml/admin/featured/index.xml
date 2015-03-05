@@ -17,4 +17,14 @@
 		<type>text</type>
 		<label>Lượt bình luận</label>
 	</listFieldSettings>
+	<addFields>title, parent,title,img, content,brief,alias</addFields>
+	<editFields>title, parent, title,img,content,brief,alias</editFields>
+	<addLabel>Thêm</addLabel>
+	<addValidator>
+		<rules>
+			<title>
+				<required>true</required>
+			</title>
+		</rules>
+	</addValidator>
 </root>
