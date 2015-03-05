@@ -50,6 +50,10 @@ class PzkAdminController extends PzkBackendController {
 		pzk_session($this->table.'category_type', pzk_request('category_type'));
 		$this->redirect('index');
 	}
+	public function changeTopicsAction() {
+		pzk_session($this->table.'Topic_id', pzk_request('topic_id'));
+		$this->redirect('index');
+	}
 	public function changePageSizeAction() {
 		pzk_session($this->table.'PageSize', pzk_request('pageSize'));
 		$this->redirect('index');
@@ -62,6 +66,7 @@ class PzkAdminController extends PzkBackendController {
 			pzk_session($this->table.'Keyword', '');
 			pzk_session($this->table.'Type', '');
 			pzk_session($this->table.'CategoryId', '');
+			pzk_session($this->table.'Topic_id', '');
 		}
 		$this->redirect('index');
 	}

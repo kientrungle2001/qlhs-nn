@@ -13,24 +13,51 @@ $questionTypes = _db()->select('*')->from('questiontype')->result();
 	    	<textarea id="name" class="form-control tinymce" rows="5" name="name"></textarea>
 	    </div>
  	</div>
+ 	
  	<div class="form-group col-xs-12">
 	  	<div class="col-xs-2">
 	    	<label for="type">Loại câu hỏi</label>
 	    </div>
 	    <div class="col-xs-10">
-		    <select class="form-control" id="type" name="type">
+		    <select class="form-control" id="type" name="type" onchange="request_question()">
 		        <option value="">-- Loại câu hỏi --</option>
 				<?php $question_types = $data->getQuestionType();?>
 				<?php if(isset($question_types)):?>
 					<?php foreach($question_types as $key	=>$value):?>
-						
-						<option value="<?=$value['question_type']?>" class="padding-left-10"> <?=$value['name']?></option>
-							
+						<option value="<?=$value['question_type']?>" data-request="<?=$value['request']?>" class="padding-left-10"> <?=$value['name']?></option>
 					<?php endforeach;?>
 				<?php endif;?>
 			</select>
 		</div>
   	</div>
+  	
+  	<div class="form-group col-xs-12">
+  		<div class="col-xs-2">
+	    	<label for="request">Yêu cầu</label>
+	    </div>
+	    <div class="col-xs-10">
+	    	<textarea id="request" style="background-color:#EEEEEE" class="form-control" rows="2" name="request"></textarea>
+	    </div>
+  	</div>
+  	
+  	<div class="form-group col-xs-12">
+	  	<div class="col-xs-2">
+	    	<label for="topic_id">Loại chủ đề</label>
+	    </div>
+	    <div class="col-xs-10">
+		    <select class="form-control" id="topic_id" name="topic_id" onchange="abc()">
+		        <option value="">-- Loại chủ đề --</option>
+				<?php $topics = $data->getTopics();?>
+				<?php if(isset($topics)):?>
+					<?php foreach($topics as $key	=>$value):?>
+						<option value="<?=$value['id']?>" class="padding-left-10"><?=$value['name']?></option>
+					<?php endforeach;?>
+				<?php endif;?>
+			</select>
+		</div>
+  	</div>
+  	<input type="hidden" id="topic_name" name="topic_name" />
+  	
     <div class="form-group col-xs-12">
         <div class="col-xs-2">
         	<label for="level">Mức độ câu hỏi</label>
@@ -77,4 +104,14 @@ $addValidator = json_encode(pzk_app()->controller->addValidator);
 <script>
 	$('#questionsAddForm').validate({addValidator});
 	setTinymce();
+
+	function abc(){
+		var topic_name = $('#topic_id option:selected').text();
+		$('#topic_name').val(topic_name);
+	}
+
+	function request_question(){
+		var data_request = $('#type option:selected').attr('data-request');
+		$('#request').val(data_request);
+	}
 </script>

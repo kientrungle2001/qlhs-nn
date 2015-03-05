@@ -2,8 +2,8 @@
 class PzkAdminQuestionsController extends PzkAdminController {
 	public $masterStructure = 'admin/home/index';
 	public $masterPosition = 'left';
-	public $addFields = 'name, type, level, categoryIds';
-	public $editFields = 'name, type, level, categoryIds';
+	public $addFields = 'name, type, request, topic_id, topic_name, level, categoryIds';
+	public $editFields = 'name, type, request, topic_id, topic_name, level, categoryIds';
 	
 	public $addValidator = array(
 		'rules' => array(
@@ -59,6 +59,8 @@ class PzkAdminQuestionsController extends PzkAdminController {
 		
 		$data = $admin_question->get_question_type();
 		
+		$topics = $admin_question->get_topics();
+		
 		$this->initPage()->append('admin/'.pzk_or($this->customModule, $this->module).'/index') 
 						 ->append('admin/'.pzk_or($this->customModule, $this->module).'/menu', 'right');
 		$this->fireEvent('index.after', $this);
@@ -66,6 +68,8 @@ class PzkAdminQuestionsController extends PzkAdminController {
 		$question	= pzk_element('question');
 		
 		$question->setQuestionType($data);
+		
+		$question->setTopics($topics);
 		
 		$this->display();
 	}
@@ -78,6 +82,8 @@ class PzkAdminQuestionsController extends PzkAdminController {
 		
 		$data = $admin_question->get_question_type();
 		
+		$topics	=	$admin_question->get_topics();
+		
 		$this->initPage()
 		->append('admin/'.pzk_or($this->customModule, $this->module).'/add')
 		->append('admin/'.pzk_or($this->customModule, $this->module).'/menu', 'right');
@@ -85,6 +91,8 @@ class PzkAdminQuestionsController extends PzkAdminController {
 		$question	= pzk_element('question_add');
 		
 		$question->setQuestionType($data);
+		
+		$question->setTopics($topics);
 		
 		$this->display();
 	}
@@ -103,8 +111,12 @@ class PzkAdminQuestionsController extends PzkAdminController {
 		$admin_question = pzk_model('AdminQuestion');
 		
 		$data = $admin_question->get_question_type();
+		
+		$topics = $admin_question->get_topics();
 			
 		$question->setQuestionType($data);
+		
+		$question->setTopics($topics);
 		
 		$this->display();
 	}
@@ -508,5 +520,9 @@ class PzkAdminQuestionsController extends PzkAdminController {
 	function getEditData() {
 		
 		return pzk_request()->getFilterData();
+	}
+	
+	function getTopics(){
+		
 	}
 }
