@@ -20,6 +20,14 @@ class PzkSGStoreDriverMemcache extends PzkSGStoreDriver {
 		return $this->storage->get($key);
 	}
 	
+	public function has($key) {
+		return $this->storage->has($key);
+	}
+	
+	public function del($key) {
+		return $this->storage->delete($key);
+	}
+	
 	public function clear(){
 		$this->storage->flush();
 	}

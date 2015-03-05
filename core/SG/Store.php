@@ -8,4 +8,11 @@ class PzkSGStore extends PzkSG{
 	public function clear(){
 		$this->storage->clear();
 	}
+	
+	public function has($key) {
+		return $this->storage->has($key);
+	}
+	public function del($key) {
+		return $this->storage->del($key);
+	}
 }
