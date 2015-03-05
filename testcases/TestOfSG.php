@@ -8,4 +8,9 @@ class TestOfSG extends UnitTestCase {
 		$sg->delTestingVariable();
 		$this->assertFalse($sg->hasTestingVariable());
     }
+	
+	function testRegister() {
+		$c = _db()->useCB()->select('count(*) as c')->fromUser()->result_one();
+		$this->assertEqual($c['c'], 4);
+	}
 }
