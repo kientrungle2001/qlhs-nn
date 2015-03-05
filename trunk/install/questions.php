@@ -18,3 +18,10 @@ if ($version < 1) {
 	_dbs()->commitVersion('questions', 1);
 	$version = 1;
 }
+
+if($version < 2) {
+	_dbs()->select('questions')->addInt('topic_id',11)->execute();
+	_dbs()->select('questions')->addVarchar('topic_name',225)->execute();
+	_dbs()->commitVersion('questions', 2);
+	$version = 2;
+}
