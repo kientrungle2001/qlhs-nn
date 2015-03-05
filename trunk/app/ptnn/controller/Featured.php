@@ -6,7 +6,7 @@ class PzkFeaturedController extends PzkController {
 	
 	public function showfeaturedAction()
 		{	
-		$this->initPage()->append('featured/showfeatured','left')->append('featured/featured','right');
+		$this->initPage()->append('featured/showfeatured','left');
 		$this->display();
 		$featuredid=pzk_session('featuredid');
 		$view=_db()->useCB()->select("id")->from("featured_visitor")->where(array('featuredId',$featuredid))->result();

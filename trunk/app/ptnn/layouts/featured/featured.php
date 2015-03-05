@@ -1,6 +1,13 @@
 ﻿
-<div id="featured-wrapper" >
-     <div class="featured-container" >
+<div id="featured-wrapper" style="background-color: #c6e9fc;
+      width:100%; 
+      height: auto;
+      display: block;">
+     <div class="featured-container" style="height:180px; width: 90%;
+        border-radius: 10px;
+        margin: auto;
+        background: linear-gradient(to bottom right, #fdfbfc , #ee1983);
+        box-shadow: 3px 3px 3px #70828c;">
        <div class="title">
          <p align="center" style=" padding-top: 10px;"><strong>Các bài viết hay</strong></p>
        </div>

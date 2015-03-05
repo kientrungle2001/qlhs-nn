@@ -25,6 +25,8 @@
 	<home.left id="left" layout="home/left"/>
 	<home.right id="right" layout="home/right">
 		<user.profile.profileuser  layout="user/profile/profileuser" />
+		<featured.featured  layout="featured/featured" />
+		<AQs.AQshome  layout="AQs/AQshome" />
 	</home.right>
 	<home.footer layout="home/footer"/>
 </page>
