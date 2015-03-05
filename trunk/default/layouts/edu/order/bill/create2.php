@@ -75,7 +75,7 @@
 				<br />
 			</div>
 			<div class="order_signature_item">
-				<strong>Người nộp tiền</strong><br />
+				<strong>Người nhận tiền</strong><br />
 				(Ký, họ tên)
 				
 			</div>
