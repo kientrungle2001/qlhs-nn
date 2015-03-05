@@ -17,7 +17,7 @@ class PzkSGStoreDriverPhp extends PzkSGStore {
 	}
 	
 	public function del($key) {
-		return unset($this->storage[$key]);
+		unset($this->storage[$key]);
 	}
 	
 	public function clear(){
