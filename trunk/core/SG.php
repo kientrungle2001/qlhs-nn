@@ -24,6 +24,14 @@ class PzkSG {
 		$this->$key = $value;
 	}
 	
+	public function has($key) {
+		return isset($this->$key);
+	}
+	
+	public function del($key) {
+		unset($this->$key);
+	}
+	
 	/**
 	 * Ham xoa tat ca cac du lieu trong kho
 	 */
@@ -45,6 +53,12 @@ class PzkSG {
 				$this->set($property, $arguments[0]);
 				//Always return this (Even on the set)
 				return $this;
+			case 'has':
+				return $this->has($property);
+				break;
+			case 'del':
+				return $this->del($property);
+				break;
 			default:
 				throw new \Exception("Property $name doesn't exist.");
 				break;
