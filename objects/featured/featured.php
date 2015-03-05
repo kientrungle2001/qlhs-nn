@@ -13,7 +13,7 @@ class PzkFeaturedFeatured extends PzkObject
 	}
 	public function getSubFeatured($id)
 	{
-		$titles2=_db()->useCB()->select("*")->from("featured")->where(array('parent',$id))->limit(5)->result();
+		$titles2=_db()->useCB()->select("*")->from("featured")->where(array('parent',$id))->limit(3)->result();
 		return($titles2);
 	}
 	

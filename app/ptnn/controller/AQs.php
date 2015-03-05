@@ -3,12 +3,9 @@ class PzkAQsController extends PzkController {
 	public $masterPage='index';
 	public $masterPosition='right';
 	
-	
-	
-	
 	public function AQshomeAction()
 		{
-			$this->initPage()->append('AQs/AQshome')->display();
+			$this->initPage()->append('AQs/AQshome','right')->display();
 			
 		}
 	public function questionPostAction()
@@ -23,32 +20,32 @@ class PzkAQsController extends PzkController {
 						$entity->setData($addquestion);
 						$entity->save();
 					}
-					$this->redirect('AQs/AQshome');
+					$this->redirect('home/index');
 				}
 			else
 				{
-
 					$this->redirect('user/login');
 				}
 			
 
 		}
-		public function answerAction()
+		public function answerPostAction()
 		{
 			if(pzk_session('login'))
 				{
-					$comments=pzk_request('comments');
-					$ip=pzk_session('userIp');
-					$newsid=pzk_session('newsid');
+					$answer=pzk_request('answer');
+					$questionid=pzk_request('questionid');
 					$userid=pzk_session('id');
-					$created=date("Y-m-d H:i:s");
-					if(!empty($comments)){
-						$addComments=array('newsId'=>$newsid,'ip'=>$ip,'comment'=>$comments,'created'=>$created,'userId'=>$userid);
-						$entity = _db()->useCb()->getEntity('table')->setTable('comment');
-						$entity->setData($addComments);
+					if(!empty($answer)){
+						$addanswer=array('questionId'=>$questionid,'answer'=>$answer,'userId'=>$userid);
+						$entity = _db()->useCb()->getEntity('table')->setTable('aqs_answer');
+						$entity->setData($addanswer);
 						$entity->save();
+						$allanswer=_db()->useCB()->select("answer")->from("aqs_answer")->where(array('questionId',$questionid))->result();
+						$count=count($allanswer);
+						_db()->useCB()->update('aqs_question')->set(array('answer' => $count))->where(array('id',$questionid))->result();
 					}
-					$this->redirect('AQs/AQs');
+					$this->redirect('home/index');
 				}
 			else
 				{
