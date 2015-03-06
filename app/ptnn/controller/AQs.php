@@ -6,7 +6,6 @@ class PzkAQsController extends PzkController {
 	public function AQshomeAction()
 		{
 			$this->initPage()->append('AQs/AQshome','right')->display();
-			
 		}
 	public function questionPostAction()
 		{	
@@ -49,13 +48,8 @@ class PzkAQsController extends PzkController {
 				}
 			else
 				{
-
 					$this->redirect('user/login');
 				}
 		}
-		
-		
-		
-
 }
 ?>
