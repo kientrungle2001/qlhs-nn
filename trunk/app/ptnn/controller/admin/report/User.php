@@ -2,7 +2,7 @@
 class PzkAdminReportUserController extends PzkReportController
 {
     public $table = 'user';
-	public $selectFields = 'COUNT(*) AS userCount, month(registered) as createdMonth' ;
+	public $selectFields = 'COUNT(*) AS userCount, concat(month(registered) , "/", year(registered)) as createdMonth' ;
 	public $listFieldSettings = array(
         array(
             'index' => 'userCount',
@@ -15,7 +15,7 @@ class PzkAdminReportUserController extends PzkReportController
     );
 	public $groupByReport = array(
 		array(
-            'index' => 'month(registered)',
+            'index' => 'concat(month(registered) , "/", year(registered))',
         )
 	);
 	public $typeChart = array(
