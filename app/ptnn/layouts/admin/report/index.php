@@ -73,7 +73,7 @@ if($showchart && $displayReport) {
     $xAxis = json_encode($category);
 
     foreach($items as $val) {
-        $arrvalue[] = $val[$displayReport['data']] + 12;
+        $arrvalue[] = $val[$displayReport['data']];
     }
     $result_arr['data'] = $arrvalue;
     $result_arr['name'] = 'so don hang';
