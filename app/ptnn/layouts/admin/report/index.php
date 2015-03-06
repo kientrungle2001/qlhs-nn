@@ -73,10 +73,10 @@ if($showchart && $displayReport) {
     $xAxis = json_encode($category);
 
     foreach($items as $val) {
-        $arrvalue[] = $val[$displayReport['data']];
+        $arrvalue[] = $val[$displayReport['data']] + 0;
     }
     $result_arr['data'] = $arrvalue;
-    $result_arr['name'] = 'so don hang';
+    $result_arr['name'] = $controller->configChart['titley'];
     $a[] = $result_arr;
     $series = json_encode($a);
 }
