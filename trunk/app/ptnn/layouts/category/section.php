@@ -1,5 +1,5 @@
-<link href="//vjs.zencdn.net/4.11/video-js.css" rel="stylesheet">
-<script src="//vjs.zencdn.net/4.11/video.js"></script>
+<link href="/default/skin/ptnn/css/video-js.css" rel="stylesheet">
+<script src="/default/skin/ptnn/js/video.js"></script>
 <script>
 
     videojs('video', {}, function() {
@@ -8,7 +8,7 @@
     });
 
     $(document).ready(function(){
-        //$('body').bind('contextmenu',function() { return false; });
+        $('body').bind('contextmenu',function() { return false; });
 
     });
 
