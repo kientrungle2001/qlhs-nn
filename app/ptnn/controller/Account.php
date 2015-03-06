@@ -49,7 +49,7 @@ class PzkAccountController extends  PzkController
 	// Xử lý đăng nhập
 	public function loginPostAction()
 	{
-		if($_SERVER['HTTP_REFERER']!=BASE_REQUEST . "/User_Account/loginPost"){
+		if($_SERVER['HTTP_REFERER']!=BASE_REQUEST . "/Account/loginPost"){
 			
 			pzk_session('referer_url',$_SERVER['HTTP_REFERER']);
 		}
