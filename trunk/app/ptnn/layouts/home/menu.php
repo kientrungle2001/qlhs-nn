@@ -2,7 +2,7 @@
 <div id="menu">
         <ul class="drop">
             <li><a href="/">Trang Chủ</a></li>
-			<li><a href="http://localhost/ptnn/app/ptnn2/index.php">Diễn đàn</a></li>
+			<li><a href="http://forum.nextnobels.vn/index.php">Diễn đàn</a></li>
 		</ul>
         <?php 
 		
