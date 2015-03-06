@@ -9,7 +9,8 @@ class PzkAdminController extends PzkBackendController {
         parent:: __construct();//goi lop cha
 		$controller = pzk_request('controller');
 		$contrParts = explode('_', $controller);
-		$this->module = $contrParts[1];
+		array_shift($contrParts);
+		$this->module = implode('_', $contrParts);
 		if(!$this->table) {
 			$this->table = $this->module;
 		}
