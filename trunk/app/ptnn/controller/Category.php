@@ -92,12 +92,14 @@ class PzkCategoryController extends PzkFrontendController
                 }else{
                     $subject = '';
                 }
+                $tamtime = strtotime($post['end_time']) - strtotime($post['start_time']) - 7*3600;
+                //echo $tamtime;
                 $addLesson=array('user_id'=>pzk_session('userId'),
                     'question_ids'=>$post['questionIds'],
                     'category_id'=>$post['parent_id'],
                     'subject'=>$subject,
                     'number'=>$post['number'],
-                    'time'=>$post['mi'].' : '.$post['se'],
+                    'time'=>date('H:i:s', $tamtime),
                     'level'=>$post['level'],
                     'answer_value'=>serialize($post['value']),
                     'end_time'=>$post['end_time'],
@@ -105,7 +107,7 @@ class PzkCategoryController extends PzkFrontendController
                     'total_true'=>$post['total_true'],
                     'start_time'=>$post['start_time']
                 );
-
+                //debug($addLesson); die();
                 $entity = _db()->useCb()->getEntity('table')->setTable('lessons');
                 $entity->setData($addLesson);
                 $entity->save();
