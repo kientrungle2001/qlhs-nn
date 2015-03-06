@@ -38,6 +38,11 @@ class PzkCoreDatabaseSchema extends PzkObjectLightWeight {
 		$this->addField($str);
 		return $this;
 	}
+    public function addTime($name) {
+        $str = '`'.$name.'` time NOT NULL';
+        $this->addField($str);
+        return $this;
+    }
 	public function addFloat($name) {
 		$str = '`'.$name.'` float NOT NULL';
 		$this->addField($str);
