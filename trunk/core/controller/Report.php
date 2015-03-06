@@ -3,7 +3,7 @@ class PzkReportController extends PzkGridAdminController {
     public $masterStructure = 'admin/home/index';
     public $masterPosition = 'left';
     public $scriptTo = 'head';
-    public $customModule = false;
+    public $customModule = 'report';
     public $module = 'report';
     public $selectFields = '*';
     public $groupBy = false;
