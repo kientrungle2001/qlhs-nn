@@ -84,7 +84,7 @@ class PzkProfileController extends PzkFrontendController
 		$sex=$request->get('frm_editinfor_sex');
 		$editdate = date("Y-m-d H:i:s"); 
 		$userId= pzk_session('userId');
-
+		
 		$user=_db()->getEntity('user.account.user');
 		$user->loadWhere(array('id',$userId));
 		$user->update(array('name' => $name,'birthday' => $birthday,'address' => $address,'sex' => $sex,'phone' => $phone,'modified'=>$editdate,'modifiedId'=>$userId));
