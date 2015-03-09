@@ -11,6 +11,9 @@ class PzkFrontendController extends PzkController {
         	$this->redirect('WelCome/index');
         }
 		parent::__construct();
+		
+		$controller_name = pzk_request('controller');
+		$menu =  pzk_session(MENU, $controller_name);
 	}
 	
 	public function indexAction(){

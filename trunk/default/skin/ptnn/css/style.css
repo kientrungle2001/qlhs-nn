@@ -51,6 +51,10 @@ body{
     width: 100%;
 }
 
+#menu ul li.action > a {
+    background: #428BCA;
+}
+
 #menu ul.drop li a{
 	display:inline;
 	padding: 0px 17px;
