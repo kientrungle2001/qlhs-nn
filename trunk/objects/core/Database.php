@@ -238,7 +238,11 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
      */
     public function groupBy($groupBy) {
 		if(!$groupBy) return $this;
-        $this->options['groupBy'] = $groupBy;
+        if(!@$this->options['groupBy']){
+			$this->options['groupBy'] = $groupBy;
+		} else {
+			$this->options['groupBy'] .= ', ' . $groupBy;
+		}
         return $this;
     }
 
@@ -586,6 +590,12 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
 				return $this->select('');
 			}
 			return $this->addFields(str_replace('__', '.', $property6));
+			break;
+			case 'update': 
+				return $this->update($property6);
+			break;
+			case 'insert':
+				return $this->insert($property6);
 			break;
 		}
 		switch ($prefix5) {
