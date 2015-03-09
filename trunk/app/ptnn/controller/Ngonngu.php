@@ -20,4 +20,12 @@ class PzkNgonnguController extends PzkFrontendController{
         $this->page->display();
     }
     
+    public function questionAction(){
+    	
+    	$category_id = pzk_request()->getSegment(3);
+    	
+    	$this->layout();
+    	$this->page->display();
+    }
+    
 }
