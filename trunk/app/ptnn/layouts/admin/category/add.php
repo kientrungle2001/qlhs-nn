@@ -12,6 +12,14 @@ $row = pzk_validator()->getEditingData();
     	<input type="text" class="form-control" id="name" name="name" placeholder="Tên danh mục" value="{row[name]}">
     </div>
   </div>
+    <div class="form-group col-xs-12">
+        <div class="col-xs-2">
+            <label for="router" class="2">Tên đường dẫn</label>
+        </div>
+        <div class="col-xs-8">
+            <input type="text" class="form-control col-xs-4" id="router" name="router" placeholder="Đường dẫn" >
+        </div>
+    </div>
   <div class="form-group col-xs-12">
     <label class="col-xs-2" for="parent">Danh mục cha</label>
     <div class="form-group col-xs-8">
