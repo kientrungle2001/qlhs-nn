@@ -11,5 +11,13 @@ class PzkEntityUserUserModel extends PzkEntityModel
 		$wallets->loadWhere(array('username',$this->getUsername()));
 		return $wallets;
 	}
+	
+	public function addTransaction($transactionData) {
+		$transaction = _db()->getEntity('user.transaction');
+		$transaction->setData($transactionData);
+		$transaction->save();
+		$wallets = $this->getWallets();
+		$wallets->executeTransaction($transaction);
+	}
 }
  ?>
