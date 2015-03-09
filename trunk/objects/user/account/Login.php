@@ -10,8 +10,9 @@ class PzkUserAccountLogin extends PzkObject
 			if($user->getId()){
 				$userId=$user->getId();
 				$name=$user->getName();
+				$username=$user->getUsername();
 				pzk_session('login', true);
-				pzk_session('username', $id);
+				pzk_session('username', $username);
 				pzk_session('userId',$userId);
 				pzk_session('name',$name);
 
@@ -44,6 +45,7 @@ class PzkUserAccountLogin extends PzkObject
 				pzk_session('userId',$userId);
 				pzk_session('name',$name);
 			}else{
+				$dateregister= date("Y-m-d H:i:s");
 				$row=array('idGoogle'=>$id,'name'=>$name,'username'=>$id, 'email'=>$email, 'sex'=>$sex,'status'=>1,'registered'=>$dateregister,'lastlogined' =>$dateregister);
 				$user->setData($row);
 				$user->save();

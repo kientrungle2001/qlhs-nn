@@ -21,7 +21,7 @@
 							  		<input type="text" class="form-control" id="userlogin" name="userlogin" placeholder="Tên đăng nhập">
 							  	</div>
 							  	<div class="col-xs-4 control-group">
-							  		<input type="password" class="form-control" id="userpassword" name="userpassword" placeholder="Mật khẩu">
+							  		<input type="password" class="form-control" id="userpassword" name="userpassword" placeholder="Mật khẩu">
 							  	</div>
 							  	<div class="col-xs-2">
 							  		<button type="submit" id="usersubmit" class="btn btn-primary">Đăng Nhập</button>
