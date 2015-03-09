@@ -1,0 +1,1 @@
+<communication.note.viewnote  layout="communication/note/viewnotepage" />
