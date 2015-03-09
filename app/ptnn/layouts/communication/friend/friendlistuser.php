@@ -3,7 +3,7 @@
 
   #friend_list_user
  {
-  width: 70%;
+  width: 100%;
   height: auto;
   
   float: left;

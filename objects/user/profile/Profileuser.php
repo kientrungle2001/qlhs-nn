@@ -81,6 +81,7 @@ class PzkUserProfileProfileuser extends PzkObject
 		
 		
 	}
+
 	
 }
  ?>

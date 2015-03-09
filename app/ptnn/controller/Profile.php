@@ -16,17 +16,32 @@ class PzkProfileController extends PzkFrontendController
 		$this->page->display();
 			
 	}
-
+	public function addinforAction()
+	{
+		$this->layout();		
+		
+		$this->append('user/profile/addinfor');
+		$this->page->display();
+			
+	}
+	public function addinforgoogleAction()
+	{
+		$this->layout();		
+		
+		$this->append('user/profile/addinforgoogle');
+		$this->page->display();
+			
+	}
 	public function profileuserleft1Action()
 	{
 		$this->layout();
-		$this->append('user/profileuserleft1');
+		$this->append('user/profile/profileuserleft1');
 		$this->display();
 	}
 	public function profileusercontentAction()
 	{
 		$this->layout();
-		$this->append('user/profile/profileuserleft1')->append('user/profile/profileusercontent');
+		$this->append('user/profile/profileusercontent');
 		
 		$this->display();
 		//$this->render('user/payment/payment');		
@@ -35,28 +50,24 @@ class PzkProfileController extends PzkFrontendController
 	public function editinforAction() 
 	{
 
-			$username= pzk_session('username');
+			$userId= pzk_session('userId');
 			$user=_db()->getEntity('user.account.user');
-			$user->loadWhere(array('username',$username));
+			$user->loadWhere(array('id',$userId));
 			$editinfor = pzk_parse(pzk_app()->getPageUri('user/profile/editinfor'));
 			// lấy thông tin cá nhân
 			$name= $user->getName();
 			$birthday= $user->getBirthday();
 			$address= $user->getAddress();
-			$phone= $user->getPhone();
-			$idpassport= $user->getIdpassport();
-			$iddate= $user->getIddate();
-			$idplace= $user->getIdplace();
+			$phone= trim($user->getPhone());
+			$sex= $user->getSex();
 			// Hiển thị thông tin tài khoản
 			$editinfor->setname($name);
 			$editinfor->setbirthday($birthday);
 			$editinfor->setAddress($address);
 			$editinfor->setphone($phone);
-  			$editinfor->setidpassport($idpassport);
-			$editinfor->setiddate($iddate);
-			$editinfor->setidplace($idplace);
+  			$editinfor->setSex($sex);
 			$this->layout();
-			$this->append('user/profile/profileuserleft1')->append($editinfor);
+			$this->append($editinfor);
 			
 			$this->display();
 			//$this->render($editinfor);			
@@ -66,60 +77,127 @@ class PzkProfileController extends PzkFrontendController
 	{
 		
 		$request = pzk_element('request');
-		$name=$request->get('name');
-		$birthday=$request->get('birthday');
-		$address=$request->get('address');
-		$phone=$request->get('phone');
-		$idpassport=$request->get('idpassport');
-		$iddate=$request->get('iddate');
-		$idplace=$request->get('idplace');
-		$username= pzk_session('username');
+		$name=$request->get('frm_editinfor_name');
+		$birthday=$request->get('frm_editinfor_birthday');
+		$address=$request->get('frm_editinfor_address');
+		$phone=$request->get('frm_editinfor_phone');
+		$sex=$request->get('frm_editinfor_sex');
 		$editdate = date("Y-m-d H:i:s"); 
 		$userId= pzk_session('userId');
+
 		$user=_db()->getEntity('user.account.user');
-		$user->loadWhere(array('username',$username));
-		$user->update(array('name' => $name,'birthday' => $birthday,'address' => $address,'phone' => $phone,'idpassport' => $idpassport,'iddate' => $iddate,'idplace' => $idplace,'modified'=>$editdate,'modifiedId'=>$userId));
+		$user->loadWhere(array('id',$userId));
+		$user->update(array('name' => $name,'birthday' => $birthday,'address' => $address,'sex' => $sex,'phone' => $phone,'modified'=>$editdate,'modifiedId'=>$userId));
 		//_db()->useCB()->update('user')->set(array('name' => $name,'birthday' => $birthday,'address' => $address,'phone' => $phone,'idpassport' => $idpassport,'iddate' => $iddate,'idplace' => $idplace,'modified'=>$editdate,'modifiedId'=>$userId))->where(array('username',$username))->result();
-		$username= pzk_session('username');
-		$user->loadWhere(array('username',$username));
+		$user->loadWhere(array('id',$userId));
 		$editinfor = pzk_parse(pzk_app()->getPageUri('user/profile/editinfor'));
 		// lấy thông tin cá nhân
 		$name= $user->getName();
 		$birthday= $user->getBirthday();
 		$address= $user->getAddress();
 		$phone= $user->getPhone();
-		$idpassport= $user->getIdpassport();
-		$iddate= $user->getIddate();
-		$idplace= $user->getIdplace();
+		$sex= $user->getSex();
 		// Hiển thị thông tin tài khoản
 		$editinfor->setname($name);
 		$editinfor->setbirthday($birthday);
 		$editinfor->setAddress($address);
 		$editinfor->setphone($phone);
-  		$editinfor->setidpassport($idpassport);
-		$editinfor->setiddate($iddate);
-		$editinfor->setidplace($idplace);
+  		$editinfor->setSex($sex);
 		
 		//$this->render($editinfor);
 		$this->layout();
 		pzk_notifier_add_message('Bạn đã thay đổi thành công', 'success');
-		$this->append('user/profile/profileuserleft1')->append($editinfor);
+		$this->append($editinfor);
 		
+		$this->display();
+	}
+	public function addinforPostAction()
+	{
+		$message="";
+		$error="";
+		$request = pzk_element('request');
+		$username=$request->get('frm_add_username');
+		$email=$request->get('frm_add_email');
+		$user=_db()->getEntity('user.account.user');
+		$testUser=$user->loadWhere(array('username',$username));
+		if($testUser->getId()) {
+				
+				//$error="Tên đăng nhập đã tồn tại trên hệ thống";
+				$error = "Tên đăng nhập đã tồn tại. Bạn vui lòng chọn tên đăng nhập khác";
+		}else{
+				
+			$testEmail= $user->loadWhere(array('email',$email));
+			if($testEmail->getId()) {
+				//$error= "Email đã tồn tại trên hệ thống";
+					$error = "Email đã tồn tại trên hệ thống. Bạn vui lòng chọn email khác";
+			}else{
+				$sex=$request->get('frm_add_sex');
+				$password=$request->get('frm_add_password');
+				$password=md5($password);
+				$birthday=$request->get('frm_add_birthday');
+				$phone=$request->get('frm_add_phone');
+				$address=$request->get('frm_add_address');
+				$editdate = date("Y-m-d H:i:s"); 
+				$userId= pzk_session('userId');
+				
+				$user->loadWhere(array('id',$userId));
+				$user->update(array('username' => $username,'birthday' => $birthday,'address' => $address,'phone' => $phone,'sex' => $sex,'password' => $password,'email' => $email,'modified'=>$editdate,'modifiedId'=>$userId));
+				pzk_session('username',$username);
+				$message="Cập nhật thành công";
+			}
+		}
+		$addinfor = pzk_parse(pzk_app()->getPageUri('user/profile/addinfor'));
+		$addinfor->setError($error);
+		$addinfor->setMessage($message);
+		$this->layout();
+		$this->append($addinfor);
+		$this->display();
+	}
+	public function addinforgooglePostAction()
+	{
+		$message="";
+		$error="";
+		$request = pzk_element('request');
+		$username=$request->get('frm_addg_username');
+		$user=_db()->getEntity('user.account.user');
+		$testUser=$user->loadWhere(array('username',$username));
+		if($testUser->getId()) {
+
+				$error = "Tên đăng nhập đã tồn tại. Bạn vui lòng chọn tên đăng nhập khác";
+		}else{
+
+				$password=$request->get('frm_addg_password');
+				$password=md5($password);
+				$birthday=$request->get('frm_addg_birthday');
+				$phone=$request->get('frm_addg_phone');
+				$address=$request->get('frm_addg_address');
+				$editdate = date("Y-m-d H:i:s"); 
+				$userId= pzk_session('userId');
+				
+				$user->loadWhere(array('id',$userId));
+				$user->update(array('username' => $username,'birthday' => $birthday,'address' => $address,'phone' => $phone,'password' => $password,'modified'=>$editdate,'modifiedId'=>$userId));
+				pzk_session('username',$username);
+				$message="Cập nhật thành công";
+			
+		}
+		$addinforgoogle = pzk_parse(pzk_app()->getPageUri('user/profile/addinforgoogle'));
+		$addinforgoogle->setError($error);
+		$addinforgoogle->setMessage($message);
+		$this->layout();
+		$this->append($addinforgoogle);
 		$this->display();
 	}
 	public function editpasswordAction()
 	{
-			//$this->render('user/editpassword');
 		$this->layout();
-		$this->append('user/profile/profileuserleft1')->append('user/profile/editpassword');
-		
+		$this->append('user/profile/editpassword');
 		$this->display();
 	}
 	public function editpasswordPostAction()
 	{
 		$request = pzk_element('request');
-		$oldpassword=md5($request->get('oldpassword'));
-		$newpassword=$request->get('newpassword');
+		$oldpassword=md5($request->get('frm_editpass_oldpassword'));
+		$newpassword=$request->get('frm_editpass_newpassword');
 		$username= pzk_session('username');
 		$user=_db()->getEntity('user.account.user');
 		$user->loadWhere(array('and',array('username',$username),array('password',$oldpassword)));
@@ -131,7 +209,6 @@ class PzkProfileController extends PzkFrontendController
 			$user->update(array('key' => $confirmpassword));
 			$this->sendMailEditPassword($email,$confirmpassword,$newpassword);
 			$editpassword = pzk_parse(pzk_app()->getPageUri('user/profile/showeditpassword'));
-
 		}	
 		else
 		{
@@ -140,13 +217,9 @@ class PzkProfileController extends PzkFrontendController
 			$editpassword = pzk_parse(pzk_app()->getPageUri('user/profile/editpassword'));
 		}	
 		$this->layout();
-		$this->append('user/profile/profileuserleft1')->append($editpassword);
-		
+		$this->append($editpassword);
 		$this->display();
-		//$this->render($editpassword);
-	
 	}
-
 	public function sendMailEditPassword($email="",$key="",$newpassword="")
 	{
 		//tạo URL gửi email xác nhận đăng ký
@@ -171,13 +244,10 @@ class PzkProfileController extends PzkFrontendController
 	public function showeditpasswordAcction()
 	{
 			$this->render('user/profile/showeditpassword');
-			
 	}
-
 	public function confirmeditpasswordAction()
 	{
 		$request=pzk_element('request');
-		
 		$confirm=$request->get('editpassword');
 		$newpassword=$request->get('conf');
 		$username=pzk_session('username');
@@ -185,34 +255,25 @@ class PzkProfileController extends PzkFrontendController
 		$editdate = date("Y-m-d H:i:s"); 
 		$user=_db()->getEntity('user.account.user');
 		$user->loadWhere(array(array('key', $confirm),array('username',$username))); 
-		
-		//$items = _db()->useCB()->select('user.*')->from('user')->where(array('key', $confirm),array('username',$username))->result_one();
 		if($user->getId())
 		{	
+			$editpasswordsuccess = pzk_parse(pzk_app()->getPageUri('user/profile/editpasswordsuccess'));
 			$editpasswordsuccess->setUsername("ok");		
 			$user->update(array('password' => $newpassword,'key'=>'','modified'=>$editdate,'modifiedId'=>$user->getId()));
-		
-			//_db()->useCB()->update('user')->set(array('password' => $newpassword,'key'=>'','modified'=>$editdate,'modifiedId'=>$items['id']))->where(array('username',$username))->result();
-			$editpasswordsuccess = pzk_parse(pzk_app()->getPageUri('user/profile/editpasswordsuccess'));
 			
 			$this->layout();
-			$this->append('user/profile/profileuserleft1')->append($editpasswordsuccess);
-			
+			$this->append($editpasswordsuccess);
 			$this->display();
-			
 		}
 		else
 		{
 			$editpasswordsuccess = pzk_parse(pzk_app()->getPageUri('user/profile/editpasswordsuccess'));
 			$editpasswordsuccess->setUsername("");
 			$this->layout();
-			$this->append('user/profile/profileuserleft1')->append($editpasswordsuccess);
-			
+			$this->append($editpasswordsuccess);
 			$this->display();
-			
 		}
 	}
-	
 	public function editpasswordsuccessAction()
 	{
 			$this->render('user/profile/editpasswordsuccess');
@@ -227,10 +288,8 @@ class PzkProfileController extends PzkFrontendController
 			$editsign = pzk_parse(pzk_app()->getPageUri('user/profile/editsign'));
 			$editsign->setSign($sign);
 			$this->layout();
-			$this->append('user/profile/profileuserleft1')->append($editsign);
-			
+			$this->append($editsign);
 			$this->display();
-			//$this->render($editsign);
 	}
 	public function editsignPostAction()
 	{
@@ -250,8 +309,7 @@ class PzkProfileController extends PzkFrontendController
 			$message="Bạn đã thay đổi chữ ký thành công";
 			pzk_notifier_add_message($message, 'success');
 			$this->layout();
-			$this->append('user/profile/profileuserleft1')->append($editsign);
-			
+			$this->append($editsign);
 			$this->display();
 	}
 	// Function hiển thị thông tin cá nhân của user
@@ -263,11 +321,8 @@ class PzkProfileController extends PzkFrontendController
 		$editavatar = pzk_parse(pzk_app()->getPageUri('user/profile/editavatar'));
 		$editavatar->setMessage($message);
 		$this->layout();
-		$this->append('user/profile/profileuserleft1')->append($editavatar);
-		
+		$this->append($editavatar);
 		$this->display();
-		//$this->render($editavatar);	
-		
 	}
 	//Edit Avatar
 	public function normal_resize_image($source, $destination, $image_type, $max_size, $image_width, $image_height, $quality){
@@ -389,7 +444,7 @@ public function editavatarPostAction(){
 				$editavatar->setMessage($message);
 				$editavatar->setError("");
 				$this->layout();
-				$this->append('user/profile/profileuserleft1')->append($editavatar);
+				$this->append($editavatar);
 				
 				$this->display();	
 			}
@@ -404,7 +459,7 @@ public function editavatarPostAction(){
 	$editavatar->setMessage("");
 	$editavatar->setError($error);
 	$this->layout();
-	$this->append('user/profile/profileuserleft1')->append($editavatar);
+	$this->append($editavatar);
 	
 	$this->display();
 }

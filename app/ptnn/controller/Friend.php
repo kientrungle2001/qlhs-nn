@@ -11,8 +11,7 @@ class PzkFriendController extends PzkFrontendController
 	{
 		
 		$this->layout();
-		$this->append('user/profile/profileuser', 'right');
-		$this->append('user/profile/profileuserleft1')->append('communication/friend/friendlistuser');
+		$this->append('communication/friend/friendlistuser');
 		$this->display();
 	}
 	public function friendlistuserpageAction()
@@ -41,8 +40,8 @@ class PzkFriendController extends PzkFrontendController
 	public function SearchAction()
 	{
 		$this->layout();		
-		$this->append('user/profile/profileuser', 'right');
-		$this->append('user/profile/profileuserleft1')->append('communication/friend/search');
+		
+		$this->append('communication/friend/search');
 		$this->page->display();
 			
 	}
@@ -69,8 +68,8 @@ class PzkFriendController extends PzkFrontendController
 		$this->layout();
 		$pageSearch = pzk_parse(pzk_app()->getPageUri('communication/friend/resultsearch'));
 		$pageSearch->setTxtsearch($searchfriend);	
-		$this->append('user/profile/profileuser', 'right');
-		$this->append('user/profile/profileuserleft1')->append('communication/friend/search')->append($pageSearch);
+		
+		$this->append('communication/friend/search')->append($pageSearch);
 		$this->page->display();
 
 		
@@ -109,8 +108,8 @@ class PzkFriendController extends PzkFrontendController
 	public function viewnoteAction()
 	{
 		$this->layout();
-		$this->append('user/profile/profileuserleft1')->append('communication/friend/viewnote');
-		$this->append('user/profile/profileuser','right');
+		$this->append('communication/friend/viewnote');
+		
 		$this->display();
 		//$this->render('user/payment/payment');		
 	}
@@ -135,8 +134,8 @@ class PzkFriendController extends PzkFrontendController
 	public function detailnoteAction()
 	{
 		$this->layout();
-		$this->append('user/profile/profileuserleft1')->append('communication/friend/detailnote');
-		$this->append('user/profile/profileuser','right');
+		$this->append('communication/friend/detailnote');
+		
 		$this->display();
 	}
 	public function PostCommentNoteAction()
@@ -171,8 +170,8 @@ class PzkFriendController extends PzkFrontendController
 	public function addnoteAction()
 	{
 		$this->layout();
-		$this->append('user/profile/profileuserleft1')->append('communication/friend/addnote');
-		$this->append('user/profile/profileuser','right');
+		$this->append('communication/friend/addnote');
+		
 		$this->display();
 		//$this->render('user/payment/payment');		
 	}
@@ -200,8 +199,8 @@ class PzkFriendController extends PzkFrontendController
 	public function viewwritewallAction()
 	{
 		$this->layout();
-		$this->append('user/profile/profileuserleft1')->append('communication/friend/viewwritewall');
-		$this->append('user/profile/profileuser','right');
+		$this->append('communication/friend/viewwritewall');
+		
 		$this->display();
 
 	}
