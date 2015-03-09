@@ -1,0 +1,1 @@
+<communication.note.detailnote  layout="communication/note/detailnotepage" />
