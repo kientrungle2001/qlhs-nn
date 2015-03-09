@@ -79,7 +79,7 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
 
         }
     }
-
+    /*
     if (file_exists($file2)) {
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
@@ -96,8 +96,9 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
     }else{
         die("The File $fichero does not exist");
     }
-
-    /*doc file
+    */
+    //exit();
+    //*doc file
         $fp = @fopen($file2, 'rb');
         $size = filesize($file2); // File size
         $length = $size; // Content length
@@ -149,6 +150,6 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
         }
 
         fclose($fp);
-        die();*/
+        die();
 }
 ?>
