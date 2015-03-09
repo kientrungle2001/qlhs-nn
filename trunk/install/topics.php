@@ -9,7 +9,7 @@ if ($version < 1) {
 		->addDatetime('created')
 		->addDatetime('modified')
 		->addInt('createdId')
-		->addInt('modified')
+		->addInt('modifiedId')
 		->execute();
 	_dbs()->commitVersion('topics', 1);
 	$version = 1;
