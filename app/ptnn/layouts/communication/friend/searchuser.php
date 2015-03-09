@@ -26,7 +26,7 @@
           <a href="/user/profileusercontent?member={userid}" ><span>Tên: {name}</span></a>
         </div>
         <div>
-          <a href="/user/profileusercontent?member={userid}" ><span>Nickname: {username}</span</a>
+          <a href="/user/profileusercontent?member={userid}" ><span>Nickname: {username}</span></a>
         </div>
         <div>
           <span>Bài viết: 0   |   Tham gia:ngày</span>

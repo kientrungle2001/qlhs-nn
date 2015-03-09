@@ -116,7 +116,7 @@ height: auto;
           <a href="/profile/profileusercontent?member={userid}" ><span>Tên: {name}</span></a>
         </div>
         <div>
-          <a href="/profile/profileusercontent?member={userid}" ><span>Nickname: {userfriend}</span</a>
+          <a href="/profile/profileusercontent?member={userid}" ><span>Nickname: {userfriend}</span></a>
         </div>
         <div>
           <span>Bài viết: 0   |   Tham gia:ngày</span>

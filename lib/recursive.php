@@ -44,9 +44,12 @@
     function show_menu($array = array())
     {
         echo '<ul class="drop">';
-        foreach ($array as $item)
-        {
-            echo '<li>';
+        foreach ($array as $item) {
+        	$class_action = "";
+        	if( pzk_session(MENU) === $item['router']){
+        		$class_action = " class = 'action'";
+        	}
+            echo '<li'.$class_action.'>';
             echo '<a href="'.pzk_request()->build($item['router'].'/'.$item['id']).'">';
             echo $item['name'];
             echo '</a>';
