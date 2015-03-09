@@ -26,7 +26,6 @@ class PzkCategoryController extends PzkFrontendController
     public function sectionAction()
     {
         $parent_id = pzk_request()->getSegment(3);
-
         $this->initPage();
         $this->append('category/section', 'left');
         $category = pzk_element('parent_category');

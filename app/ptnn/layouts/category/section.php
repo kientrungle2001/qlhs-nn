@@ -1,29 +1,24 @@
-<link href="/default/skin/ptnn/css/video-js.css" rel="stylesheet">
-<script src="/default/skin/ptnn/js/video.js"></script>
-<script>
 
-    videojs('video', {}, function() {
-        var player = this;
-        player.disableUi(); // initialize the plugin
-    });
-
-    $(document).ready(function(){
-        $('body').bind('contextmenu',function() { return false; });
-
-    });
-
-</script>
 <div class="item">
     <?php
     $categories = $data->getCateByParent();
-    $video = _db()->useCB()->select('url,id')->from('video')->where(array('category_id', pzk_request()->getSegment(3)))->result_one();
-    if($video) {
+    $video = $data->getVideo();
+    //debug($video);die();
+    if(isset($video)) {
 
 		$time = time();
 		$username = pzk_session('username');
 		if(!$username) $username = 'ongkien';
 		$token = md5($time.$username . 'onghuu');
     ?>
+        <link href="/default/skin/ptnn/css/video-js.css" rel="stylesheet">
+        <script src="/default/skin/ptnn/js/video.js"></script>
+        <script>
+            $(document).ready(function(){
+                $('body').bind('contextmenu',function() { return false; });
+            });
+
+        </script>
     <div style="height: 500px; border: 1px solid red;" class="item slider">
 
         <video id="video" class="video-js removeurl vjs-default-skin"

@@ -8,15 +8,12 @@
 		<html.js src="<?php echo BASE_URL?>/js/components.js" />
 		<html.js src="/3rdparty/bootstrap3/js/bootstrap.min.js" />
         <html.js src="/3rdparty/jquery.countdownTimer.js" />
-        
-        <html.less src="/default/skin/ptnn/less/style.less" />
-        <html.js src="/3rdparty/less.min.js" />
-        
 		<html.css src="/3rdparty/jquery-ui-1.11.2.datepicker/jquery-ui.min.css" />
 		<html.js  src="/3rdparty/jquery-ui-1.11.2.datepicker/jquery-ui.min.js" />
-		
-		
-	</home.head>
+
+
+
+    </home.head>
 	<home.top id="top" layout="home/top"/>
 	<home.search id="search" layout="home/search">
 		<user.account.user id="user" layout="user/account/user" />

@@ -129,7 +129,6 @@
                                 },
                                 'swf'      : BASE_URL+'/3rdparty/uploadify/uploadify.swf',
                                 'uploader' : BASE_URL+'/3rdparty/uploadify/uploadify.php',
-                                'folder' : BASE_URL+'/3rdparty/uploads/videos',
                                 'auto' : false,
                                 'onUploadSuccess' : function(file, data, response) {
                                     var src = data;
@@ -299,7 +298,6 @@
               },
               'swf'      : BASE_URL+'/3rdparty/uploadify/uploadify.swf',
               'uploader' : BASE_URL+'/3rdparty/uploadify/uploadify.php',
-              'folder' : BASE_URL+'/3rdparty/uploads/videos',
               'auto' : false,
               'onUploadSuccess' : function(file, data, response) {
                   var src = data;
