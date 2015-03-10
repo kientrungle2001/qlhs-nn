@@ -18,6 +18,11 @@ class PzkEntityUserUserModel extends PzkEntityModel
 		$transaction->save();
 		$wallets = $this->getWallets();
 		$wallets->executeTransaction($transaction);
+		
+		$productEntities = _db()->select('id, name, price')->from('product')->limit(10, 0)->result('catalog.product');
+		$featuredProductEntities = _db()->select('id, name, price')->fromProduct()->whereFeatured(1)->limit(10, 0)->result('catalog.product.featured');
+		foreach($featuredProductEntities as $entity) {
+		}
 	}
 }
  ?>
