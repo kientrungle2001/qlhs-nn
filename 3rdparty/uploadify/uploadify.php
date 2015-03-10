@@ -5,8 +5,8 @@ Copyright (c) 2012 Reactive Apps, Ronnie Garcia
 Released under the MIT License <http://www.opensource.org/licenses/mit-license.php> 
 */
 // Define a destination
-    if(isset($_POST['timestamp'])) {
-        $verifyToken = md5('ptnn' . $_POST['timestamp']);
+    if(isset($_POST['time'])) {
+        $verifyToken = md5('ptnn' . $_POST['time']);
     }
 
     if (!empty($_FILES) && $_POST['token'] == $verifyToken) {
