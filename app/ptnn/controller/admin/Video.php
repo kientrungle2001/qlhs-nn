@@ -14,7 +14,7 @@ class PzkAdminVideoController extends PzkGridAdminController {
         array(
             'index' => 'name',
             'type' => 'text',
-            'label' => 'tên video'
+            'label' => 'Tên video'
         ),
 
         array(
@@ -23,7 +23,7 @@ class PzkAdminVideoController extends PzkGridAdminController {
             'label' => 'Trạng thái'
         )
     );
-    public $addLabel = 'Thêm menu';
+    public $addLabel = 'Thêm video';
     public $addFieldSettings = array(
         array(
             'index' => 'name',
@@ -168,6 +168,31 @@ class PzkAdminVideoController extends PzkGridAdminController {
 
         pzk_notifier()->addMessage('Xóa thành công');
         $this->redirect('index');
+    }
+    public function delAllAction() {
+        if(pzk_request('ids')) {
+            $arrIds = json_decode(pzk_request('ids'));
+            if(count($arrIds) >0) {
+                _db()->useCB()->delete()->from($this->table)
+                    ->where(array('in', 'id', $arrIds))->result();
+
+                foreach($arrIds as $item) {
+                    $data = _db()->useCB()->select('url')->from('video')->where(array('id', $item))->result_one();
+                    $tam = explode("/",$data['url']);
+                    $url2 = end($tam);
+                    $url = BASE_DIR.$data['url'];
+                    unlink($url);
+                    unlink(BASE_DIR.'/tmp/'.$url2);
+                }
+
+                echo 1;
+            }
+
+        }else {
+            die();
+        }
+
+
     }
 }
 ?>
