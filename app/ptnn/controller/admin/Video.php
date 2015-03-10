@@ -158,8 +158,11 @@ class PzkAdminVideoController extends PzkGridAdminController {
     public function delPostAction() {
         $id = pzk_request()->get('id');
         $data = _db()->useCB()->select('url')->from('video')->where(array('id', $id))->result_one();
+        $tam = explode("/",$data['url']);
+        $url2 = end($tam);
         $url = BASE_DIR.$data['url'];
         unlink($url);
+        unlink(BASE_DIR.'/tmp/'.$url2);
         _db()->useCB()->delete()->from($this->table)
             ->where(array('id', $id))->result();
 
