@@ -147,7 +147,7 @@ $setEditTabs = $controller->setEditTabs;
                                setTimeout(function() {
                                    $('#{field[index]}').uploadify({
                                        'formData'     : {
-                                           'timestamp' : '<?php echo $timestamp;?>',
+                                           'time' : '<?php echo $timestamp;?>',
                                            'token'     : '<?php echo md5('ptnn' . $timestamp);?>',
                                            'uploadtype' : '<?php echo $field['uploadtype']; ?>'
                                        },
@@ -341,7 +341,7 @@ $setEditTabs = $controller->setEditTabs;
         setTimeout(function() {
             $('#{field[index]}').uploadify({
                 'formData'     : {
-                    'timestamp' : '<?php echo $timestamp;?>',
+                    'time' : '<?php echo $timestamp;?>',
                     'token'     : '<?php echo md5('ptnn' . $timestamp);?>',
                     'uploadtype' : '<?php echo $field['uploadtype']; ?>'
                 },
