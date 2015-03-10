@@ -11,12 +11,9 @@ class PzkNewsController extends PzkController {
 		$view=_db()->useCB()->select("id")->from("news_visitor")->where(array('newsId',$newsid))->result();
 		$count=count($view);
 		_db()->useCB()->update('news')->set(array('views' => $count))->where(array('id',$newsid))->result();
-		
 		$allcomments=_db()->useCB()->select("comment")->from("comment")->where(array('newsId',$newsid))->result();
 		$count2=count($allcomments);
 		_db()->useCB()->update('news')->set(array('comments' => $count2))->where(array('id',$newsid))->result();
-		
-		
 		}
 	
 	public function newsAction()
