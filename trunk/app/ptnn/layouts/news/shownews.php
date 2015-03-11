@@ -44,7 +44,7 @@
 	  <li><a href="/news/shownews?id={list[id]} ">{list[title]}<br></a></li>
 	  {/each}
 	  </div>
-      <div class="prf_clear">
+      <div class="prf_clear" style="padding-top:40px;">
 	  <p><a href="/news/news">Quay lại</a></p>
 	  </div>
     </div>

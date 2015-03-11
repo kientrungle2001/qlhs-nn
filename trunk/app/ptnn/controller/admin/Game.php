@@ -1,8 +1,8 @@
 ﻿<?php
 class PzkAdminGameController extends PzkGridAdminController {
 	public $table = 'game';
-	public $addFields = 'gametype,img,brief';
-	public $editFields = 'gametype,img,brief';
+	public $addFields = 'gametype,img,brief,url';
+	public $editFields = 'gametype,img,brief,url';
 	public $sortFields = array(
 		'id asc' => 'ID tăng',
 		'id desc' => 'ID giảm',
@@ -24,6 +24,11 @@ class PzkAdminGameController extends PzkGridAdminController {
             'label' => 'Ảnh đại diện'
         ),
 		array(
+            'index' => 'url',
+            'type' => 'text',
+            'label' => 'Đường dẫn'
+        ),
+		array(
             'index' => 'brief',
             'type' => 'text',
             'label' => 'Mô tả trò chơi'
@@ -38,6 +43,11 @@ class PzkAdminGameController extends PzkGridAdminController {
             'index' => 'gametype',
             'type' => 'text',
             'label' => 'Loại trò chơi'
+        ),
+		array(
+            'index' => 'url',
+            'type' => 'text',
+            'label' => 'Đường dẫn'
         ),
 
 		array(
@@ -58,6 +68,11 @@ class PzkAdminGameController extends PzkGridAdminController {
             'index' => 'gametype',
             'type' => 'text',
             'label' => 'Loại trò chơi'
+        ),
+		array(
+            'index' => 'url',
+            'type' => 'text',
+            'label' => 'Đường dẫn'
         ),
 
 		array(
