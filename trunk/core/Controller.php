@@ -196,4 +196,8 @@ class PzkController extends PzkSG{
 				break;
 		}
 	}
+	
+	public function obj($obj) {
+		return pzk_obj($obj);
+	}
 }

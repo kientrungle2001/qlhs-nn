@@ -319,3 +319,7 @@ class PzkParser {
 function pzk_parse($xml) {
 	return PzkParser::parse($xml);
 }
+
+function pzk_obj($obj) {
+	return PzkParser::parse("<$obj />");
+}
