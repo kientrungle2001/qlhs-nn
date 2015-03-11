@@ -1,4 +1,5 @@
 <?php
+
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 // cac ham xu ly thong thuong
@@ -139,8 +140,9 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
         }
         header("Content-Range: bytes $start-$end/$size");
         header("Content-Length: ".$length);
-        $buffer = 1024 * 8;
+        $buffer = 10000024 * 8;
         while(!feof($fp) && ($p = ftell($fp)) <= $end) {
+
             if ($p + $buffer > $end) {
                 $buffer = $end - $p + 1;
             }
@@ -149,7 +151,8 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
             flush();
         }
 
+
         fclose($fp);
-        die();
+        exit();
 }
 ?>
