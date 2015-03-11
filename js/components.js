@@ -29,8 +29,14 @@ jQuery.fn.serializeForm = function() {
 			elem.name = elem.name.replace(/\]/g, '');
 			var parts = elem.name.split('.');
 			var cur = rslt;
+			var indexJ = {};
 			for(var j = 0; j < parts.length - 1; j++){
+				if (typeof indexJ[j] == 'undefined') indexJ[j] = 0;
 				var part = parts[j];
+				if(part == '') {
+					part = indexJ[j];
+					indexJ[j]++;
+				}
 				if (typeof cur[part] == 'undefined') cur[part] = {};
 				cur = cur[part];
 			}
