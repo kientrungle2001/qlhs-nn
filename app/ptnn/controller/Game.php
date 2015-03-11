@@ -12,6 +12,14 @@ class PzkGameController extends PzkController {
 	{
 		$this->initPage()->append('game/rainword')->display();
 	}
+	public function subrainwordAction()
+	{
+		$this->initPage()->append('game/subrainword')->display();
+	}
+	public function playgameAction()
+	{
+		$this->initPage()->append('game/playgame')->display();
+	}
 	public function hookwordAction()
 	{
 		$this->initPage()->append('game/hookword')->display();

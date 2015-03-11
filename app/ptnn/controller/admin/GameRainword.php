@@ -84,7 +84,7 @@ class PzkAdminGameRainwordController extends PzkGridAdminController {
             'label' => 'Menu cha',
             'table' => 'game_rainword',
             'show_value' => 'id',
-            'show_name' => 'title'
+            'show_name' => 'game_title'
         )
 		
     );

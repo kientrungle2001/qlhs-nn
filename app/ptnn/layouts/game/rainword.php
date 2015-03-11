@@ -1,3 +1,5 @@
-﻿Chọn chủ đề:<br>
-<a href="#"><img height="200" width="200" title="Tả Người" src="/3rdparty/uploads/nguoi.jpg"></a>
-<a href="#"><img height="200" width="200" title="Tả con vật" src="/3rdparty/uploads/convat.jpg"></a>
+﻿<strong><center>Chọn chủ đề:</strong><br>
+<?php $games= $data->getGames(); ?>
+{each $games as $game}
+<a href="/game/subrainword?id={game[id]}"><img height="200" width="200" style="margin:10px;"title="{game[game_title]}" src="{game[img]}"></a>
+{/each}
