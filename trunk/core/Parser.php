@@ -320,6 +320,10 @@ function pzk_parse($xml) {
 	return PzkParser::parse($xml);
 }
 
-function pzk_obj($obj) {
-	return PzkParser::parse("<$obj />");
+function pzk_obj($obj, $arr = array()) {
+	$rs = PzkParser::parse("<$obj />");
+	foreach($arr as $key => $val) {
+		$rs->set($key, $val);
+	}
+	return $rs;
 }
