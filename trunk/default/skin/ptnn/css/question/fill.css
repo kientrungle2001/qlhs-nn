@@ -1,0 +1,54 @@
+.view_question{
+	width: 100%;
+	height: auto;
+	border:1px dotted #8FBC8F;
+}
+.title_question{
+	width: 80%;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+	color: #ffffff;
+	font-weight: bold;
+	margin:50px auto;
+	background-color: #ff7e00;
+}
+.step{
+	padding-bottom: 10px;
+}
+.dot{
+	color: #ff7e00;
+	text-align: center;
+	clear:both;
+}
+.remove-input {
+position: absolute;
+top: 0;
+right: 15px;
+padding-top: 6px;
+}
+.remove-input1{
+	float: left;
+	padding-top: 6px;
+}
+.color_delete {
+color: #BD1501;
+margin-top: 0px !important;
+}
+.add_row_answer{
+	position:relative;
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+.btt_add_answer{
+	margin-top: 0px !important;
+	float: left;
+}
+.toeic_footer {
+	width: 450px;
+	margin: 0 auto;
+	position: relative;
+	clear: both;
+	height: 53px;
+	
+}
