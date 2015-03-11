@@ -19,6 +19,7 @@ String.pzkImpl({
 jQuery.fn.serializeForm = function() {
 	var arr = this.serializeArray();
 	var rslt = {};
+	var indexJ = {};
 	for(var i = 0; i < arr.length; i++) {
 		var elem = arr[i];
 		if (elem.name.indexOf('[') ==-1) {
@@ -28,8 +29,9 @@ jQuery.fn.serializeForm = function() {
 			elem.name = elem.name.replace(/\[/g, '.');
 			elem.name = elem.name.replace(/\]/g, '');
 			var parts = elem.name.split('.');
+
 			var cur = rslt;
-			var indexJ = {};
+			
 			for(var j = 0; j < parts.length - 1; j++){
 				if (typeof indexJ[j] == 'undefined') indexJ[j] = 0;
 				var part = parts[j];
@@ -37,10 +39,20 @@ jQuery.fn.serializeForm = function() {
 					part = indexJ[j];
 					indexJ[j]++;
 				}
-				if (typeof cur[part] == 'undefined') cur[part] = {};
+				if (typeof cur[part] == 'undefined') 
+				{
+					cur[part] = {};
+					indexJ[j+1] = 0;
+				}
 				cur = cur[part];
 			}
-			cur[parts[parts.length-1]] = elem.value;
+			if (typeof indexJ[parts.length-1] == 'undefined') indexJ[parts.length-1] = 0;
+			var part = parts[parts.length-1];
+			if(part == '') {
+				part = indexJ[parts.length-1];
+				indexJ[parts.length-1]++;
+			}
+			cur[part] = elem.value;
 		}
 	}
 	return rslt;
