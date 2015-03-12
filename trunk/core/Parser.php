@@ -32,25 +32,31 @@ class PzkParser {
 
     public static function parseFile($obj) {
 		//if($rs = pzk_session()->get($obj)) return $rs;
-		$fileName = BASE_DIR . '/public/' . str_replace('/', '_', $obj . '.php');
-		
-		$filePath = self::getFilePath($obj . '.php');
-		if(!file_exists($fileName) || filemtime($fileName) <= filemtime($filePath)) {
-			$fileContent = file_get_contents($filePath);
-			$fileContent = self::parseTemplate($fileContent, array());
-			file_put_contents($fileName, $fileContent);
+		if(defined('COMPILE_MODE') && COMPILE_MODE) {
+			$fileName = BASE_DIR . '/compile/pages/' . str_replace('/', '_', $obj . '.php');
+			require $fileName;
+			return $obj0;
+		} else {
+			$fileName = BASE_DIR . '/public/' . str_replace('/', '_', $obj . '.php');
+			
+			$filePath = self::getFilePath($obj . '.php');
+			if(!file_exists($fileName) || filemtime($fileName) <= filemtime($filePath)) {
+				$fileContent = file_get_contents($filePath);
+				$fileContent = self::parseTemplate($fileContent, array());
+				file_put_contents($fileName, $fileContent);
+			}
+			
+			$source = '';
+			ob_start();
+			require $fileName;
+			$source = ob_get_contents();
+			ob_end_clean();
+			$source = str_replace('&', '&amp;', $source);
+			
+			$rs = self::parseDocument($source);
+			return $rs;	
 		}
 		
-		$source = '';
-        ob_start();
-        require $fileName;
-        $source = ob_get_contents();
-        ob_end_clean();
-        $source = str_replace('&', '&amp;', $source);
-        
-		$rs = self::parseDocument($source);
-		//pzk_session()->set($obj, $rs);
-		return $rs;
     }
 
     public static function parseFilePath($filePath) {
@@ -142,7 +148,12 @@ class PzkParser {
             $className = self::getClass($fullNames);
 
             if (!class_exists($className)) {
-                require_once BASE_DIR . '/objects/' . $package . '/' . str_ucfirst($name) . '.php';
+				if(defined('COMPILE_MODE') && COMPILE_MODE) {
+					require_once BASE_DIR . '/compile/objects/' . $className . '.php';
+				} else {
+					require_once BASE_DIR . '/objects/' . $package . '/' . str_ucfirst($name) . '.php';
+				}
+                
             }
             // lay cac thuoc tinh
             $attrs = array();

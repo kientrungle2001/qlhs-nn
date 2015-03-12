@@ -18,7 +18,7 @@ class PzkController extends PzkSG{
 	public function getStructure($uri) {
 		if($uri instanceof PzkObject) return $uri;
 		if(strpos($uri, '<') !==false) return pzk_parse($uri);
-		return pzk_parse($this->getApp()->getPageUri($uri));
+		return pzk_parse(pzk_app()->getPageUri($uri));
 	}
 	
 	public $masterStructure = 'masterStructure';

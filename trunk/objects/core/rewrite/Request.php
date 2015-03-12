@@ -98,7 +98,6 @@ class PzkCoreRewriteRequest extends PzkObjectLightweight{
 				
 				if($this->defaultElementParams) {
 					$params = json_decode($this->defaultElementParams, true);
-					var_dump($params);
 					foreach($params as $param => $value) {
 						$parts = explode('.', $param);
 						$element = $parts[0];
