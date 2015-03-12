@@ -124,6 +124,25 @@ color: white;
 
 .margin-right-30{margin-right:30px;}
 .margin-right-30 form {
-margin-right:10px;
-float:left;
+	margin-right:10px;
+	float:left;
 }
+.pd-10{padding:10px;}
+.pd-left-10{padding-left:10px;}
+.pd-top-10{padding-top:10px;}
+.pd-right-10{padding-right:10px;}
+
+.pd-20{padding:20px;}
+.pd-left-20{padding-left:20px;}
+.pd-top-20{padding-top:20px;}
+.pd-right-20{padding-right:20px;}
+
+.pd-30{padding:30px;}
+.pd-left-30{padding-left:30px;}
+.pd-top-30{padding-top:30px;}
+.pd-right-30{padding-right:30px;}
+
+.pd-40{padding:40px;}
+.pd-left-40{padding-left:40px;}
+.pd-top-40{padding-top:40px;}
+.pd-right-40{padding-right:40px;}
