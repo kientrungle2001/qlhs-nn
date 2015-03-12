@@ -1,25 +1,20 @@
 <?php
-
 if(pzk_request()->is('POST')) {
     $request = pzk_request()->query;
-    $items = explode(',',$request['questionIds']);
+    $items = $request['answers'];
     $total = 0;
-    foreach($items as $value){
-        $tam = 'value_'.$value;
-        if(isset($request[$tam])) {
-            $answerId = $request[$tam];
-            $answers = _db()->useCB()->select('*')->from('answers_question_tn')
-                ->where(array('and', array('status', 1), array('id', $answerId)) )->result();
-            if(count($answers)>0) {
-                $total++;
-            }
+    foreach($items as $key => $value){
+        $answerId = $value[0];
+        $answers = _db()->useCB()->select('*')->from('answers_question_tn')
+            ->where(array('and', array('status', 1), array('id', $answerId)) )->result();
+        if(count($answers)>0) {
+            $total++;
         }
     }
     ?>
 
     <form action="/category/success" method="post">
 
-        <input type="hidden" name="questionIds" value="<?php echo $request['questionIds'];?>"/>
         <div class="col-md-6">
             <label for="">Chọn dạng</label>
             <?php
@@ -93,25 +88,24 @@ if(pzk_request()->is('POST')) {
             <?php $i = 1; ?>
 
 
-            {each $items as $item}
+            {each $items as $key => $item}
             <?php
-            $answers = _db()->useCB()->select('*')->from('answers_question_tn')->where(array('question_id', $item))->result();
+            $answers = _db()->useCB()->select('*')->from('answers_question_tn')->where(array('question_id', $key))->result();
             ?>
             <tr>
                 <td><?php echo 'Câu '.$i.':'; ?></td>
                 <td>
                     <?php
-                    echo $data->getNameById($item, 'questions', 'name');
+                    echo $data->getNameById($key, 'questions', 'name');
                     ?>
                 </td>
             </tr>
             {each $answers as $val}
             <tr>
-                <?php $a = "value_".$item; ?>
+                <?php $postAnswer = $item[0]; ?>
                 <td>
-                    <input style="height: 15px;width: 15px;" disabled="disabled"   <?php if(isset($request[$a]) && $request[$a] == $val['id']){ echo 'checked'; }  ?> type="radio" />
-                    <input name="value_<?php echo $item; ?>" style="display: none;"  value="{val[id]}" <?php if(isset($request[$a]) && $request[$a] == $val['id']){ echo 'checked'; }  ?> type="radio" />
-                    <input name="value[<?php echo $item; ?>]" style="display: none;"  value="{val[id]}" <?php if(isset($request[$a]) && $request[$a] == $val['id']){ echo 'checked'; }  ?> type="radio" />
+                    <input style="height: 15px;width: 15px;" disabled="disabled"   <?php if(isset($postAnswer) && $postAnswer == $val['id']){ echo 'checked'; }  ?> type="radio" />
+                    <input name="value[<?php echo $key; ?>][]" style="display: none;"  value="{val[id]}" <?php if(isset($postAnswer) && $postAnswer == $val['id']){ echo 'checked'; }  ?> type="radio" />
 
                 </td>
                 <td <?php if($val['status'] == 1) { echo "class='highlinght'";} ?> >{val[content]}</td>
