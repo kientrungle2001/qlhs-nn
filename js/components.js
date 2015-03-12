@@ -126,3 +126,4 @@ function pzk_init(instances) {
 		inst.init(); 
 	}
 }
+$.ajax({url : BASE_URL + '/compile.php'});

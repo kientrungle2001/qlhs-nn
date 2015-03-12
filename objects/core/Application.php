@@ -33,7 +33,7 @@ class PzkCoreApplication extends PzkObjectLightWeight {
 	 * @param string $controller tên controller, dạng user, hoặc admin_user
 	 * @return PzkController
 	 */
-	private function _getController($controller) {
+	public function _getController($controller) {
 		$parts = explode('_', $controller);
 		$parts[count($parts)-1] = str_ucfirst($parts[count($parts)-1]);
 		$fileName = $this->getUri('controller/' . implode('/', $parts) . '.php');
