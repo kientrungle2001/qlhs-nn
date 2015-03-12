@@ -19,5 +19,13 @@ class PzkCategoryLesson extends PzkObject
         $listCate = _db()->useCB()->select('*')->from($this->table)->where(array('parent',$parent['parent']))->result();
         return $listCate;
     }
+    public function  getTopicByCategoryId($category_id) {
+        $data = _db()->useCB()
+            ->select('id, name')
+            ->from('topics')
+            ->where(array('and', array('category_id', $category_id), array('status', 1)))
+            ->result();
+        return $data;
+    }
 }
 ?>

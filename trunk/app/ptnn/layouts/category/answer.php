@@ -1,12 +1,10 @@
 <?php
-
 if(pzk_request()->is('POST')) {
     $request = pzk_request()->query;
-    $items = explode(',',$request['questionIds']);
+    $items = $request['answers'];
     ?>
 
     <form action="/category/review" method="post">
-        <input type="hidden" name="questionIds" value="<?php echo $request['questionIds'];?>"/>
         <div class="col-md-6">
             <label for="">Dạng</label>
             <?php
@@ -71,24 +69,24 @@ if(pzk_request()->is('POST')) {
             <?php $i = 1; ?>
 
 
-            {each $items as $item}
+            {each $items as $key => $item}
             <?php
-            $answers = _db()->useCB()->select('*')->from('answers_question_tn')->where(array('question_id', $item))->result();
+            $answers = _db()->useCB()->select('*')->from('answers_question_tn')->where(array('question_id', $key))->result();
             ?>
             <tr>
                 <td><?php echo 'Câu '.$i.':'; ?></td>
                 <td>
                     <?php
-                    echo $data->getNameById($item, 'questions', 'name');
+                    echo $data->getNameById($key, 'questions', 'name');
                     ?>
                 </td>
             </tr>
             {each $answers as $val}
             <tr>
-                <?php $a = "value_".$item; ?>
+                <?php $postAnswer = $item[0]; ?>
                 <td>
-                    <input style="width: 15px; height: 15px;" disabled   <?php if(isset($request[$a]) && $request[$a] == $val['id']){ echo 'checked'; }  ?> type="radio" />
-                    <input style="display: none;" name="value_<?php echo $item; ?>"  value="{val[id]}" <?php if(isset($request[$a]) && $request[$a] == $val['id']){ echo 'checked'; }  ?> type="radio" />
+                    <input style="width: 15px; height: 15px;" disabled   <?php if(isset($postAnswer) && $postAnswer == $val['id']){ echo 'checked'; }  ?> type="radio" />
+                    <input style="display: none;" name="answers[<?=$key;?>][]"  value="{val[id]}" <?php if(isset($postAnswer) && $postAnswer == $val['id']){ echo 'checked'; }  ?> type="radio" />
 
                 </td>
                 <td>{val[content]}</td>
