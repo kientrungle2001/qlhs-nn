@@ -24,5 +24,9 @@ class PzkEntityUserUserModel extends PzkEntityModel
 		foreach($featuredProductEntities as $entity) {
 		}
 	}
+	
+	public function create() {
+		
+	}
 }
  ?>
