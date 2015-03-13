@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="/default/skin/ptnn/css/question/fill.css">
+
 <?php
     $parent_id = pzk_request()->getSegment(3);
 if(pzk_request()->is('POST') && is_numeric($parent_id)) {
@@ -95,7 +97,6 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
                 {/each}
 
             <?php } elseif($item['type'] == 'Q2') { ?>
-                <link rel="stylesheet" href="/default/skin/ptnn/css/question/fill.css">
                 <div class="step">
                     <span><strong>Yêu Cầu:</strong> {item[request]}</span>
 

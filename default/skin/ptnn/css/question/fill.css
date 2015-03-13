@@ -14,7 +14,10 @@
 	background-color: #ff7e00;
 }
 .step{
-	padding-bottom: 10px;
+	padding-bottom: 6px;
+    padding-top: 6px;
+    float: left;
+    width: 100%;
 }
 .dot{
 	color: #ff7e00;
@@ -23,8 +26,8 @@
 }
 .remove-input {
 position: absolute;
-top: 0;
-right: 15px;
+top: 3px;
+right: -3px;
 padding-top: 6px;
 }
 .remove-input1{
