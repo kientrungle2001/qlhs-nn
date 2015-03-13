@@ -247,4 +247,13 @@ class PzkEntityEduClassModel extends PzkEntityModel {
 		}
 		return $this->getTeacher2Entity();
 	}
+	
+	public function getVMTSchedules() {
+		$rs = array();
+		$schedules = _db()->select('*')->fromStudent_schedule()->whereClassId($this->getId())->result();
+		foreach($schedules as $schedule) {
+			$rs[$schedule['studentId']][$schedule['studyDate']]['status'] = $schedule['status'];
+		}
+		return $rs;
+	}
 }
