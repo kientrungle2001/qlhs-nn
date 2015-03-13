@@ -61,10 +61,16 @@ class PzkEntityUserAccountUserModel extends PzkEntityModel
 		}
 	}
 	public function acceptInvitation($invitation) {
-		$this->addFriend($invitation->getUser());
+		if($this->getUsername() == $invitation->getUserinvitation()) {
+			$this->addFriend($invitation->getUser());
+			$invitation->delete();
+		}
+		
 	}
-	public functin denyInvitation($invitation) {
-		$invitation->delete();
+	public function denyInvitation($invitation) {
+		if($this->getUsername() == $invitation->getUserinvitation()) {
+			$invitation->delete();
+		}
 	}
 }
  ?>
