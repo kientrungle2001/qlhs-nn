@@ -59,7 +59,7 @@ class PzkEntityUserUserModel extends PzkEntityModel
 		$this->addFriend($invitation->getUser());
 		$invitation->delete();
 	}
-	public functin denyInvitation($invitation) {
+	public function denyInvitation($invitation) {
 		$invitation->delete();
 	}
 }
