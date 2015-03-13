@@ -12,21 +12,54 @@ class PzkEntityUserUserModel extends PzkEntityModel
 		return $wallets;
 	}
 	
-	public function addTransaction($transactionData) {
-		$transaction = _db()->getEntity('user.transaction');
-		$transaction->setData($transactionData);
-		$transaction->save();
-		$wallets = $this->getWallets();
-		$wallets->executeTransaction($transaction);
-		
-		$productEntities = _db()->select('id, name, price')->from('product')->limit(10, 0)->result('catalog.product');
-		$featuredProductEntities = _db()->select('id, name, price')->fromProduct()->whereFeatured(1)->limit(10, 0)->result('catalog.product.featured');
-		foreach($featuredProductEntities as $entity) {
+	public function addFriend($user) {
+		if($user->getId()) {
+			$friend = _db()->getEntity('user.friend');
+			$friend->setUsername($this->getUsername());
+			$friend->setUserfriend($this->getUserfriend());
+			$friend->setDate(date('Y-m-d H:i:s', time()));
+			$friend->save();
+			
+			$friend = _db()->getEntity('user.friend');
+			$friend->setUsername($this->getUserfriend());
+			$friend->setUserfriend($this->getUsername());
+			$friend->setDate(date('Y-m-d H:i:s', time()));
+			$friend->save();
 		}
+		
 	}
 	
-	public function create() {
+	public function removeFriend($user) {
+		if($user->getId()) {
+			$friend = _db()->getEntity('user.friend');
+			$friend->loadWhere(array('and', array('username', $this->getUsername()), array('userfriend', $user->getUsername())));
+			if($friend->getId()) {
+				$friend->delete();
+			}
+
+			$friend = _db()->getEntity('user.friend');
+			$friend->loadWhere(array('and', array('username', $user->getUsername()), array('userfriend', $this->getUsername())));
+			if($friend->getId()) {
+				$friend->delete();
+			}
+		}
 		
+	}
+	
+	public function inviteFriend($user, $message) {
+		if($user->getId()) {
+			$invitation = _db()->getEntity('user.invitation');
+			$invitation->setUsername($this->getUsername());
+			$invitation->setUserinvitation($user->getUsername());
+			$invitation->setInvitation($message);
+			$invitation->save();	
+		}
+	}
+	public function acceptInvitation($invitation) {
+		$this->addFriend($invitation->getUser());
+	}
+	public functin denyInvitation($invitation) {
+		$invitation->delete();
 	}
 }
  ?>
