@@ -59,3 +59,5 @@ define('TYPE_LEVEL', json_encode($type_level));
 //	FORMAT DATE
 
 define('DATEFORMAT',	'Y-m-d H:i:s');
+
+define('SECRETKEY', 'onghuu');

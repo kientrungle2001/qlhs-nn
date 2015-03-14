@@ -8,8 +8,8 @@
 
 		$time = time();
 		$username = pzk_session('username');
-		if(!$username) $username = 'ongkien';
-		$token = md5($time.$username . 'onghuu');
+		if(!$username) $username = false;
+		$token = md5($time.$username . SECRETKEY);
     ?>
         <link href="/default/skin/ptnn/css/video-js.css" rel="stylesheet">
         <script src="/default/skin/ptnn/js/video.js"></script>

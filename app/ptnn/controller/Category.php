@@ -116,5 +116,8 @@ class PzkCategoryController extends PzkFrontendController
             $this->display();
         }
     }
+    public function ajaxAction() {
+        debug($_POST);
+    }
 }
 ?>

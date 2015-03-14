@@ -24,10 +24,10 @@ $username = pzk_session('username');
 if(isset($username)) {
     $username = pzk_session('username');
 }else {
-    $username = 'ongkien';
+    $username = false;
 }
 //check token
-if ($token == md5( $time . $username . 'onghuu' ) ) {
+if ($token == md5( $time . $username . SECRETKEY ) ) {
     $host = _db()->host;
     $user = _db()->user;
     $password = _db()->password;
@@ -140,14 +140,13 @@ if ($token == md5( $time . $username . 'onghuu' ) ) {
         }
         header("Content-Range: bytes $start-$end/$size");
         header("Content-Length: ".$length);
-        $buffer = 10000024 * 8;
+        //$buffer = 10000024 * 8;
         while(!feof($fp) && ($p = ftell($fp)) <= $end) {
-
-            if ($p + $buffer > $end) {
-                $buffer = $end - $p + 1;
-            }
             set_time_limit(0);
-            echo fread($fp, $buffer);
+            //if ($p + $buffer > $end) {
+            //    $buffer = $end - $p + 1;
+            //}
+            echo fread($fp, $length);
             flush();
         }
 
