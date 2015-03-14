@@ -3,6 +3,7 @@ $parentId = $data->getParentId();
 $parents = _db()->select('*')->from('categories')->result();
 $parents = buildArr($parents, 'parent', 0);
 $row = pzk_validator()->getEditingData();
+$questionTypes = _db()->select('*')->from('questiontype')->result();
 ?>
 <form role="form" method="post" action="{url /admin_category/addPost}">
   <input type="hidden" name="id" value="" />
@@ -30,6 +31,19 @@ $row = pzk_validator()->getEditingData();
 				$selected = '';
 				if($parent['id'] == $parentId) { $selected = 'selected'; }?>
 				<option value="{parent[id]}" {selected}><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $parent['level']); ?>{parent[name]}</option>
+			{/each}
+		</select>
+	</div>
+  </div>
+  
+  <div class="form-group col-xs-12">
+  	<div class="col-xs-2">
+		<label for="question_types">Các dạng bài tập</label>
+	</div>
+    <div class="col-xs-10">
+	    <select multiple="multiple" class="form-control" id="question_types" name="question_types[]"  style="height: 300px">
+			{each $questionTypes as $type}
+				<option value="{type[id]}">{type[name]}</option>
 			{/each}
 		</select>
 	</div>

@@ -5,6 +5,9 @@ if($row) {
 }
 $parents = _db()->select('*')->from('categories')->result();
 $parents = buildArr($parents, 'parent', 0);
+
+$questionTypes = _db()->select('*')->from('questiontype')->result();
+$question_types = explode(',', $item['question_types']);
 ?>
 <form role="form" method="post" action="{url /admin_category/editPost}">
   	<input type="hidden" name="id" value="{item[id]}" />
@@ -42,6 +45,27 @@ $parents = buildArr($parents, 'parent', 0);
 		</select>
 		</div>
 	</div>
+	
+	<div class="form-group col-xs-12">
+  	<div class="col-xs-3">
+		<label for="question_types">Các dạng bài tập</label>
+	</div>
+    <div class="col-xs-9">
+	    <select multiple="multiple" class="form-control" id="question_types" name="question_types[]" value="{item[question_types]}"  style="height: 300px">
+			{each $questionTypes as $type}
+				<?php
+				$selected = '';
+				if(in_array($type['id'], $question_types)) {
+					$selected = 'selected="selected"';
+				}
+				?>
+			
+				<option {selected} value="{type[id]}">{type[name]}</option>
+			{/each}
+		</select>
+	</div>
+  </div>
+  
 	<div class="form-group col-xs-12">
 		<div class="col-xs-4 col-xs-offset-3">
 		  	<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Cập nhật</button>
