@@ -13,6 +13,7 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
     $items = $data->getQuestionByIds($ids, $topic, $request['level'], $request['number']);
 ?>
 <?php if(count($items) > 0) { ?>
+        <div class="view_question" id="ctg_question_fill">
     <form id="dm"  action="/category/answer" method="post">
         <div class="col-md-6">
             <label for="">Chọn dạng</label>
@@ -132,22 +133,7 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
 
                         $('.itemAnswer_'+key).append(div);
                     }
-                    function hoanthanh() {
-                        $('input[type=text]').prop( "disabled", true );
-                        $('.remove-input').hide();
-                        $('.btt_add_answer').hide();
-                        var formdata = $('#frm_question_fill').serializeForm();
-                        //console.log(formdata['answers'][1][0]);
-                        for(var key in formdata['answers']) {
-                            var value = formdata['answers'][key];
-                            for(var key2 in value) {
-                                var value2 = value[key2];
-                                console.log(value2);
-                            }
-                        }
 
-                        return formdata;
-                    }
                     $("#ctg_question_fill").on("click", '.remove-input', function(e){
                         $(this).parent().remove();
                     });
@@ -158,40 +144,70 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
 
 
         </table>
-    <script>
-        function submitform() {
-            $('#dm').submit();
-        }
-        $(function(){
-            $('.ms_timer').countdowntimer({
-                minutes :<?php echo $request['time']; ?>,
-                seconds : 0,
-                size : "lg",
-                timeUp : timeisUp
-            });
-            function timeisUp() {
-                clearInterval(intervalId);
-                $('#se').val('00');
-                submitform();
 
-            }
-            intervalId = setInterval(function(){
-                var time = $('.ms_timer').html();
-                arrtime = time.split(":");
-                minutes = arrtime[0];
-                seconds = arrtime[1];
-                $('#mi').val(minutes);
-                $('#se').val(seconds);
-            }, 100);
-        });
-
-    </script>
         <div class="item center">
-            <input id="answer" type="submit" name="done" value="Hoàn thành">
+            <input onclick="hoanthanh();" id="answer" type="button" name="done" value="Hoàn thành">
         </div>
         <input id="mi" name="mi" type="hidden" value=""/>
         <input id="se" name="se" type="hidden" value=""/>
     </form>
+        </div>
+
+        <script>
+
+            function hoanthanh() {
+                $('input[type=text]').prop( "disabled", true );
+
+                $('.remove-input').hide();
+                $('.btt_add_answer').hide();
+                var formdata = $('#dm').serializeForm();
+                //console.log(formdata['answers']);
+                for(var key in formdata['answers']) {
+                    var value = formdata['answers'][key];
+                    for(var key2 in value) {
+                        var value2 = value[key2];
+                        console.log(value2);
+                    }
+                }
+                $.ajax( {
+                    type: "POST",
+                    url: '/category/ajax',
+                    data: formdata,
+                    success: function( response ) {
+                        $('input[type=radio]').prop( "disabled", true );
+
+                    }
+                } );
+
+            }
+
+            function submitform() {
+                $('#dm').submit();
+            }
+            $(function(){
+                $('.ms_timer').countdowntimer({
+                    minutes :<?php echo $request['time']; ?>,
+                    seconds : 0,
+                    size : "lg",
+                    timeUp : timeisUp
+                });
+                function timeisUp() {
+                    clearInterval(intervalId);
+                    $('#se').val('00');
+                    submitform();
+
+                }
+                intervalId = setInterval(function(){
+                    var time = $('.ms_timer').html();
+                    arrtime = time.split(":");
+                    minutes = arrtime[0];
+                    seconds = arrtime[1];
+                    $('#mi').val(minutes);
+                    $('#se').val(seconds);
+                }, 100);
+            });
+
+        </script>
         <style>
             .tb_question tr th{
                 text-align: center;
