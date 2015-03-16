@@ -295,7 +295,7 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
             if (mysqli_errno($this->connId)) {
                 $message = 'Invalid query: ' . mysqli_error($this->connId) . "\n";
                 $message .= 'Whole query: ' . $query;
-                die($message);
+                echo($message);
             }
             while ($row = mysqli_fetch_assoc($result)) {
 				if(@$row['params']) {
@@ -338,7 +338,7 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
             if (mysqli_errno($this->connId)) {
                 $message = 'Invalid query: ' . mysqli_error($this->connId) . "\n";
                 $message .= 'Whole query: ' . $query;
-                die($message);
+                echo($message);
             }
             if ($result) {
 				$insertId = mysqli_insert_id($this->connId);
@@ -359,7 +359,7 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
             if (mysqli_errno($this->connId)) {
                 $message = 'Invalid query: ' . mysqli_error($this->connId) . "\n";
                 $message .= 'Whole query: ' . $query;
-                die($message);
+                echo($message);
             }
 			return $result;
         } else if (@$this->options['action'] == 'delete') {
@@ -368,7 +368,7 @@ class PzkCoreDatabase extends PzkObjectLightWeight {
             if (mysqli_errno($this->connId)) {
                 $message = 'Invalid query: ' . mysqli_error($this->connId) . "\n";
                 $message .= 'Whole query: ' . $query;
-                die($message);
+                echo($message);
             }
 			return $result;
         }
