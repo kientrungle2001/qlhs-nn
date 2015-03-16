@@ -1,5 +1,4 @@
 <link rel="stylesheet" href="/default/skin/ptnn/css/question/fill.css">
-
 <?php
     $parent_id = pzk_request()->getSegment(3);
 if(pzk_request()->is('POST') && is_numeric($parent_id)) {
@@ -12,8 +11,8 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
     }
     $items = $data->getQuestionByIds($ids, $topic, $request['level'], $request['number']);
 ?>
+    <div class="item">
 <?php if(count($items) > 0) { ?>
-        <div class="view_question" id="ctg_question_fill">
     <form id="dm"  action="/category/answer" method="post">
         <div class="col-md-6">
             <label for="">Chọn dạng</label>
@@ -50,6 +49,7 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
                 </th>
                 <th>
                      <div class="ms_timer"></div>
+                     <div class="stop_timer"></div>
 
                 </th>
                 <th>
@@ -76,13 +76,14 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
             </tr>
             </thead>
         </table>
-
+        <?php
+        //dang dung tu linh hoat
+        if($items[0]['type'] == 'Q0'){  ?>
         <table class="table">
             <?php $i = 1; ?>
-
             {each $items as $item}
             <?php
-            if($item['type'] == 'Q0'){
+
                 $answers = _db()->useCB()->select('*')->from('answers_question_tn')->where(array('question_id', $item['id']))->result();
                 ?>
                 <tr>
@@ -97,48 +98,7 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
                 </tr>
                 {/each}
 
-            <?php } elseif($item['type'] == 'Q2') { ?>
-                <div class="step">
-                    <span><strong>Yêu Cầu:</strong> {item[request]}</span>
 
-                </div>
-                <div class="step">
-                    <span><strong> Câu {i}:</strong> {item[name]}</span>
-                </div>
-                <div class="step" >
-                    <div style="clear:both;"><span><strong>Đáp án:</strong></span></div>
-
-                    <div class="col-xs-3 margin-top-10" style="position:relative; margin-top: 20px; " >
-                        <div class="input-group" >
-                            <input type="text" name="answers[<?=$item['id'];?>][]" class="form-control content_value"/>
-                        </div>
-                        <div class="remove-input" ><a href="javascript:void(0)" class="color_delete" title="Xóa"><span class="glyphicon glyphicon-remove-circle"></span></a></div>
-                    </div>
-                    <div class="add_row_answer">
-                        <div class="itemAnswer_<?=$item['id'];?>"  ></div>
-                    </div>
-                    <div class="btt_add_answer"><button type="button" class="btn btn-primary add-sub-input-test" onclick="addInputRow(<?=$item['id'];?>)" style="margin-left: 15px;"><span class="glyphicon glyphicon-plus-sign"></span> Thêm đáp án</button></div>
-                </div>
-                <script>
-                    function addInputRow(key){
-
-                        var div = document.createElement('div');
-
-                        div.className = 'col-xs-3 margin-top-10 element-input';
-
-                        div.innerHTML = '<div class="input-group" style="margin-bottom: 10px;" >\
-	    					<input type="text" name="answers['+key+'][]" class="form-control content_value"/>\
-	        			</div>\
-	        			<div class="remove-input"  style="margin-bottom: 10px;" ><a href="javascript:void(0)" class="color_delete" title="Xóa"><span class="glyphicon glyphicon-remove-circle"></span></a></div>';
-
-                        $('.itemAnswer_'+key).append(div);
-                    }
-
-                    $("#ctg_question_fill").on("click", '.remove-input', function(e){
-                        $(this).parent().remove();
-                    });
-                </script>
-                <?php } ?>
             <?php $i++; ?>
             {/each}
 
@@ -146,16 +106,76 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
         </table>
 
         <div class="item center">
-            <input onclick="hoanthanh();" id="answer" type="button" name="done" value="Hoàn thành">
+            <input  id="answer" type="submit" name="done" value="Hoàn thành">
         </div>
         <input id="mi" name="mi" type="hidden" value=""/>
         <input id="se" name="se" type="hidden" value=""/>
-    </form>
+
+        <!--dang phat trien chu diem-->
+        <?php } elseif($items[0]['type'] == 'Q2') { ?>
+
+        <div  id="ctg_question_fill">
+        <?php $i = 1; ?>
+            {each $items as $item}
+            <?php $answers = _db()->useCB()->select('*')->from('answers_question_tn')->where(array('question_id', $item['id']))->result();
+            ?>
+
+            <div class="step">
+                <span><strong>Yêu Cầu:</strong> {item[request]}</span>
+
+            </div>
+            <div class="step">
+                <span><strong> Câu {i}:</strong> {item[name]}</span>
+            </div>
+            <div class="step" >
+                <div style="clear:both;"><span><strong>Đáp án:</strong></span></div>
+
+                <div class="col-xs-3 margin-top-10" style="position:relative; margin-top: 20px; " >
+                    <div class="input-group" >
+                        <input type="text" name="answers[<?=$item['id'];?>][]" class="form-control content_value"/>
+                    </div>
+                    <div class="remove-input" ><a href="javascript:void(0)" class="color_delete" title="Xóa"><span class="glyphicon glyphicon-remove-circle"></span></a></div>
+                </div>
+                <div class="add_row_answer">
+                    <div class="itemAnswer_<?=$item['id'];?>"  ></div>
+                </div>
+                <div class="btt_add_answer"><button type="button" class="btn btn-primary add-sub-input-test" onclick="addInputRow(<?=$item['id'];?>)" style="margin-left: 15px;"><span class="glyphicon glyphicon-plus-sign"></span> Thêm đáp án</button></div>
+            </div>
+
+        <?php $i++; ?>
+            {/each}
+            <script>
+                function addInputRow(key){
+
+                    var div = document.createElement('div');
+
+                    div.className = 'col-xs-3 margin-top-10 element-input';
+
+                    div.innerHTML = '<div class="input-group" style="margin-bottom: 10px;" >\
+	    					<input type="text" name="answers['+key+'][]" class="form-control content_value"/>\
+	        			</div>\
+	        			<div class="remove-input"  style="margin-bottom: 10px;" ><a href="javascript:void(0)" class="color_delete" title="Xóa"><span class="glyphicon glyphicon-remove-circle"></span></a></div>';
+
+                    $('.itemAnswer_'+key).append(div);
+                }
+
+                $("#ctg_question_fill").on("click", '.remove-input', function(e){
+                    $(this).parent().remove();
+                });
+            </script>
         </div>
+            <div class="item center">
+                <input onclick="hoanthanh();" id="answer" type="button" name="done" value="Hoàn thành">
+            </div>
+        <?php } ?>
+    </form>
 
         <script>
 
             function hoanthanh() {
+                var time = $(".ms_timer").text();
+                $('.stop_timer').text(time);
+               $('.ms_timer').remove();
                 $('input[type=text]').prop( "disabled", true );
 
                 $('.remove-input').hide();
@@ -208,12 +228,9 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
             });
 
         </script>
-        <style>
-            .tb_question tr th{
-                text-align: center;
-            }
-        </style>
+
     <?php } else { ?>
-        k co cau hoi
+        Chưa có câu hỏi
     <?php } ?>
 <?php } ?>
+    </div>

@@ -76,7 +76,7 @@ body{
 	width: 80%;
 	float: left;
 	min-height: 800px;
-	border-right: 1px dotted #ccc;
+   
 }
 #contain-left{
 	width: 100%;
@@ -146,3 +146,63 @@ color: white;
 .pd-left-40{padding-left:40px;}
 .pd-top-40{padding-top:40px;}
 .pd-right-40{padding-right:40px;}
+
+.bg_section{
+    float: left;
+    width: 100%;
+    padding: 20px;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#d5f1fc), to(#a0e0f9));
+    background: -webkit-linear-gradient(top, #d5f1fc, #a0e0f9);
+    background: -moz-linear-gradient(top, #d5f1fc, #a0e0f9);
+    background: -ms-linear-gradient(top, #d5f1fc, #a0e0f9);
+    background: -o-linear-gradient(top, #d5f1fc, #a0e0f9);
+}
+.slider {
+    border-top: 20px solid #529dba;
+    border-bottom: 20px solid #001920;
+    box-shadow: 1px 1px 1px 2px #18081c;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background-position: 0 0, 100% 0;
+    background-repeat: no-repeat;
+    -webkit-background-size: 20px 100%;
+    -moz-background-size: 20px 100%;
+    background-size: 20px 100%;
+    background: -webkit-linear-gradient(top, #529dba 0%, #001920 100%), -webkit-linear-gradient(top, #529dba 0%, #001920 100%);
+    background: -moz-linear-gradient(top, #529dba 0%, #001920 100%), -moz-linear-gradient(top, #529dba 0%, #001920 100%);
+    background: -o-linear-gradient(top, #529dba 0%, #001920 100%), -o-linear-gradient(top, #529dba 0%, #001920 100%);
+    background: linear-gradient(to bottom, #529dba 0%, #001920 100%), linear-gradient(to bottom, #529dba 0%, #001920 100%);
+}
+.section_cate {
+    background: linear-gradient(top, #0561ae #3f1569);
+    margin: 15px 0px;
+    background: -webkit-linear-gradient(top, #0561ae, #3f1569);
+    box-shadow: 1px 1px 1px 2px #3f1569;
+    color: #bdeafb;
+}
+.section_cate a {
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    text-decoration: none;
+}
+.section_cate a:hover {
+    color: #fdf300;
+    font-weight: bold;
+}
+.item{
+    float: left;
+    width: 100%;
+}
+
+.active_type{
+    color: orangered;
+    font-weight: bold;
+}
+.tb_lesson tr th{
+    text-align: center;
+}
+.tb_question tr th{
+    text-align: center;
+}
