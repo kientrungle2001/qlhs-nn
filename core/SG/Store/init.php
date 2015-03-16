@@ -94,3 +94,13 @@ function pzk_filevar($key = NULL, $value = NULL) {
 	}
 	return $store;
 }
+
+function pzk_user() {
+	static $user;
+	if($user) return $user;
+	$user = _db()->getEntity('user.account.user');
+	if($userId = pzk_session()->getUserId()) {
+		$user->load($userId);
+	}
+	return $user;
+}
