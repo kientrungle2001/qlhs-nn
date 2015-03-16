@@ -6,7 +6,7 @@ class PzkAccountController extends  PzkController
 	 
 	// Gửi email kích hoạt tài khoản
 	public function sendMail($username="",$password="",$email="") {
-		$mailtemplate = pzk_parse(pzk_app()->getPageUri('user/mailtemplate/register'));
+		$mailtemplate = $this->parse('user/mailtemplate/register');
 		$mailtemplate->setUsername($username);
 		//tạo URL gửi email xác nhận đăng ký
 		$url= 'Account/activeRegister';
@@ -14,18 +14,15 @@ class PzkAccountController extends  PzkController
 		$confirm= md5($strConfirm);
 		$user=_db()->getEntity('user.account.user');
 		$user->loadWhere(array('username',$username));
-		//var_dump($user->getId());
+
 		$user->update(array('key' => $confirm));
-		//_db()->useCB()->update('user')->set(array('key' => $confirm))->where(array('username',$username))->result();
 		$arr=array('active'=>$confirm);
-		$request=pzk_request();
-		$url= $request->build($url,$arr);
+		$url= pzk_request()->build($url,$arr);
 		$mailtemplate->setUrl($url);
 		$mail = pzk_mailer();
 		$mail->AddAddress($email);
-		$mail->Subject = 'Confirm new Register';
+		$mail->Subject = 'Xác nhận đăng ký tài khoản';
 		$mail->Body    = $mailtemplate->getContent();
-		//$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
 		if(!$mail->send()) {
 			echo 'Message could not be sent.';

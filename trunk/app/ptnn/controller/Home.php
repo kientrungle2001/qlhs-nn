@@ -99,5 +99,71 @@ class PzkHomeController extends PzkFrontendController{
 		*/
 		var_dump(pzk_session()->getFilterData('username', 'userId'));
 	}
+	
+	public function importAction() {
+		// đọc dữ liệu từ thư mục
+		// lấy từng dòng
+		// tách lấy username theo email
+		// insert username và email, lấy name từ username, password: ptnn123456
+		set_time_limit(0);
+		$folder = BASE_DIR . '/tmp/data';
+		$fileNames = $this->getFiles($folder);
+		foreach($fileNames as $fileName) {
+			echo 'imported: ' . $fileName . '<br />';
+			$emails = file($fileName);
+			foreach($emails as $email) {
+				$email = trim($email); if(!$email) continue;
+				$parts = explode('@', $email);
+				$username = $parts[0];
+				$userData = array(
+					'username' => $username,
+					'email' => $email,
+					'name' => $username,
+					'password' => md5('ptnn123456'),
+					'status' => 1,
+					'registered' => date('Y-m-d H:i:s', time())
+				);
+				$user = _db()->getEntity('user.account.user');
+				$user->setData($userData);
+				$user->save();	
+			}	
+		}
+		
+		
+	}
+	
+	public function getFiles ($folder) {
+		$rs = array();
+		$files = glob($folder . '/*.txt');
+		foreach($files as $file) {
+			$rs[] = $file;
+		}
+		
+		$files = glob($folder . '/*/*.txt');
+		foreach($files as $file) {
+			$rs[] = $file;
+		}
+		
+		$files = glob($folder . '/*/*/*.txt');
+		foreach($files as $file) {
+			$rs[] = $file;
+		}
+		
+		$files = glob($folder . '/*/*/*/*.txt');
+		foreach($files as $file) {
+			$rs[] = $file;
+		}
+		
+		$files = glob($folder . '/*/*/*/*/*.txt');
+		foreach($files as $file) {
+			$rs[] = $file;
+		}
+		
+		$files = glob($folder . '/*/*/*/*/*/*.txt');
+		foreach($files as $file) {
+			$rs[] = $file;
+		}
+		return $rs;
+	}
 
 }
