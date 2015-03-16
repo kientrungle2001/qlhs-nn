@@ -27,5 +27,12 @@ class PzkCategoryLesson extends PzkObject
             ->result();
         return $data;
     }
+    public function getVideo() {
+        $data = _db()->useCB()->select('url,id')
+            ->from('video')
+            ->where(array('category_id', $this->getParentCategoryId()))
+            ->result_one();
+        return $data;
+    }
 }
 ?>

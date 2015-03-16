@@ -1,4 +1,34 @@
-<form action="/category/question/<?php echo $data->getParentCategoryId(); ?>" method="post">
+<div class="item bg_section">
+    <?php
+    $video = $data->getVideo();
+    //debug($video);die();
+    if(isset($video)) {
+
+        $time = time();
+        $username = pzk_session('username');
+        if(!$username) $username = false;
+        $token = md5($time.$username . SECRETKEY);
+        ?>
+        <link href="/default/skin/ptnn/css/video-js.css" rel="stylesheet">
+        <script src="/default/skin/ptnn/js/video.js"></script>
+
+        <div  class="item slider">
+            <div style=" margin-left: 2%; width: 96%; box-shadow: -2px -2px 2px 0px #18081c;">
+                <video id="video" class="video-js vjs-default-skin" controls preload="auto"  width="100%" >
+                    <source src="/video.php?id={video[id]}&token={token}&time={time}" type='video/mp4' />
+                </video>
+            </div>
+        </div>
+        <script>
+
+            $(document).ready(function(){
+                //$('body').bind('contextmenu',function() { return false; });
+            });
+
+        </script>
+    <?Php } ?>
+
+<form class="item" style="margin: 15px 0px;" action="/category/question/<?php echo $data->getParentCategoryId(); ?>" method="post">
     <?php
     $cateEp = $data->getEpcate();
     $curentCateId = $data->getParentCategoryId();
@@ -60,12 +90,5 @@
         </thead>
     </table>
 </form>
-<style>
-    .active_type{
-        color: orangered;
-        font-weight: bold;
-    }
-    .tb_lesson tr th{
-        text-align: center;
-    }
-</style>
+
+</div>
