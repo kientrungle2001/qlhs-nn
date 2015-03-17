@@ -14,20 +14,16 @@ class PzkFillController extends PzkFrontendController
 		$this->append('question/fill', 'left');
 		$this->page->display();
 	}
-public function fillPost1Action(){
-	
-	$request = pzk_element('request');
-	$answers = $request->get('data_answers');
-	var_dump($answers);
-}
+
 public function fillPostAction(){
 
 	$request = pzk_element('request');
-	$answers=$request->get('answers');
-	$question_id= $request->get('question_id');
-	$question_type= $request->get('question_type');
-	$category_id= $request->get('category_id');
-	$quantity_question= $request->get('quantity_question');
+	$data_answers=$request->get('answers');
+	$question_id=$data_answers['question_id'];
+	$answers=$data_answers['answers'];
+	$question_type= $data_answers['question_type'];
+	$category_id= $data_answers['category_id'];
+	$quantity_question= $data_answers['quantity_question'];
 	$userBook= _db()->getEntity('userbook.userbook');
 	$userAnswer= _db()->getEntity('userbook.useranswer');
 	$userId=pzk_session('userId');
@@ -44,7 +40,7 @@ public function fillPostAction(){
 		if($count>0){
 			for($j=0; $j< $count; $j++){
 			
-				$answer[$i]=$answer[$i].'|'.$answers[$i][$j];
+				$answer[$i]=$answer[$i].$answers[$i][$j].'|';
 			}
 		}
 		$questionId=$question_id[$i];
@@ -52,9 +48,9 @@ public function fillPostAction(){
 		$rowAnswer=array('user_book_id'=>$userbookId,'questionId'=>$questionId,'question_type'=>$questionType,'content'=>$answer[$i]);
 		$userAnswer->setData($rowAnswer);
 		$userAnswer->save();
-	}
-
-
+	} 
+	echo "1";
+	
 }
 public function nextPageAction(){
 	//$page=pzk_request()->get('page');
