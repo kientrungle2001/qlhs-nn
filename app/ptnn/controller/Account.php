@@ -3,69 +3,71 @@ class PzkAccountController extends  PzkController
 {
 	public $masterPage='index';
 	public $masterPosition='left';
-	 
-	// Gửi email kích hoạt tài khoản
-	public function sendMail($username="",$password="",$email="") {
-		$mailtemplate = $this->parse('user/mailtemplate/register');
-		$mailtemplate->setUsername($username);
-		//tạo URL gửi email xác nhận đăng ký
-		$url= 'Account/activeRegister';
-		$strConfirm = $password.$email.$username;
-		$confirm= md5($strConfirm);
-		$user=_db()->getEntity('user.account.user');
-		$user->loadWhere(array('username',$username));
-
-		$user->update(array('key' => $confirm));
-		$arr=array('active'=>$confirm);
-		$url= pzk_request()->build($url,$arr);
-		$mailtemplate->setUrl($url);
-		$mail = pzk_mailer();
-		$mail->AddAddress($email);
-		$mail->Subject = 'Xác nhận đăng ký tài khoản';
-		$mail->Body    = $mailtemplate->getContent();
-
-		if(!$mail->send()) {
-			echo 'Message could not be sent.';
-			echo 'Mailer Error: ' . $mail->ErrorInfo;
-		}
-	}
+	const CONTROLLER_HOME = 'home/index';
+	const CONTROLLER_HOME_WELCOME = 'home/index';
+	
+	const PAGE_LOGIN = 'user/account/login';
+	const LOGIN_ERROR_NOTACTIVATED = 0;
+	const LOGIN_ERROR_WRONG_PASSWORD = 1;
+	const LOGIN_ERROR_WRONG_USERNAME = 2;
+	const LOGIN_ERROR_MISSING_USERNAME_OR_PASSWORD = 3;
+	const LOGIN_SUCCESS = -1;
+	
+	const PAGE_LOGIN_FACEBOOK = 'user/account/loginfacebook';
+	const PAGE_LOGIN_GOOGLE = 'user/account/logingoogle';
+	
+	const PAGE_REGISTER = 'user/account/register';
+	const REGISTER_ERROR_USERNAME_EXISTED = -1;
+	const REGISTER_ERROR_EMAIL_EXISTED = 0;
+	const REGISTER_ERROR_WRONG_CAPTCHA = 2;
+	const REGISTER_SUCCESS = 1;
+	
+	const PAGE_REGISTER_SUCCESS = 'user/account/showregister';
+	const PAGE_REGISTER_ACTIVATED_SUCCESS = 'user/account/registersuccess';
+	
+	const PAGE_FORGOT_PASSWORD = 'user/account/forgotpassword';
+	const FORGOT_PASSWORD_ERROR_NOTACTIVATED_ACCOUNT = "Tài khoản của bạn đang bị khóa hoặc chưa kích hoạt";
+	const FORGOT_PASSWORD_ERROR_EMAIL_NOT_REGISTERED "Email của bạn chưa đăng ký tài khoản";
+	const FORGOT_PASSWORD_ERROR_WRONG_CAPTCHA = "Mã bảo mật chưa đúng";
+	
+	const PAGE_RESET_PASSWORD = 'user/account/newpassword';
+	const PAGE_FORGOT_PASSWORD_SUCCESS = 'user/account/showforgotpassword'; // forgot password success
+	
+	const MAIL_TEMPLATE_FORGOT_PASSWORD = 'user/mailtemplate/forgotpassword';
+	const MAIL_TEMPLATE_REGISTER = 'user/mailtemplate/register';
 	
 	public function loginAction() 
 	{
 		
-		if(pzk_session('login')){
+		if(pzk_session()->getLogin()){
 			
-			$ip="192.168.1.2";
-			pzk_session('ipdress','hellosss');
+			$this->redirect(self::CONTROLLER_HOME);
 		}
 		else{
 			
-			$this->render('user/account/login');
+			$this->render(self::PAGE_LOGIN);
 		}
 	}
+	
 	// Xử lý đăng nhập
 	public function loginPostAction()
 	{
-		if($_SERVER['HTTP_REFERER']!=BASE_REQUEST . "/Account/loginPost"){
-			
-			pzk_session('referer_url',$_SERVER['HTTP_REFERER']);
-		}
 		
-		if(pzk_session('login')){
-			$this->redirect('home/index');
+		if(pzk_session()->getLogin()){
+			$this->redirect(self::CONTROLLER_HOME);
 		}
 		$error="";
-		$request = pzk_element('request');
+		$request = pzk_request();
 		
 		// Đăng nhập bằng form user
-		$password=md5($request->get('userpassword'));
-		$username=$request->get('userlogin');
+		$password=md5($request->getUserpassword());
+		$username=$request->getUserlogin();
 		
 		// Đăng nhập bằng form login
-		if($request->get('passwordlogin') !="" || $request->get('login') !="") {
+		if($request->getPasswordlogin() !="" || $request->getLogin() !="") {
 			
-			$password=md5($request->get('passwordlogin'));
-			$username=$request->get('login');
+			$password=md5($request->getPasswordlogin());
+			$username=$request->getLogin();
 		}
 
 		// Đăng nhập bằng facebook
@@ -75,99 +77,97 @@ class PzkAccountController extends  PzkController
 		if($username !="") {
 
 			$user=_db()->getEntity('user.account.user');
-			$user->loadWhere(array('username',$username));
+			$user->loadByUsername($username);
 		
 			if($user->getId()) {
-				$userId= $user->getId();
-				$name= $user->getName();
-				$pass= $user->getPassword();
-				$status=$user->getStatus();
-				$avatar=$user->getAvatar();
 				if($pass==$password) {
 					if($status==1) {
-						pzk_session('login', true);
-						pzk_session('username', $username);
-						pzk_session('userId',$userId);
-						pzk_session('name',$name);
-						pzk_session('avatar',$avatar);
-						$datelogin=date("Y-m-d H:i:s");
-						$user->update(array('lastlogined' =>$datelogin ));
-						$referer_url=pzk_session('referer_url');
-						pzk_session('referer_url',false);
-						$error = -1;
+						$user->login();
+						$error = self::LOGIN_SUCCESS;
 					}else {
 						
 						//$error="tài khoản của bạn đăng bị khóa hoặc chưa kích hoạt";
-						$error = 0;
+						$error = self::LOGIN_ERROR_NOTACTIVATED;
 					}
 				}else {
 					
 					//$error="Mật khẩu đăng nhập chưa đúng";
-					$error = 1;
+					$error = self::LOGIN_ERROR_WRONG_PASSWORD;
 				}
 			}else {
 			
 				//$error="Tên đăng nhập chưa đúng";
-				$error = 2;
+				$error = self::LOGIN_ERROR_WRONG_USERNAME;
 			}
 		}else {
 			
 			//$error="Bạn phải nhập đầy đủ tên đăng nhập và mật khẩu";
-			$error = 3;
+			$error = self::LOGIN_ERROR_MISSING_USERNAME_OR_PASSWORD;
 		}
 		echo $error;
 		//pzk_notifier_add_message($error, 'danger');		
 		//$this->render('user/account/login');
 	}
+	
 	// Đăng xuất 
 	public function logoutAction(){
-		pzk_session('login',false);
-
-		pzk_session('username',false);
-		pzk_session('userId',false);
-		//$this->redirect('/home');
-		header('location:/home');
+		pzk_user()->logout();
+		$this->redirect(self::CONTROLLER_HOME_WELCOME);
 	}
+	
 	// Đăng ký tài khoản
 	public function registerAction()
 	{
-		$this->render('user/account/register');
+		$this->render(PAGE_REGISTER);
 	}
+	
 	public function registerPostAction()
 	{	
 		$error ="";	
-		$request=pzk_element('request');
-		$username=$request->get('username');
-		$email=$request->get('email');
-		$captcha= $request->get('captcha');
+		$request=pzk_request();
+		$username=$request->getUsername();
+		$email=$request->getEmail();
+		$captcha= $request->getCaptcha();
 		$user=_db()->getEntity('user.account.user');
 		if($captcha==$_SESSION['security_code']) {
 			
-			$testUser=$user->loadWhere(array('username',$username));
-			if($testUser->getId()) {
+			$user->loadByUsername($username);
+			if($user->getId()) {
 				
 				//$error="Tên đăng nhập đã tồn tại trên hệ thống";
-				$error = -1;
+				$error = self::REGISTER_ERROR_USERNAME_EXISTED; //-1
 			} else {
 				
-				$testEmail= $user->loadWhere(array('email',$email));
-				if($testEmail->getId()) {
+				$user->loadByEmail($email);
+				if($user->getId()) {
 					
 					//$error= "Email đã tồn tại trên hệ thống";
-					$error = 0;
+					$error = self::REGISTER_ERROR_EMAIL_EXISTED;
 				}else {
 					
-					$name= $request->get('name');
-					$password=$request->get('password1');
-					$birthday= $request->get('birthday');
-					$sex= $request->get('sex');
+					$name= $request->getName();
+					$password=$request->getPassword1();
+					$birthday= $request->getBirthday();
+					$sex= $request->getSex();
 					//$address= $request->get('address');
-					$phone= $request->get('phone');
+					$phone= $request->getPhone();
 					//$idpassport= $request->get('idpassport');
 					//$iddate= $request->get('iddate');
 					//$idplace= $request->get('idplace');
 					$dateregister=date("Y-m-d H:i:s"); 
-					$rowRegister= array('username' =>$username,'password'=>md5($password),'email'=>$email,'name'=>$name,'birthday'=>$birthday,'sex'=>$sex,'address'=>'','phone'=>$phone,'idpassport'=>'','idplace'=>'','registered'=>$dateregister);
+					$rowRegister= array(
+						'username' => $username, 
+						'password'=>md5($password),
+						'email'=>$email,
+						'name'=>$name,
+						'birthday'=>$birthday,
+						'sex'=>$sex,
+						'address'=>'',
+						'phone'=>$phone,
+						'idpassport'=>'',
+						'idplace'=>'',
+						'registered'=>$dateregister
+					);
 					$user->setData($rowRegister);
 					$user->save();
 					/*
@@ -190,105 +190,64 @@ class PzkAccountController extends  PzkController
 					//$this->render('user/account/showregister');
 					
 					//$error = "Bạn vui lòng đăng nhập vào email để kích hoạt tài khoản đăng ký trên website";
-					$error = 1;
+					$error = self::REGISTER_SUCCESS;//1
 				}
 			}
 		}else {
 			
 			//$error = "Mã bảo mật chưa đúng";
-			$error = 2;
+			$error = self::REGISTER_ERROR_WRONG_CAPTCHA;//2
 		}
 		echo $error;
 	}
+	
 	// Hiển thị thông báo sau khi đăng ký tài khoản
 	public function showregisterAction()
 	{
-		$this->render('user/account/showregister');
+		$this->render(self::PAGE_REGISTER_SUCCESS);
 	}
+	
 	public function activeregisterAction()
 	{
-		$request=pzk_element('request');
-		$confirm=$request->get('active');
+		$request=pzk_request();
+		$confirm=$request->getActive();
 		$user=_db()->getEntity('user.account.user');
-		$items=$user->loadWhere(array('key', $confirm));
-		if($items->getId())
+		$user->loadByKey($confirm);
+		if($user->getId())
 		{	
-			$username=$items->getUsername();
-			$userId=$items->getId();
-			$name=$items->getName();
-			$user->update(array('status' => 1,'key'=>""));
-			$wallets=_db()->getEntity('user.account.wallets');
-			
-			$rowWallets = array('username' =>$username,'amount'=>0);
-			$wallets->setData($rowWallets);
-			$wallets->save();
-			pzk_session('login', true);
-			//pzk_session('username',$items->getUsername());
-			pzk_session('username',$username);
-			pzk_session('userId',$userId);
-			pzk_session('name',$name);
-			$confirmRegister = pzk_parse(pzk_app()->getPageUri('user/account/registersuccess'));
+			$user->activate();
+			$user->login();
+			$confirmRegister = $this->parse(self::PAGE_REGISTER_ACTIVATED_SUCCESS);
 			$confirmRegister->setMessage('ok');
 			$this->render($confirmRegister);
-
-		
 		}
 		else
-
 		{
-			$confirmRegister = pzk_parse(pzk_app()->getPageUri('user/account/registersuccess'));
+			$confirmRegister = $this->parse(self::PAGE_REGISTER_ACTIVATED_SUCCESS);
 			$confirmRegister->setMessage('fail');
 			$this->render($confirmRegister);
 		}
-
 	}
+	
 	// Hiển thị thông báo đăng ký thành công sau khi đã kích hoạt tài khoản
 	public function registersuccesAction() 
-		{
-		
-			$this->render('user/account/registersuccess');
-		}
-		// Gửi email quên mật khẩu
-	public function sendMailForgotpassword($email="",$password="") {
-		
-		//tạo URL gửi email xác nhận đăng ký
-		$url= 'Account/sendPassword';
-		
-		$strConfirm = $email.$password;
-		$confirm= md5($strConfirm);
-		$mailtemplate = pzk_parse(pzk_app()->getPageUri('user/mailtemplate/forgotpassword'));
-		$user=_db()->getEntity('user.account.user');
-		$user->loadWhere(array('and',array('email',$email),array('status',1)));	
-		$user->update(array('key' => $confirm));
-		//_db()->useCB()->update('user')->set(array('key' => $confirm))->where(array('username',$username))->result();
-		//_db()->useCB()->update('user')->set(array('key' => $confirm))->where(array('and',array('email',$email),array('status',1)))->result();
-		$arr=array('forgotpassword'=>$confirm);
-		$request=pzk_request();
-		$url= $request->build($url,$arr);
-		$mailtemplate->setUrl($url);
-		$mail = pzk_mailer();
-		$mail->AddAddress($email);
-		$mail->Subject = 'Quên mật khẩu';
-		$mail->Body    = $mailtemplate->getContent();
-		//$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
-		if(!$mail->send()) {
-			echo 'Message could not be sent.';
-			echo 'Mailer Error: ' . $mail->ErrorInfo;
-		}
+	{
+		$this->render(self::PAGE_REGISTER_SUCCESS);
 	}
+	
 	// Hiển thị form quên mật khẩu
 	public function forgotpasswordAction()
 	{
-		$this->render('user/account/forgotpassword');
+		$this->render(self::PAGE_FORGOT_PASSWORD);
 	}	
+	
 	// Xử lý lấy lại mật khẩu
 	public function forgotpasswordPostAction()
 	{
 		$error="";
-		$request = pzk_element('request');
-		$email= $request->get('email');
-		$captcha= $request->get('captcha');
+		$request = pzk_request();
+		$email= $request->getEmail();
+		$captcha= $request->getCaptcha();
 		if($captcha==$_SESSION['security_code'])
 		{	
 			
@@ -300,48 +259,42 @@ class PzkAccountController extends  PzkController
 				{
 					$password=$user->getPassword();
 					$this->sendMailForgotpassword($email,$password);
-					return $this->render('user/account/showforgotpassword');
+					return $this->render(self::PAGE_FORGOT_PASSWORD_SUCCESS);
 				}
 				else
 				{
-					$error="Tài khoản của bạn đang bị khóa hoặc chưa kích hoạt";
+					$error= self::FORGOT_PASSWORD_ERROR_NOTACTIVATED_ACCOUNT;
 				}
 			
 			}else
 			{
-				$error="Email của bạn chưa đăng ký tài khoản";
+				$error=self::FORGOT_PASSWORD_ERROR_EMAIL_NOT_REGISTERED;
 			}
 		}
 		else
 		{
-			$error="Mã bảo mật chưa đúng";
+			$error=self::FORGOT_PASSWORD_ERROR_WRONG_CAPTCHA;
 		}
 		pzk_notifier_add_message($error, 'danger');
-		$this->render('user/account/forgotpassword');
+		$this->render(self::PAGE_FORGOT_PASSWORD);
 	}
+	
 	public function showforgotpasswordAction()
 	{
-		$this->render('user/account/showforgotpassword');
+		$this->render(self::PAGE_FORGOT_PASSWORD_SUCCESS);
 	}
+	
 	//Gửi lại mật khẩu
 	public function sendPasswordAction()
 	{
-		$request=pzk_element('request');
-		$confirm=$request->get('forgotpassword');
-		//$items = _db()->useCB()->select('user.*')->from('user')->where(array('key', $confirm))->result_one();
-		$user=_db()->getEntity('user.account.user');
-		$user->loadWhere(array('key', $confirm));
+		$request = pzk_request();
+		$confirm = $request->getForgotpassword();
+		$user = _db()->getEntity('user.account.user');
+		$user->loadByKey($confirm);
 		if($user->getId())
 		{
-			$password=md5(rand(0,9999999999).$user->getPassword());
-			$password=substr($password,0,8);
-			$password=$password.'AH1';
-			$updatepassword=md5($password);
-			$updatepassword=$updatepassword;
-			$username=$user->getUsername();
-			$user->update(array('password' => $updatepassword,'key'=>''));
-			//_db()->useCB()->update('user')->set(array('password' => $updatepassword,'key'=>''))->where(array('and',array('username',$username),array('status',1)))->result();
-			$newpassword = $this->parse('user/account/newpassword');
+			$password = $user->resetPasssword()
+			$newpassword = $this->parse(self::PAGE_RESET_PASSWORD);
 			$newpassword->setUsername($username);
 			$newpassword->setPassword($password);
 			$this->render($newpassword);
@@ -349,24 +302,78 @@ class PzkAccountController extends  PzkController
 		}
 		else
 		{
-			$newpassword = $this->parse('user/account/newpassword');
+			$newpassword = $this->parse(self::PAGE_RESET_PASSWORD);
 			$newpassword->setUsername("");
 			$this->render($newpassword);
 			
 		}
 	}
+	
 	// Hiển thị password mới
 	public function newpasswordAction() 
 	{
-		$this->render('user/account/newpassword');
+		$this->render(self::PAGE_RESET_PASSWORD);
 	}
+	
 	public function loginfacebookAction() 
 	{
-		$this->render('user/account/loginfacebook');
+		$this->render(self::PAGE_LOGIN_FACEBOOK);
 	}
+	
 	public function logingoogleAction() 
 	{
-		$this->render('user/account/logingoogle');
+		$this->render(self::PAGE_LOGIN_GOOGLE);
+	}
+	
+	// Gửi email kích hoạt tài khoản
+	public function sendMail($username="",$password="",$email="") {
+		
+		$confirm= md5($password.$email.$username);
+		$user=_db()->getEntity('user.account.user')->loadWhere(array('username', $username));
+		$user->update(array('key' => $confirm));
+		
+		$arr=array('active' => $confirm);
+		//tạo URL gửi email xác nhận đăng ký
+		$url= 'Account/activeRegister';
+		$url= pzk_request()->build($url,$arr);
+		
+		$mailtemplate = $this->parse(self::MAIL_TEMPLATE_REGISTER);
+		$mailtemplate->setUsername($username);
+		$mailtemplate->setUrl($url);
+		$mail = pzk_mailer();
+		$mail->AddAddress($email);
+		$mail->Subject = 'Xác nhận đăng ký tài khoản';
+		$mail->Body    = $mailtemplate->getContent();
+
+		if(!$mail->send()) {
+			echo 'Message could not be sent.';
+			echo 'Mailer Error: ' . $mail->ErrorInfo;
+		}
+	}
+	
+	// Gửi email quên mật khẩu
+	public function sendMailForgotpassword($email="",$password="") {
+		$strConfirm = $email.$password;
+		$confirm = md5($strConfirm);
+		$mailtemplate = $this->parse(self::MAIL_TEMPLATE_FORGOT_PASSWORD);
+		$user = _db()->getEntity('user.account.user');
+		$user->loadWhere(array('and',array('email',$email),array('status',1)));	
+		$user->update(array('key' => $confirm));
+		
+		$request=pzk_request();
+		//tạo URL gửi email xác nhận đăng ký
+		$url= 'Account/sendPassword';
+		$url= $request->build($url, array('forgotpassword'=>$confirm));
+		$mailtemplate->setUrl($url);
+		$mail = pzk_mailer();
+		$mail->AddAddress($email);
+		$mail->Subject = 'Quên mật khẩu';
+		$mail->Body    = $mailtemplate->getContent();
+		
+		if(!$mail->send()) {
+			echo 'Message could not be sent.';
+			echo 'Mailer Error: ' . $mail->ErrorInfo;
+		}
 	}
 }
  ?>

@@ -72,5 +72,55 @@ class PzkEntityUserAccountUserModel extends PzkEntityModel
 			$invitation->delete();
 		}
 	}
+	
+	public function loadByUsername($username) {
+		return $this->loadWhere(array('username', $username));
+	}
+	
+	public function loadByKey($key) {
+		return $this->loadWhere(array('key', $key));
+	}
+	
+	public function loadByEmail($email) {
+		return $this->loadWhere(array('email', $email));
+	}
+	
+	public function login() {
+		$s = pzk_session();
+		$s->setLogin(true);
+		$s->setUsername($this->getUsername());
+		$s->setUserId($this->getId());
+		$s->setName($this->getName());
+		$s->setAvatar($this->getAvatar());
+		
+		$datelogin = date("Y-m-d H:i:s");
+		$this->update(array('lastlogined' => $datelogin ));
+		
+	}
+	
+	public function logout() {
+		$s = pzk_session();
+		$s->delLogin();
+		$s->delUsername();
+		$s->delUserId();
+		$s->delName();
+		$s->delAvatar();
+	}
+	
+	public function activate() {
+		$this->update(array('status' => 1,'key'=>""));
+		$wallets = $this->getWallets();
+		$wallets->setUsername($this->getUsername());
+		$wallets->setAmount(0);
+		$wallets->save();
+	}
+	
+	public function resetPasssword() {
+		$password=md5(rand(0,9999999999) . $this->getPassword());
+		$password=substr($password,0,8) . 'AH1';
+		$newPassword = md5($password);
+		$this->update(array('password' => $newPassword, 'key'=>''));
+		return $password;
+	}
 }
  ?>
