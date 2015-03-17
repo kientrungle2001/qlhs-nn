@@ -27,7 +27,7 @@ class PzkAccountController extends  PzkController
 	
 	const PAGE_FORGOT_PASSWORD = 'user/account/forgotpassword';
 	const FORGOT_PASSWORD_ERROR_NOTACTIVATED_ACCOUNT = "Tài khoản của bạn đang bị khóa hoặc chưa kích hoạt";
-	const FORGOT_PASSWORD_ERROR_EMAIL_NOT_REGISTERED "Email của bạn chưa đăng ký tài khoản";
+	const FORGOT_PASSWORD_ERROR_EMAIL_NOT_REGISTERED = "Email của bạn chưa đăng ký tài khoản";
 	const FORGOT_PASSWORD_ERROR_WRONG_CAPTCHA = "Mã bảo mật chưa đúng";
 	
 	const PAGE_RESET_PASSWORD = 'user/account/newpassword';
@@ -293,7 +293,7 @@ class PzkAccountController extends  PzkController
 		$user->loadByKey($confirm);
 		if($user->getId())
 		{
-			$password = $user->resetPasssword()
+			$password = $user->resetPasssword();
 			$newpassword = $this->parse(self::PAGE_RESET_PASSWORD);
 			$newpassword->setUsername($user->getUsername());
 			$newpassword->setPassword($password);
