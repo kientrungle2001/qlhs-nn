@@ -65,9 +65,9 @@ $questionTypes = _db()->select('*')->from('questiontype')->result();
         <div class="col-xs-10">
 	        <select class="form-control" id="level" name="level" placeholder="Loại" value="{item[level]}">
 	            <option value="">-- Chọn mức độ câu hỏi --</option>
-	            <option value="1">Dễ</option>
-	            <option value="2">Bình thường</option>
-	            <option value="3">Khó</option>
+	            <option value="<?=EASY;?>">Dễ</option>
+	            <option value="<?=NORMAL?>">Bình thường</option>
+	            <option value="<?=HARD?>">Khó</option>
 	        </select>
         </div>
         <script>

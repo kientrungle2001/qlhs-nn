@@ -70,9 +70,9 @@
         <div class="col-xs-10">
 	        <select class="form-control input-sm" id="level" name="level" >
 	            <option value="">-- Chọn mức độ câu hỏi --</option>
-	            <option <?php if($item['level'] ==1) { echo 'selected="selected"'; } ?> value="1">Dễ</option>
-	            <option <?php if($item['level'] ==2) { echo 'selected="selected"'; } ?> value="2">Bình thường</option>
-	            <option <?php if($item['level'] ==3) { echo 'selected="selected"'; } ?> value="3">Khó</option>
+	            <option <?php if($item['level'] ==EASY) { echo 'selected="selected"'; } ?> value="<?=EASY?>">Dễ</option>
+	            <option <?php if($item['level'] ==NORMAL) { echo 'selected="selected"'; } ?> value="<?=NORMAL?>">Bình thường</option>
+	            <option <?php if($item['level'] ==HARD) { echo 'selected="selected"'; } ?> value="<?=HARD?>">Khó</option>
 	        </select>
         </div>
     </div>
