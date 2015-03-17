@@ -295,7 +295,7 @@ class PzkAccountController extends  PzkController
 		{
 			$password = $user->resetPasssword()
 			$newpassword = $this->parse(self::PAGE_RESET_PASSWORD);
-			$newpassword->setUsername($username);
+			$newpassword->setUsername($user->getUsername());
 			$newpassword->setPassword($password);
 			$this->render($newpassword);
 		
