@@ -9,4 +9,8 @@ class PzkSGStoreSession extends PzkSGStore {
 		$key = session_id().'_'. $key;
 		return $this->storage->get($key, $timeout);
 	}
+	public function del($key) {
+		$key = session_id().'_'. $key;
+		return $this->storage->del($key);
+	}
 }
