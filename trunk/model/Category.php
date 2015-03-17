@@ -48,4 +48,20 @@ class PzkCategoryModel {
 		}
 		return NULL;
 	}
+	
+	function get_category_parent($parent_id = ''){
+	
+		if(!empty($parent_id)){
+				
+			$query = _db()->select('ct.*') ->from('categories ct') ->where("ct.id='$parent_id'");
+
+			$data =  $query->result();
+			
+			if(count($data) >0){
+	
+				return $data[0];
+			}
+		}
+		return NULL;
+	}
 }
