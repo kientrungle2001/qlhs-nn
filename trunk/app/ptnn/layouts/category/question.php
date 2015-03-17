@@ -14,6 +14,12 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
     <div class="item">
 <?php if(count($items) > 0) { ?>
     <form id="dm"  action="/category/answer" method="post">
+        <?php foreach($items as $val) {
+            $qids[] = $val['id'];
+        }
+        ?>
+        <input type="hidden" name="questionIds" value="<?php echo implode(',', $qids); ?>"/>
+        <input type="hidden" name="time" value="<?php echo $request['time']; ?>"/>
         <div class="col-md-6">
             <label for="">Chọn dạng</label>
             <?php
@@ -50,7 +56,7 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
                 <th>
                      <div class="ms_timer"></div>
                      <div class="stop_timer"></div>
-
+                    <input class="input_time" type="hidden" name="stop_timer"/>
                 </th>
                 <th>
                     <?php
@@ -165,23 +171,31 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
             </script>
         </div>
             <div class="item center">
-                <input onclick="hoanthanh();" id="answer" type="button" name="done" value="Hoàn thành">
+                <button type="button" onclick="hoanthanh();" name="done" id="answer" class="btn btn-primary">
+                    <span class="glyphicon glyphicon glyphicon-saved" aria-hidden="true"></span> Hoàn thành
+                </button>
+                <button type="button" onclick="save();" name="done" id="bt-save" class="btn btn-primary">
+                    <span class="glyphicon glyphicon glyphicon-save" aria-hidden="true"></span> Lưu vào vở bài tập
+                </button>
+                <button type="button" onclick="check();" name="done" id="send" class="btn btn-primary">
+                    <span class="glyphicon glyphicon glyphicon-send" aria-hidden="true"></span> Yêu cầu chấm
+                </button>
             </div>
         <?php } ?>
     </form>
 
         <script>
-
+            formdata = false;
             function hoanthanh() {
                 var time = $(".ms_timer").text();
-                $('.stop_timer').text(time);
-               $('.ms_timer').remove();
-                $('input[type=text]').prop( "disabled", true );
-
+                if(time) {
+                    $('.stop_timer').text(time);
+                    $('.input_time').val(time);
+                }
+                $('.ms_timer').remove();
                 $('.remove-input').hide();
                 $('.btt_add_answer').hide();
-                var formdata = $('#dm').serializeForm();
-                //console.log(formdata['answers']);
+                 formdata = $('#dm').serializeForm();
                 for(var key in formdata['answers']) {
                     var value = formdata['answers'][key];
                     for(var key2 in value) {
@@ -189,20 +203,26 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
                         console.log(value2);
                     }
                 }
-                $.ajax( {
+                $('input[type=text]').prop( "disabled", true );
+                $('input[type=radio]').prop( "disabled", true );
+
+                $('#answer').prop( "disabled", true );
+                return formdata;
+
+            }
+            function save() {
+                if(formdata == false) {
+                    formdata = hoanthanh();
+                }
+                $.ajax({
                     type: "POST",
                     url: '/category/ajax',
                     data: formdata,
-                    success: function( response ) {
-                        $('input[type=radio]').prop( "disabled", true );
+                    success: function(response) {
+                        $('#bt-save').prop( "disabled", true );
 
                     }
-                } );
-
-            }
-
-            function submitform() {
-                $('#dm').submit();
+                });
             }
             $(function(){
                 $('.ms_timer').countdowntimer({
@@ -212,19 +232,8 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
                     timeUp : timeisUp
                 });
                 function timeisUp() {
-                    clearInterval(intervalId);
-                    $('#se').val('00');
-                    submitform();
-
+                    hoanthanh();
                 }
-                intervalId = setInterval(function(){
-                    var time = $('.ms_timer').html();
-                    arrtime = time.split(":");
-                    minutes = arrtime[0];
-                    seconds = arrtime[1];
-                    $('#mi').val(minutes);
-                    $('#se').val(seconds);
-                }, 100);
             });
 
         </script>

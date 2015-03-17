@@ -117,7 +117,28 @@ class PzkCategoryController extends PzkFrontendController
         }
     }
     public function ajaxAction() {
-        debug($_POST);
+        $request = pzk_element('request');
+        debug($request);die();
+
+        $subject = $request->get('subject');
+        $tamtime = strtotime(time() - $request->get('start_time')) - 7*3600;
+        //echo $tamtime;
+        $addLesson=array('user_id'=>pzk_session('userId'),
+            'question_ids'=>$request->get('questionIds'),
+            'category_id'=>$request->get('parent_id'),
+            'subject'=>$subject,
+            'number'=>$request->get('number'),
+            'time'=>$request->get('time'),
+            'level'=>$request->get('level'),
+            'answer_value'=>serialize($request->get('answers')),
+            'end_time'=>date('H:i:s', time()),
+            'start_time'=>$request->get('start_time')
+        );
+        //debug($addLesson); die();
+        $entity = _db()->useCb()->getEntity('table')->setTable('lessons');
+        $entity->setData($addLesson);
+        $entity->save();
+
     }
 }
 ?>
