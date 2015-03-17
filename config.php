@@ -79,3 +79,9 @@ define('WORK_TIME30', 30);
 define('WORK_TIME45', 45);
 
 define('WORK_TIME60', 60);
+
+define('EASY', 1);
+
+define('NORMAL', 2);
+
+define('HARD', 3);
