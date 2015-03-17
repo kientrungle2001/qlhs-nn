@@ -61,3 +61,21 @@ define('TYPE_LEVEL', json_encode($type_level));
 define('DATEFORMAT',	'Y-m-d H:i:s');
 
 define('SECRETKEY', 'onghuu');
+
+define('NUMBER_QUESTION10',	10);
+
+define('NUMBER_QUESTION20',	20);
+
+define('NUMBER_QUESTION30',	30);
+
+define('NUMBER_QUESTION40',	40);
+
+define('NUMBER_QUESTION50',	50);
+
+define('WORK_TIME15', 15);
+
+define('WORK_TIME30', 30);
+
+define('WORK_TIME45', 45);
+
+define('WORK_TIME60', 60);
