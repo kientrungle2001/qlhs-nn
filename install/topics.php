@@ -10,6 +10,8 @@ if ($version < 1) {
 		->addDatetime('modified')
 		->addInt('createdId')
 		->addInt('modifiedId')
+        ->addInt('category_id')
+        ->addTinyint('status')
 		->execute();
 	_dbs()->commitVersion('topics', 1);
 	$version = 1;
