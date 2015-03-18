@@ -8,6 +8,8 @@
 	$items=$data->ShowQestion($level,$categoryIds,$quantity);
 	$questionId=array();
 	$questionType=array();
+
+
  ?>
  <div class="view_question" id="ctg_question_fill">
  <form role="form" id="frm_question_fill" method="post" action="/Fill/fillPost">
@@ -31,6 +33,25 @@
  	<div class="step">
  	<span><strong> Câu <?=$i+1;?>:</strong> <?=$items[$i]['name']?></span>
   	</div>
+	<div class="view_tamp_answers">
+	 	<div class="clear"><strong><span>Đáp án mẫu:</span></strong></div>
+  		<?php 
+  			
+  			//$question_id[$i]= $items[$i]['id'];
+  			$view_answers= $data->ShowAnswer($items[$i]['id']);
+  			$count_answer= count($view_answers);
+  			for($k=0; $k<$count_answer; $k++){
+
+  			
+  		?>
+  		
+  		<div class="col-xs-3 margin-top-10" style="position:relative; margin-top: 20px; " >
+  			<div class="view_tamp_answer"><?=$k+1;?> .
+  			<?=$view_answers[$k]['content']; ?></div>
+  		</div>
+  		<?php } ?>
+	</div>	
+
   	<div class="step" >
   		<div style="clear:both;"><span><strong>Đáp án:</strong></span></div>
   		
@@ -44,9 +65,7 @@
 			<div class="itemAnswer_<?=$i;?>"  ></div>
 		</div>
 		<div class="btt_add_answer"><button type="button" class="btn btn-primary add-sub-input-test" onclick="addInputRow(<?=$i;?>)" style="margin-left: 15px;"><span class="glyphicon glyphicon-plus-sign"></span> Thêm đáp án</button></div>
-  		<div style="clear: both;">Đáp án mẫu:</div>
-  		<div ></div>
-		
+  		
   	</div>
   	<div class="dot">-------------------------------------------------------------------</div>
  	<?php } ?>
@@ -58,7 +77,7 @@
  	 </div>
 	<div >
 		<button type="submit" id="btt_Fillfinish" class="btn btn-primary" onclick="finish(); return false; " ><span class="glyphicon glyphicon-save"></span> Hoàn Thành</button>
-		<button id="btt_off" type="button" class="btn btn-primary"  ><span class="glyphicon glyphicon-save"></span> Xem Đáp Án</button>
+		<button id="btt_off" type="button" class="btn btn-primary" onclick="showAnswer()" ><span class="glyphicon glyphicon-save"></span> Xem Đáp Án</button>
 		<button id="btt_save_book" type="button" class="btn btn-primary" onclick="saveBook();" ><span class="glyphicon glyphicon-save"></span> Lưu vào vở bài tập</button>
 		<button type="button" class="btn btn-primary"  ><span class="glyphicon glyphicon-save"></span> Gửi giáo viên chấm</button>
 			
@@ -68,6 +87,14 @@
  </form>
  </div>
  <script>
+ 	$('.view_tamp_answers').hide();
+ 	function showAnswer(){
+ 		var test= finish();
+ 		if(test){
+ 			$('.view_tamp_answers').show();
+ 		}
+ 		
+ 	}
  	function addInputRow(key){
 		
 		var div = document.createElement('div');
