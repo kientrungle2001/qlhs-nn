@@ -118,7 +118,7 @@ class PzkAccountController extends  PzkController
 	// Đăng ký tài khoản
 	public function registerAction()
 	{
-		$this->render(PAGE_REGISTER);
+		$this->render(self::PAGE_REGISTER);
 	}
 	
 	public function registerPostAction()
