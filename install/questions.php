@@ -25,3 +25,9 @@ if($version < 2) {
 	_dbs()->commitVersion('questions', 2);
 	$version = 2;
 }
+
+if($version < 3) {
+	_dbs()->select('questions')->addVarchar('question_types',500)->execute();
+	_dbs()->commitVersion('questions', 3);
+	$version = 3;
+}
