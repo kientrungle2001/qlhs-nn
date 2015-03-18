@@ -4,7 +4,6 @@ if(isset($user_id)) {
 $lesson_id = pzk_request()->getSegment(3);
 $lesson = _db()->useCB()->select('*')->from('lessons')->where(array('and', array('user_id', $user_id), array('id', $lesson_id)))->result_one();
 $lessonvalue = unserialize($lesson['answer_value']);
-$items = explode(',',$lesson['question_ids']);
 ?>
 
 <form action="" method="post">
@@ -63,19 +62,21 @@ $items = explode(',',$lesson['question_ids']);
         <?php $i = 1; ?>
 
 
-        {each $items as $item}
-        <?php
-        $answers = _db()->useCB()->select('*')->from('answers_question_tn')->where(array('question_id', $item))->result();
-        ?>
+        {each $lessonvalue as $key=>$item}
+
         <tr>
             <td><?php echo 'Câu '.$i.':'; ?></td>
             <td>
                 <?php
-                echo $data->getNameById($item, 'questions', 'name');
+                echo $data->getNameById($key, 'questions', 'name');
                 ?>
             </td>
         </tr>
-        {each $answers as $val}
+        <?php
+        $typeQuestion = $data->getTypeByquestionId($key);
+        if($typeQuestion == 'Q2') {
+        ?>
+        {each $item as $val}
         <tr>
             <td>
                 <input style="height: 15px; width: 15px;" disabled   <?php if(isset($lessonvalue[$item]) && $lessonvalue[$item] == $val['id']){ echo 'checked'; }  ?> type="radio" />
@@ -84,6 +85,7 @@ $items = explode(',',$lesson['question_ids']);
             <td <?php if($val['status'] == 1) { echo "class='highlinght'";} ?> >{val[content]}</td>
         </tr>
         {/each}
+        <?php } ?>
         <?php $i++; ?>
         {/each}
 

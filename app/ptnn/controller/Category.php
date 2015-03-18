@@ -118,8 +118,6 @@ class PzkCategoryController extends PzkFrontendController
     }
     public function ajaxAction() {
         $request = pzk_element('request');
-        debug($request);die();
-
         $subject = $request->get('subject');
         $tamtime = strtotime(time() - $request->get('start_time')) - 7*3600;
         //echo $tamtime;
