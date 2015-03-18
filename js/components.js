@@ -124,6 +124,7 @@ function pzk_init(instances) {
 		var inst = null;
 		eval('inst = new ' + props['className'].ucfirst() + '(props);');
 		pzk.elements[inst.id] = inst;
+		eval('pzk_' + inst.id + ' = inst;' );
 		inst.init(); 
 	}
 }
