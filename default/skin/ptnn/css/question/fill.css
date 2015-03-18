@@ -13,6 +13,13 @@
 	margin:50px auto;
 	background-color: #ff7e00;
 }
+.view_tamp_answer{
+	color: #ff7e00;
+	font-weight: bold;
+}
+.view_tamp_answers{
+	padding-bottom: 10px;
+}
 .step{
 	padding-bottom: 6px;
     padding-top: 6px;
@@ -54,4 +61,10 @@ margin-top: 0px !important;
 	clear: both;
 	height: 53px;
 	
+}
+.answer_box{
+	display: none;
+}
+.active{
+	display: block;
 }
