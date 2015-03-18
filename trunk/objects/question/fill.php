@@ -15,6 +15,8 @@ class PzkQuestionFill extends PzkObject{
 	}	
 	public function ShowAnswer($questionId){
 		$view_answer=_db()->useCB()->select('answers_question_tn. *')->from('answers_question_tn')->where(array('question_id',$questionId))->result();
+		//var_dump($view_answer);
+		//die();
 		return $view_answer;
 		
 	}	
