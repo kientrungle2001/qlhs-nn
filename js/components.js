@@ -28,6 +28,7 @@ jQuery.fn.serializeForm = function() {
 			elem.name = elem.name.replace(/\]\[/g, '.');
 			elem.name = elem.name.replace(/\[/g, '.');
 			elem.name = elem.name.replace(/\]/g, '');
+			//console.log(elem.name);
 			var parts = elem.name.split('.');
 
 			var cur = rslt;
