@@ -136,7 +136,7 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
             <div class="step" >
                 <div style="clear:both;"><span><strong>Đáp án:</strong></span></div>
 
-                <div class="col-xs-3 margin-top-10" style="position:relative; margin-top: 20px; " >
+                <div class="col-xs-3" style="position:relative; margin-top: 20px; " >
                     <div class="input-group" >
                         <input type="text" name="answers[<?=$item['id'];?>][]" class="form-control content_value"/>
                     </div>
@@ -155,7 +155,7 @@ if(pzk_request()->is('POST') && is_numeric($parent_id)) {
 
                     var div = document.createElement('div');
 
-                    div.className = 'col-xs-3 margin-top-10 element-input';
+                    div.className = 'col-xs-3 element-input';
 
                     div.innerHTML = '<div class="input-group" style="margin-bottom: 10px;" >\
 	    					<input type="text" name="answers['+key+'][]" class="form-control content_value"/>\

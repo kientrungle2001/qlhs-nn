@@ -19,7 +19,7 @@ class PzkAdminTopicsController extends PzkGridAdminController {
 	public $searchFields = array('name');
 	public $Searchlabels = 'Chủ đề';
 	
-	public $addFields = 'name, createdId, created, modifiedId, modified';
+	public $addFields = 'name, category_id, status, createdId, created, modifiedId, modified';
 	public $addLabel = 'Thêm chủ đề';
 	
 	public $addFieldSettings = array(
@@ -28,6 +28,28 @@ class PzkAdminTopicsController extends PzkGridAdminController {
 					'type' => 'text',
 					'label' => 'Chủ đề'
 			),
+            array(
+                'index' => 'category_id',
+                'type' => 'select',
+                'label' => 'Menu cha',
+                'table' => 'categories',
+                'show_name' => 'name',
+                'show_value' =>'id'
+
+            ),
+            array(
+                'index' => 'status',
+                'type' => 'status',
+                'label' => 'Trạng thái',
+                'options' => array(
+                    '0' => 'Không hoạt động',
+                    '1' => 'Hoạt động'
+                ),
+                'actions' => array(
+                    '0' => 'mở',
+                    '1' => 'dừng'
+                )
+            )
 	);
 	
 	
@@ -49,14 +71,36 @@ class PzkAdminTopicsController extends PzkGridAdminController {
 	);
 	
 	public $editLabel = 'Sửa chủ đề';
-	public $editFields = 'name, createdId, created, modifiedId, modified';
+	public $editFields = 'name, category_id, status, createdId, created, modifiedId, modified';
 	
 	public $editFieldSettings = array(
 			array(
 					'index' => 'name',
 					'type' => 'text',
 					'label' => 'Chủ đề'
-			)
+			),
+            array(
+                    'index' => 'category_id',
+                    'type' => 'select',
+                    'label' => 'Menu cha',
+                    'table' => 'categories',
+                    'show_name' => 'name',
+                    'show_value' =>'id'
+
+                ),
+            array(
+                'index' => 'status',
+                'type' => 'status',
+                'label' => 'Trạng thái',
+                'options' => array(
+                    '0' => 'Không hoạt động',
+                    '1' => 'Hoạt động'
+                ),
+                'actions' => array(
+                    '0' => 'mở',
+                    '1' => 'dừng'
+                )
+            )
 	);
 	
 	public $editValidator = array(
@@ -74,5 +118,6 @@ class PzkAdminTopicsController extends PzkGridAdminController {
 							'maxlength' => 'Chủ đề chỉ dài tối đa 50 ký tự'
 					)
 			)
+
 	);
 }
