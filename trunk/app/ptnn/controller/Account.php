@@ -81,13 +81,7 @@ class PzkAccountController extends  PzkController
 		
 			if($user->getId()) {
 				
-				$userId= $user->getId();
-				$name= $user->getName();
-				$pass= $user->getPassword();
-				$status=$user->getStatus();
-				$avatar=$user->getAvatar();
-				
-				if($pass==$password) {
+				if($user->getPassword() == $password) {
 					if($user->getStatus()==1) {
 						$user->login();
 						$error = self::LOGIN_SUCCESS;
